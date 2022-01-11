@@ -1,0 +1,11 @@
+keys:
+  - &collin 56F83B0779FB369F69109E2BA85650D42EB741D9
+  - &zombie age1ll4z2hxvlc2thawzyr29fwzvr5307dsjenpypcejv7u4fxjcny4q72tm9p
+creation_rules: 
+  - path_regex: secrets/[^/]+\.yaml$
+    key_groups:
+      - pgp:
+        - *collin
+        age:
+        - *zombie
+
