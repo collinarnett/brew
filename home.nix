@@ -18,6 +18,7 @@
     ./modules/home-manager/taskwarrior.nix
     ./modules/home-manager/keychain.nix
     ./modules/wofi.nix
+    # WIP
     # ./modules/home-manager/awscli2.nix
     # ./modules/awscli2.nix
   ];
