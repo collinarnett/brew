@@ -4,6 +4,7 @@
   imports = [ # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ./modules/ddclient.nix
+    ./modules/searx.nix
   ];
   nix.package = pkgs.nixFlakes;
   nix.extraOptions = ''
@@ -18,18 +19,21 @@
   time.timeZone = "America/New_York";
 
   networking.useDHCP = false;
-  networking.interfaces.enp1s0.useDHCP = true;
+  networking.interfaces.enp10s0.useDHCP = true;
+  networking.interfaces.wlp8s0.useDHCP = true;
 
   sound.enable = true;
   hardware.pulseaudio = {
     enable = true;
-    extraConfig =
-      "load-module module-native-protocol-tcp auth-ip-acl=127.0.0.1";
+    extraConfig = ''
+      load-module module-native-protocol-tcp auth-ip-acl=127.0.0.1
+      set-default-sink 2
+    '';
   };
 
   users.users.collin = {
     isNormalUser = true;
-    extraGroups = [ "wheel" ]; 
+    extraGroups = [ "wheel" ];
     shell = pkgs.zsh;
   };
 

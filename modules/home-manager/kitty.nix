@@ -56,7 +56,7 @@
       inactive_tab_foreground = "#282a36";
       inactive_tab_background = "#6272a4";
 
-      background_opacity = "1.0";
+      background_opacity = "0.8";
     };
   };
 }

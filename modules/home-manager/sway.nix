@@ -6,8 +6,12 @@
     config = {
       terminal = "kitty";
       output = {
-        Virtual-1 = {
-          bg = "~/pictures/1610399969845.jpg fill";
+        DP-3 = {
+          bg = "/home/collin/pictures/wallpapers/UWQHD/1586976881635.jpg fill";
+          subpixel = "none";
+        };
+        DP-1 = {
+          bg = "/home/collin/pictures/wallpapers/FHD/1609273914611.png fill";
           subpixel = "none";
         };
       };

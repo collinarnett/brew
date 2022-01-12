@@ -37,11 +37,12 @@
     wl-clipboard
     firefox
     fira-code
-    siji
+    fira-code-symbols
     mpv
     anki
     youtube-dl
     whipper
+    siji
     imv
     wget
     dracula-theme
@@ -50,6 +51,8 @@
     statix
     ttyper
     dconf
+    rclone
+    pciutils
   ];
 
   home.stateVersion = "21.11";
