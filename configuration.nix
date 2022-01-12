@@ -5,6 +5,7 @@
     ./hardware-configuration.nix
     ./modules/ddclient.nix
     ./modules/searx.nix
+    ./modules/libvirt.nix
   ];
   nix.package = pkgs.nixFlakes;
   nix.extraOptions = ''

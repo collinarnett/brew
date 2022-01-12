@@ -2,21 +2,21 @@
 
 {
   imports = [
-    ./modules/home-manager/starship.nix
-    ./modules/home-manager/sway.nix
-    ./modules/home-manager/waybar/waybar.nix
-    ./modules/home-manager/wofi/wofi.nix
-    ./modules/home-manager/kitty.nix
-    ./modules/home-manager/gtk.nix
-    ./modules/home-manager/vim.nix
-    ./modules/home-manager/zsh.nix
-    ./modules/home-manager/ncmpcpp.nix
-    ./modules/home-manager/mpd.nix
-    ./modules/home-manager/gpg.nix
     ./modules/home-manager/git.nix
     ./modules/home-manager/gpg-agent.nix
-    ./modules/home-manager/taskwarrior.nix
+    ./modules/home-manager/gpg.nix
+    ./modules/home-manager/gtk.nix
     ./modules/home-manager/keychain.nix
+    ./modules/home-manager/kitty.nix
+    ./modules/home-manager/mpd.nix
+    ./modules/home-manager/ncmpcpp.nix
+    ./modules/home-manager/starship.nix
+    ./modules/home-manager/sway.nix
+    ./modules/home-manager/taskwarrior.nix
+    ./modules/home-manager/vim.nix
+    ./modules/home-manager/waybar/waybar.nix
+    ./modules/home-manager/wofi/wofi.nix
+    ./modules/home-manager/zsh.nix
     ./modules/wofi.nix
     # WIP
     # ./modules/home-manager/awscli2.nix
@@ -31,28 +31,30 @@
   };
 
   home.packages = with pkgs; [
-    pfetch
-    neofetch
-    htop
-    wl-clipboard
-    firefox
+    anki
+    dconf
+    dracula-theme
     fira-code
     fira-code-symbols
-    mpv
-    anki
-    youtube-dl
-    whipper
-    siji
+    firefox
+    grim
+    htop
     imv
-    wget
-    dracula-theme
+    mpv
+    neofetch
     nixfmt
-    tree
-    statix
-    ttyper
-    dconf
-    rclone
     pciutils
+    pfetch
+    rclone
+    siji
+    slurp
+    statix
+    tree
+    ttyper
+    wget
+    whipper
+    wl-clipboard
+    youtube-dl
   ];
 
   home.stateVersion = "21.11";
