@@ -3,7 +3,7 @@
     enable = true;
     settings = {
       mainBar = {
-        modules-left = [ "cpu" "pulseaudio" "disk" "memory" "mpd" ];
+        modules-left = [ "cpu" "pulseaudio" "disk" "memory" "mpd" "network" ];
         modules-center = [ "sway/workspaces" ];
         modules-right = [ "clock" ];
         modules = {
@@ -17,6 +17,7 @@
           "cpu" = { format = " {usage}%"; };
           "disk" = { format = " {percentage_used}%"; };
           "memory" = { format = " {used:0.1f}G"; };
+          "network" = { format = "{ifname}: {bandwidthDownBits} | {bandwidthUpBits}"; };
         };
       };
     };

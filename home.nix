@@ -1,7 +1,8 @@
-{ config, pkgs, ... }:
+{ nixosConfig, config, pkgs, ... }:
 
 {
   imports = [
+    ./modules/home-manager/gh.nix
     ./modules/home-manager/git.nix
     ./modules/home-manager/gpg-agent.nix
     ./modules/home-manager/gpg.nix
@@ -27,6 +28,7 @@
   home.homeDirectory = "/home/collin";
   home.sessionVariables = {
     GPG_TTY = "$(tty)";
+    GH_TOKEN = "$(cat ${nixosConfig.sops.secrets.gh_token.path})";
   };
 
   home.packages = with pkgs; [
@@ -40,6 +42,7 @@
     helvum
     htop
     imv
+    lynx
     mpv
     neofetch
     nix-index
