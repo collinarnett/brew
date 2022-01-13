@@ -1,0 +1,5 @@
+{
+  services.apcupsd = {
+    enable = true;
+  };
+}

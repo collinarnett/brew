@@ -5,7 +5,9 @@
     ./hardware-configuration.nix
     ./modules/ddclient.nix
     ./modules/searx.nix
-    ./modules/libvirt.nix
+    ./modules/libvirtd.nix
+    ./modules/apcupsd.nix
+    ./modules/pipewire.nix
   ];
   nix.package = pkgs.nixFlakes;
   nix.extraOptions = ''
@@ -23,18 +25,9 @@
   networking.interfaces.enp10s0.useDHCP = true;
   networking.interfaces.wlp8s0.useDHCP = true;
 
-  sound.enable = true;
-  hardware.pulseaudio = {
-    enable = true;
-    extraConfig = ''
-      load-module module-native-protocol-tcp auth-ip-acl=127.0.0.1
-      set-default-sink 2
-    '';
-  };
-
   users.users.collin = {
     isNormalUser = true;
-    extraGroups = [ "wheel" ];
+    extraGroups = [ "wheel" "libvirtd" "input" "audio" ];
     shell = pkgs.zsh;
   };
 

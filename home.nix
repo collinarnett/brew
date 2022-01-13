@@ -26,7 +26,6 @@
   home.username = "collin";
   home.homeDirectory = "/home/collin";
   home.sessionVariables = {
-    WLR_RENDERER_ALLOW_SOFTWARE = "1";
     GPG_TTY = "$(tty)";
   };
 
@@ -38,19 +37,24 @@
     fira-code-symbols
     firefox
     grim
+    helvum
     htop
     imv
     mpv
     neofetch
+    nix-index
     nixfmt
     pciutils
     pfetch
+    pulseaudio
     rclone
     siji
+    signal-desktop
     slurp
     statix
     tree
     ttyper
+    virt-manager
     wget
     whipper
     wl-clipboard

@@ -1,4 +1,4 @@
-<domain type='kvm' xmlns:qemu='http://libvirt.org/schemas/domain/qemu/1.0'>
+<domain type='kvm'>
   <name>win11</name>
   <uuid>fca021aa-17eb-4f73-ad6d-349d3f4175e3</uuid>
   <metadata>
@@ -11,7 +11,7 @@
   <vcpu placement='static'>8</vcpu>
   <os>
     <type arch='x86_64' machine='pc-q35-5.0'>hvm</type>
-    <loader readonly='yes' type='pflash'>/usr/share/OVMF/OVMF_CODE_4M.fd</loader>
+    <loader readonly='yes' type='pflash'>/run/libvirt/nix-ovmf/OVMF_CODE.fd</loader>
     <nvram>/var/lib/libvirt/qemu/nvram/win11_VARS.fd</nvram>
     <boot dev='hd'/>
   </os>
@@ -40,7 +40,7 @@
     <suspend-to-disk enabled='no'/>
   </pm>
   <devices>
-    <emulator>/usr/bin/qemu-system-x86_64</emulator>
+    <emulator>/run/current-system/sw/bin/qemu-kvm</emulator>
     <disk type='block' device='disk'>
       <driver name='qemu' type='raw' cache='none' io='native'/>
       <source dev='/dev/sda1'/>
@@ -110,12 +110,28 @@
     </interface>
     <input type='mouse' bus='ps2'/>
     <input type='keyboard' bus='ps2'/>
+    <input type='evdev'>
+      <source dev='/dev/input/by-id/usb-ZSA_Technology_Labs_Planck_EZ_Glow-event-kbd'/>
+    </input>
+    <sound model='ich9'>
+      <codec type='micro'/>
+      <audio id='1'/>
+      <address type='pci' domain='0x0000' bus='0x00' slot='0x1b' function='0x0'/>
+    </sound>
+    <audio id='1' type='pulseaudio' serverName='/run/user/1000/pulse/native'/>
     <hostdev mode='subsystem' type='usb' managed='yes'>
       <source>
         <vendor id='0x1532'/>
         <product id='0x0084'/>
       </source>
       <address type='usb' bus='0' port='4'/>
+    </hostdev>
+    <hostdev mode='subsystem' type='usb' managed='yes'>
+      <source>
+        <vendor id='0x8087'/>
+        <product id='0x0aa7'/>
+      </source>
+      <address type='usb' bus='0' port='2'/>
     </hostdev>
     <hostdev mode='subsystem' type='pci' managed='yes'>
       <source>
@@ -129,26 +145,9 @@
       </source>
       <address type='pci' domain='0x0000' bus='0x07' slot='0x00' function='0x0'/>
     </hostdev>
-    <hostdev mode='subsystem' type='usb' managed='yes'>
-      <source>
-        <vendor id='0x8087'/>
-        <product id='0x0aa7'/>
-      </source>
-      <address type='usb' bus='0' port='2'/>
-    </hostdev>
     <memballoon model='virtio'>
       <address type='pci' domain='0x0000' bus='0x05' slot='0x00' function='0x0'/>
     </memballoon>
   </devices>
-  <qemu:commandline>
-    <qemu:arg value='-device'/>
-    <qemu:arg value='ich9-intel-hda,bus=pcie.0,addr=0x1b'/>
-    <qemu:arg value='-device'/>
-    <qemu:arg value='hda-micro,audiodev=hda'/>
-    <qemu:arg value='-audiodev'/>
-    <qemu:arg value='pa,id=hda,server=unix:/run/user/1000/pulse/native'/>
-    <qemu:arg value='-object'/>
-    <qemu:arg value='input-linux,id=kbd1,evdev=/dev/input/by-id/usb-ZSA_Technology_Labs_Planck_EZ_Glow-event-kbd,grab_all=on,repeat=on'/>
-  </qemu:commandline>
 </domain>
 

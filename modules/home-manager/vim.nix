@@ -19,6 +19,7 @@
       \}
       let g:airline#extensions#ale#enabled = 1
       autocmd FileType css setlocal tabstop=2 shiftwidth=2
+      autocmd FileType xml setlocal tabstop=2 shiftwidth=2
     '';
     settings = { number = true; };
     plugins = with pkgs.vimPlugins; [ ale vim-nix vim-airline dracula-vim ];

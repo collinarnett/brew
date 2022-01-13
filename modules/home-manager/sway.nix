@@ -36,7 +36,10 @@
       bindsym XF86AudioPlay exec playerctl play-pause
       bindsym XF86AudioNext exec playerctl next
       bindsym XF86AudioPrev exec playerctl previous
-      bindsym $mod+p exec grim -g "$(slurp -d)" - | wl-copy
+      bindsym $mod+p exec grim -g "$(slurp -d)" - | wl-copy -t image/png
+    '';
+    extraSessionCommands = ''
+      pactl set-default-sink alsa_output.pci-0000_11_00.4.iec958-stereo
     '';
   };
 }
