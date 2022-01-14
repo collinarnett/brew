@@ -3,12 +3,12 @@
 {
   imports = [ # Include the results of the hardware scan.
     ./hardware-configuration.nix
-    ./modules/apcupsd.nix
-    ./modules/ddclient.nix
-    ./modules/libvirtd.nix
-    ./modules/pipewire.nix
-    ./modules/searx.nix
-    ./modules/sops.nix
+    ../../modules/apcupsd.nix
+    ../../modules/ddclient.nix
+    ../../modules/libvirtd.nix
+    ../../modules/pipewire.nix
+    ../../modules/searx.nix
+    ../../modules/sops.nix
   ];
 
   # Flakes

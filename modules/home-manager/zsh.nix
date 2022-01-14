@@ -4,6 +4,9 @@
     enableCompletion = true;
     enableAutosuggestions = true;
     enableSyntaxHighlighting = true;
-    shellAliases = { update = "sudo nixos-rebuild switch --flake ~/brew"; };
+    shellAliases = { 
+      update = "sudo nixos-rebuild switch --flake ~/brew";
+      ssh = "kitty +kitten ssh";
+    };
   };
 }
