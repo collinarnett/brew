@@ -16,7 +16,20 @@
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
-          home-manager.users.collin = import ./home.nix;
+          home-manager.users.collin = import ./hosts/zombie/home.nix;
+        }
+      ];
+    };
+    nixosConfigurations.grub = nixpkgs.lib.nixosSystem {
+      system = "i686-linux";
+      modules = [
+        ./hosts/grub/configuration.nix
+        sops-nix.nixosModules.sops
+        home-manager.nixosModules.home-manager
+        {
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+          home-manager.users.collin = import ./hosts/grub/home.nix;
         }
       ];
     };
