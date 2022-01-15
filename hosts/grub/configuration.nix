@@ -12,7 +12,12 @@
     ];
 
   # Flakes
-  nix.package = pkgs.nixFlakes;
+  nix = {
+    package = pkgs.nixUnstable;
+    extraOptions = ''
+      experimental-features = nix-command flakes
+    '';
+  };
 
   # Use the GRUB 2 boot loader.
   boot.loader.grub.enable = true;

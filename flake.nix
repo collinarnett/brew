@@ -20,6 +20,7 @@
             home-manager.users.collin = import ./hosts/zombie/home.nix;
           }
         ];
+      };
       grub = nixpkgs.lib.nixosSystem {
         system = "i686-linux";
         modules = [
