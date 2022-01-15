@@ -16,7 +16,7 @@
     # Grub is not very powerful so we use Zombie to build it's packages
     buildMachines = [{
       hostName = "zombie";
-      system = [ "x86_64-linux" "i686-linux" ];
+      systems = [ "x86_64-linux" "i686-linux" ];
       # Never use grub to build
       maxJobs = 0;
       supportedFeatures = [ "nixos-test" "benchmark" "big-parallel" "kvm" ];
