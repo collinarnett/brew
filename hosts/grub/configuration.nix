@@ -17,8 +17,8 @@
     buildMachines = [{
       hostName = "zombie";
       systems = [ "x86_64-linux" "i686-linux" ];
-      # Never use grub to build
-      maxJobs = 0;
+      maxJobs = 1;
+      speedFactor = 2;
       supportedFeatures = [ "nixos-test" "benchmark" "big-parallel" "kvm" ];
     }];
     distributedBuilds = true;
