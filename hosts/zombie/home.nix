@@ -35,9 +35,9 @@
     fira-code
     fira-code-symbols
     firefox
+    gotop
     grim
     helvum
-    htop
     imv
     liberation_ttf
     lynx
