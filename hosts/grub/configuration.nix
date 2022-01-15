@@ -5,19 +5,31 @@
 { config, pkgs, ... }:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-      ../../modules/pipewire.nix
-    ];
+  imports = [ # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+    ../../modules/pipewire.nix
+  ];
 
   # Flakes
   nix = {
     package = pkgs.nixUnstable;
+    # Grub is not very powerful so we use Zombie to build it's packages
+    buildMachines = [{
+      hostName = "zombie";
+      system = [ "x86_64-linux" "i686-linux" ];
+      # Never use grub to build
+      maxJos = 0;
+      supportedFeatures = [ "nixos-test" "benchmark" "big-parallel" "kvm" ];
+    }];
+    distrbutedBuilds = true;
     extraOptions = ''
+      builders-use-substitutes = true
       experimental-features = nix-command flakes
     '';
   };
+
+  # Prevent suspend on lid close
+  services.logind.lidSwitchExternalPower = "ignore";
 
   # Use the GRUB 2 boot loader.
   boot.loader.grub.enable = true;

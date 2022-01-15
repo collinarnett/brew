@@ -17,6 +17,9 @@
     experimental-features = nix-command flakes
   '';
 
+  # Remote Builds
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" "i686-linux" ];
+
   # General
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
