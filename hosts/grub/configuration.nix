@@ -21,7 +21,7 @@
       maxJos = 0;
       supportedFeatures = [ "nixos-test" "benchmark" "big-parallel" "kvm" ];
     }];
-    distrbutedBuilds = true;
+    distributedBuilds = true;
     extraOptions = ''
       builders-use-substitutes = true
       experimental-features = nix-command flakes
