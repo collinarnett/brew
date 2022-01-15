@@ -18,7 +18,7 @@
       hostName = "zombie";
       system = [ "x86_64-linux" "i686-linux" ];
       # Never use grub to build
-      maxJos = 0;
+      maxJobs = 0;
       supportedFeatures = [ "nixos-test" "benchmark" "big-parallel" "kvm" ];
     }];
     distributedBuilds = true;
