@@ -7,7 +7,7 @@
 {
   imports = [ # Include the results of the hardware scan.
     ./hardware-configuration.nix
-   # ../../modules/pipewire.nix
+   ../../modules/pipewire.nix
   ];
 
   # Flakes
@@ -60,6 +60,7 @@
     extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
     shell = pkgs.zsh;
   };
+  nix.trustedUsers = [ "collin" ];
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;

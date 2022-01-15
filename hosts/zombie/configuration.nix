@@ -41,6 +41,8 @@
     shell = pkgs.zsh;
   };
 
+  nix.trustedUsers = [ "collin" ];
+
   # GPU
   hardware.opengl = {
     enable = true;

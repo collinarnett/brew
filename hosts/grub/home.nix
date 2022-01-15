@@ -2,9 +2,9 @@
 
 {
   imports = [
-  #  ../../modules/home-manager/starship.nix
+    ../../modules/home-manager/starship.nix
     ../../modules/home-manager/vim.nix
-  #  ../../modules/home-manager/zsh.nix
+    ../../modules/home-manager/zsh.nix
   ];
 
   home.username = "collin";
@@ -15,6 +15,7 @@
 
   home.packages = with pkgs; [
     git
+    nodejs
   ];
 
   home.stateVersion = "21.11";
