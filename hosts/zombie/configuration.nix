@@ -4,11 +4,11 @@
   imports = [ # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ../../modules/apcupsd.nix
-    ../../modules/ddclient.nix
     ../../modules/libvirtd.nix
     ../../modules/pipewire.nix
     ../../modules/searx.nix
     ../../modules/sops.nix
+    ../../modules/traefik.nix
   ];
 
   # Flakes
@@ -37,7 +37,7 @@
   # Users
   users.users.collin = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "libvirtd" "input" "audio" ];
+    extraGroups = [ "wheel" "libvirtd" "input" "audio" "docker" ];
     shell = pkgs.zsh;
   };
 
@@ -50,12 +50,9 @@
   };
 
   # Containers
-  virtualisation = {
-    podman = {
-      enable = true;
-      dockerCompat = true;
-    };
-  };
+  virtualisation.docker.enable = true;
+  environment.systemPackages = [ pkgs.docker-compose ];
+  virtualisation.oci-containers.backend = "docker";  
 
   # SSH
   services.openssh.enable = true;

@@ -26,10 +26,13 @@
   home.sessionVariables = {
     GPG_TTY = "$(tty)";
     GH_TOKEN = "$(cat ${nixosConfig.sops.secrets.gh_token.path})";
+    AWS_CONFIG_FILE = nixosConfig.sops.secrets.awscli2-config.path;
+    AWS_SHARED_CREDENTIALS_FILE = nixosConfig.sops.secrets.awscli2-credentials.path;
   };
 
   home.packages = with pkgs; [
     anki
+    awscli2
     dconf
     dracula-theme
     fira-code
