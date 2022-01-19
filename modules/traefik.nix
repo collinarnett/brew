@@ -29,7 +29,7 @@
         service = "searx";
       };
       http.services.searx.loadBalancer.servers =
-        [{ url = "http://127.0.0.1:9090"; }];
+        [{ url = "http://127.0.0.1:8888"; }];
     };
   };
 

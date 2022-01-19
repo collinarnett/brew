@@ -1,0 +1,6 @@
+{
+  virtualisation.oci-containers.authelia = {
+    
+  };
+
+}

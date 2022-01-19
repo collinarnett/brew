@@ -1,11 +1,17 @@
+{ config, ...}:
+
 {
-  virtualisation.oci-containers.containers = {
-    searx = {
-      image = "searx/searx";
-      autoStart = true;
-      ports = [ "9090:8080" ];
-      volumes = [ "/var/cache/searx:/etc/searx" ];
+  services.searx = {
+    enable = true;
+    settings = {
+      use_default_settings = true;
+      server = {
+        secret_key = "@SEARX_SECRET_KEY@";
+        bind_address = "0.0.0.0";
+      };
     };
   };
+
+  systemd.services.searx.environment.SEARX_SECRET_KEY = "$(cat ${config.sops.secrets.searx_secret_key.path})";
 }
 
