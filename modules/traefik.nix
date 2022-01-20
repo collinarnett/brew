@@ -22,14 +22,32 @@
         scheme = "https";
         permanent = true;
       };
+      http.middlewares.authelia = {
+        forwardauth = {
+          address =
+            "http://127.0.0.1:9091/api/verify?rd=https://login.trexd.dev/";
+          trustForwardHeader = true;
+          authResponseHeaders =
+            [ "Remote-User" "Remote-Groups" "Remote-Name" "Remote-Email" ];
+        };
+      };
       http.routers.searx = {
         rule = "Host(`search.trexd.dev`)";
         entryPoints = [ "websecure" ];
         tls.certresolver = "letsencrypt";
         service = "searx";
+        middlewares = "authelia";
       };
       http.services.searx.loadBalancer.servers =
         [{ url = "http://127.0.0.1:8888"; }];
+      http.routers.authelia = {
+        rule = "Host(`login.trexd.dev`)";
+        entryPoints = [ "websecure" ];
+        tls.certresolver = "letsencrypt";
+        service = "authelia";
+      };
+      http.services.authelia.loadBalancer.servers =
+        [{ url = "http://127.0.0.1:9091"; }];
     };
   };
 

@@ -1,0 +1,4 @@
+users:
+  trexd:
+    displayname: Trexd
+    password: "$argon2id$v=19$m=65536,t=1,p=8$aEsraGRYbE5UK1VUcGl0OA$dVVitMKCzLQzH9g50WErCNiGqLLHd9qZw64UEdBUwF0"

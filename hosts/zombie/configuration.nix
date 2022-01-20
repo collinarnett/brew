@@ -9,6 +9,8 @@
     ../../modules/searx.nix
     ../../modules/sops.nix
     ../../modules/traefik.nix
+    ../../modules/docker/authelia/authelia.nix
+    ../../modules/docker/watchtower.nix
   ];
 
   # Flakes

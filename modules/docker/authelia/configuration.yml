@@ -1,0 +1,40 @@
+server:
+  host: "0.0.0.0"
+  port: 9091
+
+log: 
+  level: debug
+
+totp:
+  issuer: authelia.com
+
+authentication_backend:
+  file:
+    path: /config/user_database.yml
+
+access_control:
+  default_policy: deny
+  rules:
+    - domain: "*.trexd.dev"
+      policy: two_factor
+
+session:
+  name: authelia_session
+  expiration: 604800 # One week
+  inactivity: 300
+  domain: trexd.dev
+
+regulation:
+  max_retries: 3
+  find_time: 120
+  ban_time: 300
+
+storage:
+  local:
+    path: /config/db.sqlite3
+
+notifier:
+  disable_startup_check: false
+  filesystem:
+    filename: /config/notification.txt
+

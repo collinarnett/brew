@@ -59,7 +59,7 @@
     slurp
     statix
     tree
-    ttyper
+    unzip
     virt-manager
     wget
     whipper
