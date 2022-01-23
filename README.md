@@ -7,6 +7,18 @@ A personal NixOS configuration.
 
 ## Architecture
 
+### Tooling
+
+| Tooling       | Name          |
+|---------------|---------------|
+| **Editor**    | vim           |
+| **Browser**   | firefox       |
+| **WM**        | sway + waybar |
+| **Terminal**  | kitty         |
+| **Shell**     | zsh           |
+| **Launcher**  | wofi          |
+| **GTK Theme** | Dracula       |
+
 ### Hosts
 
 #### `zombie` 🧟
@@ -39,4 +51,5 @@ Specs: Dell Inspiron 1545
 
 NixOS let's me track and manage my Linux configuration in a declarative
 centralized manner, something missing in other distros. For more
-information on the advantages of Nix see the guide on [How Nix Works](https://nixos.org/guides/how-nix-works.html).
+information on the advantages of Nix see the guide on [How Nix
+Works](https://nixos.org/guides/how-nix-works.html).
