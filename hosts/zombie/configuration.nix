@@ -2,15 +2,16 @@
 
 {
   imports = [ # Include the results of the hardware scan.
-    ./hardware-configuration.nix
     ../../modules/apcupsd.nix
+    ../../modules/docker/authelia/authelia.nix
+    ../../modules/docker/navidrome.nix
+    ../../modules/docker/searx.nix
+    ../../modules/docker/watchtower.nix
     ../../modules/libvirtd.nix
     ../../modules/pipewire.nix
-    ../../modules/searx.nix
     ../../modules/sops.nix
     ../../modules/traefik.nix
-    ../../modules/docker/authelia/authelia.nix
-    ../../modules/docker/watchtower.nix
+    ./hardware-configuration.nix
   ];
 
   # Flakes
