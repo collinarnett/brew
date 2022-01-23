@@ -51,6 +51,7 @@
     nixfmt
     nmap
     nodejs
+    pandoc
     pciutils
     pfetch
     pulseaudio

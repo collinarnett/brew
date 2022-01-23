@@ -14,16 +14,21 @@
       let g:ale_fix_on_save = 1
       let g:ale_completion_autoimport = 1
       let g:ale_fixers = {
-      \ 'nix': [ 'nixfmt' ]
+      \ 'nix': [ 'nixfmt' ],
+      \ 'markdown': [ 'pandoc' ]
       \}
       let g:ale_linters = {
       \ 'nix': [ 'statix' ]
       \}
       let g:airline#extensions#ale#enabled = 1
+      let g:mkdp_browser = 'firefox'
       autocmd FileType css setlocal tabstop=2 shiftwidth=2
+      autocmd FileType markdown setlocal tabstop=2 shiftwidth=2
       autocmd FileType xml setlocal tabstop=2 shiftwidth=2
+      autocmd FileType markdown setlocal spell
+      autocmd FileType gitcommit setlocal spell
     '';
     settings = { number = true; };
-    plugins = with pkgs.vimPlugins; [ ale vim-nix vim-airline coc-nvim dracula-vim coc-metals ];
+    plugins = with pkgs.vimPlugins; [ ale vim-nix vim-airline coc-nvim dracula-vim coc-metals markdown-preview-nvim ];
   };
 }
