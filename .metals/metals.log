@@ -1,0 +1,4 @@
+[0m2022.02.05 11:52:01 INFO  Started: Metals version 0.10.9 in workspace '/home/collin/brew' for client coc.nvim 0.0.80.[0m
+[0m2022.02.05 11:52:02 INFO  time: initialize in 1.05s[0m
+[0m2022.02.05 11:52:02 WARN  Build server is not auto-connectable.[0m
+[0m2022.02.05 11:52:02 WARN  no build tool detected in workspace '/home/collin/brew'. The most common cause for this problem is that the editor was opened in the wrong working directory, for example if you use sbt then the workspace directory should contain build.sbt. [0m

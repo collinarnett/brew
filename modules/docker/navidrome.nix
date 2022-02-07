@@ -7,8 +7,7 @@
       ND_SCANSCHEDULE = "1h";
       ND_LOGLEVEL = "info";
       ND_SESSIONTIMEOUT = "24h";
-      ND_REVERSEPROXYUSERHEADER = "X-Forwarded-User";
-      ND_REVERSEPROXYWHITELIST = "http://127.0.0.1";
+      ND_REVERSEPROXYUSERHEADER = "Remote-User";
     };
   };
 

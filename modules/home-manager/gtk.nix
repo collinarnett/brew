@@ -1,6 +1,10 @@
+{pkgs, ...}:
 {
   gtk = {
     enable = true;
-    theme.name = "Dracula";
+    theme = {
+      name = "Dracula";
+      package = pkgs.dracula-theme;
+    };
   };
 }

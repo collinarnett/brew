@@ -8,6 +8,7 @@
       set clipboard=unnamedplus
       set nowrap
       set omnifunc=ale#completion#OmniFunc
+      set t_Co=256
       let g:airline_theme='dracula'
       let g:ale_completion_enabled = 1
       let g:ale_lint_on_text_changed = 1
@@ -22,8 +23,11 @@
       \}
       let g:airline#extensions#ale#enabled = 1
       let g:mkdp_browser = 'firefox'
+      highlight link CocErrorSign DraculaErrorLine
+      highlight link CocInfoSign DraculaInfoLine
       autocmd FileType css setlocal tabstop=2 shiftwidth=2
       autocmd FileType markdown setlocal tabstop=2 shiftwidth=2
+      autocmd FileType json setlocal tabstop=2 shiftwidth=2
       autocmd FileType xml setlocal tabstop=2 shiftwidth=2
       autocmd FileType markdown setlocal spell
       autocmd FileType gitcommit setlocal spell

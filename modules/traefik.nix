@@ -3,9 +3,18 @@
     enable = true;
     staticConfigOptions = {
       entryPoints = {
-        web.address = ":80";
-        websecure.address = ":443";
-        websecure.http.tls.certResolver = "letsencrypt";
+        web = {
+          address = ":80";
+          http.redirections.entrypoint = {
+            to = "websecure";
+            scheme = "https";
+          };
+        };
+        websecure = {
+          address = ":443";
+          forwardedHeaders = { trustedIPs = [ "172.16.0.0/12" "127.0.0.1/32" ]; };
+          http.tls.certResolver = "letsencrypt";
+        };
       };
       certificatesResolvers.letsencrypt.acme = {
         email = "collin@arnett.it";
@@ -23,8 +32,7 @@
           address =
             "http://127.0.0.1:9091/api/verify?rd=https://login.trexd.dev/";
           trustForwardHeader = true;
-          authResponseHeaders =
-            [ "Remote-User" "X-Forwarded-User" "Remote-Groups" "Remote-Name" "Remote-Email" ];
+          authResponseHeaders = [ "Remote-User" ];
         };
       };
 
@@ -36,7 +44,7 @@
       };
       http.services.authelia.loadBalancer.servers =
         [{ url = "http://127.0.0.1:9091"; }];
-        
+
       http.routers.searx = {
         rule = "Host(`search.trexd.dev`)";
         entryPoints = [ "websecure" ];

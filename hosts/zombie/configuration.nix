@@ -52,9 +52,6 @@
     driSupport = true;
   };
 
-  # Screen Sharing
-  xdg.portal.wlr.enable = true;
-
   # Containers
   virtualisation.docker.enable = true;
   environment.systemPackages = [ pkgs.docker-compose ];
