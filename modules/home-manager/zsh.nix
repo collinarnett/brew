@@ -11,6 +11,7 @@
     shellAliases = { 
       update = "sudo nixos-rebuild switch --flake ~/brew";
       ssh = "kitty +kitten ssh";
+      kubectl = "sudo k3s kubectl";
     };
   };
 }
