@@ -33,6 +33,6 @@
       autocmd FileType gitcommit setlocal spell
     '';
     settings = { number = true; };
-    plugins = with pkgs.vimPlugins; [ ale vim-nix vim-airline coc-nvim dracula-vim coc-metals markdown-preview-nvim ];
+    plugins = with pkgs.vimPlugins; [ ale vim-nix vim-airline coc-nvim dracula-vim coc-metals markdown-preview-nvim vimwiki];
   };
 }
