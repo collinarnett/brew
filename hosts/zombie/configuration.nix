@@ -10,7 +10,9 @@
     ../../modules/libvirtd.nix
     ../../modules/pipewire.nix
     ../../modules/sops.nix
+    ../../modules/taskserver.nix
     ../../modules/traefik.nix
+    ../../modules/k3s.nix
     ./hardware-configuration.nix
   ];
 
@@ -42,6 +44,9 @@
     isNormalUser = true;
     extraGroups = [ "wheel" "libvirtd" "input" "audio" "docker" ];
     shell = pkgs.zsh;
+    openssh.authorizedKeys.keys = [
+      "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC9+hfX1OTMC1AeAj0noGcrdVGjgWoYBjREwHbIybKAezRQGwKmrwy9C3ussdk3Xmggc3K2tIR6UxAGLtFaBFC+OMK1Se8KwNgKRHxJVAfphCP9GS/rFb30o/NJvHue25BI+j8qGQBvsLXO/drCbIsPv6PmknOlGHcto6hfZe+6Kp4OXp9Mdmd4y3Kr7YcKIWu7rVHoi8b0EG20+KIHXX7wc0KoJIjHSJOjjtWqukaaXwG2mFkoB94juyWVp1zYztZcuyenYNSKYiANuiUmf7M80PDF0wIK6+sMtAP3q5wHLNExvs6BVLMFNlkjcfq6xWcwJraxDqqYhl0GA89o8tlvCGaKn/hQK0EnTdl3BdX6/i/WmSH8G6FMoKQBIu0tI3tSkS9JNvpGWjr6Wwp+fb9oVEmpXItHc2gksaNWhhM3UdMOds6IH+hkxzrTNVS/9F8dOVrp9n7uPvCDQD+um9BQsuM+lw7e+Uce9QlxrA5mJx6zC4CG4gpqfLAoSe+eybQNj33NPRJ5LnP20YWzq5AHQF3A3HV3UgbjciGQEykzGzeKI7+9QmtRcKy19TDTe09lY3Xmq+eTxFJCtqIzxHF8s5UgNUY1oJP9gR4228mqDPk/+Uzr0xfE0UnEijbbtLlNl/eJh0MOkb1ifPaQSIqpiniuDacGmW0t51lcGFUYKQ== collin@arnett.it"
+    ];
   };
 
   nix.settings.trusted-users = [ "collin" ];
@@ -55,10 +60,15 @@
   # Containers
   virtualisation.docker.enable = true;
   environment.systemPackages = [ pkgs.docker-compose ];
-  virtualisation.oci-containers.backend = "docker";  
+  virtualisation.oci-containers.backend = "docker";
 
   # SSH
-  services.openssh.enable = true;
+  services.openssh = {
+    enable = true;
+    ports = [ 6767 ];
+    permitRootLogin = "no";
+    passwordAuthentication = false;
+  };
 
   system.stateVersion = "21.11"; # Did you read the comment?
 }

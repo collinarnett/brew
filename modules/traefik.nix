@@ -12,7 +12,9 @@
         };
         websecure = {
           address = ":443";
-          forwardedHeaders = { trustedIPs = [ "172.16.0.0/12" "127.0.0.1/32" ]; };
+          forwardedHeaders = {
+            trustedIPs = [ "172.16.0.0/12" "127.0.0.1/32" ];
+          };
           http.tls.certResolver = "letsencrypt";
         };
       };
@@ -64,7 +66,6 @@
       };
       http.services.navidrome.loadBalancer.servers =
         [{ url = "http://127.0.0.1:4533"; }];
-
     };
   };
 
