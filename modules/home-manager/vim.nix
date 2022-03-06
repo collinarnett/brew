@@ -31,8 +31,22 @@
       autocmd FileType xml setlocal tabstop=2 shiftwidth=2
       autocmd FileType markdown setlocal spell
       autocmd FileType gitcommit setlocal spell
+      nnoremap <leader>n :NERDTreeFocus<CR>
+      nnoremap <C-n> :NERDTree<CR>
+      nnoremap <C-t> :NERDTreeToggle<CR>
+      nnoremap <C-f> :NERDTreeFind<CR>    
     '';
     settings = { number = true; };
-    plugins = with pkgs.vimPlugins; [ ale vim-nix vim-airline coc-nvim dracula-vim coc-metals markdown-preview-nvim vimwiki];
+    plugins = with pkgs.vimPlugins; [
+      ale
+      coc-metals
+      coc-nvim
+      dracula-vim
+      markdown-preview-nvim
+      nerdtree
+      vim-airline
+      vim-nix
+      vimwiki
+    ];
   };
 }

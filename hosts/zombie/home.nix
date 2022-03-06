@@ -74,6 +74,7 @@
     youtube-dl
     xdg-desktop-portal
     xdg-desktop-portal-wlr
+    zotero
   ];
 
   home.stateVersion = "21.11";

@@ -18,7 +18,6 @@
     extraConfig = ''
       user='collin'
     '';
-    package = pkgs.pinned.libvirt;
     qemu = {
       ovmf.enable = true;
       verbatimConfig = ''
@@ -36,8 +35,6 @@
           "/dev/by-input/usb-ZSA_Technology_Labs_Planck_EZ_Glow-if01-event-kbd"
         ]
       '';
-      package = pkgs.pinned.qemu_kvm;
-
     };
     onBoot = "ignore";
     onShutdown = "shutdown";
