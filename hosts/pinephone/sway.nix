@@ -1,0 +1,25 @@
+{ pkgs, config,...}:
+
+{ 
+  wayland.windowManager.sway = {
+    enable = true;
+    wrapperFeatures.gtk = true;
+    config = {
+      bars = [{ command = "${pkgs.waybar}/bin/waybar";}];
+      colors = {
+        focused = {
+          background = "#21222c";
+          border = "#ff79c6";
+          childBorder = "ff79c6";
+          indicator = "8be9fd";
+          text = "f8f8f2";
+        };
+      };
+      menu = "${pkgs.wofi}/bin/wofi";
+    };
+    extraConfig = ''
+      set $mod Mod4
+      bindsym $mod+p exec grim -g "$(slurp -d)" - | wl-copy -t image/png
+    '';
+  };
+}

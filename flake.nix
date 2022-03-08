@@ -2,7 +2,7 @@
   description = "NixOS configuration";
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    mobile-nixpkgs.url = "github:nixos/nixpkgs?rev=23d785aa6f853e6cf3430119811c334025bbef55";
+    mobile-nixpkgs.url = "github:nixos/nixpkgs?rev=1670125d5d3e0146d144d316804e3e6fd2f01d43";
     mobile-nixos.url = "github:NixOS/mobile-nixos?rev=8a105e177632f0fbc4ca28ee0195993baf0dcf9a";
     mobile-nixos.flake = false;
     home-manager.url = "github:nix-community/home-manager";

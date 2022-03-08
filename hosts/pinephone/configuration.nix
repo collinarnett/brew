@@ -9,6 +9,7 @@ in {
     users.users.collin = {
       isNormalUser = true;
       home = "/home/collin";
+      shell = pkgs.zsh;
       createHome = true;
       extraGroups = [ "wheel" "networkmanager" "video" "feedbackd" "dialout" ];
       uid = 1000;
@@ -19,7 +20,10 @@ in {
     };
     users.users.root.password = "nixos";
     powerManagement.enable = true;
-    hardware.opengl.enable = true;
+    hardware.opengl = {
+      enable = true;
+    };
+    programs.vim.defaultEditor = true;
 
     environment.etc."machine-info".text = lib.mkDefault ''
       CHASSIS="handset"
@@ -91,10 +95,20 @@ in {
         automatic = true;
         options = "--delete-older-than 8d";
       };
+      trustedUsers = [ "collin" ]; 
+      buildMachines = [{
+        hostName = "zombie";
+        systems = [ "x86_64-linux" "aarch64-linux" ];
+        maxJobs = 1;
+        speedFactor = 2;
+        supportedFeatures = [ "nixos-test" "benchmark" "big-parallel" "kvm" ];
+      }];
+      distributedBuilds = true;
 
       # nix flakes
       package = pkgs.nixUnstable;
       extraOptions = ''
+        builders-use-substitutes = true
         experimental-features = nix-command flakes
       '';
     };
