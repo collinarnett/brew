@@ -25,6 +25,13 @@ in {
     };
     programs.vim.defaultEditor = true;
 
+
+    # Pkgs
+    environment.systemPackages = with pkgs; [
+      git
+      wget
+    ];
+
     environment.etc."machine-info".text = lib.mkDefault ''
       CHASSIS="handset"
     '';
