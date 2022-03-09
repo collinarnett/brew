@@ -5,6 +5,7 @@
     enable = true;
     wrapperFeatures.gtk = true;
     config = {
+      terminal = "footclient";
       bars = [{ command = "${pkgs.waybar}/bin/waybar";}];
       colors = {
         focused = {

@@ -10,7 +10,8 @@
     ../../modules/home-manager/wofi/wofi.nix
     ../../modules/home-manager/zsh.nix
     ../../modules/wofi.nix
-    ./sway.nix
+    ./modules/sway.nix
+    ./modules/foot.nix
   ];
 
   home.username = "collin";
@@ -25,7 +26,9 @@
     glxinfo
     nodejs
     slurp
+    fira-code
     wl-clipboard
+    pfetch
   ];
 
   home.stateVersion = "21.11";
