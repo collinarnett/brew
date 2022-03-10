@@ -10,25 +10,28 @@
     ../../modules/home-manager/wofi/wofi.nix
     ../../modules/home-manager/zsh.nix
     ../../modules/wofi.nix
-    ./modules/sway.nix
     ./modules/foot.nix
+    ./modules/qutebrowser.nix
+    ./modules/sway.nix
+    ./modules/waybar/waybar.nix
   ];
 
   home.username = "collin";
   home.homeDirectory = "/home/collin";
-  home.sessionVariables = {
-    GPG_TTY = "$(tty)";
-  };
+  home.sessionVariables = { GPG_TTY = "$(tty)"; };
 
   home.packages = with pkgs; [
-    git
-    grim
-    glxinfo
-    nodejs
-    slurp
     fira-code
-    wl-clipboard
+    git
+    gotop
+    grim
+    nixfmt
+    nodejs
     pfetch
+    siji
+    slurp
+    statix
+    wl-clipboard
   ];
 
   home.stateVersion = "21.11";

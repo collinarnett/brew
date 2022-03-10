@@ -20,17 +20,11 @@ in {
     };
     users.users.root.password = "nixos";
     powerManagement.enable = true;
-    hardware.opengl = {
-      enable = true;
-    };
+    hardware.opengl = { enable = true; };
     programs.vim.defaultEditor = true;
 
-
     # Pkgs
-    environment.systemPackages = with pkgs; [
-      git
-      wget
-    ];
+    environment.systemPackages = with pkgs; [ git wget ];
 
     environment.etc."machine-info".text = lib.mkDefault ''
       CHASSIS="handset"
@@ -102,7 +96,7 @@ in {
         automatic = true;
         options = "--delete-older-than 8d";
       };
-      trustedUsers = [ "collin" ]; 
+      trustedUsers = [ "collin" ];
       buildMachines = [{
         hostName = "zombie";
         systems = [ "x86_64-linux" "aarch64-linux" ];
