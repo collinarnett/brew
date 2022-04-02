@@ -56,6 +56,7 @@
     nixfmt
     nmap
     nodejs
+    ormolu
     pandoc
     pciutils
     pfetch
