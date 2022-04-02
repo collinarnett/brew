@@ -96,7 +96,7 @@ in {
         automatic = true;
         options = "--delete-older-than 8d";
       };
-      trustedUsers = [ "collin" ];
+      settings.trusted-users = [ "collin" ];
       buildMachines = [{
         hostName = "zombie";
         systems = [ "x86_64-linux" "aarch64-linux" ];
