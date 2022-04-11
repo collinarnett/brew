@@ -22,6 +22,7 @@ in {
     powerManagement.enable = true;
     hardware.opengl = { enable = true; };
     programs.vim.defaultEditor = true;
+    time.timeZone = "America/New_York";
 
     # Pkgs
     environment.systemPackages = with pkgs; [ git wget ];

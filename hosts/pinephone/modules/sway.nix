@@ -6,7 +6,6 @@
     wrapperFeatures.gtk = true;
     config = {
       terminal = "footclient";
-      output = { DSI-1 = { transform = "90"; }; };
       bars = [{ command = "${pkgs.waybar}/bin/waybar"; }];
       colors = {
         focused = {
@@ -22,6 +21,7 @@
     extraConfig = ''
       set $mod Mod4
       bindsym $mod+p exec grim -g "$(slurp -d)" - | wl-copy -t image/png
+      bindsym $mod+t exec swaymsg output DSI-1 transform 90 
     '';
   };
 }

@@ -33,12 +33,13 @@ in {
     package = pkgs.pinned.qutebrowser;
     enable = true;
     searchEngines = {
-      DEFAULT = "https://search.trexd.dev/?search={}";
+      DEFAULT = "https://search.trexd.dev/?q={}";
       np = "https://search.nixos.org/?search={}";
     };
     settings = {
       url.start_pages = "https://search.trexd.dev";
       url.default_page = "https://search.trexd.dev";
+      colors.webpage.darkmode.enabled = true; 
       colors.completion.category.bg = background;
       colors.completion.category.border.bottom = border;
       colors.completion.category.border.top = border;
