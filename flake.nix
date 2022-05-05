@@ -2,10 +2,13 @@
   description = "NixOS configuration";
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    mobile-nixpkgs.url = "github:nixos/nixpkgs?rev=1670125d5d3e0146d144d316804e3e6fd2f01d43";
-    mobile-nixos.url = "github:NixOS/mobile-nixos?rev=8a105e177632f0fbc4ca28ee0195993baf0dcf9a";
+    mobile-nixpkgs.url =
+      "github:nixos/nixpkgs?rev=1670125d5d3e0146d144d316804e3e6fd2f01d43";
+    mobile-nixos.url =
+      "github:NixOS/mobile-nixos?rev=8a105e177632f0fbc4ca28ee0195993baf0dcf9a";
     mobile-nixos.flake = false;
-    pinned-nixpkgs.url = "github:nixos/nixpkgs?rev=61d24cba72831201efcab419f19b947cf63a2d61";
+    pinned-nixpkgs.url =
+      "github:nixos/nixpkgs?rev=61d24cba72831201efcab419f19b947cf63a2d61";
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     sops-nix.url = "github:Mic92/sops-nix";
@@ -27,28 +30,15 @@
             }
           ];
         };
-        grub = nixpkgs.lib.nixosSystem {
-          system = "i686-linux";
-          modules = [
-            ./hosts/grub/configuration.nix
-            sops-nix.nixosModules.sops
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.users.collin = import ./hosts/grub/home.nix;
-            }
-          ];
-        };
         pinephone = mobile-nixpkgs.lib.nixosSystem {
           system = "aarch64-linux";
           modules = [
             {
               nixpkgs.overlays = [
-              (final: prev: {
-                pinned = inputs.pinned-nixpkgs.legacyPackages.${prev.system};
-              })
-            ];
+                (final: prev: {
+                  pinned = inputs.pinned-nixpkgs.legacyPackages.${prev.system};
+                })
+              ];
 
             }
             ./hosts/pinephone/configuration.nix

@@ -40,13 +40,6 @@ Specs:
 | CASE   | Fractal Design Define R6 Blackout ATX      |
 | COOLER | Noctua NH-D15                              |
 
-#### `grub` 🪱
-
-A cheap laptop I use for experimenting with my laptop NixOS
-configuration.
-
-Specs: Dell Inspiron 1545
-
 ## Motivation
 
 NixOS let's me track and manage my Linux configuration in a declarative
