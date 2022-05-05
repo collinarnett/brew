@@ -56,6 +56,7 @@
     nixfmt
     nmap
     nodejs
+    obs-studio
     ormolu
     pandoc
     pciutils
@@ -66,8 +67,10 @@
     siji
     slurp
     statix
+    super-slicer
     tree
     unzip
+    vial
     virt-manager
     wget
     whipper
