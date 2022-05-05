@@ -1,26 +1,28 @@
 {
   programs.waybar = {
     enable = true;
- #   settings = {
- #     mainBar = {
- #       modules-left = [ "cpu" "disk" "memory" "network" ];
- #       modules-center = [ "sway/workspaces" ];
- #       modules-right = [ "clock" ];
- #       modules = {
- #         "sway/workspaces" = {
- #           format = "{icon}";
- #           format-icons = { default = ""; };
- #         };
- #         "clock" = { format = " {:%A, %h %d %I:%M %p}"; };
- #         "cpu" = { format = " {usage}%"; };
- #         "disk" = { format = " {percentage_used}%"; };
- #         "memory" = { format = " {used:0.1f}G"; };
- #         "network" = {
- #           format = "{ifname}: {bandwidthDownBits} | {bandwidthUpBits}";
- #         };
- #       };
- #     };
- #   };
- #   style = ./style.css;
+    settings = {
+      mainBar = {
+        modules-left = [ "cpu" "memory" "clock" "battery" "sway/workspaces" ];
+        modules = {
+          "sway/workspaces" = {
+            format = "{icon}";
+            format-icons = { default = ""; };
+          };
+          "clock" = { format = " {:%I:%M}"; };
+          "cpu" = { format = " {usage}%"; };
+          "memory" = { format = " {used:0.1f}G"; };
+          "battery" = { 
+            format = "{icon}{capacity}%"; 
+            states = {
+              warning = 30;
+              critical = 15;
+            };
+            format-icons = [ "" "" "" "" ]; 
+          }; 
+        };
+      };
+    };
+    style = ./style.css;
   };
 }
