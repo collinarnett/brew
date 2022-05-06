@@ -48,6 +48,7 @@
     grim
     helvum
     imv
+    ipafont
     liberation_ttf
     lynx
     mpv
@@ -56,6 +57,7 @@
     nixfmt
     nmap
     nodejs
+    noto-fonts-emoji
     obs-studio
     ormolu
     pandoc
