@@ -53,6 +53,26 @@
             })
           ];
         };
+        arachne = nixpkgs.lib.nixosSystem {
+          system = "aarch64-linux";
+          modules = [
+           {
+              nixpkgs.overlays = [
+              (final: prev: {
+                pinned = inputs.pinned-nixpkgs.legacyPackages.${prev.system};
+              })
+            ];
+           }
+            ./hosts/arachne/configuration.nix
+            sops-nix.nixosModules.sops
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users.collin = import ./hosts/arachne/home.nix;
+            }
+          ];
+        };
       };
 
       pinephone-disk-image =
