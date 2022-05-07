@@ -40,6 +40,10 @@ Specs:
 | CASE   | Fractal Design Define R6 Blackout ATX      |
 | COOLER | Noctua NH-D15                              |
 
+### arachne 🕷️
+
+My pinebook pro.
+
 ## Motivation
 
 NixOS let's me track and manage my Linux configuration in a declarative
