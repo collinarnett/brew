@@ -6,6 +6,12 @@
     wrapperFeatures.gtk = true;
     config = {
       terminal = "kitty";
+      input = {
+        "*" = {
+          repeat_delay = "180";
+          repeat_rate = "31";
+        };
+      };
       output = {
         DP-3 = {
           bg = "/home/collin/pictures/wallpapers/UWQHD/1586976881635.jpg fill";
@@ -42,7 +48,7 @@
     extraSessionCommands = ''
       pactl set-default-sink alsa_output.pci-0000_11_00.4.iec958-stereo
     '';
-      #exec systemctl --user import-environment XDG_SESSION_TYPE XDG_CURRENT_DESKTOP
-      #exec dbus-update-activation-environment WAYLAND_DISPLAY
+    #exec systemctl --user import-environment XDG_SESSION_TYPE XDG_CURRENT_DESKTOP
+    #exec dbus-update-activation-environment WAYLAND_DISPLAY
   };
 }

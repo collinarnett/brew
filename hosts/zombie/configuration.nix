@@ -12,7 +12,7 @@
     ../../modules/sops.nix
     ../../modules/taskserver.nix
     ../../modules/traefik.nix
-    ../../modules/k3s.nix
+    ../../modules/k3s/k3s.nix
     ./hardware-configuration.nix
   ];
 

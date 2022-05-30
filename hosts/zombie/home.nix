@@ -29,9 +29,9 @@
   home.sessionVariables = {
     GPG_TTY = "$(tty)";
     GH_TOKEN = "$(cat ${nixosConfig.sops.secrets.gh_token.path})";
-    AWS_CONFIG_FILE = nixosConfig.sops.secrets.awscli2-config.path;
-    AWS_SHARED_CREDENTIALS_FILE =
-      nixosConfig.sops.secrets.awscli2-credentials.path;
+#    AWS_CONFIG_FILE = nixosConfig.sops.secrets.awscli2-config.path;
+#    AWS_SHARED_CREDENTIALS_FILE =
+#      nixosConfig.sops.secrets.awscli2-credentials.path;
     XDG_SESSION_TYPE = "wayland";
     XDG_CURRENT_DESKTOP = "sway";
   };
@@ -49,6 +49,7 @@
     helvum
     imv
     ipafont
+    lens
     liberation_ttf
     lynx
     mpv
