@@ -3,6 +3,7 @@
 {
   imports = [
     ../../modules/home-manager/gh.nix
+    ../../modules/home-manager/git.nix
     ../../modules/home-manager/gpg-agent.nix
     ../../modules/home-manager/gpg.nix
     ../../modules/home-manager/starship.nix
@@ -35,6 +36,7 @@
     nixfmt
     nodejs
     pfetch
+    rsync
     siji
     slurp
     statix

@@ -9,7 +9,7 @@
       bars = [{ command = "${pkgs.waybar}/bin/waybar"; }];
       output =  {
         eDP-1 = {
-          bg = "/home/collin/picture/purple_swamp.png fill";
+          bg = "/home/collin/pictures/purple_swamp.jpg fill";
         };
       };
       colors = {

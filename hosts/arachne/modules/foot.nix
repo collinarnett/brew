@@ -26,6 +26,8 @@
         bright7 = "ffffff"; # bright white
         selection-foreground = "ffffff";
         selection-background = "44475a";
+        background = "282a36";
+        alpha = "0.8";
         urls = "8be9fd";
       };
     };
