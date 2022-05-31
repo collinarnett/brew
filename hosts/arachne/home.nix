@@ -7,6 +7,8 @@
     ../../modules/home-manager/gpg-agent.nix
     ../../modules/home-manager/gpg.nix
     ../../modules/home-manager/starship.nix
+    ../../modules/home-manager/mpd.nix
+    ../../modules/home-manager/ncmpcpp.nix
     ../../modules/home-manager/vim.nix
     ../../modules/home-manager/wofi/wofi.nix
     ../../modules/home-manager/zathura.nix
@@ -36,6 +38,7 @@
     nixfmt
     nodejs
     pfetch
+    pulseaudio
     rsync
     siji
     slurp

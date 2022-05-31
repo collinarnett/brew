@@ -10,7 +10,7 @@ window#waybar {
 	padding-right: 2px;
 }
 
-#clock, #cpu, #memory, #battery {
+#pulseaudio, #mpd, #disk, #clock, #cpu, #memory, #battery {
 	margin-left: 4px;
 	margin-right: 4px;
 	padding-left: 4px;
