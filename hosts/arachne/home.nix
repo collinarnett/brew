@@ -6,17 +6,18 @@
     ../../modules/home-manager/git.nix
     ../../modules/home-manager/gpg-agent.nix
     ../../modules/home-manager/gpg.nix
-    ../../modules/home-manager/starship.nix
     ../../modules/home-manager/mpd.nix
     ../../modules/home-manager/ncmpcpp.nix
+    ../../modules/home-manager/starship.nix
+    ../../modules/home-manager/taskwarrior.nix
     ../../modules/home-manager/vim.nix
     ../../modules/home-manager/wofi/wofi.nix
     ../../modules/home-manager/zathura.nix
-    ../../modules/home-manager/zsh.nix
     ../../modules/wofi.nix
     ./modules/foot.nix
     ./modules/sway.nix
     ./modules/waybar/waybar.nix
+    ./modules/zsh.nix
   ];
 
   home.username = "collin";

@@ -10,6 +10,7 @@
     };
     shellAliases = {
       update = "sudo nixos-rebuild switch --flake ~/brew";
+      vimwiki = "vim -c VimwikiIndex";
     };
   };
 }
