@@ -18,6 +18,7 @@ in
       syntax on
       set clipboard=unnamedplus
       set nowrap
+      set splitright
       set omnifunc=ale#completion#OmniFunc
       set t_Co=256
       let g:airline_theme='dracula'
@@ -45,8 +46,10 @@ in
       autocmd FileType json setlocal tabstop=2 shiftwidth=2
       autocmd FileType markdown setlocal spell
       autocmd FileType markdown setlocal tabstop=2 shiftwidth=2
+      autocmd FileType wiki setlocal tabstop=2 shuftwidth=2
       au BufRead,BufNewFile *.wiki setlocal textwidth=80 spell
       autocmd FileType xml setlocal tabstop=2 shiftwidth=2
+      autocmd FileType help wincmd L
       autocmd FileType gitcommit setlocal spell
       nnoremap <leader>n :NERDTreeFocus<CR>
       nnoremap <C-n> :NERDTree<CR>

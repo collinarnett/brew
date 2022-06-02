@@ -46,7 +46,7 @@
       [ "wheel" "networkmanager" "video" ]; 
   };
 
-  environment.systemPackages = with pkgs; [ vim wget git ];
+  environment.systemPackages = with pkgs; [ vim wget git brightnessctl ];
 
   services.openssh.enable = true;
 
