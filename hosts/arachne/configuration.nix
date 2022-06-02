@@ -4,6 +4,7 @@
   imports = [ # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ../../modules/pipewire.nix
+    ../../modules/greetd.nix
     ./modules/sops.nix
   ];
 
@@ -47,6 +48,11 @@
   };
 
   environment.systemPackages = with pkgs; [ vim wget git brightnessctl ];
+  environment.sessionVariables = {
+    GPG_TTY = "$(tty)";
+    WLR_NO_HARDWARE_CURSORS = "1";
+    GH_TOKEN = "$(cat ${config.sops.secrets.gh_token.path})";
+  };
 
   services.openssh.enable = true;
 
