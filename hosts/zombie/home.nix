@@ -44,11 +44,13 @@
     fira-code
     fira-code-symbols
     firefox
+    fluffychat
     gotop
     grim
     helvum
     imv
     ipafont
+    kubernetes-helm
     lens
     liberation_ttf
     lynx
@@ -79,9 +81,9 @@
     wget
     whipper
     wl-clipboard
-    youtube-dl
     xdg-desktop-portal
     xdg-desktop-portal-wlr
+    youtube-dl
     zotero
   ];
 
