@@ -9,6 +9,7 @@
     ../../modules/home-manager/mpd.nix
     ../../modules/home-manager/ncmpcpp.nix
     ../../modules/home-manager/starship.nix
+    ../../modules/home-manager/swayidle.nix
     ../../modules/home-manager/taskwarrior.nix
     ../../modules/home-manager/vim.nix
     ../../modules/home-manager/wofi/wofi.nix
@@ -33,12 +34,14 @@
     helvum
     nixfmt
     nodejs
+    pavucontrol
     pfetch
     pulseaudio
     rsync
     siji
     slurp
     statix
+    swaylock
     wl-clipboard
   ];
 

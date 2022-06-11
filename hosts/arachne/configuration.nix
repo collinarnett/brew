@@ -31,7 +31,7 @@
   boot.loader.grub.enable = false;
   boot.loader.generic-extlinux-compatible.enable = true;
 
-  networking.hostName = "arachne"; 
+  networking.hostName = "arachne";
   networking.networkmanager.enable = true;
 
   time.timeZone = "America/New_York";
@@ -43,8 +43,7 @@
   users.users.collin = {
     isNormalUser = true;
     shell = pkgs.zsh;
-    extraGroups =
-      [ "wheel" "networkmanager" "video" ]; 
+    extraGroups = [ "wheel" "networkmanager" "video" ];
   };
 
   environment.systemPackages = with pkgs; [ vim wget git brightnessctl ];
@@ -55,6 +54,7 @@
   };
 
   services.openssh.enable = true;
+  security.pam.services.swaylock = { };
 
   system.stateVersion = "21.11";
 
