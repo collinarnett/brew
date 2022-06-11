@@ -22,11 +22,6 @@
 
   home.username = "collin";
   home.homeDirectory = "/home/collin";
-  home.sessionVariables = {
-    GPG_TTY = "$(tty)";
-    WLR_NO_HARDWARE_CURSORS = 1;
-    GH_TOKEN = "$(cat ${nixosConfig.sops.secrets.gh_token.path})";
-  };
 
   home.packages = with pkgs; [
     cataclysm-dda
