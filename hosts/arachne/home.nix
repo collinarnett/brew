@@ -11,7 +11,7 @@
     ../../modules/home-manager/starship.nix
     ../../modules/home-manager/swayidle.nix
     ../../modules/home-manager/taskwarrior.nix
-    ../../modules/home-manager/vim.nix
+    ../../modules/home-manager/vim/vim.nix
     ../../modules/home-manager/wofi/wofi.nix
     ../../modules/home-manager/zathura.nix
     ../../modules/wofi.nix
@@ -43,6 +43,7 @@
     statix
     swaylock
     wl-clipboard
+    vim-vint
   ];
 
   home.stateVersion = "21.11";

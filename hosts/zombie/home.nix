@@ -16,7 +16,7 @@
     ../../modules/home-manager/starship.nix
     ../../modules/home-manager/sway.nix
     ../../modules/home-manager/taskwarrior.nix
-    ../../modules/home-manager/vim.nix
+    ../../modules/home-manager/vim/vim.nix
     ../../modules/home-manager/waybar/waybar.nix
     ../../modules/home-manager/wofi/wofi.nix
     ../../modules/home-manager/zathura.nix
