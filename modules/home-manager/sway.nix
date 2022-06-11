@@ -6,12 +6,12 @@
     wrapperFeatures.gtk = true;
     config = {
       terminal = "kitty";
-      input = {
-        "*" = {
-          repeat_delay = "180";
-          repeat_rate = "31";
-        };
-      };
+      #    input = {
+      #      "*" = {
+      #        repeat_delay = "180";
+      #        repeat_rate = "31";
+      #      };
+      #    };
       output = {
         DP-3 = {
           bg = "/home/collin/pictures/wallpapers/UWQHD/1586976881635.jpg fill";

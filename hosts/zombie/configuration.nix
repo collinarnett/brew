@@ -28,7 +28,7 @@
   # General
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-
+  services.gvfs.enable = true;  
   networking.hostName = "zombie"; # Define your hostname.
 
   time.timeZone = "America/New_York";

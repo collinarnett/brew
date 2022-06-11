@@ -73,6 +73,7 @@
     super-slicer
     tree
     unzip
+    usbutils
     vial
     virt-manager
     wget

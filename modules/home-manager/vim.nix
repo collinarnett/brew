@@ -37,6 +37,16 @@ in
       let g:ale_linters = {
       \ 'nix': [ 'statix' ]
       \}
+      let g:vimwiki_list = [
+        \ {
+        \   'path': '/home/collin/vimwiki
+        \ },
+        \ {
+        \   'path': '/home/collin/projects/collinarnett.github.io/wiki',
+        \   'path_html': '/home/collin/projects/collinarnett.github.io/docs',
+        \   'auto_toc': 1
+        \ }
+        \ ]
       let g:airline#extensions#ale#enabled = 1
       let g:mkdp_browser = 'firefox'
       highlight link CocErrorSign DraculaErrorLine
@@ -46,8 +56,7 @@ in
       autocmd FileType json setlocal tabstop=2 shiftwidth=2
       autocmd FileType markdown setlocal spell
       autocmd FileType markdown setlocal tabstop=2 shiftwidth=2
-      autocmd FileType wiki setlocal tabstop=2 shuftwidth=2
-      au BufRead,BufNewFile *.wiki setlocal textwidth=80 spell
+      au BufRead,BufNewFile *.wiki setlocal textwidth=80 spell tabstop=2 shiftwidth=2
       autocmd FileType xml setlocal tabstop=2 shiftwidth=2
       autocmd FileType help wincmd L
       autocmd FileType gitcommit setlocal spell
