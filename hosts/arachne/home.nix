@@ -44,6 +44,7 @@
     swaylock
     wl-clipboard
     vim-vint
+    yamlfix
   ];
 
   home.stateVersion = "21.11";

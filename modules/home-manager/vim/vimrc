@@ -16,6 +16,7 @@ let g:ale_fixers = {
 \ 'scala': [ 'scalafmt' ],
 \ 'haskell': [ 'ormolu' ],
 \ 'python': [ 'black' ],
+\ 'yaml': [ 'yamlfix' ],
 \}
 let g:ale_linters = {
 \ 'nix': [ 'statix' ]

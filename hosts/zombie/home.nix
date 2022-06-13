@@ -83,6 +83,7 @@
     wl-clipboard
     xdg-desktop-portal
     xdg-desktop-portal-wlr
+    yamlfix
     youtube-dl
     zotero
   ];
