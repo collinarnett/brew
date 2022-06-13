@@ -22,12 +22,15 @@ let g:ale_linters = {
 \}
 let g:vimwiki_list = [
 \ {
-\   'path': '/home/collin/vimwiki',
+\ 'path': '/home/collin/vimwiki',
+\ 'auto_toc': 1,
 \ },
 \ {
-\   'path': '/home/collin/projects/collinarnett.github.io/wiki',
-\   'path_html': '/home/collin/projects/collinarnett.github.io/docs',
-\   'auto_toc': 1,
+\ 'path': '/home/collin/projects/collinarnett.github.io/wiki',
+\ 'path_html': '/home/collin/projects/collinarnett.github.io/docs',
+\ 'auto_toc': 1,
+\ 'exclude_files': [ '**/README.md' ],
+\ 'auto_export': 1,
 \ },
 \ ]
 let g:airline#extensions#ale#enabled = 1
