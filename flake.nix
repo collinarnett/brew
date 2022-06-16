@@ -7,6 +7,8 @@
     mobile-nixos.url =
       "github:NixOS/mobile-nixos?rev=8a105e177632f0fbc4ca28ee0195993baf0dcf9a";
     mobile-nixos.flake = false;
+    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    nixos-hardware.inputs.nixpkgs.follows = "nixpkgs";
     pinned-nixpkgs.url =
       "github:nixos/nixpkgs?rev=61d24cba72831201efcab419f19b947cf63a2d61";
     home-manager.url = "github:nix-community/home-manager";
@@ -15,7 +17,7 @@
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
   };
   outputs = { self, home-manager, nixpkgs, mobile-nixpkgs, sops-nix
-    , mobile-nixos, pinned-nixpkgs, ... }@inputs: {
+    , mobile-nixos, pinned-nixpkgs, nixos-hardware, ... }@inputs: {
       nixosConfigurations = {
         zombie = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
@@ -56,13 +58,14 @@
         arachne = nixpkgs.lib.nixosSystem {
           system = "aarch64-linux";
           modules = [
-           {
+            nixos-hardware.nixosModules.pine64-pinebook-pro
+            {
               nixpkgs.overlays = [
-              (final: prev: {
-                pinned = inputs.pinned-nixpkgs.legacyPackages.${prev.system};
-              })
-            ];
-           }
+                (final: prev: {
+                  pinned = inputs.pinned-nixpkgs.legacyPackages.${prev.system};
+                })
+              ];
+            }
             ./hosts/arachne/configuration.nix
             sops-nix.nixosModules.sops
             home-manager.nixosModules.home-manager

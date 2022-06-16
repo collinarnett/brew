@@ -27,6 +27,8 @@
     '';
   };
 
+  # For Rockchip firmware
+  nixpkgs.config.allowUnfree = true;
   # Arachne uses Tow-Boot
   boot.loader.grub.enable = false;
   boot.loader.generic-extlinux-compatible.enable = true;
