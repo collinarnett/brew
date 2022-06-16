@@ -39,6 +39,7 @@
   home.packages = with pkgs; [
     anki-bin
     awscli2
+    black
     dconf
     dracula-theme
     fira-code
@@ -67,6 +68,7 @@
     pciutils
     pfetch
     pulseaudio
+    python39Packages.isort
     rclone
     signal-desktop
     siji

@@ -26,6 +26,7 @@
 
   home.packages = with pkgs; [
     cataclysm-dda
+    black
     fira-code
     firefox
     git
@@ -34,16 +35,18 @@
     helvum
     nixfmt
     nodejs
+    noto-fonts-emoji
     pavucontrol
     pfetch
     pulseaudio
+    python39Packages.isort
     rsync
     siji
     slurp
     statix
     swaylock
-    wl-clipboard
     vim-vint
+    wl-clipboard
     yamlfix
   ];
 
