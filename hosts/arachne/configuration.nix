@@ -34,7 +34,10 @@
   boot.loader.generic-extlinux-compatible.enable = true;
 
   networking.hostName = "arachne";
-  networking.networkmanager.enable = true;
+  networking.networkmanager = {
+    enable = true;
+    wifi.powersave = false;
+  };
 
   time.timeZone = "America/New_York";
 

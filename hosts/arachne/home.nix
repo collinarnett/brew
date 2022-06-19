@@ -30,6 +30,7 @@
     fira-code
     firefox
     git
+    gomuks
     gotop
     grim
     helvum
