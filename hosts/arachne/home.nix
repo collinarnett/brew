@@ -10,6 +10,7 @@
     ../../modules/home-manager/ncmpcpp.nix
     ../../modules/home-manager/starship.nix
     ../../modules/home-manager/swayidle.nix
+    ../../modules/home-manager/swaylock.nix
     ../../modules/home-manager/taskwarrior.nix
     ../../modules/home-manager/vim/vim.nix
     ../../modules/home-manager/wofi/wofi.nix
