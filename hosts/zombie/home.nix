@@ -61,6 +61,7 @@
     nixfmt
     nmap
     nodejs
+    nodePackages.prettier
     noto-fonts-emoji
     obs-studio
     ormolu
