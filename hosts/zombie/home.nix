@@ -63,6 +63,7 @@
     nodejs
     nodePackages.prettier
     noto-fonts-emoji
+    nyxt
     obs-studio
     ormolu
     pandoc

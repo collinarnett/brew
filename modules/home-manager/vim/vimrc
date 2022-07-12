@@ -42,6 +42,7 @@ highlight link CocInfoSign DraculaInfoLine
 autocmd FileType css setlocal tabstop=2 shiftwidth=2
 autocmd FileType haskell setlocal tabstop=2 shiftwidth=2
 autocmd FileType json setlocal tabstop=2 shiftwidth=2
+autocmd FileType java setlocal tabstop=4 shiftwidth=4
 autocmd FileType markdown setlocal spell
 autocmd FileType markdown setlocal tabstop=2 shiftwidth=2
 au BufRead,BufNewFile *.wiki setlocal textwidth=80 spell tabstop=2 shiftwidth=2
