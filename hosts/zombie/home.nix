@@ -34,6 +34,7 @@
 #      nixosConfig.sops.secrets.awscli2-credentials.path;
     XDG_SESSION_TYPE = "wayland";
     XDG_CURRENT_DESKTOP = "sway";
+    BROWSER = "firefox";
   };
 
   home.packages = with pkgs; [
@@ -45,7 +46,6 @@
     fira-code
     fira-code-symbols
     firefox
-    fluffychat
     gotop
     grim
     helvum

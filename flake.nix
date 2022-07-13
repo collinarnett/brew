@@ -1,7 +1,7 @@
 {
   description = "NixOS configuration";
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     mobile-nixpkgs.url =
       "github:nixos/nixpkgs?rev=1670125d5d3e0146d144d316804e3e6fd2f01d43";
     mobile-nixos.url =
@@ -23,6 +23,12 @@
           system = "x86_64-linux";
           modules = [
             ./hosts/zombie/configuration.nix
+            {
+              nix = {
+                registry.nixpkgs.flake = inputs.nixpkgs;
+                nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
+              };
+            }
             sops-nix.nixosModules.sops
             home-manager.nixosModules.home-manager
             {
@@ -46,6 +52,7 @@
             ./hosts/pinephone/configuration.nix
             home-manager.nixosModules.home-manager
             {
+              nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
               home-manager.users.collin = import ./hosts/pinephone/home.nix;
@@ -70,6 +77,7 @@
             sops-nix.nixosModules.sops
             home-manager.nixosModules.home-manager
             {
+              nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
               home-manager.users.collin = import ./hosts/arachne/home.nix;

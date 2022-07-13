@@ -13,6 +13,7 @@
     ../../modules/taskserver.nix
     ../../modules/traefik.nix
     ../../modules/k3s/k3s.nix
+    ../../modules/xdg.nix
     ./hardware-configuration.nix
   ];
 
@@ -28,7 +29,7 @@
   # General
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  services.gvfs.enable = true;  
+  services.gvfs.enable = true;
   networking.hostName = "zombie"; # Define your hostname.
 
   time.timeZone = "America/New_York";
@@ -55,8 +56,20 @@
   nix.settings.trusted-users = [ "collin" ];
 
   # Binary Caches
-  nix.binaryCaches = [ "https://hydra.iohk.io" ];
-  nix.binaryCachePublicKeys = [ "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ=" ];
+  nix.settings.substituters =
+    [ "https://hydra.iohk.io" "https://cache.nixos.org/" ];
+  nix.settings.trusted-public-keys = [
+    "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ="
+    "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+  ];
+
+  # Fixes 'too many open files'
+  security.pam.loginLimits = [{
+    domain = "*";
+    type = "soft";
+    item = "nofile";
+    value = "4096";
+  }];
 
   # GPU
   hardware.opengl = {
@@ -76,7 +89,7 @@
     permitRootLogin = "yes";
     passwordAuthentication = false;
   };
-  
+
   system.stateVersion = "21.11"; # Did you read the comment?
 }
 
