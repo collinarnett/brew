@@ -3,10 +3,12 @@
 {
   imports = [ # Include the results of the hardware scan.
     ../../modules/apcupsd.nix
-    ../../modules/docker/authelia/authelia.nix
-    ../../modules/docker/navidrome.nix
-    ../../modules/docker/searx.nix
-    ../../modules/docker/watchtower.nix
+#    HomeLab project on hold while working with kubernetes
+#    ../../modules/docker/authelia/authelia.nix
+#    ../../modules/docker/navidrome.nix
+#    ../../modules/docker/searx.nix
+#    ../../modules/docker/watchtower.nix
+    ../../modules/docker/registry.nix
     ../../modules/libvirtd.nix
     ../../modules/pipewire.nix
     ../../modules/sops.nix
