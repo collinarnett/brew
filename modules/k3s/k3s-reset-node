@@ -1,6 +1,4 @@
 #!/bin/sh
-set -eux -o pipefail
-shopt -s nullglob
 systemctl stop k3s
 rm -rf /var/lib/rancher/ /etc/rancher
 systemctl start k3s

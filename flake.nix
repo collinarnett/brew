@@ -23,11 +23,18 @@
           system = "x86_64-linux";
           modules = [
             ./hosts/zombie/configuration.nix
+#            {
+#              nix = {
+#                registry.nixpkgs.flake = inputs.nixpkgs;
+#                nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
+#              };
+#            }
             {
-              nix = {
-                registry.nixpkgs.flake = inputs.nixpkgs;
-                nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
-              };
+              nixpkgs.overlays = [
+                (final: prev: {
+                  pinned = inputs.pinned-nixpkgs.legacyPackages.${prev.system};
+                })
+              ];
             }
             sops-nix.nixosModules.sops
             home-manager.nixosModules.home-manager

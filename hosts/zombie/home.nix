@@ -39,6 +39,7 @@
 
   home.packages = with pkgs; [
     anki-bin
+    astyle
     awscli2
     black
     dconf
@@ -47,6 +48,7 @@
     fira-code-symbols
     firefox
     gotop
+    google-cloud-sdk
     grim
     helvum
     imv
@@ -78,7 +80,6 @@
     statix
     super-slicer
     tree
-    unzip
     usbutils
     vial
     virt-manager
@@ -88,8 +89,6 @@
     xdg-desktop-portal
     xdg-desktop-portal-wlr
     yamlfix
-    youtube-dl
-    zotero
   ];
 
   home.stateVersion = "21.11";
