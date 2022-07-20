@@ -47,8 +47,8 @@
     fira-code
     fira-code-symbols
     firefox
-    gotop
     google-cloud-sdk
+    gotop
     grim
     helvum
     imv
@@ -62,8 +62,8 @@
     nix-index
     nixfmt
     nmap
-    nodejs
     nodePackages.prettier
+    nodejs
     noto-fonts-emoji
     nyxt
     obs-studio
@@ -79,6 +79,7 @@
     slurp
     statix
     super-slicer
+    timewarrior
     tree
     usbutils
     vial
