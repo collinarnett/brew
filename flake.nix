@@ -23,12 +23,12 @@
           system = "x86_64-linux";
           modules = [
             ./hosts/zombie/configuration.nix
-#            {
-#              nix = {
-#                registry.nixpkgs.flake = inputs.nixpkgs;
-#                nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
-#              };
-#            }
+            #            {
+            #              nix = {
+            #                registry.nixpkgs.flake = inputs.nixpkgs;
+            #                nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
+            #              };
+            #            }
             {
               nixpkgs.overlays = [
                 (final: prev: {
@@ -42,6 +42,19 @@
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
               home-manager.users.collin = import ./hosts/zombie/home.nix;
+            }
+          ];
+        };
+        vampire = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [
+            ./hosts/vampire/configuration.nix
+            sops-nix.nixosModules.sops
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users.collin = import ./hosts/vampire/home.nix;
             }
           ];
         };
