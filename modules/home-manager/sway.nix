@@ -14,11 +14,11 @@
       #    };
       output = {
         DP-3 = {
-          bg = "/home/collin/pictures/wallpapers/UWQHD/1586976881635.jpg fill";
+          bg = "#282a36 solid_color";
           subpixel = "none";
         };
         DP-1 = {
-          bg = "/home/collin/pictures/wallpapers/FHD/1609273914611.png fill";
+          bg = "#282a36 solid_color";
           subpixel = "none";
         };
       };

@@ -19,6 +19,7 @@ let g:ale_fixers = {
 \ 'yaml': [ 'yamlfix' ],
 \ 'javascript': [ 'prettier' ],
 \ 'c': [ 'astyle' ],
+\ 'cpp': [ 'astyle' ],
 \}
 let g:ale_linters = {
 \ 'nix': [ 'statix' ]
@@ -43,6 +44,7 @@ highlight link CocInfoSign DraculaInfoLine
 autocmd FileType css setlocal tabstop=2 shiftwidth=2
 autocmd FileType haskell setlocal tabstop=2 shiftwidth=2
 autocmd FileType json setlocal tabstop=2 shiftwidth=2
+autocmd FileType cpp setlocal tabstop=4 shiftwidth=4
 autocmd FileType c setlocal tabstop=4 shiftwidth=4
 autocmd FileType java setlocal tabstop=4 shiftwidth=4
 autocmd FileType markdown setlocal spell

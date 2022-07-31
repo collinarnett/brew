@@ -69,6 +69,7 @@
     obs-studio
     ormolu
     pandoc
+    parted
     pciutils
     pfetch
     pulseaudio

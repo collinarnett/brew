@@ -1,5 +1,4 @@
 { pkgs, config, ... }:
-
 {
 
   boot.initrd.availableKernelModules = [ "amdgpu" "vfio-pci" ];
@@ -10,6 +9,8 @@
     done
     modprobe -i vfio-pci
   '';
+
+  systemd.services.libvirtd.path = [ pkgs.parted ];
 
   boot.kernelParams = [ "amd_iommu=on" "pcie_aspm=off" ];
 
