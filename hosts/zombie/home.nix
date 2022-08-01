@@ -10,6 +10,7 @@
     ../../modules/home-manager/gpg.nix
     ../../modules/home-manager/gtk.nix
     ../../modules/home-manager/k9s/k9s.nix
+    ../../modules/home-manager/keybase.nix
     ../../modules/home-manager/keychain.nix
     ../../modules/home-manager/kitty.nix
     ../../modules/home-manager/mpd.nix
@@ -55,6 +56,7 @@
     helvum
     imv
     ipafont
+    keybase-gui
     kubernetes-helm
     k9s
     lens
