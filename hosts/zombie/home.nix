@@ -9,6 +9,7 @@
     ../../modules/home-manager/gpg-agent.nix
     ../../modules/home-manager/gpg.nix
     ../../modules/home-manager/gtk.nix
+    ../../modules/home-manager/k9s/k9s.nix
     ../../modules/home-manager/keychain.nix
     ../../modules/home-manager/kitty.nix
     ../../modules/home-manager/mpd.nix
@@ -28,6 +29,7 @@
   home.homeDirectory = "/home/collin";
   home.sessionVariables = {
     GPG_TTY = "$(tty)";
+    KUBECONFIG = "/etc/rancher/k3s/k3s.yaml";
     GH_TOKEN = "$(cat ${nixosConfig.sops.secrets.gh_token.path})";
 #    AWS_CONFIG_FILE = nixosConfig.sops.secrets.awscli2-config.path;
 #    AWS_SHARED_CREDENTIALS_FILE =
@@ -54,6 +56,7 @@
     imv
     ipafont
     kubernetes-helm
+    k9s
     lens
     liberation_ttf
     lynx
