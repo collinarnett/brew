@@ -2,6 +2,7 @@
 
 {
   imports = [
+    ../../modules/home-manager/direnv.nix
     ../../modules/home-manager/git.nix
     ../../modules/home-manager/gpg-agent.nix
     ../../modules/home-manager/gpg.nix
