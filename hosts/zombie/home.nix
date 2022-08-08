@@ -56,10 +56,10 @@
     helvum
     imv
     ipafont
+    k9s
     keybase-gui
     kubernetes-helm
-    k9s
-    lens
+    languagetool
     liberation_ttf
     lynx
     mpv
