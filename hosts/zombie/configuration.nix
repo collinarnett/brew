@@ -10,10 +10,12 @@
 #    ../../modules/docker/watchtower.nix
 #    ../../modules/docker/registry.nix
     ../../modules/libvirtd.nix
+    ../../modules/minecraft.nix
     ../../modules/pipewire.nix
     ../../modules/sops.nix
     ../../modules/taskserver.nix
 #    ../../modules/traefik.nix
+    ../../modules/wireguard.nix
     ../../modules/k3s/k3s.nix
     ../../modules/xdg.nix
     ./hardware-configuration.nix
