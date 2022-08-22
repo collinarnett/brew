@@ -3,18 +3,19 @@
 {
   imports = [ # Include the results of the hardware scan.
     ../../modules/apcupsd.nix
-#    HomeLab project on hold while working with kubernetes
-#    ../../modules/docker/authelia/authelia.nix
-#    ../../modules/docker/navidrome.nix
-#    ../../modules/docker/searx.nix
-#    ../../modules/docker/watchtower.nix
-#    ../../modules/docker/registry.nix
+    #    HomeLab project on hold while working with kubernetes
+    #    ../../modules/docker/authelia/authelia.nix
+    #    ../../modules/docker/navidrome.nix
+    #    ../../modules/docker/searx.nix
+    #    ../../modules/docker/watchtower.nix
+    #    ../../modules/docker/registry.nix
     ../../modules/libvirtd.nix
     ../../modules/minecraft.nix
     ../../modules/pipewire.nix
     ../../modules/sops.nix
     ../../modules/taskserver.nix
-#    ../../modules/traefik.nix
+    #    ../../modules/etherpad.nix
+    #    ../../modules/traefik.nix
     ../../modules/wireguard.nix
     ../../modules/k3s/k3s.nix
     ../../modules/xdg.nix
@@ -27,12 +28,19 @@
     experimental-features = nix-command flakes
   '';
 
+  hardware.bluetooth.enable = true;
+  services.blueman.enable = true;
+
+  hardware.video.hidpi.enable = true;
+
   # Remote Builds
   boot.binfmt.emulatedSystems = [ "aarch64-linux" "i686-linux" ];
 
   # General
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.kernelModules = [ "v4l2loopback" "amdgpu" ];
+  boot.extraModulePackages = [ config.boot.kernelPackages.v4l2loopback ];
   services.gvfs.enable = true;
   networking.hostName = "zombie"; # Define your hostname.
 

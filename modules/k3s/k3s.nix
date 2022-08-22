@@ -4,6 +4,7 @@
   services.k3s = {
     enable = true;
     role = "server";
+    extraFlags = "--write-kubeconfig-mode 644";
   };
   environment.systemPackages = [
     (pkgs.writeShellScriptBin "k3s-reset-node"

@@ -5,8 +5,8 @@
     ../../modules/home-manager/beets.nix
     ../../modules/home-manager/direnv.nix
     ../../modules/home-manager/gh.nix
-    ../../modules/home-manager/git.nix
-    ../../modules/home-manager/gpg-agent.nix
+      ../../modules/home-manager/git.nix
+      ../../modules/home-manager/gpg-agent.nix
     ../../modules/home-manager/gpg.nix
     ../../modules/home-manager/gtk.nix
     ../../modules/home-manager/k9s/k9s.nix
@@ -50,6 +50,7 @@
     fira-code
     fira-code-symbols
     firefox
+    fzf
     google-cloud-sdk
     gotop
     grim
@@ -58,6 +59,7 @@
     ipafont
     k9s
     keybase-gui
+    kubectl
     kubernetes-helm
     languagetool
     liberation_ttf
@@ -79,6 +81,7 @@
     pfetch
     pulseaudio
     python39Packages.isort
+    qpwgraph
     rclone
     signal-desktop
     siji
@@ -88,7 +91,7 @@
     timewarrior
     tree
     usbutils
-    vial
+    v4l-utils
     virt-manager
     wget
     whipper
