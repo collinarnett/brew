@@ -16,6 +16,7 @@
 
   home.packages = with pkgs; [
     black
+    alejandra
     fira-code
     git
     gotop
@@ -24,7 +25,9 @@
     noto-fonts-emoji
     python39Packages.isort
     statix
+    unzip
     vim-vint
+    wget
     yamlfix
   ];
 
