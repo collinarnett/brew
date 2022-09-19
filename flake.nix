@@ -13,10 +13,9 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
-    etherpad.url = "/home/collin/projects/etherpad-nix/";
   };
   outputs = { self, home-manager, nixpkgs, mobile-nixpkgs, sops-nix
-    , mobile-nixos, nixos-hardware, etherpad, ... }@inputs: {
+    , mobile-nixos, nixos-hardware, ... }@inputs: {
       nixosConfigurations = let
         mkHost = { system ? "x86_64-linux", pkgs ? nixpkgs, user ? "collin"
           , host, extraModules ? [ ] }:
@@ -42,7 +41,6 @@
       in {
         zombie = mkHost {
           host = "zombie";
-          extraModules = [ etherpad.nixosModules.etherpad ];
         };
         vampire = mkHost { host = "vampire"; };
         pinephone = mkHost {

@@ -11,9 +11,17 @@ let g:ale_fix_on_save = 1
 let g:ale_completion_autoimport = 1
 let g:ale_c_parse_makefile = 1
 let g:ale_c_clangformat_options = "-style=google"
+function! FormatNix(buffer) abort
+    return {
+    \   'command': 'alejandra -q'
+    \}
+endfunction
+
+execute ale#fix#registry#Add('alejandra', 'FormatNix', ['nix'], 'alejandra for nix')
+
 let g:ale_fixers = {
 \ '*': [ 'remove_trailing_lines', 'trim_whitespace' ],
-\ 'nix': [ 'nixfmt' ],
+\ 'nix': [ 'alejandra' ],
 \ 'markdown': [ 'pandoc' ],
 \ 'scala': [ 'scalafmt' ],
 \ 'haskell': [ 'ormolu' ],
