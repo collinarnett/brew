@@ -7,6 +7,6 @@
     pulse.enable = true;
     jack.enable = true;
     socketActivation = true;
-  }; 
+  };
 
 }

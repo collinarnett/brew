@@ -42,9 +42,9 @@
 
   home.packages = with pkgs; [
     anki-bin
-    astyle
     awscli2
     black
+    clang-tools
     dconf
     dracula-theme
     fira-code
@@ -74,9 +74,11 @@
     noto-fonts-emoji
     nyxt
     obs-studio
+    openconnect
     ormolu
     pandoc
     parted
+    pavucontrol
     pciutils
     pfetch
     pulseaudio
@@ -98,6 +100,7 @@
     wl-clipboard
     xdg-desktop-portal
     xdg-desktop-portal-wlr
+    xplr
     yamlfix
   ];
 

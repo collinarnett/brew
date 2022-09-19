@@ -9,6 +9,8 @@ let g:ale_completion_enabled = 1
 let g:ale_lint_on_text_changed = 1
 let g:ale_fix_on_save = 1
 let g:ale_completion_autoimport = 1
+let g:ale_c_parse_makefile = 1
+let g:ale_c_clangformat_options = "-style=google"
 let g:ale_fixers = {
 \ '*': [ 'remove_trailing_lines', 'trim_whitespace' ],
 \ 'nix': [ 'nixfmt' ],
@@ -18,11 +20,13 @@ let g:ale_fixers = {
 \ 'python': [ 'black', 'isort' ],
 \ 'yaml': [ 'yamlfix' ],
 \ 'javascript': [ 'prettier' ],
-\ 'c': [ 'astyle' ],
-\ 'cpp': [ 'astyle' ],
+\ 'c': [ 'clang-format' ],
+\ 'cpp': [ 'clang-format' ],
 \}
 let g:ale_linters = {
-\ 'nix': [ 'statix' ]
+\ 'nix': [ 'statix' ],
+\ 'c': [ 'cc' ],
+\ 'cpp': [ 'cc' ],
 \}
 let g:vimwiki_list = [
 \ {
@@ -44,8 +48,8 @@ highlight link CocInfoSign DraculaInfoLine
 autocmd FileType css setlocal tabstop=2 shiftwidth=2
 autocmd FileType haskell setlocal tabstop=2 shiftwidth=2
 autocmd FileType json setlocal tabstop=2 shiftwidth=2
-autocmd FileType cpp setlocal tabstop=4 shiftwidth=4
-autocmd FileType c setlocal tabstop=4 shiftwidth=4
+autocmd FileType cpp setlocal tabstop=2 shiftwidth=2
+autocmd FileType c setlocal tabstop=2 shiftwidth=2
 autocmd FileType java setlocal tabstop=4 shiftwidth=4
 autocmd FileType markdown setlocal spell
 autocmd FileType markdown setlocal tabstop=2 shiftwidth=2
