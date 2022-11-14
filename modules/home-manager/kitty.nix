@@ -5,7 +5,7 @@
     enable = true;
     font = {
       name = "Fira Code";
-      size = 10;
+      size = 16;
     };
     settings = {
       foreground = "#f8f8f2";

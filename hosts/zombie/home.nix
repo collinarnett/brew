@@ -43,8 +43,10 @@
   home.packages = with pkgs; [
     anki-bin
     awscli2
+    bear
     black
     clang-tools
+    crawl
     dconf
     dracula-theme
     fira-code
@@ -66,6 +68,8 @@
     lynx
     mpv
     neofetch
+    nerdfonts
+    nil
     nix-index
     nixfmt
     nmap

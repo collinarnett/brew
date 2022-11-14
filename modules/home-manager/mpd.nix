@@ -4,8 +4,8 @@
     musicDirectory = "/home/collin/music";
     extraConfig = ''
       audio_output {
-        type "alsa"
-        name "ALSA"
+        type "pulse"
+        name "pulse audio"
       }
       audio_output {
         type "fifo"

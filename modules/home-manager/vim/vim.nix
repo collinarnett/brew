@@ -17,8 +17,8 @@ in {
     settings = { number = true; };
     plugins = with pkgs.vimPlugins; [
       ale
-      coc-metals
-      coc-nvim
+#      coc-metals
+#      coc-nvim
       dracula-vim
       markdown-preview-nvim
       nerdtree

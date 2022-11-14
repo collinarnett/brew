@@ -11,11 +11,34 @@ let g:ale_fix_on_save = 1
 let g:ale_completion_autoimport = 1
 let g:ale_c_parse_makefile = 1
 let g:ale_c_clangformat_options = "-style=google"
+let g:load_doxygen_syntax=1
+let g:doxygen_enhanced_colour=1
 function! FormatNix(buffer) abort
     return {
     \   'command': 'alejandra -q'
     \}
 endfunction
+
+" function! GetProjectRoot(buffer) abort
+"     " nil does not yet use the project root, so getting it right is not
+"     " important
+"     return fnamemodify(a:buffer, ':h')
+" endfunction
+
+" TODO Fix issues with not having a call back function
+" call ale#linter#Define('nix', {
+" \   'name': 'nil',
+" \   'lsp': 'stdio',
+" \   'executable': 'nil',
+" \   'language': 'nix',
+" \   'callback': function('GetProjectRoot')
+" \})
+
+if has("autocmd")
+  au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
+endif
+
+set foldmethod=syntax
 
 execute ale#fix#registry#Add('alejandra', 'FormatNix', ['nix'], 'alejandra for nix')
 
@@ -33,8 +56,8 @@ let g:ale_fixers = {
 \}
 let g:ale_linters = {
 \ 'nix': [ 'statix' ],
-\ 'c': [ 'cc' ],
-\ 'cpp': [ 'cc' ],
+\ 'c': [ 'cc', 'clangd' ],
+\ 'cpp': [ 'cc', 'clangd' ],
 \}
 let g:vimwiki_list = [
 \ {

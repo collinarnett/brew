@@ -1,23 +1,13 @@
 { config, pkgs, ... }:
 
 {
-  imports = [ # Include the results of the hardware scan.
+  imports = [ 
     ../../modules/apcupsd.nix
-    #    HomeLab project on hold while working with kubernetes
-    #    ../../modules/docker/authelia/authelia.nix
-    #    ../../modules/docker/navidrome.nix
-    #    ../../modules/docker/searx.nix
-    #    ../../modules/docker/watchtower.nix
-    #    ../../modules/docker/registry.nix
     ../../modules/libvirtd.nix
-    # ../../modules/minecraft.nix
     ../../modules/pipewire.nix
     ../../modules/sops.nix
     ../../modules/taskserver.nix
-    #    ../../modules/etherpad.nix
-    #    ../../modules/traefik.nix
     ../../modules/wireguard.nix
-    #    ../../modules/k3s/k3s.nix
     ../../modules/xdg.nix
     ./hardware-configuration.nix
   ];

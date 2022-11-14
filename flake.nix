@@ -8,7 +8,6 @@
       "github:nixOS/mobile-nixos?rev=8a105e177632f0fbc4ca28ee0195993baf0dcf9a";
     mobile-nixos.flake = false;
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
-    nixos-hardware.inputs.nixpkgs.follows = "nixpkgs";
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     sops-nix.url = "github:Mic92/sops-nix";
