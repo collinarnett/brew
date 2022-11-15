@@ -6,13 +6,13 @@
     ../../modules/home-manager/gpg.nix
     ../../modules/home-manager/kitty.nix
     ../../modules/home-manager/starship.nix
-    ../../modules/home-manager/vim.nix
+    ../../modules/home-manager/vim/vim.nix
     ../../modules/home-manager/wofi/wofi.nix
     ../../modules/home-manager/zathura.nix
     ../../modules/home-manager/zsh.nix
     ../../modules/wofi.nix
     ./modules/foot.nix
-    ./modules/qutebrowser.nix
+    # ./modules/qutebrowser.nix
     ./modules/sway.nix
     ./modules/waybar/waybar.nix
   ];

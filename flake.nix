@@ -50,6 +50,7 @@
             (import "${mobile-nixos}/lib/configuration.nix" {
               device = "pine64-pinephone";
             })
+	    "${mobile-nixos}/examples/phosh/phosh.nix"
           ];
         };
         arachne = mkHost {
