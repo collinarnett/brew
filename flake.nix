@@ -3,9 +3,9 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs";
     mobile-nixpkgs.url =
-      "github:nixos/nixpkgs?rev=1670125d5d3e0146d144d316804e3e6fd2f01d43";
+      "github:nixos/nixpkgs?rev=32096899af23d49010bd8cf6a91695888d9d9e73";
     mobile-nixos.url =
-      "github:nixOS/mobile-nixos?rev=8a105e177632f0fbc4ca28ee0195993baf0dcf9a";
+      "github:collinarnett/mobile-nixos/witch";
     mobile-nixos.flake = false;
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     home-manager.url = "github:nix-community/home-manager";
@@ -42,9 +42,9 @@
           host = "zombie";
         };
         vampire = mkHost { host = "vampire"; };
-        pinephone = mkHost {
+        witch = mkHost {
           system = "aarch64-linux";
-          host = "pinephone";
+          host = "witch";
           pkgs = mobile-nixpkgs;
           extraModules = [
             (import "${mobile-nixos}/lib/configuration.nix" {
