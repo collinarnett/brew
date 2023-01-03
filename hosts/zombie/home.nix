@@ -1,12 +1,15 @@
-{ nixosConfig, config, pkgs, ... }:
-
 {
+  nixosConfig,
+  config,
+  pkgs,
+  ...
+}: {
   imports = [
     ../../modules/home-manager/beets.nix
     ../../modules/home-manager/direnv.nix
     ../../modules/home-manager/gh.nix
-      ../../modules/home-manager/git.nix
-      ../../modules/home-manager/gpg-agent.nix
+    ../../modules/home-manager/git.nix
+    ../../modules/home-manager/gpg-agent.nix
     ../../modules/home-manager/gpg.nix
     ../../modules/home-manager/gtk.nix
     ../../modules/home-manager/k9s/k9s.nix
@@ -32,15 +35,17 @@
     GPG_TTY = "$(tty)";
     KUBECONFIG = "/etc/rancher/k3s/k3s.yaml";
     GH_TOKEN = "$(cat ${nixosConfig.sops.secrets.gh_token.path})";
-#    AWS_CONFIG_FILE = nixosConfig.sops.secrets.awscli2-config.path;
-#    AWS_SHARED_CREDENTIALS_FILE =
-#      nixosConfig.sops.secrets.awscli2-credentials.path;
+    #    AWS_CONFIG_FILE = nixosConfig.sops.secrets.awscli2-config.path;
+    #    AWS_SHARED_CREDENTIALS_FILE =
+    #      nixosConfig.sops.secrets.awscli2-credentials.path;
     XDG_SESSION_TYPE = "wayland";
     XDG_CURRENT_DESKTOP = "sway";
     BROWSER = "firefox";
   };
 
   home.packages = with pkgs; [
+    super-slicer
+    alejandra
     anki-bin
     awscli2
     bear
@@ -93,12 +98,12 @@
     siji
     slurp
     statix
-    super-slicer
     timewarrior
     tree
     usbutils
     v4l-utils
     virt-manager
+    vhs
     wget
     whipper
     wl-clipboard
@@ -110,6 +115,4 @@
 
   home.stateVersion = "21.11";
   programs.home-manager.enable = true;
-
 }
-

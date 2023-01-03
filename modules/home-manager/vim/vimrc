@@ -41,7 +41,7 @@ endif
 set foldmethod=syntax
 
 execute ale#fix#registry#Add('alejandra', 'FormatNix', ['nix'], 'alejandra for nix')
-
+let g:ale_scala_metals_executable = 'metals'
 let g:ale_fixers = {
 \ '*': [ 'remove_trailing_lines', 'trim_whitespace' ],
 \ 'nix': [ 'alejandra' ],

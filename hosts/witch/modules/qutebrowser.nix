@@ -1,5 +1,4 @@
-{ pkgs, ... }:
-let
+{pkgs, ...}: let
   background = "#282a36";
   background-alt = "#282a36";
   background-attention = "#181920";
@@ -28,7 +27,6 @@ let
     left = 8;
   };
 in {
-
   programs.qutebrowser = {
     package = pkgs.pinned.qutebrowser;
     enable = true;
@@ -39,7 +37,7 @@ in {
     settings = {
       url.start_pages = "https://search.trexd.dev";
       url.default_page = "https://search.trexd.dev";
-      colors.webpage.darkmode.enabled = true; 
+      colors.webpage.darkmode.enabled = true;
       colors.completion.category.bg = background;
       colors.completion.category.border.bottom = border;
       colors.completion.category.border.top = border;
@@ -118,6 +116,5 @@ in {
       tabs.indicator.width = 1;
       tabs.favicons.scale = 1;
     };
-
   };
 }

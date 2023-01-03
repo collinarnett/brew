@@ -7,5 +7,4 @@
     pulse.enable = true;
     socketActivation = true;
   };
-
 }

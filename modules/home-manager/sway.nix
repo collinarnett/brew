@@ -1,6 +1,4 @@
-{ pkgs, ... }:
-
-{
+{pkgs, ...}: {
   wayland.windowManager.sway = {
     enable = true;
     wrapperFeatures.gtk = true;
@@ -22,7 +20,7 @@
           subpixel = "none";
         };
       };
-      bars = [{ command = "${pkgs.waybar}/bin/waybar"; }];
+      bars = [{command = "${pkgs.waybar}/bin/waybar";}];
       colors = {
         focused = {
           background = "#21222c";

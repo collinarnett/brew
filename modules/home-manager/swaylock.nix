@@ -17,7 +17,5 @@
     layout-text-color = "236239244";
     line-wrong-color = "19197106";
     indicator-idle-visible = true;
-
   };
 }
-

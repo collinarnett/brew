@@ -1,6 +1,9 @@
-{ nixosConfig, config, pkgs, ... }:
-
 {
+  nixosConfig,
+  config,
+  pkgs,
+  ...
+}: {
   imports = [
     ../../modules/home-manager/gpg-agent.nix
     ../../modules/home-manager/gpg.nix
@@ -19,7 +22,7 @@
 
   home.username = "collin";
   home.homeDirectory = "/home/collin";
-  home.sessionVariables = { GPG_TTY = "$(tty)"; };
+  home.sessionVariables = {GPG_TTY = "$(tty)";};
 
   home.packages = with pkgs; [
     fira-code
@@ -38,5 +41,4 @@
 
   home.stateVersion = "21.11";
   programs.home-manager.enable = true;
-
 }

@@ -1,6 +1,4 @@
-{ pkgs, ... }:
-
-let
+{pkgs, ...}: let
   vim-nickel = pkgs.vimUtils.buildVimPlugin {
     name = "vim-better-whitespace";
     src = pkgs.fetchFromGitHub {
@@ -14,11 +12,9 @@ in {
   programs.vim = {
     enable = true;
     extraConfig = builtins.readFile ./vimrc;
-    settings = { number = true; };
+    settings = {number = true;};
     plugins = with pkgs.vimPlugins; [
       ale
-#      coc-metals
-#      coc-nvim
       dracula-vim
       markdown-preview-nvim
       nerdtree

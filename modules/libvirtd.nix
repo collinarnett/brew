@@ -1,7 +1,9 @@
-{ pkgs, config, ... }:
 {
-
-  boot.initrd.availableKernelModules = [ "amdgpu" "vfio-pci" ];
+  pkgs,
+  config,
+  ...
+}: {
+  boot.initrd.availableKernelModules = ["amdgpu" "vfio-pci"];
   boot.initrd.preDeviceCommands = ''
     DEVS="0000:0f:00.0 0000:0f:00.1"
     for DEV in $DEVS; do
@@ -10,9 +12,9 @@
     modprobe -i vfio-pci
   '';
 
-  systemd.services.libvirtd.path = [ pkgs.parted ];
+  systemd.services.libvirtd.path = [pkgs.parted];
 
-  boot.kernelParams = [ "amd_iommu=on" "pcie_aspm=off" ];
+  boot.kernelParams = ["amd_iommu=on" "pcie_aspm=off"];
 
   virtualisation.libvirtd = {
     enable = true;
@@ -40,5 +42,5 @@
     onBoot = "ignore";
     onShutdown = "shutdown";
   };
-  users.users.qemu-libvirtd.extraGroups = [ "input" ];
+  users.users.qemu-libvirtd.extraGroups = ["input"];
 }

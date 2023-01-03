@@ -1,6 +1,10 @@
-{ lib, pkgs, ... }: {
-  networking.firewall.allowedTCPPorts = [ 6443 80 443 10250 ];
-  networking.firewall.allowedUDPPorts = [ 8472 ];
+{
+  lib,
+  pkgs,
+  ...
+}: {
+  networking.firewall.allowedTCPPorts = [6443 80 443 10250];
+  networking.firewall.allowedUDPPorts = [8472];
   services.k3s = {
     enable = true;
     role = "server";
@@ -11,4 +15,3 @@
       (builtins.readFile ./k3s-reset-node))
   ];
 }
-

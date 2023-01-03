@@ -1,9 +1,9 @@
-{ pkgs, ... }: {
+{pkgs, ...}: {
   programs.foot = {
     enable = true;
     server.enable = true;
     settings = {
-      main = { font = "Fira Code:size11"; };
+      main = {font = "Fira Code:size11";};
       colors = {
         ## Normal/regular colors (color palette 0-7)
         regular0 = "1222c"; # black

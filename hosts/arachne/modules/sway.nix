@@ -1,13 +1,15 @@
-{ pkgs, config, ... }:
-
 {
+  pkgs,
+  config,
+  ...
+}: {
   wayland.windowManager.sway = {
     enable = true;
     wrapperFeatures.gtk = true;
     config = {
       terminal = "footclient";
-      bars = [{ command = "${pkgs.waybar}/bin/waybar"; }];
-      output =  {
+      bars = [{command = "${pkgs.waybar}/bin/waybar";}];
+      output = {
         eDP-1 = {
           bg = "/home/collin/pictures/purple_swamp.jpg fill";
         };
@@ -36,7 +38,7 @@
       bindsym XF86AudioPrev exec playerctl previous
       bindsym $mod+p exec grim -g "$(slurp -d)" - | wl-copy -t image/png
       bindsym $mod+l exec swaylock --config
-      bindsym $mod+t exec swaymsg output DSI-1 transform 90 
+      bindsym $mod+t exec swaymsg output DSI-1 transform 90
     '';
   };
 }

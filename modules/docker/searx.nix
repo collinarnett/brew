@@ -3,8 +3,7 @@
     searx = {
       image = "searx/searx";
       autoStart = true;
-      ports = [ "8080:8080" ];
+      ports = ["8080:8080"];
     };
   };
 }
-

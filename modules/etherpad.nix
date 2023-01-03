@@ -1,1 +1,1 @@
-{ options, ... }: { services.etherpad.enable = true; }
+{options, ...}: {services.etherpad.enable = true;}

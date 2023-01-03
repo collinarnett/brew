@@ -1,6 +1,9 @@
-{ nixosConfig, config, pkgs, ... }:
-
 {
+  nixosConfig,
+  config,
+  pkgs,
+  ...
+}: {
   imports = [
     ../../modules/home-manager/direnv.nix
     ../../modules/home-manager/git.nix
@@ -33,5 +36,4 @@
 
   home.stateVersion = "21.11";
   programs.home-manager.enable = true;
-
 }

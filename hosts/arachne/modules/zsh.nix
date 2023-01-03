@@ -6,7 +6,7 @@
     enableSyntaxHighlighting = true;
     oh-my-zsh = {
       enable = true;
-      plugins = [ "colored-man-pages" ];
+      plugins = ["colored-man-pages"];
     };
     shellAliases = {
       update = "sudo nixos-rebuild switch --flake ~/brew";

@@ -3,8 +3,7 @@
     registry = {
       image = "registry";
       autoStart = true;
-      ports = [ "5000:5000" ];
+      ports = ["5000:5000"];
     };
   };
 }
-

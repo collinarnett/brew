@@ -1,8 +1,11 @@
-{ config, pkgs, ... }:
-
 {
-  imports = [ 
+  config,
+  pkgs,
+  ...
+}: {
+  imports = [
     ../../modules/apcupsd.nix
+    ../../modules/dwarf-fortress.nix
     ../../modules/libvirtd.nix
     ../../modules/pipewire.nix
     ../../modules/sops.nix
@@ -24,13 +27,13 @@
   hardware.video.hidpi.enable = true;
 
   # Remote Builds
-  boot.binfmt.emulatedSystems = [ "aarch64-linux" "i686-linux" ];
+  boot.binfmt.emulatedSystems = ["aarch64-linux" "i686-linux"];
 
   # General
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.kernelModules = [ "v4l2loopback" "amdgpu" ];
-  boot.extraModulePackages = [ config.boot.kernelPackages.v4l2loopback ];
+  boot.kernelModules = ["v4l2loopback" "amdgpu"];
+  boot.extraModulePackages = [config.boot.kernelPackages.v4l2loopback];
   services.gvfs.enable = true;
   networking.hostName = "zombie"; # Define your hostname.
 
@@ -45,7 +48,7 @@
   # Users
   users.users.collin = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "libvirtd" "input" "audio" "docker" ];
+    extraGroups = ["wheel" "libvirtd" "input" "audio" "docker"];
     shell = pkgs.zsh;
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFUDAcURdzvvx6Aud1KNpHjBynmkb+Toe/oGUoDmQfse android-phone"
@@ -56,23 +59,24 @@
     ];
   };
 
-  nix.settings.trusted-users = [ "collin" ];
+  nix.settings.trusted-users = ["collin"];
 
   # Binary Caches
-  nix.settings.substituters =
-    [ "https://hydra.iohk.io" "https://cache.nixos.org/" ];
+  nix.settings.substituters = ["https://hydra.iohk.io" "https://cache.nixos.org/"];
   nix.settings.trusted-public-keys = [
     "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ="
     "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
   ];
 
   # Fixes 'too many open files'
-  security.pam.loginLimits = [{
-    domain = "*";
-    type = "soft";
-    item = "nofile";
-    value = "4096";
-  }];
+  security.pam.loginLimits = [
+    {
+      domain = "*";
+      type = "soft";
+      item = "nofile";
+      value = "4096";
+    }
+  ];
 
   # GPU
   hardware.opengl = {
@@ -87,11 +91,10 @@
   # SSH
   services.openssh = {
     enable = true;
-    ports = [ 6767 ];
+    ports = [6767];
     permitRootLogin = "yes";
     passwordAuthentication = false;
   };
 
   system.stateVersion = "21.11"; # Did you read the comment?
 }
-
