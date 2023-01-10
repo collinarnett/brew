@@ -6,6 +6,7 @@
   imports = [
     ../../modules/apcupsd.nix
     ../../modules/dwarf-fortress.nix
+    ../../modules/k3s/k3s.nix
     ../../modules/libvirtd.nix
     ../../modules/pipewire.nix
     ../../modules/sops.nix
@@ -57,6 +58,13 @@
       "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDuX/Vf5RGrzsGTXy+yghJpQ6iO38FPncnmlOB6cEVWt+2nJyVISh6nMdzfqP+Xuro/Xv2loWmmXRo3Rmh6ahZtuSf6sUK+TGIXqF/u0OrZKFXVT8gITGxYPSOSXr8lVYnxx3lcAuC+UQu5XLhy9ksfwmtA8PZlsm5uI1hfcM+pnBM+dDQx+91aTfn5iGxl4bQ4MCfWYEFjrM99ZkSX+V+uxjBZbO7z6rffsmP4J1/t39k5EBBXllVNP2m3wWl8huyuTPi5ODt8yoPk5akLfPZa7YPUF1nwQGpl2dGmLktEbN5WhpZDjZPMbeJAHqYwyMTZoTIg14zlqsEv9m31+Y+t8uFF9A+5QbQnqIk1PlLVRZLz6OAvGrC22Xuh0VjA7tMf0RgGJSmCBbauzCkiwUWu2qvJDgzybY4qZnx1JiD3zI2n0b0RVWyl54/GX3+gnX+pI7X46pMFaKVweY3mzqDQqMtdScbMrUKQYAEdHvpRw2gB4PyrUhsZWVX3B4PCfLU= collin@pinephone"
       "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDQXrpT1WGvebpYzVzDga8DOVr5aS98F6F4cQW69oufi2QN3jcaZrm2hiuUgvy81ZGFzi4a7BQlmFG7sVUANQsOjT8j4VqfcRnSt5v2TRCYHx7Nm8lYSjyAqDtF2ESbCFY943NGUhshxHhfE2SmyP96xQJVhETmlvIE8JJ/x91pOnhJVhCVXhJXqIBseWqp4a897njoizh8HR4I8PbsueXChCZCpFW3DJ58ChLJpdeZt1mgGQUVS0uf0TJSimMqPwbuLWTZwhcBUpedOtykU633MP00rCx+pjzvQ+g7QDvMZmdWTnJ4wl080W2PdqkZH4W9xaGvJFE3k2YQirYFG6IQow4smoRFCezObTP6kKexmbHHwFJY6KRZt2P6Z3D3NyjWNv+aNb3tR9KQbxfxkZM0OEYUTD3iTMmPEveyi8UaW1ZLR0TSM2GHlIcXCzJcHgHUhZdmqUdCQULN0Yr6/IuT6E1ayBteqf+7NVf0qxmQDxSdbBoJR21fyiItXOCV37E= collin@arachne"
     ];
+  };
+
+  programs.ssh.knownHosts = {
+    hosts = {
+      hostNames = ["github.com" "gitlab.com"];
+      publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBmGJyuKh5/XGj2x6wZYxcS8krQZc74uBwMJaxeqaj8n collin@arnett.it";
+    };
   };
 
   nix.settings.trusted-users = ["collin"];

@@ -19,20 +19,24 @@ function! FormatNix(buffer) abort
     \}
 endfunction
 
-" function! GetProjectRoot(buffer) abort
-"     " nil does not yet use the project root, so getting it right is not
-"     " important
-"     return fnamemodify(a:buffer, ':h')
-" endfunction
+function! GetProjectRoot(buffer) abort
+    " nil does not yet use the project root, so getting it right is not
+    " important
+    return fnamemodify(a:buffer, ':h')
+endfunction
 
-" TODO Fix issues with not having a call back function
-" call ale#linter#Define('nix', {
-" \   'name': 'nil',
-" \   'lsp': 'stdio',
-" \   'executable': 'nil',
-" \   'language': 'nix',
-" \   'callback': function('GetProjectRoot')
-" \})
+function! GetCommand(buffer) abort
+    return '%e' . ale#Pad('stdio')
+endfunction
+
+call ale#linter#Define('nix', {
+\   'name': 'nil',
+\   'lsp': 'stdio',
+\   'executable': 'nil',
+\   'command': function('GetCommand'),
+\   'language': 'nix',
+\   'project_root': '.'
+\})
 
 if has("autocmd")
   au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
@@ -55,7 +59,6 @@ let g:ale_fixers = {
 \ 'cpp': [ 'clang-format' ],
 \}
 let g:ale_linters = {
-\ 'nix': [ 'statix' ],
 \ 'c': [ 'cc', 'clangd' ],
 \ 'cpp': [ 'cc', 'clangd' ],
 \}

@@ -18,6 +18,7 @@
     ../../modules/home-manager/kitty.nix
     ../../modules/home-manager/mpd.nix
     ../../modules/home-manager/ncmpcpp.nix
+    ../../modules/home-manager/neovim/neovim.nix
     ../../modules/home-manager/starship.nix
     ../../modules/home-manager/sway.nix
     ../../modules/home-manager/taskwarrior.nix
@@ -51,6 +52,7 @@
     bear
     black
     clang-tools
+    luaformatter
     crawl
     dconf
     dracula-theme
