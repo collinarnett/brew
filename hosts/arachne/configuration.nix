@@ -1,10 +1,7 @@
+{ config, pkgs, ... }:
+
 {
-  config,
-  pkgs,
-  ...
-}: {
-  imports = [
-    # Include the results of the hardware scan.
+  imports = [ # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ../../modules/pipewire.nix
     ../../modules/greetd.nix
@@ -15,16 +12,14 @@
   nix = {
     package = pkgs.nixUnstable;
     # Arachne is not very powerful so we use Zombie to build it's packages
-    buildMachines = [
-      {
-        hostName = "zombie";
-        systems = ["x86_64-linux" "aarch64-linux" "i686-linux"];
-        maxJobs = 1;
-        speedFactor = 2;
-        supportedFeatures = ["nixos-test" "benchmark" "big-parallel" "kvm"];
-      }
-    ];
-    settings.trusted-users = ["collin"];
+    buildMachines = [{
+      hostName = "zombie";
+      systems = [ "x86_64-linux" "aarch64-linux" "i686-linux" ];
+      maxJobs = 1;
+      speedFactor = 2;
+      supportedFeatures = [ "nixos-test" "benchmark" "big-parallel" "kvm" ];
+    }];
+    settings.trusted-users = [ "collin" ];
     distributedBuilds = true;
     extraOptions = ''
       builders-use-substitutes = true
@@ -32,8 +27,13 @@
     '';
   };
 
+  # Bluetooth
+  hardware.bluetooth.enable = true;
+  services.blueman.enable = true;
+
   # For Rockchip firmware
   nixpkgs.config.allowUnfree = true;
+
   # Arachne uses Tow-Boot
   boot.loader.grub.enable = false;
   boot.loader.generic-extlinux-compatible.enable = true;
@@ -53,10 +53,10 @@
   users.users.collin = {
     isNormalUser = true;
     shell = pkgs.zsh;
-    extraGroups = ["wheel" "networkmanager" "video"];
+    extraGroups = [ "wheel" "networkmanager" "video" ];
   };
 
-  environment.systemPackages = with pkgs; [vim wget git brightnessctl];
+  environment.systemPackages = with pkgs; [ vim wget git brightnessctl ];
   environment.sessionVariables = {
     GPG_TTY = "$(tty)";
     WLR_NO_HARDWARE_CURSORS = "1";
@@ -64,7 +64,9 @@
   };
 
   services.openssh.enable = true;
-  security.pam.services.swaylock = {};
+  security.pam.services.swaylock = { };
 
   system.stateVersion = "21.11";
+
 }
+
