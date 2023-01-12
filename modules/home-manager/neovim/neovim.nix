@@ -9,8 +9,21 @@
         plugin = lualine-nvim;
         type = "lua";
         config = ''
+          local function metals_status()
+            return vim.g["metals_status"] or ""
+          end
           require('lualine').setup(
-            { options = { theme = 'dracula' }}
+            {
+              options = { theme = 'dracula-nvim' },
+              sections = {
+                lualine_a = { 'mode' },
+                lualine_b = { 'branch', 'diff' },
+                lualine_c = { 'filename', metals_status },
+                lualine_x = {'encoding', 'filetype'},
+                lualine_y = {'progress'},
+                lualine_z = {'location'}
+              }
+            }
           )
         '';
       } # Status Line
@@ -67,13 +80,69 @@
           })
         '';
       }
+      {
+        plugin = bufferline-nvim;
+        type = "lua";
+        config = ''
+          require("bufferline").setup{}
+        '';
+      }
+      {
+        plugin = nvim-web-devicons;
+        type = "lua";
+        config = ''
+          require("nvim-web-devicons").setup{}
+        '';
+      }
+      {
+        plugin = telescope-nvim;
+        type = "lua";
+        config = ''
+          local builtin = require('telescope.builtin')
+          vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
+          vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
+          vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
+          vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
+          require("telescope").setup{}
+        '';
+      }
+      plenary-nvim
       markdown-preview-nvim # Markdown Preview
-      dracula-nvim # Theme
-      nvim-metals # Scala
+      {
+        plugin = dracula-nvim;
+        type = "lua";
+        config = ''
+          require("dracula").setup{}
+          vim.cmd[[colorscheme dracula]]
+        '';
+      }
+      {
+        plugin = nvim-metals;
+        type = "lua";
+        config = ''
+          metals_config = require("metals").bare_config()
+          metals_config.settings = {
+            useGlobalExecutable = true
+          }
+          metals_config.init_options.statusBarProvider = "on"
+          local nvim_metals_group = vim.api.nvim_create_augroup("nvim-metals", { clear = true })
+          vim.api.nvim_create_autocmd("FileType", {
+            pattern = { "scala", "sbt", "java" },
+            callback = function()
+              require("metals").initialize_or_attach(metals_config)
+            end,
+            group = nvim_metals_group,
+          })
+        '';
+      }
     ];
     extraConfig = ''
+      map <Space> <Leader>
       :set number
       :set expandtab
+      if has("autocmd")
+        au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
+      endif
       autocmd FileType css setlocal tabstop=2 shiftwidth=2
       autocmd FileType haskell setlocal tabstop=2 shiftwidth=2
       autocmd FileType nix setlocal tabstop=2 shiftwidth=2
@@ -88,5 +157,8 @@
       autocmd FileType help wincmd L
       autocmd FileType gitcommit setlocal spell
     '';
+    extraPackages = with pkgs; [
+      ripgrep # Requirement for telescope
+    ];
   };
 }
