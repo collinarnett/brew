@@ -6,6 +6,10 @@
       main = {font = "Fira Code:size11";};
       colors = {
         ## Normal/regular colors (color palette 0-7)
+
+        background = "282a36";
+        foreground = "f8f8f2";
+
         regular0 = "1222c"; # black
         regular1 = "ff5555"; # red
         regular2 = "50fa7b"; # green
@@ -16,7 +20,7 @@
         regular7 = "f8f8f2"; # white
 
         ## Brigh = "2t colors (color palette 8-15)
-        bright0 = "21222c"; # bright black
+        bright0 = "6272a4"; # bright black
         bright1 = "ff6e6e"; # bright red
         bright2 = "69ff94"; # bright green
         bright3 = "ffffa5"; # bright yellow

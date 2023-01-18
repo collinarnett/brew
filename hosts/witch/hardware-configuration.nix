@@ -7,14 +7,8 @@
 }: {
   fileSystems = {
     "/" = {
-      device = "/dev/disk/by-uuid/7f9a6114-ea86-4bef-8487-aec03e1d38fa";
+      device = "/dev/disk/by-uuid/b9eb9435-eb1e-4e7a-af10-76f3a91f514c";
       fsType = "ext4";
-    };
-  };
-
-  boot.initrd.luks.devices = {
-    "LUKS-PINEPHONE-ROOTFS" = {
-      device = "/dev/disk/by-uuid/fe4e606c-fe23-4e99-bc7a-6a22e3510de8";
     };
   };
 
