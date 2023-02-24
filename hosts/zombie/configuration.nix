@@ -6,7 +6,8 @@
   imports = [
     ../../modules/apcupsd.nix
     ../../modules/dwarf-fortress.nix
-    ../../modules/k3s/k3s.nix
+    #    ../../modules/k3s/k3s.nix
+    ../../modules/syncthing.nix
     ../../modules/libvirtd.nix
     ../../modules/pipewire.nix
     ../../modules/sops.nix
@@ -49,7 +50,7 @@
   # Users
   users.users.collin = {
     isNormalUser = true;
-    extraGroups = ["wheel" "libvirtd" "input" "audio" "docker"];
+    extraGroups = ["wheel" "libvirtd" "input" "audio" "docker" "adbusers"];
     shell = pkgs.zsh;
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFUDAcURdzvvx6Aud1KNpHjBynmkb+Toe/oGUoDmQfse android-phone"
@@ -66,6 +67,9 @@
       publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBmGJyuKh5/XGj2x6wZYxcS8krQZc74uBwMJaxeqaj8n collin@arnett.it";
     };
   };
+  services.udev.packages = [
+    pkgs.android-udev-rules
+  ];
 
   nix.settings.trusted-users = ["collin"];
 
@@ -85,6 +89,10 @@
       value = "4096";
     }
   ];
+
+  documentation.dev.enable = true;
+
+  programs.adb.enable = true;
 
   # GPU
   hardware.opengl = {

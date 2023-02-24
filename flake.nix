@@ -20,7 +20,7 @@
     mobile-nixos,
     nixos-hardware,
     ...
-  } @ inputs: {
+  }: {
     nixosConfigurations = let
       mkHost = {
         system ? "x86_64-linux",

@@ -22,7 +22,6 @@
     ../../modules/home-manager/starship.nix
     ../../modules/home-manager/sway.nix
     ../../modules/home-manager/taskwarrior.nix
-    ../../modules/home-manager/vim/vim.nix
     ../../modules/home-manager/waybar/waybar.nix
     ../../modules/home-manager/wofi/wofi.nix
     ../../modules/home-manager/zathura.nix
@@ -45,14 +44,13 @@
   };
 
   home.packages = with pkgs; [
-    super-slicer
     alejandra
     anki-bin
+    audacity
     awscli2
     bear
     black
     clang-tools
-    luaformatter
     crawl
     dconf
     dracula-theme
@@ -72,6 +70,8 @@
     kubernetes-helm
     languagetool
     liberation_ttf
+    libsForQt5.kdenlive
+    luaformatter
     lynx
     mpv
     neofetch
@@ -95,17 +95,20 @@
     pulseaudio
     python39Packages.isort
     qpwgraph
+    rtorrent
     rclone
     signal-desktop
     siji
     slurp
     statix
+    super-slicer
     timewarrior
+    transmission
     tree
     usbutils
     v4l-utils
-    virt-manager
     vhs
+    virt-manager
     wget
     whipper
     wl-clipboard

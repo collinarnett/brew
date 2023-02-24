@@ -8,6 +8,7 @@
   #  sops.secrets.awscli2-credentials = {
   #    owner = config.systemd.services.traefik.serviceConfig.User;
   #  };
+  sops.secrets.awscli2-credentials = {owner = config.users.users.collin.name;};
   sops.secrets.ddclient-config = {};
   sops.secrets.searx_secret_key = {};
   sops.secrets.authelia_jwt_secret_file = {};
