@@ -19,6 +19,11 @@
         };
       };
       menu = "${pkgs.wofi}/bin/wofi";
+      input."0:0:PinePhone_Keyboard" = {
+        xkb_file = builtins.toString ./pinephone-keyboard.xkb;
+        repeat_delay = "500";
+        repeat_rate = "15";
+      };
     };
     extraConfig = ''
       set $mod Mod4

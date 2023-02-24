@@ -4,7 +4,10 @@
   pkgs,
   ...
 }: {
-  imports = [./hardware-configuration.nix];
+  imports = [
+    ./hardware-configuration.nix
+    ../../modules/greetd.nix
+  ];
   networking.hostName = "witch";
 
   #
@@ -42,6 +45,7 @@
   users.users."collin" = {
     isNormalUser = true;
     description = "Collin";
+    shell = pkgs.zsh;
     hashedPassword = "$6$Ng9jucjg4mBYy56O$Pk5MKKzl4BQMul/hSHbNJti1JbV.mnWBP8pWohJ.EGIpIHK8KYVsDjyFXkebekk2MnXZ9jAU/8x9bme0PJ/6V0";
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBmGJyuKh5/XGj2x6wZYxcS8krQZc74uBwMJaxeqaj8n collin@arnett.it"
@@ -88,6 +92,10 @@
   services.openssh = {
     enable = true;
     passwordAuthentication = true;
+  };
+
+  services.xserver = {
+    xkbModel = "ppkb";
   };
 
   # This value determines the NixOS release from which the default
