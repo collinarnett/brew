@@ -20,6 +20,7 @@
           subpixel = "none";
         };
       };
+      modifier = "Mod4";
       bars = [{command = "${pkgs.waybar}/bin/waybar";}];
       colors = {
         focused = {

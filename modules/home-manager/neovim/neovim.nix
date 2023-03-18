@@ -50,6 +50,9 @@
                       command = "${pkgs.alejandra}/bin/alejandra"
                   }), null_ls.builtins.formatting.lua_format.with({
                       command = "${pkgs.luaformatter}/bin/lua-format"
+                  }),
+                  null_ls.builtins.formatting.google_java_format.with({
+                      command = "${pkgs.google-java-format}/bin/google-java-format"
                   })
               },
 
@@ -257,6 +260,9 @@
             end
             require('lspconfig').nil_ls.setup({
               cmd = { "${pkgs.nil}/bin/nil" }
+            })
+            require'lspconfig'.clangd.setup({
+              cmd = { "${pkgs.clang-tools}/bin/clangd" }
             })
             require('lspconfig').java_language_server.setup({
               capabilities = capabilities,

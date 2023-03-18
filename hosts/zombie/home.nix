@@ -53,6 +53,7 @@
     crawl
     dconf
     dracula-theme
+    emacs
     fira-code
     fira-code-symbols
     firefox
@@ -60,6 +61,7 @@
     google-cloud-sdk
     gotop
     grim
+    heimdall-gui
     helvum
     imv
     ipafont
