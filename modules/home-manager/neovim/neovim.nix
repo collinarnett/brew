@@ -53,6 +53,9 @@
                   }),
                   null_ls.builtins.formatting.google_java_format.with({
                       command = "${pkgs.google-java-format}/bin/google-java-format"
+                  }),
+                  null_ls.builtins.formatting.clang_format.with({
+                      command = "${pkgs.clang-tools}/bin/clang-format"
                   })
               },
 

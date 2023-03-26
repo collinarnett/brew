@@ -96,8 +96,8 @@
     pulseaudio
     python39Packages.isort
     qpwgraph
-    rtorrent
     rclone
+    rtorrent
     signal-desktop
     siji
     slurp
@@ -106,6 +106,7 @@
     timewarrior
     transmission
     tree
+    unzip
     usbutils
     v4l-utils
     vhs
