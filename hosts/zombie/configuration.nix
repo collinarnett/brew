@@ -26,8 +26,6 @@
   hardware.bluetooth.enable = true;
   services.blueman.enable = true;
 
-  hardware.video.hidpi.enable = true;
-
   # Remote Builds
   boot.binfmt.emulatedSystems = ["aarch64-linux" "i686-linux"];
 
@@ -41,6 +39,7 @@
 
   time.timeZone = "America/New_York";
   programs.vim.defaultEditor = true;
+  programs.zsh.enable = true;
 
   # Networking
   networking.useDHCP = false;
