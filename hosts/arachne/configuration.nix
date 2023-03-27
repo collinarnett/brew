@@ -60,8 +60,9 @@
     shell = pkgs.zsh;
     extraGroups = ["wheel" "networkmanager" "video"];
   };
+  programs.zsh.enable = true;
 
-  environment.systemPackages = with pkgs; [vim wget git brightnessctl];
+  environment.systemPackages = with pkgs; [wget git brightnessctl];
   environment.sessionVariables = {
     GPG_TTY = "$(tty)";
     WLR_NO_HARDWARE_CURSORS = "1";
