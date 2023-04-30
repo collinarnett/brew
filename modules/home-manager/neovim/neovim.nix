@@ -18,9 +18,9 @@
             {
               options = { theme = 'dracula-nvim' },
               sections = {
-                lualine_a = { 'mode' },
-                lualine_b = { 'branch', 'diff' },
-                lualine_c = { 'filename', metals_status },
+                lualine_a = {'mode' },
+                lualine_b = {'branch', 'diff' },
+                lualine_c = {'filename', metals_status },
                 lualine_x = {'encoding', 'filetype'},
                 lualine_y = {'progress'},
                 lualine_z = {'location'}
@@ -45,6 +45,7 @@
           local null_ls = require("null-ls")
           local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
           null_ls.setup({
+              debug = true,
               sources = {
                   null_ls.builtins.formatting.alejandra.with({
                       command = "${pkgs.alejandra}/bin/alejandra"
@@ -121,7 +122,8 @@
         config = ''
           metals_config = require("metals").bare_config()
           metals_config.settings = {
-            useGlobalExecutable = true
+            useGlobalExecutable = true,
+            showInferredType = true
           }
           metals_config.init_options.statusBarProvider = "on"
           local nvim_metals_group = vim.api.nvim_create_augroup("nvim-metals", { clear = true })
@@ -213,6 +215,13 @@
         '';
       }
       {
+        plugin = ChatGPT-nvim;
+        type = "lua";
+        config = ''
+          require('chatgpt').setup {}
+        '';
+      }
+      {
         plugin = nvim-lspconfig;
         type = "lua";
         config = ''
@@ -285,29 +294,32 @@
             },
           })
           vim.o.updatetime = 250
-          vim.cmd [[autocmd! CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false})]]
         '';
       }
     ];
     extraConfig = ''
       :set number
       :set expandtab
+      set mouse=
+      set clipboard+=unnamedplus
+      set cursorlineopt=number
       if has("autocmd")
         au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
       endif
-      autocmd FileType css setlocal tabstop=2 shiftwidth=2
-      autocmd FileType haskell setlocal tabstop=2 shiftwidth=2
-      autocmd FileType nix setlocal tabstop=2 shiftwidth=2
-      autocmd FileType json setlocal tabstop=2 shiftwidth=2
-      autocmd FileType cpp setlocal tabstop=2 shiftwidth=2
-      autocmd FileType c setlocal tabstop=2 shiftwidth=2
-      autocmd FileType java setlocal tabstop=4 shiftwidth=4
-      autocmd FileType markdown setlocal spell
-      autocmd FileType markdown setlocal tabstop=2 shiftwidth=2
+      au FileType css setlocal tabstop=2 shiftwidth=2
+      au FileType haskell setlocal tabstop=2 shiftwidth=2
+      au FileType nix setlocal tabstop=2 shiftwidth=2
+      au FileType json setlocal tabstop=2 shiftwidth=2
+      au FileType cpp setlocal tabstop=2 shiftwidth=2
+      au FileType c setlocal tabstop=2 shiftwidth=2
+      au FileType java setlocal tabstop=2 shiftwidth=2
+      au FileType markdown setlocal spell
+      au FileType markdown setlocal tabstop=2 shiftwidth=2
+      au CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false})
       au BufRead,BufNewFile *.wiki setlocal textwidth=80 spell tabstop=2 shiftwidth=2
-      autocmd FileType xml setlocal tabstop=2 shiftwidth=2
-      autocmd FileType help wincmd L
-      autocmd FileType gitcommit setlocal spell
+      au FileType xml setlocal tabstop=2 shiftwidth=2
+      au FileType help wincmd L
+      au FileType gitcommit setlocal spell
     '';
     extraPackages = with pkgs; [
       ripgrep # Requirement for telescope

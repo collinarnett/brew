@@ -1,7 +1,9 @@
 {...}: {
   programs.wofi = {
     enable = true;
-    style = ./style.css;
-    mode = "run";
+    style = builtins.readFile ./style.css;
+    settings = {
+      show = "run";
+    };
   };
 }

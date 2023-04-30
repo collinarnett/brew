@@ -10,6 +10,7 @@
   #  };
   sops.secrets.awscli2-credentials = {owner = config.users.users.collin.name;};
   sops.secrets.ddclient-config = {};
+  sops.secrets.openai_api_key = {owner = config.users.users.collin.name;};
   sops.secrets.searx_secret_key = {};
   sops.secrets.authelia_jwt_secret_file = {};
   sops.secrets.authelia_session_secret_file = {};

@@ -14,6 +14,7 @@
     ../../modules/taskserver.nix
     ../../modules/wireguard.nix
     ../../modules/xdg.nix
+    ../../modules/calibre-web.nix
     ./hardware-configuration.nix
   ];
 
@@ -23,6 +24,13 @@
     experimental-features = nix-command flakes
   '';
 
+  nix.settings.auto-optimise-store = true;
+  nix.gc = {
+    automatic = true;
+    randomizedDelaySec = "14m";
+    options = "--delete-older-than 10d";
+  };
+
   hardware.bluetooth.enable = true;
   services.blueman.enable = true;
 
@@ -30,6 +38,7 @@
   boot.binfmt.emulatedSystems = ["aarch64-linux" "i686-linux"];
 
   # General
+  boot.loader.systemd-boot.configurationLimit = 30;
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelModules = ["v4l2loopback" "amdgpu"];
@@ -66,8 +75,19 @@
       publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBmGJyuKh5/XGj2x6wZYxcS8krQZc74uBwMJaxeqaj8n collin@arnett.it";
     };
   };
-  services.udev.packages = [
-    pkgs.android-udev-rules
+
+  services.udev.packages = with pkgs; [
+    android-udev-rules
+    qmk-udev-rules
+    vial
+  ];
+
+  services.udev.extraRules = ''
+    'KERNEL=="hidraw*", SUBSYSTEM=="hidraw", MODE="0666", TAG+="uaccess", TAG+="udev-acl"'
+  '';
+
+  environment.systemPackages = with pkgs; [
+    vial
   ];
 
   nix.settings.trusted-users = ["collin"];
@@ -107,8 +127,8 @@
   services.openssh = {
     enable = true;
     ports = [6767];
-    permitRootLogin = "yes";
-    passwordAuthentication = false;
+    settings.permitRootLogin = "yes";
+    settings.passwordAuthentication = false;
   };
 
   system.stateVersion = "21.11"; # Did you read the comment?

@@ -1,6 +1,5 @@
 {
   nixosConfig,
-  config,
   pkgs,
   ...
 }: {
@@ -25,7 +24,6 @@
     ../../modules/home-manager/wofi/wofi.nix
     ../../modules/home-manager/zathura.nix
     ../../modules/home-manager/zsh.nix
-    ../../modules/wofi.nix
   ];
 
   home.username = "collin";
@@ -37,6 +35,7 @@
     #    AWS_CONFIG_FILE = nixosConfig.sops.secrets.awscli2-config.path;
     #    AWS_SHARED_CREDENTIALS_FILE =
     #      nixosConfig.sops.secrets.awscli2-credentials.path;
+    OPENAI_API_KEY = "$(cat ${nixosConfig.sops.secrets.openai_api_key.path})";
     XDG_SESSION_TYPE = "wayland";
     XDG_CURRENT_DESKTOP = "sway";
     BROWSER = "firefox";
@@ -45,13 +44,15 @@
   home.packages = with pkgs; [
     alejandra
     anki-bin
+    asciiquarium
     audacity
     awscli2
     bear
-    black
     clang-tools
     crawl
+    croc
     dconf
+    dfu-programmer
     dracula-theme
     emacs
     fira-code
@@ -94,7 +95,7 @@
     pciutils
     pfetch
     pulseaudio
-    python39Packages.isort
+    qmk
     qpwgraph
     rclone
     rtorrent
@@ -117,7 +118,7 @@
     xdg-desktop-portal
     xdg-desktop-portal-wlr
     xplr
-    yamlfix
+    zip
   ];
 
   home.stateVersion = "21.11";
