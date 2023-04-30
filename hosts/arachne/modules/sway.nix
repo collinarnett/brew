@@ -7,7 +7,7 @@
     enable = true;
     wrapperFeatures.gtk = true;
     config = {
-      terminal = "footclient";
+      terminal = "foot";
       bars = [{command = "${pkgs.waybar}/bin/waybar";}];
       output = {
         eDP-1 = {

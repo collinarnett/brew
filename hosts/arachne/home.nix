@@ -1,9 +1,4 @@
-{
-  nixosConfig,
-  config,
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   imports = [
     ../../modules/home-manager/gh.nix
     ../../modules/home-manager/git.nix
@@ -11,11 +6,11 @@
     ../../modules/home-manager/gpg.nix
     ../../modules/home-manager/mpd.nix
     ../../modules/home-manager/ncmpcpp.nix
+    ../../modules/home-manager/neovim/neovim.nix
     ../../modules/home-manager/starship.nix
     ../../modules/home-manager/swayidle.nix
     ../../modules/home-manager/swaylock.nix
     ../../modules/home-manager/taskwarrior.nix
-    ../../modules/home-manager/vim/vim.nix
     ../../modules/home-manager/wofi/wofi.nix
     ../../modules/home-manager/zathura.nix
     ../../modules/wofi.nix
@@ -29,30 +24,26 @@
   home.homeDirectory = "/home/collin";
 
   home.packages = with pkgs; [
-    cataclysm-dda
     black
+    cataclysm-dda
+    emacs
     fira-code
     firefox
     git
-    gomuks
     gotop
     grim
     helvum
+    nerdfonts
     nixfmt
-    nodejs
-    noto-fonts-emoji
     pavucontrol
     pfetch
     pulseaudio
-    python39Packages.isort
+    noto-fonts-emoji
     rsync
     siji
     slurp
-    statix
     swaylock
-    vim-vint
     wl-clipboard
-    yamlfix
   ];
 
   home.stateVersion = "21.11";
