@@ -31,7 +31,6 @@
     unzip
     vim-vint
     wget
-    yamlfix
   ];
 
   home.stateVersion = "21.11";

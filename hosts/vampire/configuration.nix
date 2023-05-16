@@ -24,6 +24,7 @@
   boot.loader.grub.useOSProber = true;
 
   networking.hostName = "vampire"; # Define your hostname.
+  programs.zsh.enable = true;
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
