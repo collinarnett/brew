@@ -5,6 +5,7 @@
     mobile-nixpkgs.url = "github:nixos/nixpkgs?rev=32096899af23d49010bd8cf6a91695888d9d9e73";
     mobile-nixos.url = "github:collinarnett/mobile-nixos/witch";
     mobile-nixos.flake = false;
+    emacs-overlay.url = "github:nix-community/emacs-overlay";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
@@ -13,6 +14,7 @@
   };
   outputs = {
     self,
+    emacs-overlay,
     home-manager,
     nixpkgs,
     mobile-nixpkgs,
@@ -39,6 +41,7 @@
                   registry.pkgs.flake = pkgs;
                   nixPath = ["nixpkgs=${pkgs}"];
                 };
+                nixpkgs.overlays = [emacs-overlay.overlay];
               }
               sops-nix.nixosModules.sops
               home-manager.nixosModules.home-manager
