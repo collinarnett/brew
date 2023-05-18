@@ -8,6 +8,7 @@
     ./hardware-configuration.nix
     ../../modules/pipewire.nix
     ../../modules/greetd.nix
+    ../../modules/emacs/emacs.nix
     ./modules/sops.nix
   ];
 
