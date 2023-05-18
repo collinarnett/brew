@@ -54,7 +54,6 @@
     dconf
     dfu-programmer
     dracula-theme
-    emacs
     fira-code
     fira-code-symbols
     firefox

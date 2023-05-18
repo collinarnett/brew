@@ -15,6 +15,7 @@
     ../../modules/wireguard.nix
     ../../modules/xdg.nix
     ../../modules/calibre-web.nix
+    ../../modules/emacs/emacs.nix
     ./hardware-configuration.nix
   ];
 
