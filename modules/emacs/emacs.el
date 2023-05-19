@@ -32,3 +32,15 @@
   (load-theme 'dracula t))
 
 (use-package magit)
+
+
+(use-package lsp-mode)
+
+(use-package lsp-nix
+  :after (lsp-mode)
+  :demand t
+  :custom
+  (lsp-nix-nil-formatter ["alejandra"]))
+
+(use-package nix-mode
+  :hook (nix-mode . lsp-deferred))

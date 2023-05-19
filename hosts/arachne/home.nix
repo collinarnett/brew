@@ -23,9 +23,6 @@
   home.homeDirectory = "/home/collin";
 
   home.packages = with pkgs; [
-    black
-    cataclysm-dda
-    emacs
     fira-code
     firefox
     git
@@ -33,12 +30,10 @@
     grim
     helvum
     nerdfonts
-    nixfmt
     pavucontrol
     pfetch
     pulseaudio
     noto-fonts-emoji
-    rsync
     siji
     slurp
     swaylock
