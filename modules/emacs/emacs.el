@@ -1,6 +1,6 @@
 ;; disable gui elements
-(menu-bar-mode -1) 
-(scroll-bar-mode -1) 
+(menu-bar-mode -1)
+(scroll-bar-mode -1)
 (tool-bar-mode -1)
 
 ;; FIX
@@ -15,7 +15,7 @@
   (moody-replace-vc-mode)
   (moody-replace-eldoc-minibuffer-message-function))
 
-;; font 
+;; font
 (add-to-list 'default-frame-alist
              '(font . "Fira Code 16"))
 
@@ -29,7 +29,7 @@
 
 (use-package evil-collection
   :after (evil)
-  :config 
+  :config
   (evil-collection-init))
 
 ;; theme
@@ -40,11 +40,24 @@
 ;; git tool
 (use-package magit)
 
+;; syntax highlighting
+(use-package tree-sitter
+  :config
+  (global-tree-sitter-mode))
+
 ;; lsp support
 (use-package lsp-mode)
 
 (use-package lsp-ui
   :after (lsp-mode))
+
+(use-package helm-lsp :commands helm-lsp-workspace-symbol)
+
+(use-package lsp-haskell
+  :after (lsp-mode)
+  :hook
+  (haskell-mode-hook . #'lsp)
+  (haskell-literate-mode-hook . #'lsp))
 
 ;; nix lsp
 (use-package lsp-nix
@@ -57,11 +70,9 @@
   :hook (nix-mode . lsp-deferred))
 
 ;; minibuffer completion
-(use-package ivy
+(use-package helm
   :config
-  (ivy-mode 1)
-  (setq ivy-use-virtual-buffers t)
-  (setq ivy-count-format "(%d/%d) "))
+  (helm-mode 1))
 
 ;; text completion
 (use-package company
@@ -83,3 +94,15 @@
 ;; setup pinentry for gpg signing
 (use-package pinentry)
 (pinentry-start)
+
+;; formatting
+(use-package format-all
+  :hook
+  (prog-mode . format-all-mode)
+  (format-all-mode-hook . format-all-ensure-formatter)
+  :config
+  (setq format-all-show-errors 'warnings))
+
+(use-package direnv
+  :config
+  (direnv-mode))
