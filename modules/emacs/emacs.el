@@ -133,3 +133,7 @@
 (use-package direnv
   :config
   (direnv-mode))
+
+(use-package projectile
+  :config
+  (projectile-mode +1))
