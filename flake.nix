@@ -24,7 +24,7 @@
     ...
   }: {
     homeConfigurations.macbook = let
-      system = "arm64-darwin";
+      system = "aarch64-darwin";
       host = "macbook";
     in
       home-manager.lib.homeManagerConfiguration {
