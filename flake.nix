@@ -23,6 +23,15 @@
     nixos-hardware,
     ...
   }: {
+    homeConfigurations.macbook = let
+      system = "arm64-darwin";
+      host = "macbook";
+    in
+      home-manager.lib.homeManagerConfiguration {
+        inherit system;
+        pkgs = nixpkgs.legacyPackages.${system};
+        modules = [./hosts/${host}/home.nix];
+      };
     nixosConfigurations = let
       mkHost = {
         system ? "x86_64-linux",
