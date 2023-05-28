@@ -1,7 +1,6 @@
 {pkgs, ...}: {
   imports = [
     ../../modules/home-manager/git.nix
-    ../../modules/home-manager/gpg-agent.nix
     ../../modules/home-manager/gpg.nix
     ../../modules/home-manager/zathura.nix
   ];
