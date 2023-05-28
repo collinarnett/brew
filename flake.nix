@@ -23,7 +23,7 @@
     nixos-hardware,
     ...
   }: {
-    homeConfigurations.macbook = let
+    homeConfigurations.collin = let
       system = "aarch64-darwin";
       host = "macbook";
     in
