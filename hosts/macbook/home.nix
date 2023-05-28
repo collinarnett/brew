@@ -7,7 +7,7 @@
   ];
 
   home.username = "collin";
-  home.homeDirectory = "/home/collin";
+  home.homeDirectory = "/Users/collin/";
 
   home.packages = with pkgs; [
     fira-code

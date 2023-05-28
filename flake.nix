@@ -28,7 +28,6 @@
       host = "macbook";
     in
       home-manager.lib.homeManagerConfiguration {
-        inherit system;
         pkgs = nixpkgs.legacyPackages.${system};
         modules = [./hosts/${host}/home.nix];
       };
