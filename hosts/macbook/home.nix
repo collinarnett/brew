@@ -10,7 +10,7 @@
 
   home.packages = with pkgs; [
     fira-code
-    firefox
+    nur.repos.toonn.apps.firefox
     git
     nerdfonts
     pfetch
