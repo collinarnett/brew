@@ -128,8 +128,8 @@
   services.openssh = {
     enable = true;
     ports = [6767];
-    settings.permitRootLogin = "yes";
-    settings.passwordAuthentication = false;
+    settings.PermitRootLogin = "yes";
+    settings.PasswordAuthentication = false;
   };
 
   system.stateVersion = "21.11"; # Did you read the comment?

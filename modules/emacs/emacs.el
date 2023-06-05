@@ -5,7 +5,7 @@
 
 ;; FIX
 ;; enable line numbers
-(setq display-line-numbers-mode t)
+(display-line-numbers-mode +1)
 
 ;; mode line
 (use-package moody
@@ -40,21 +40,25 @@
 ;; git tool
 (use-package magit)
 
-;; syntax highlighting
-(use-package tree-sitter
-  :config
-  (global-tree-sitter-mode))
-
 ;; lsp support
-(use-package lsp-mode)
+(use-package lsp-mode
+  :hook
+  (python-mode . lsp)
+  (haskell-mode . lsp)
+  (scala-mode . lsp)
+  (nix-mode . lsp)
+  (lsp-mode . lsp-lens-mode))
 
 (use-package lsp-ui
   :after (lsp-mode))
 
+(use-package which-key
+    :config
+    (which-key-mode))
+
 (use-package helm-lsp :commands helm-lsp-workspace-symbol)
 
 (use-package lsp-metals
-  :ensure t
   :custom
   ;; You might set metals server options via -J arguments. This might not always work, for instance when
   ;; metals is installed using nix. In this case you can use JAVA_TOOL_OPTIONS environment variable.
@@ -72,9 +76,13 @@
   (lsp-metals-enable-semantic-highlighting t)
   :hook (scala-mode . lsp))
 
+(use-package scala-mode
+  :ensure nil
+  :interpreter ("scala" . scala-mode))
+
+
 ;; python lsp
 (use-package lsp-pyright
-  :ensure t
   :hook (python-mode . (lambda ()
                          (require 'lsp-pyright)
                          (lsp))))
@@ -89,6 +97,7 @@
 ;; nix lsp
 (use-package lsp-nix
   :after (lsp-mode)
+  :ensure nil
   :demand t
   :custom
   (lsp-nix-nil-formatter ["alejandra"]))
@@ -122,19 +131,42 @@
 (use-package pinentry)
 (pinentry-start)
 
-;; formatting
-(use-package format-all
-  :hook
-  (prog-mode . format-all-mode)
-  (format-all-mode-hook . format-all-ensure-formatter)
-  :config
-  (setq format-all-show-errors 'warnings))
-
 (use-package direnv
   :config
   (direnv-mode))
 
+;; project manager
 (use-package projectile
   :config
   (projectile-mode +1)
+  (setq projectile-project-search-path '("~/projects/"))
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
+
+;; smart parenthesis
+(use-package smartparens
+  :config
+  (require 'smartparens-config)
+  (smartparens-global-mode t))
+
+;; common lisp ide
+(use-package slime
+  :config
+  (setq inferior-lisp-program "sbcl"
+	slime-completion-at-point-functions 'slime-fuzzy-complete-symbol))
+
+(use-package lisp-mode
+  :config
+  (add-to-list 'auto-mode-alist '("\\.cl\\'" . lisp-mode)))
+
+;; jupyter
+(use-package jupyter)
+
+;; Enable nice rendering of diagnostics like compile errors.
+(use-package flycheck
+  :init (global-flycheck-mode))
+
+(use-package flycheck-popup-tip
+  :config
+  (flycheck-popup-tip-mode))
+
+;;; emacs.el ends here

@@ -5,7 +5,7 @@
     mobile-nixpkgs.url = "github:nixos/nixpkgs?rev=32096899af23d49010bd8cf6a91695888d9d9e73";
     mobile-nixos.url = "github:collinarnett/mobile-nixos/witch";
     mobile-nixos.flake = false;
-    nur.url = github:nix-community/NUR;
+    nur.url = "github:nix-community/NUR";
     emacs-overlay.url = "github:nix-community/emacs-overlay";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     home-manager.url = "github:nix-community/home-manager";
