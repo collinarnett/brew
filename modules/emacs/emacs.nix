@@ -24,5 +24,6 @@
               ]))
         ];
     })
+    pkgs.hunspellDicts.en_US
   ];
 }

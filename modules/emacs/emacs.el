@@ -7,6 +7,14 @@
 ;; enable line numbers
 (display-line-numbers-mode +1)
 
+(setq backup-directory-alist '(("." . "~/.emacs.d/backup"))
+      backup-by-copying t    ; Don't delink hardlinks
+      version-control t      ; Use version numbers on backups
+      delete-old-versions t  ; Automatically delete excess backups
+      kept-new-versions 20   ; how many of the newest versions to keep
+      kept-old-versions 5    ; and how many of the old
+      )
+
 ;; mode line
 (use-package moody
   :config
@@ -17,7 +25,7 @@
 
 ;; font
 (add-to-list 'default-frame-alist
-             '(font . "Fira Code 16"))
+             '(font . "Fira Code 12"))
 
 ;; vim keybinds
 (use-package evil
@@ -40,14 +48,11 @@
 ;; git tool
 (use-package magit)
 
+;; required for lsp-mode
+(use-package yasnippet)
+
 ;; lsp support
-(use-package lsp-mode
-  :hook
-  (python-mode . lsp)
-  (haskell-mode . lsp)
-  (scala-mode . lsp)
-  (nix-mode . lsp)
-  (lsp-mode . lsp-lens-mode))
+(use-package lsp-mode)
 
 (use-package lsp-ui
   :after (lsp-mode))
@@ -74,36 +79,38 @@
   ;; setting `lsp-semantic-tokens-apply-modifiers' to `nil' because metals sends `abstract' modifier
   ;; which is mapped to `keyword' face.
   (lsp-metals-enable-semantic-highlighting t)
-  :hook (scala-mode . lsp))
+  :hook (scala-mode . lsp-deferred))
 
 (use-package scala-mode
-  :ensure nil
   :interpreter ("scala" . scala-mode))
 
 
 ;; python lsp
 (use-package lsp-pyright
-  :hook (python-mode . (lambda ()
-                         (require 'lsp-pyright)
-                         (lsp))))
+  :hook (python-mode . lsp-deferred))
 
 ;; haskell lsp
 (use-package lsp-haskell
-  :after (lsp-mode)
   :hook
-  (haskell-mode-hook . #'lsp)
-  (haskell-literate-mode-hook . #'lsp))
+  (haskell-mode . lsp-deferred)
+  (haskell-literate-mode . lsp-deferred))
 
 ;; nix lsp
 (use-package lsp-nix
-  :after (lsp-mode)
-  :ensure nil
-  :demand t
-  :custom
-  (lsp-nix-nil-formatter ["alejandra"]))
+  :hook
+  (nix-mode . lsp-deferred))
 
 (use-package nix-mode
-  :hook (nix-mode . lsp-deferred))
+  :mode ("\\.nix\\'" "\\.nix.in\\'"))
+(use-package nix-drv-mode
+  :ensure nix-mode
+  :mode "\\.drv\\'")
+(use-package nix-shell
+  :ensure nix-mode
+  :commands (nix-shell-unpack nix-shell-configure nix-shell-build))
+(use-package nix-repl
+  :ensure nix-mode
+  :commands (nix-repl))
 
 ;; minibuffer completion
 (use-package helm
@@ -158,6 +165,15 @@
   :config
   (add-to-list 'auto-mode-alist '("\\.cl\\'" . lisp-mode)))
 
+;; go lsp
+(use-package go-mode
+  :hook
+  (defun lsp-go-install-save-hooks ()
+    (add-hook 'before-save-hook #'lsp-format-buffer t t)
+    (add-hook 'before-save-hook #'lsp-organize-imports t t))
+  (go-mode . lsp-go-install-save-hooks)
+  (go-mode . lsp-deferred))
+
 ;; jupyter
 (use-package jupyter)
 
@@ -168,5 +184,107 @@
 (use-package flycheck-popup-tip
   :config
   (flycheck-popup-tip-mode))
+
+(use-package markdown-mode
+  :config
+  (setq fill-column 80)
+  :hook
+  (markdown-mode . auto-fill-mode)
+  :mode ("README\\.md\\'" . gfm-mode)
+  :init (setq markdown-command "pandoc"))
+
+(use-package jinx
+  :hook
+  (org-mode . jinx-mode)
+  (markdown-mode . jinx-mode))
+
+(use-package ligature
+  :config
+  ;; Enable the "www" ligature in every possible major mode
+  (ligature-set-ligatures 't '("www"))
+  ;; Enable traditional ligature support in eww-mode, if the
+  ;; `variable-pitch' face supports it
+  (ligature-set-ligatures 'eww-mode '("ff" "fi" "ffi"))
+  ;; Enable all Cascadia and Fira Code ligatures in programming modes
+  (ligature-set-ligatures 'prog-mode
+                          '(;; == === ==== => =| =>>=>=|=>==>> ==< =/=//=// =~
+                            ;; =:= =!=
+                            ("=" (rx (+ (or ">" "<" "|" "/" "~" ":" "!" "="))))
+                            ;; ;; ;;;
+                            (";" (rx (+ ";")))
+                            ;; && &&&
+                            ("&" (rx (+ "&")))
+                            ;; !! !!! !. !: !!. != !== !~
+                            ("!" (rx (+ (or "=" "!" "\." ":" "~"))))
+                            ;; ?? ??? ?:  ?=  ?.
+                            ("?" (rx (or ":" "=" "\." (+ "?"))))
+                            ;; %% %%%
+                            ("%" (rx (+ "%")))
+                            ;; |> ||> |||> ||||> |] |} || ||| |-> ||-||
+                            ;; |->>-||-<<-| |- |== ||=||
+                            ;; |==>>==<<==<=>==//==/=!==:===>
+                            ("|" (rx (+ (or ">" "<" "|" "/" ":" "!" "}" "\]"
+                                            "-" "=" ))))
+                            ;; \\ \\\ \/
+                            ("\\" (rx (or "/" (+ "\\"))))
+                            ;; ++ +++ ++++ +>
+                            ("+" (rx (or ">" (+ "+"))))
+                            ;; :: ::: :::: :> :< := :// ::=
+                            (":" (rx (or ">" "<" "=" "//" ":=" (+ ":"))))
+                            ;; // /// //// /\ /* /> /===:===!=//===>>==>==/
+                            ("/" (rx (+ (or ">"  "<" "|" "/" "\\" "\*" ":" "!"
+                                            "="))))
+                            ;; .. ... .... .= .- .? ..= ..<
+                            ("\." (rx (or "=" "-" "\?" "\.=" "\.<" (+ "\."))))
+                            ;; -- --- ---- -~ -> ->> -| -|->-->>->--<<-|
+                            ("-" (rx (+ (or ">" "<" "|" "~" "-"))))
+                            ;; *> */ *)  ** *** ****
+                            ("*" (rx (or ">" "/" ")" (+ "*"))))
+                            ;; www wwww
+                            ("w" (rx (+ "w")))
+                            ;; <> <!-- <|> <: <~ <~> <~~ <+ <* <$ </  <+> <*>
+                            ;; <$> </> <|  <||  <||| <|||| <- <-| <-<<-|-> <->>
+                            ;; <<-> <= <=> <<==<<==>=|=>==/==//=!==:=>
+                            ;; << <<< <<<<
+                            ("<" (rx (+ (or "\+" "\*" "\$" "<" ">" ":" "~"  "!"
+                                            "-"  "/" "|" "="))))
+                            ;; >: >- >>- >--|-> >>-|-> >= >== >>== >=|=:=>>
+                            ;; >> >>> >>>>
+                            (">" (rx (+ (or ">" "<" "|" "/" ":" "=" "-"))))
+                            ;; #: #= #! #( #? #[ #{ #_ #_( ## ### #####
+                            ("#" (rx (or ":" "=" "!" "(" "\?" "\[" "{" "_(" "_"
+					 (+ "#"))))
+                            ;; ~~ ~~~ ~=  ~-  ~@ ~> ~~>
+                            ("~" (rx (or ">" "=" "-" "@" "~>" (+ "~"))))
+                            ;; __ ___ ____ _|_ __|____|_
+                            ("_" (rx (+ (or "_" "|"))))
+                            ;; Fira code: 0xFF 0x12
+                            ("0" (rx (and "x" (+ (in "A-F" "a-f" "0-9")))))
+                            ;; Fira code:
+                            "Fl"  "Tl"  "fi"  "fj"  "fl"  "ft"
+                            ;; The few not covered by the regexps.
+                            "{|"  "[|"  "]#"  "(*"  "}#"  "$>"  "^="))
+  ;; Enables ligature checks globally in all buffers. You can also do it
+  ;; per mode with `ligature-mode'.
+  (global-ligature-mode t))
+
+(use-package aggressive-indent
+  :hook
+  (emacs-lisp-mode . aggressive-indent-mode)
+  (python-mode . aggressive-indent-mode)
+  :config
+  (global-aggressive-indent-mode 1))
+
+(use-package format-all
+  :hook
+  (prog-mode . format-all-mode)
+  (python-mode . (lambda ()
+		   (setq-local format-all-formatters '(("Python"
+							(black)
+							(isort))))))
+  (nix-mode . (lambda ()
+		(setq-local format-all-formatters '(("Nix" (alejandra "--quiet")))))))
+
+(use-package yaml-mode)
 
 ;;; emacs.el ends here
