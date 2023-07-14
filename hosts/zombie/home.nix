@@ -14,6 +14,7 @@
     ../../modules/home-manager/k9s/k9s.nix
     ../../modules/home-manager/keychain.nix
     ../../modules/home-manager/kitty.nix
+    ../../modules/home-manager/mako/mako.nix
     ../../modules/home-manager/mpd.nix
     ../../modules/home-manager/ncmpcpp.nix
     ../../modules/home-manager/neovim/neovim.nix
@@ -57,6 +58,7 @@
     fira-code
     fira-code-symbols
     firefox
+    fluffychat
     fzf
     google-cloud-sdk
     gotop
