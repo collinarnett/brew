@@ -10,7 +10,7 @@
     ../../modules/home-manager/gpg-agent.nix
     ../../modules/home-manager/gpg.nix
     ../../modules/home-manager/starship.nix
-    ../../modules/home-manager/vim/vim.nix
+    ../../modules/home-manager/neovim/neovim.nix
     ../../modules/home-manager/zsh.nix
   ];
 
