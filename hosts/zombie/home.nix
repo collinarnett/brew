@@ -53,6 +53,7 @@
     crawl
     croc
     dconf
+    deluge-gtk
     dfu-programmer
     dracula-theme
     fira-code
@@ -106,7 +107,6 @@
     statix
     super-slicer
     timewarrior
-    transmission
     tree
     unzip
     usbutils
