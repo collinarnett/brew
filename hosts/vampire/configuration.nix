@@ -12,6 +12,7 @@
   ];
 
   # Flakes
+  nix.settings.sandbox = true;
   nix.package = pkgs.nixFlakes;
   nix.extraOptions = ''
     experimental-features = nix-command flakes
@@ -72,6 +73,13 @@
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     #  wget
     git
+  ];
+
+  # Binary Caches
+  nix.settings.substituters = ["https://cache.nixos.org/"];
+  nix.settings.trusted-public-keys = [
+    "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+    "cuda-maintainers.cachix.org-1:0dq3bujKpuEPMCX6U4WylrUDZ9JyUG0VpVZa7CNfq5E="
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
