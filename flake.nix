@@ -34,6 +34,9 @@
         modules = [
           ./hosts/${host}/home.nix
           nur.hmModules.nur
+	  {
+            nixpkgs.overlays = [emacs-overlay.overlay];
+          }
         ];
       };
     nixosConfigurations = let

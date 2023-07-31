@@ -1,6 +1,5 @@
-{pkgs, ...}: {
-  environment.systemPackages = [
-    (pkgs.emacsWithPackagesFromUsePackage {
+{pkgs, ...}: 
+    pkgs.emacsWithPackagesFromUsePackage {
       config = ./emacs.el;
       alwaysEnsure = true;
       defaultInitFile = true;
@@ -23,7 +22,5 @@
                 tree-sitter-nix
               ]))
         ];
-    })
-    pkgs.hunspellDicts.en_US
-  ];
-}
+    }
+
