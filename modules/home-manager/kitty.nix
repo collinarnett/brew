@@ -3,7 +3,7 @@
     enable = true;
     font = {
       name = "Fira Code";
-      size = 16;
+      size = 12;
     };
     settings = {
       foreground = "#f8f8f2";
