@@ -2,7 +2,9 @@
   nixosConfig,
   pkgs,
   ...
-}: {
+}: let
+  emacs = (import ../../modules/emacs/emacs.nix) pkgs;
+in {
   imports = [
     ../../modules/home-manager/beets.nix
     ../../modules/home-manager/direnv.nix
@@ -56,6 +58,7 @@
     deluge-gtk
     dfu-programmer
     dracula-theme
+    emacs
     fira-code
     fira-code-symbols
     firefox
