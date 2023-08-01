@@ -1,9 +1,6 @@
-{
-  nixosConfig,
-  config,
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: let
+  emacs = (import ../../modules/emacs/emacs.nix) pkgs;
+in {
   imports = [
     ../../modules/home-manager/direnv.nix
     ../../modules/home-manager/git.nix
@@ -20,6 +17,7 @@
   home.packages = with pkgs; [
     alejandra
     black
+    emacs
     fira-code
     git
     gotop
