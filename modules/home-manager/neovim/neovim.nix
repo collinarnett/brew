@@ -49,7 +49,8 @@
               sources = {
                   null_ls.builtins.formatting.alejandra.with({
                       command = "${pkgs.alejandra}/bin/alejandra"
-                  }), null_ls.builtins.formatting.lua_format.with({
+                  }),
+                  null_ls.builtins.formatting.lua_format.with({
                       command = "${pkgs.luaformatter}/bin/lua-format"
                   }),
                   null_ls.builtins.formatting.google_java_format.with({
@@ -57,6 +58,9 @@
                   }),
                   null_ls.builtins.formatting.clang_format.with({
                       command = "${pkgs.clang-tools}/bin/clang-format"
+                  }),
+                  null_ls.builtins.formatting.black.with({
+                      command = "${pkgs.black}/bin/black"
                   })
               },
 
@@ -239,6 +243,9 @@
                   classPath = {"carnett3/483libs.jar"}
                 }
               }
+            })
+            require('lspconfig').pyright.setup({
+              cmd = { "${pkgs.nodePackages.pyright}/bin/pyright" },
             })
           vim.diagnostic.config({
             virtual_text = false,
