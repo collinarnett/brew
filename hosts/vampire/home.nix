@@ -18,8 +18,8 @@
   home.homeDirectory = "/home/collin";
 
   home.packages = with pkgs; [
-    black
     alejandra
+    black
     fira-code
     git
     gotop
@@ -28,6 +28,7 @@
     noto-fonts-emoji
     python39Packages.isort
     statix
+    tree
     unzip
     vim-vint
     wget
