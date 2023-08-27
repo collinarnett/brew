@@ -2,10 +2,6 @@
   description = "NixOS configuration";
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    mobile-nixpkgs.url = "github:nixos/nixpkgs?rev=32096899af23d49010bd8cf6a91695888d9d9e73";
-    mobile-nixos.url = "github:collinarnett/mobile-nixos/witch";
-    mobile-nixos.flake = false;
-    nur.url = "github:nix-community/NUR";
     emacs-overlay.url = "github:nix-community/emacs-overlay";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     home-manager.url = "github:nix-community/home-manager";
@@ -17,45 +13,30 @@
     self,
     emacs-overlay,
     home-manager,
-    mobile-nixos,
-    mobile-nixpkgs,
     nixos-hardware,
     nixpkgs,
-    nur,
     sops-nix,
     ...
   }: {
-    homeConfigurations.collin = let
-      system = "aarch64-darwin";
-      host = "macbook";
-    in
-      home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.${system};
-        modules = [
-          ./hosts/${host}/home.nix
-          nur.hmModules.nur
-	  {
-            nixpkgs.overlays = [emacs-overlay.overlay];
-          }
-        ];
-      };
     nixosConfigurations = let
       mkHost = {
         system ? "x86_64-linux",
-        pkgs ? nixpkgs,
         user ? "collin",
         host,
         extraModules ? [],
       }:
-        pkgs.lib.nixosSystem {
+        nixpkgs.lib.nixosSystem {
           inherit system;
-          modules =
+          modules = let
+            pkgs = nixpkgs.legacyPackages.${system};
+          in
             [
               ./hosts/${host}/configuration.nix
               {
                 nix = {
-                  registry.pkgs.flake = pkgs;
-                  nixPath = ["nixpkgs=${pkgs}"];
+                  package = pkgs.nixUnstable;
+                  registry.pkgs.flake = nixpkgs;
+                  nixPath = ["nixpkgs=${nixpkgs}"];
                   settings = {
                     substituters = [
                       "https://nix-community.cachix.org"
@@ -67,6 +48,7 @@
                 };
                 nixpkgs.overlays = [emacs-overlay.overlay];
               }
+
               sops-nix.nixosModules.sops
               home-manager.nixosModules.home-manager
               {
@@ -82,29 +64,22 @@
         host = "zombie";
       };
       vampire = mkHost {host = "vampire";};
-      witch = mkHost {
-        system = "aarch64-linux";
-        host = "witch";
-        pkgs = mobile-nixpkgs;
+      arachne = mkHost {
+        host = "arachne";
         extraModules = [
-          (import "${mobile-nixos}/lib/configuration.nix" {
-            device = "pine64-pinephone";
-          })
+          ./modules/zfs
+          {
+            imports = [
+              "${nixpkgs}/nixos/modules/installer/scan/not-detected.nix"
+              "${nixos-hardware}/lenovo/thinkpad/t440p"
+            ];
+          }
         ];
       };
-      arachne = mkHost {
-        system = "aarch64-linux";
-        host = "arachne";
-      };
     };
-
-    pinephone-disk-image =
-      (import "${mobile-nixos}/lib/eval-with-configuration.nix" {
-        configuration = [./hosts/pinephone/configuration.nix];
-        device = "pine64-pinephone";
-        pkgs = mobile-nixpkgs.legacyPackages."aarch64-linux";
-      })
-      .outputs
-      .disk-image;
+    formatter."x86_64-linux" = nixpkgs.legacyPackages."x86_64-linux".alejandra;
+    devShells."x86_64-linux".default = nixpkgs.legacyPackages."x86_64-linux".mkShell {
+      buildInputs = with nixpkgs.legacyPackages."x86_64-linux"; [nil alejandra];
+    };
   };
 }

@@ -1,30 +1,44 @@
-{
-  config,
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   imports = [
-    # Include the results of the hardware scan.
-    ./hardware-configuration.nix
     ../../modules/pipewire.nix
     ../../modules/greetd.nix
-    ../../modules/emacs/emacs.nix
     ./modules/sops.nix
   ];
 
+  zfs-root = {
+    boot = {
+      devNodes = "/dev/disk/by-id/";
+      bootDevices = ["ata-CT480BX500SSD1_2246E686D9FD" "ata-CT480BX500SSD1_2303E69EE264"];
+      immutable = false;
+      availableKernelModules = ["xhci_pci" "ehci_pci" "ahci" "usb_storage" "sd_mod" "rtsx_pci_sdmmc"];
+      removableEfi = true;
+      kernelParams = [];
+      sshUnlock = {
+        # read sshUnlock.txt file.
+        enable = false;
+        authorizedKeys = [];
+      };
+    };
+    networking = {
+      # read changeHostName.txt file.
+      hostName = "arachne";
+      timeZone = "America/New_York";
+      hostId = "16174aea";
+    };
+  };
+
+  hardware.opengl.enable = true;
   # Flakes
   nix = {
-    package = pkgs.nixUnstable;
-    # Arachne is not very powerful so we use Zombie to build it's packages
     buildMachines = [
       {
         hostName = "zombie";
-        systems = ["x86_64-linux" "aarch64-linux" "i686-linux"];
-        maxJobs = 1;
+        systems = ["x86_64-linux" "aarch64-linux"];
         speedFactor = 2;
         supportedFeatures = ["nixos-test" "benchmark" "big-parallel" "kvm"];
       }
     ];
+    settings.max-jobs = 1;
     settings.trusted-users = ["collin"];
     distributedBuilds = true;
     extraOptions = ''
@@ -37,24 +51,15 @@
   hardware.bluetooth.enable = true;
   services.blueman.enable = true;
 
-  # For Rockchip firmware
-  nixpkgs.config.allowUnfree = true;
-
-  # Arachne uses Tow-Boot
-  boot.loader.grub.enable = false;
-  boot.loader.generic-extlinux-compatible.enable = true;
-
   networking.hostName = "arachne";
-  networking.networkmanager = {
-    enable = true;
-    wifi.powersave = false;
-  };
+  networking.networkmanager.enable = true;
 
   time.timeZone = "America/New_York";
 
   networking.useDHCP = false;
   networking.interfaces.wlan0.useDHCP = true;
 
+  programs.sway.enable = true;
   programs.vim.defaultEditor = true;
   users.users.collin = {
     isNormalUser = true;
@@ -62,12 +67,18 @@
     extraGroups = ["wheel" "networkmanager" "video"];
   };
   programs.zsh.enable = true;
+  programs.dconf.enable = true; # fixes issue with home-manager
 
-  environment.systemPackages = with pkgs; [wget git brightnessctl];
+  environment.systemPackages = with pkgs; [
+    gnome.adwaita-icon-theme
+    hunspellDicts.en_US
+    wget
+    git
+    brightnessctl
+  ];
   environment.sessionVariables = {
     GPG_TTY = "$(tty)";
     WLR_NO_HARDWARE_CURSORS = "1";
-    GH_TOKEN = "$(cat ${config.sops.secrets.gh_token.path})";
   };
 
   services.openssh.enable = true;
