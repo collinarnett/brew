@@ -2,7 +2,6 @@
   ocean = pkgs.writeShellScriptBin "ocean" ''
     ${pkgs.sox}/bin/play -n synth brownnoise synth pinknoise mix synth sine amod 0.1 10
   '';
-  emacs = (import ../../modules/emacs/emacs.nix) pkgs;
 in {
   imports = [
     ../../modules/home-manager/direnv.nix
@@ -12,6 +11,7 @@ in {
     ../../modules/home-manager/gpg.nix
     ../../modules/home-manager/gtk.nix
     ../../modules/home-manager/kitty.nix
+    ../../modules/home-manager/mako.nix
     ../../modules/home-manager/mpd.nix
     ../../modules/home-manager/ncmpcpp.nix
     ../../modules/home-manager/neovim/neovim.nix
@@ -42,12 +42,14 @@ in {
     noto-fonts-emoji
     ocean
     pavucontrol
+    poppler_utils
     pulseaudio
     signal-desktop
     siji
     slurp
-    swaylock
+    thunderbird
     tree
+    unzip
     wl-clipboard
     xournalpp
   ];

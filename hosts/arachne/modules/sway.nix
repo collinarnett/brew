@@ -36,9 +36,8 @@
       bindsym XF86AudioPlay exec playerctl play-pause
       bindsym XF86AudioNext exec playerctl next
       bindsym XF86AudioPrev exec playerctl previous
-      bindsym $mod+p exec grim -g "$(slurp -d)" - | wl-copy -t image/png
-      bindsym $mod+l exec swaylock --config
-      bindsym $mod+t exec swaymsg output DSI-1 transform 90
+      bindsym $mod+p exec ${pkgs.grim}/bin/grim -g "$(${pkgs.slurp}/bin/slurp -d)" - | wl-copy -t image/png
+        bindsym $mod+l exec ${pkgs.swaylock}/bin/swaylock
     '';
   };
 }

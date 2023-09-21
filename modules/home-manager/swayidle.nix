@@ -1,10 +1,10 @@
-{
+{pkgs, ...}: {
   services.swayidle = {
     enable = true;
     events = [
       {
         event = "before-sleep";
-        command = "swaylock";
+        command = "${pkgs.swaylock}/bin/swaylock";
       }
       {
         event = "lock";
@@ -19,16 +19,11 @@
       }
       {
         timeout = 300;
-        command = "swaylock";
+        command = "${pkgs.swaylock}/bin/swaylock";
       }
       {
         timeout = 600;
         command = ''swaymsg "output * dpms off"'';
-        resumeCommand = ''swaymsg "output * dpms on"'';
-      }
-      {
-        timeout = 1200;
-        command = "systemctl suspend";
         resumeCommand = ''swaymsg "output * dpms on"'';
       }
     ];

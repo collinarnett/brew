@@ -8,6 +8,14 @@
         modules-right = ["clock"];
         modules = {
           "sway/workspaces" = {
+            persistent-workspaces = {
+              "1" = [];
+              "2" = [];
+              "3" = [];
+              "4" = [];
+              "5" = [];
+            };
+            sort-by-number = [];
             format = "{icon}";
             format-icons = {default = "";};
           };

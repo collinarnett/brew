@@ -18,11 +18,15 @@ window#waybar {
 }
 
 #workspaces button {
-	margin: 0 2px;
-	padding: 0 4px;
-	color: #ff79c6;
+    color: #44475a;
+    margin: 0 2px;
+    padding: 0 4px;
 }
 
-#workspaces button.focused {
-	color: #ff92df;
+#workspaces button.persistent {
+    color: #44475a;
+}
+
+#workspaces button.visible {
+    color: #ff79c6;
 }
