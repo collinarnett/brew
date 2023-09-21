@@ -53,7 +53,10 @@
 (use-package yasnippet)
 
 ;; lsp support
-(use-package lsp-mode)
+(use-package lsp-mode
+  :config (progn
+            ;; use flycheck, not flymake
+            (setq lsp-prefer-flymake nil)))
 
 (use-package lsp-ui
   :after (lsp-mode))
@@ -123,6 +126,10 @@
   :config
   (add-hook 'after-init-hook 'global-company-mode))
 
+(use-package company-lsp
+  :ensure t
+  :commands company-lsp)
+
 ;; icons
 (use-package nerd-icons)
 
@@ -168,12 +175,9 @@
 
 ;; go lsp
 (use-package go-mode
-  :hook
-  (defun lsp-go-install-save-hooks ()
-    (add-hook 'before-save-hook #'lsp-format-buffer t t)
-    (add-hook 'before-save-hook #'lsp-organize-imports t t))
-  (go-mode . lsp-go-install-save-hooks)
-  (go-mode . lsp-deferred))
+  :hook ((go-mode . lsp-deferred)
+         (before-save . lsp-format-buffer)
+         (before-save . lsp-organize-imports)))
 
 ;; jupyter
 (use-package jupyter)
