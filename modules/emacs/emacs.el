@@ -1,20 +1,22 @@
+;; -*- lexical-binding: t; -*-
 ;; disable gui elements
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
 (global-display-line-numbers-mode)
 
-;; FIX
-;; enable line numbers
 (display-line-numbers-mode +1)
 
-(setq backup-directory-alist '(("." . "~/.emacs.d/backup"))
-      backup-by-copying t    ; Don't delink hardlinks
-      version-control t      ; Use version numbers on backups
-      delete-old-versions t  ; Automatically delete excess backups
-      kept-new-versions 20   ; how many of the newest versions to keep
-      kept-old-versions 5    ; and how many of the old
-      )
+
+;; https://idiomdrottning.org/bad-emacs-defaults
+(make-directory "~/.emacs_backups/" t)
+(make-directory "~/.emacs_autosave/" t)
+(setq auto-save-file-name-transforms '((".*" "~/.emacs_autosave/" t)))
+(setq backup-directory-alist '(("." . "~/.emacs_backups/")))
+(setq backup-by-copying t)
+
+(setq require-final-newline t)
+
 
 ;; mode line
 (use-package moody
@@ -88,16 +90,19 @@
 (use-package scala-mode
   :interpreter ("scala" . scala-mode))
 
+(use-package python-mode
+  :mode "\\.py\\'")
 
 ;; python lsp
 (use-package lsp-pyright
   :hook (python-mode . lsp-deferred))
 
+(use-package haskell-mode
+  :mode "\\.hs\\'")
+
 ;; haskell lsp
 (use-package lsp-haskell
-  :hook
-  (haskell-mode . lsp-deferred)
-  (haskell-literate-mode . lsp-deferred))
+  :hook (haskell-mode . lsp-deferred))
 
 ;; nix lsp
 (use-package lsp-nix
@@ -170,14 +175,16 @@
 	slime-completion-at-point-functions 'slime-fuzzy-complete-symbol))
 
 (use-package lisp-mode
-  :config
-  (add-to-list 'auto-mode-alist '("\\.cl\\'" . lisp-mode)))
+  :mode
+  "\\.cl\\'")
 
 ;; go lsp
 (use-package go-mode
-  :hook ((go-mode . lsp-deferred)
-         (before-save . lsp-format-buffer)
-         (before-save . lsp-organize-imports)))
+  :mode
+  "\\.go\\'"
+  :hook ((go-mode . lsp-deferred)))
+         ;;(before-save . lsp-format-buffer)
+         ;;(before-save . lsp-organize-imports))
 
 ;; jupyter
 (use-package jupyter)
