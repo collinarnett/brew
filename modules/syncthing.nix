@@ -1,4 +1,4 @@
-{config, ...}: {
+{...}: {
   services.syncthing = {
     enable = true;
     openDefaultPorts = true;
@@ -8,7 +8,7 @@
     configDir = "/home/collin/.config/syncthing";
     overrideFolders = true;
     overrideDevices = true;
-    folders = {
+    settings.folders = {
       music = {
         type = "sendonly";
         path = "/home/collin/music";
@@ -16,7 +16,7 @@
         devices = ["phone"];
       };
     };
-    devices = {
+    settings.devices = {
       phone = {
         id = "JDTY4DO-E7XF5ED-SECOGTO-F3HFJDA-R5LKSCN-B6DKULO-GCJ5JKH-HYUT3QF";
       };
