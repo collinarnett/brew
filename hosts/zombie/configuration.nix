@@ -6,7 +6,6 @@
   imports = [
     ../../modules/apcupsd.nix
     ../../modules/dwarf-fortress.nix
-    #    ../../modules/k3s/k3s.nix
     ../../modules/syncthing.nix
     ../../modules/libvirtd.nix
     ../../modules/pipewire.nix
@@ -22,6 +21,13 @@
   nix.extraOptions = ''
     experimental-features = nix-command flakes
   '';
+
+  services.emacs = {
+    enable = true;
+    defaultEditor = true;
+    startWithGraphical = true;
+    package = (import ../../modules/emacs/emacs.nix) pkgs;
+  };
 
   nix.settings.auto-optimise-store = true;
   nix.gc = {
@@ -44,9 +50,9 @@
   boot.extraModulePackages = [config.boot.kernelPackages.v4l2loopback];
   services.gvfs.enable = true;
   networking.hostName = "zombie"; # Define your hostname.
+  networking.nameservers = ["1.1.1.1" "9.9.9.9"];
 
   time.timeZone = "America/New_York";
-  programs.vim.defaultEditor = true;
   programs.zsh.enable = true;
 
   # Networking
