@@ -11,7 +11,6 @@
   }) {system = pkgs.system;};
 
   whipperCustom = customNixpkgs.whipper;
-  emacs = (import ../../modules/emacs/emacs.nix) pkgs;
 in {
   imports = [
     ../../modules/home-manager/beets.nix
@@ -27,7 +26,6 @@ in {
     ../../modules/home-manager/mako.nix
     ../../modules/home-manager/mpd.nix
     ../../modules/home-manager/ncmpcpp.nix
-    ../../modules/home-manager/neovim/neovim.nix
     ../../modules/home-manager/starship.nix
     ../../modules/home-manager/sway.nix
     ../../modules/home-manager/taskwarrior.nix
@@ -67,11 +65,11 @@ in {
       deluge-gtk
       dfu-programmer
       dracula-theme
-      emacs
       fira-code
       fira-code-symbols
       firefox
       fluffychat
+      freetube
       fzf
       google-cloud-sdk
       gotop
@@ -118,7 +116,6 @@ in {
       siji
       slurp
       statix
-      super-slicer
       timewarrior
       tree
       unzip
