@@ -178,6 +178,11 @@
   :mode
   "\\.cl\\'")
 
+;; futhark lsp
+(use-package futhark-mode
+  :mode
+  "\\.fut\\'")
+
 ;; go lsp
 (use-package go-mode
   :mode
@@ -205,11 +210,13 @@
   :mode ("README\\.md\\'" . gfm-mode)
   :init (setq markdown-command "pandoc"))
 
+;; Spell checking
 (use-package jinx
   :hook
   (org-mode . jinx-mode)
   (markdown-mode . jinx-mode))
 
+;; Ligature support
 (use-package ligature
   :config
   ;; Enable the "www" ligature in every possible major mode
@@ -280,6 +287,7 @@
   ;; per mode with `ligature-mode'.
   (global-ligature-mode t))
 
+;; Auto-indent
 (use-package aggressive-indent
   :hook
   (emacs-lisp-mode . aggressive-indent-mode)
@@ -287,6 +295,7 @@
   :config
   (global-aggressive-indent-mode 1))
 
+;; For use when lsp does not contain formatter methods
 (use-package format-all
   :hook
   (prog-mode . format-all-mode)
