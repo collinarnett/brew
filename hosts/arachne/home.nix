@@ -30,13 +30,13 @@ in {
 
   home.packages = with pkgs; [
     anki-bin
-    emacs
     fira-code
     firefox
     git
     gotop
     grim
     helvum
+    mpv
     neofetch
     nerdfonts
     noto-fonts-emoji
@@ -44,6 +44,7 @@ in {
     pavucontrol
     poppler_utils
     pulseaudio
+    ripgrep
     signal-desktop
     siji
     slurp
