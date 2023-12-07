@@ -178,10 +178,12 @@
   :mode
   "\\.cl\\'")
 
-;; futhark lsp
+;; futhark
 (use-package futhark-mode
   :mode
-  "\\.fut\\'")
+  "\\.fut\\'"
+  :hook
+  (furthark-mode . eglot-ensure))
 
 ;; go lsp
 (use-package go-mode
