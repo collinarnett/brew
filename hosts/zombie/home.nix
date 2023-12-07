@@ -2,16 +2,7 @@
   nixosConfig,
   pkgs,
   ...
-}: let
-  customNixpkgs = import (pkgs.fetchFromGitHub {
-    owner = "emilazy";
-    repo = "nixpkgs";
-    rev = "cdrdao-fixes";
-    sha256 = "sha256-1G1BA72mVpwo6r5lT3D1OBw/+7ujOiN0CoVp2AztgfU=";
-  }) {system = pkgs.system;};
-
-  whipperCustom = customNixpkgs.whipper;
-in {
+}: {
   imports = [
     ../../modules/home-manager/beets.nix
     ../../modules/home-manager/direnv.nix
@@ -50,87 +41,80 @@ in {
     BROWSER = "firefox";
   };
 
-  home.packages = with pkgs;
-    [
-      alejandra
-      anki-bin
-      asciiquarium
-      audacity
-      awscli2
-      bear
-      clang-tools
-      crawl
-      croc
-      dconf
-      deluge-gtk
-      dfu-programmer
-      dracula-theme
-      fira-code
-      fira-code-symbols
-      firefox
-      fluffychat
-      freetube
-      fzf
-      google-cloud-sdk
-      gotop
-      grim
-      heimdall-gui
-      helvum
-      hunspellDicts.en_US
-      imv
-      ipafont
-      k9s
-      keybase-gui
-      kubectl
-      kubernetes-helm
-      languagetool
-      liberation_ttf
-      libsForQt5.kdenlive
-      luaformatter
-      lynx
-      mpv
-      neofetch
-      nerdfonts
-      nil
-      nix-index
-      nixfmt
-      nmap
-      nodePackages.prettier
-      nodejs
-      noto-fonts-emoji
-      nyxt
-      obs-studio
-      openconnect
-      ormolu
-      pandoc
-      parted
-      pavucontrol
-      pciutils
-      pfetch
-      pulseaudio
-      qmk
-      qpwgraph
-      rclone
-      rtorrent
-      signal-desktop
-      siji
-      slurp
-      statix
-      timewarrior
-      tree
-      unzip
-      usbutils
-      v4l-utils
-      vhs
-      virt-manager
-      wget
-      wl-clipboard
-      xdg-desktop-portal
-      xdg-desktop-portal-wlr
-      xplr
-      zip
-    ]
-    ++ [whipperCustom];
+  home.packages = with pkgs; [
+    alejandra
+    anki-bin
+    asciiquarium
+    audacity
+    awscli2
+    bear
+    clang-tools
+    crawl
+    croc
+    dconf
+    deluge-gtk
+    dfu-programmer
+    dracula-theme
+    fira-code
+    fira-code-symbols
+    firefox
+    fluffychat
+    freetube
+    fzf
+    google-cloud-sdk
+    gotop
+    grim
+    heimdall-gui
+    helvum
+    hunspellDicts.en_US
+    imv
+    ipafont
+    languagetool
+    liberation_ttf
+    libsForQt5.kdenlive
+    lynx
+    mpv
+    neofetch
+    nerdfonts
+    nil
+    nix-index
+    nixfmt
+    nmap
+    noto-fonts-emoji
+    nyxt
+    obs-studio
+    openconnect
+    ormolu
+    pandoc
+    parted
+    pavucontrol
+    pciutils
+    texlive.combined.scheme-tetex
+    pfetch
+    pulseaudio
+    qmk
+    qpwgraph
+    rclone
+    rtorrent
+    signal-desktop
+    siji
+    slurp
+    statix
+    tree
+    unzip
+    usbutils
+    v4l-utils
+    vhs
+    virt-manager
+    wget
+    whipper
+    wl-clipboard
+    xdg-desktop-portal
+    xdg-desktop-portal-wlr
+    xournalpp
+    xplr
+    zip
+  ];
 
   home.stateVersion = "21.11";
   programs.home-manager.enable = true;
