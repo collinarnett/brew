@@ -29,6 +29,7 @@
     package = (import ../../modules/emacs/emacs.nix) pkgs;
   };
 
+  services.mozillavpn.enable = true;
   nix.settings.auto-optimise-store = true;
   nix.gc = {
     automatic = true;
