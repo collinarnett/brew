@@ -36,11 +36,14 @@ in {
     gotop
     grim
     helvum
+    imv
     mpv
     neofetch
     nerdfonts
     noto-fonts-emoji
     ocean
+    openconnect
+    pandoc
     pavucontrol
     poppler_utils
     pulseaudio
