@@ -61,6 +61,8 @@
     fluffychat
     freetube
     fzf
+    gnome3.adwaita-icon-theme
+    gnucash
     google-cloud-sdk
     gotop
     grim
@@ -89,7 +91,6 @@
     parted
     pavucontrol
     pciutils
-    texlive.combined.scheme-tetex
     pfetch
     pulseaudio
     qmk
@@ -100,6 +101,7 @@
     siji
     slurp
     statix
+    texlive.combined.scheme-tetex
     tree
     unzip
     usbutils
