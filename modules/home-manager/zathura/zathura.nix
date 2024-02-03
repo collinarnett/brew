@@ -4,5 +4,6 @@
     options = {
       selection-clipboard = "clipboard";
     };
+    extraConfig = builtins.readFile ./zathurarc;
   };
 }

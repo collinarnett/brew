@@ -22,7 +22,7 @@
     ../../modules/home-manager/taskwarrior.nix
     ../../modules/home-manager/waybar/waybar.nix
     ../../modules/home-manager/wofi/wofi.nix
-    ../../modules/home-manager/zathura.nix
+    ../../modules/home-manager/zathura/zathura.nix
     ../../modules/home-manager/zsh.nix
   ];
 
