@@ -7,6 +7,9 @@
 
 (display-line-numbers-mode +1)
 
+;; Performance settings for lsp-mode
+(setq gc-cons-threshold 100000000)
+(setq read-process-output-max (* 1024 1024))
 
 ;; https://idiomdrottning.org/bad-emacs-defaults
 (make-directory "~/.emacs_backups/" t)
@@ -17,6 +20,11 @@
 
 (setq require-final-newline t)
 
+
+(use-package bind-key
+  :ensure t
+  :config
+  (add-to-list 'same-window-buffer-names "*Personal Keybindings*"))
 
 ;; mode line
 (use-package moody
@@ -48,27 +56,30 @@
   :config
   (load-theme 'dracula t))
 
-;; git tool
-(use-package magit)
-
 ;; required for lsp-mode
 (use-package yasnippet)
 
 ;; lsp support
-(use-package lsp-mode
-  :config (progn
-            ;; use flycheck, not flymake
-            (setq lsp-prefer-flymake nil)))
+(use-package lsp-mode)
 
 (use-package lsp-ui
   :after (lsp-mode))
 
-(use-package which-key
-    :config
-    (which-key-mode))
+;; text completion
+(use-package company
+  :config
+  (setq company-idle-delay 0.2
+	company-tooltip-limit 20
+	company-minimum-prefix-length 2)
+  (add-hook 'after-init-hook 'global-company-mode))
 
 (use-package helm-lsp :commands helm-lsp-workspace-symbol)
 
+(use-package which-key
+  :config
+  (which-key-mode))
+
+;; scala
 (use-package lsp-metals
   :custom
   ;; You might set metals server options via -J arguments. This might not always work, for instance when
@@ -90,21 +101,37 @@
 (use-package scala-mode
   :interpreter ("scala" . scala-mode))
 
+;; python
 (use-package python-mode
   :mode "\\.py\\'")
 
-;; python lsp
 (use-package lsp-pyright
   :hook (python-mode . lsp-deferred))
 
-(use-package haskell-mode
-  :mode "\\.hs\\'")
+(use-package jupyter)
 
-;; haskell lsp
+;; haskell
 (use-package lsp-haskell
-  :hook (haskell-mode . lsp-deferred))
+  :hook
+  (haskell-mode . lsp-deferred)
+  (haskell-literate-mode. lsp-deferred))
 
-;; nix lsp
+;; (use-package haskell-mode
+;;   :config
+;;   (setq haskell-stylish-on-save t)
+;;   :hook
+;;   (haskell-mode . interactive-haskell-mode)
+;;   :mode "\\.hs\\'")
+
+(use-package reformatter)
+
+(use-package ormolu
+  :hook (haskell-mode . ormolu-format-on-save-mode)
+  :bind
+  (:map haskell-mode-map
+	("C-c r" . ormolu-format-buffer)))
+
+;; nix
 (use-package lsp-nix
   :hook
   (nix-mode . lsp-deferred))
@@ -123,17 +150,8 @@
 
 ;; minibuffer completion
 (use-package helm
-  :config
+  :init
   (helm-mode 1))
-
-;; text completion
-(use-package company
-  :config
-  (add-hook 'after-init-hook 'global-company-mode))
-
-(use-package company-lsp
-  :ensure t
-  :commands company-lsp)
 
 ;; icons
 (use-package nerd-icons)
@@ -151,16 +169,14 @@
 (use-package pinentry)
 (pinentry-start)
 
-(use-package direnv
+(use-package direnv ; direnv integration
+  :after lsp
+  :delight 'direnv-mode
   :config
-  (direnv-mode))
-
-;; project manager
-(use-package projectile
-  :config
-  (projectile-mode +1)
-  (setq projectile-project-search-path '("~/projects/"))
-  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
+  ;; Ensures that external dependencies are available before they are called.
+  (add-hook 'prog-mode-hook #'direnv--maybe-update-environment)
+  (setq direnv-always-show-summary nil)
+  (direnv-mode 1))
 
 ;; smart parenthesis
 (use-package smartparens
@@ -168,7 +184,7 @@
   (require 'smartparens-config)
   (smartparens-global-mode t))
 
-;; common lisp ide
+;; common lisp
 (use-package slime
   :config
   (setq inferior-lisp-program "sbcl"
@@ -185,25 +201,16 @@
   :hook
   (furthark-mode . eglot-ensure))
 
-;; go lsp
+;; go
 (use-package go-mode
   :mode
   "\\.go\\'"
   :hook ((go-mode . lsp-deferred)))
-         ;;(before-save . lsp-format-buffer)
-         ;;(before-save . lsp-organize-imports))
+;;(before-save . lsp-format-buffer)
+;;(before-save . lsp-organize-imports))
 
-;; jupyter
-(use-package jupyter)
 
-;; Enable nice rendering of diagnostics like compile errors.
-(use-package flycheck
-  :init (global-flycheck-mode))
-
-(use-package flycheck-popup-tip
-  :config
-  (flycheck-popup-tip-mode))
-
+;; markdown
 (use-package markdown-mode
   :config
   (setq fill-column 80)

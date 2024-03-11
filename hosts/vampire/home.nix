@@ -24,11 +24,9 @@ in {
     nixfmt
     nodejs
     noto-fonts-emoji
-    python39Packages.isort
     statix
     tree
     unzip
-    vim-vint
     wget
   ];
 

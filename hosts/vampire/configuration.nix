@@ -13,7 +13,6 @@
 
   # Flakes
   nix.settings.sandbox = true;
-  nix.package = pkgs.nixFlakes;
   nix.extraOptions = ''
     experimental-features = nix-command flakes
   '';
@@ -65,7 +64,6 @@
   nixpkgs.config.allowUnfree = true;
   services.xserver.videoDrivers = ["nvidia"];
   hardware.opengl.enable = true;
-  hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
