@@ -1,8 +1,4 @@
-{
-  pkgs,
-  config,
-  ...
-}: {
+{pkgs, ...}: {
   boot.initrd.availableKernelModules = ["amdgpu" "vfio-pci"];
   boot.initrd.preDeviceCommands = ''
     DEVS="0000:0f:00.0 0000:0f:00.1"
