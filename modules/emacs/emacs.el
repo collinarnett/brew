@@ -60,10 +60,31 @@
 (use-package yasnippet)
 
 ;; lsp support
-(use-package lsp-mode)
+(use-package lsp-mode
+  :after (direnv-mode))
 
 (use-package lsp-ui
   :after (lsp-mode))
+
+;; error checking
+(use-package flycheck
+  :init (global-flycheck-mode)
+  :config
+  (setq flycheck-check-syntax-automatically
+	'(idle-change (flycheck-idle-change-delay 1))))
+
+
+;; todo highlighting
+(use-package hl-todo
+  :config (setq hl-todo-keyword-faces '(("TODO"   . "#FFB86C")))
+  :hook
+  (flycheck-mode . hl-todo-mode))
+
+(use-package flycheck-hl-todo
+  :hook
+  (hl-todo-mode . flycheck-hl-todo-enable)
+  :init
+  (flycheck-hl-todo-setup))
 
 ;; text completion
 (use-package company
@@ -169,14 +190,14 @@
 (use-package pinentry)
 (pinentry-start)
 
-(use-package direnv ; direnv integration
-  :after lsp
-  :delight 'direnv-mode
+
+;direnv integration
+(use-package direnv
+  :hook
+  (prog-mode . direnv-update-environment)
   :config
-  ;; Ensures that external dependencies are available before they are called.
-  (add-hook 'prog-mode-hook #'direnv--maybe-update-environment)
   (setq direnv-always-show-summary nil)
-  (direnv-mode 1))
+  (direnv-mode))
 
 ;; smart parenthesis
 (use-package smartparens

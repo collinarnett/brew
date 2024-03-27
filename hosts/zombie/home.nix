@@ -99,8 +99,10 @@
     rtorrent
     signal-desktop
     siji
+    slack
     slurp
     statix
+    teams-for-linux
     texlive.combined.scheme-tetex
     tree
     unzip
