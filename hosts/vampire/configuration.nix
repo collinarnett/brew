@@ -8,6 +8,7 @@
 }: {
   imports = [
     # Include the results of the hardware scan.
+    ../../modules/tailscale.nix
     ./hardware-configuration.nix
   ];
 
@@ -95,8 +96,8 @@
   services.openssh.enable = true;
 
   # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
+  networking.firewall.allowedTCPPorts = [80];
+  networking.firewall.allowedUDPPorts = [80];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 
