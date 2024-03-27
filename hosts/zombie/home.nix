@@ -51,6 +51,7 @@
     clang-tools
     crawl
     croc
+    chromium
     dconf
     deluge-gtk
     dfu-programmer
@@ -102,7 +103,6 @@
     slack
     slurp
     statix
-    teams-for-linux
     texlive.combined.scheme-tetex
     tree
     unzip
