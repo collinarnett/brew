@@ -21,6 +21,7 @@ in {
     fira-code
     git
     gotop
+    nil
     nixfmt
     nodejs
     noto-fonts-emoji

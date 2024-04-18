@@ -9,6 +9,7 @@
   imports = [
     # Include the results of the hardware scan.
     ../../modules/tailscale.nix
+    ../../modules/ollama.nix
     ./hardware-configuration.nix
   ];
 
@@ -19,6 +20,7 @@
   '';
 
   virtualisation.docker.enable = true;
+  virtualisation.containers.cdi.dynamic.nvidia.enable = true;
   # Bootloader.
   boot.loader.grub.enable = true;
   boot.loader.grub.device = "/dev/vda";
