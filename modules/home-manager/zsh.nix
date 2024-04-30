@@ -2,7 +2,7 @@
   programs.zsh = {
     enable = true;
     enableCompletion = true;
-    enableAutosuggestions = true;
+    autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
     initExtra = ''
       source ${pkgs.zsh-vi-mode}/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh

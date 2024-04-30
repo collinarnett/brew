@@ -22,7 +22,7 @@ in {
     git
     gotop
     nil
-    nixfmt
+    nixfmt-classic
     nodejs
     noto-fonts-emoji
     statix

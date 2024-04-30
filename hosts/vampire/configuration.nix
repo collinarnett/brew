@@ -20,7 +20,9 @@
   '';
 
   virtualisation.docker.enable = true;
-  virtualisation.containers.cdi.dynamic.nvidia.enable = true;
+  virtualisation.docker.package = pkgs.docker_25;
+  hardware.nvidia-container-toolkit.enable = true;
+
   # Bootloader.
   boot.loader.grub.enable = true;
   boot.loader.grub.device = "/dev/vda";
@@ -44,10 +46,8 @@
   i18n.defaultLocale = "en_US.utf8";
 
   # Configure keymap in X11
-  services.xserver = {
-    layout = "us";
-    xkbVariant = "";
-  };
+  services.xserver.xkb.layout = "us";
+  services.xserver.xkb.variant = "";
 
   programs.vim.defaultEditor = true;
 
@@ -56,7 +56,7 @@
     isNormalUser = true;
     description = "Collin";
     shell = pkgs.zsh;
-    extraGroups = ["networkmanager" "wheel"];
+    extraGroups = ["networkmanager" "wheel" "docker"];
     packages = with pkgs; [];
   };
 
@@ -73,6 +73,7 @@
   environment.systemPackages = with pkgs; [
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     #  wget
+    podman-compose
     git
   ];
 
