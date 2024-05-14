@@ -44,26 +44,21 @@
   home.packages = with pkgs; [
     alejandra
     anki-bin
-    asciiquarium
     audacity
     awscli2
-    bear
+    chromium
     clang-tools
     crawl
     croc
-    chromium
     dconf
-    deluge-gtk
     dfu-programmer
     dracula-theme
     fira-code
     fira-code-symbols
     firefox
-    fluffychat
     freetube
     fzf
     gnome3.adwaita-icon-theme
-    gnucash
     google-cloud-sdk
     gotop
     grim
@@ -74,8 +69,8 @@
     ipafont
     languagetool
     liberation_ttf
+    libreoffice
     libsForQt5.kdenlive
-    lynx
     mpv
     neofetch
     nerdfonts
@@ -86,21 +81,17 @@
     noto-fonts-emoji
     nyxt
     obs-studio
-    openconnect
     ormolu
     pandoc
     parted
     pavucontrol
     pciutils
-    pfetch
+    pinta
     pulseaudio
     qmk
     qpwgraph
-    rclone
-    rtorrent
     signal-desktop
     siji
-    slack
     slurp
     statix
     texlive.combined.scheme-tetex

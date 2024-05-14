@@ -57,7 +57,6 @@
     description = "Collin";
     shell = pkgs.zsh;
     extraGroups = ["networkmanager" "wheel" "docker"];
-    packages = with pkgs; [];
   };
 
   # Enable automatic login for the user.

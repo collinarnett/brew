@@ -1,7 +1,7 @@
 {
   services.mpd = {
     enable = true;
-    musicDirectory = "/home/collin/music";
+    musicDirectory = "/media/music/music";
     extraConfig = ''
       audio_output {
         type "pulse"

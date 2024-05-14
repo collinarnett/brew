@@ -2,7 +2,7 @@
   programs.beets = {
     enable = true;
     settings = {
-      directory = "/home/collin/music/";
+      directory = "/media/music/";
       plugins = ["fetchart"];
     };
   };

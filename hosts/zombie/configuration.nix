@@ -5,15 +5,17 @@
 }: {
   imports = [
     ../../modules/apcupsd.nix
-    ../../modules/dwarf-fortress.nix
-    ../../modules/syncthing.nix
+    ../../modules/authelia.nix
+    ../../modules/docker-registry.nix
+    ../../modules/jellyfin.nix
     ../../modules/libvirtd.nix
     ../../modules/pipewire.nix
+    ../../modules/searx.nix
     ../../modules/sops.nix
-    ../../modules/taskserver.nix
+    ../../modules/syncthing.nix
+    ../../modules/traefik.nix
     ../../modules/wireguard.nix
     ../../modules/xdg.nix
-    ../../modules/calibre-web.nix
     ./hardware-configuration.nix
   ];
 
@@ -29,7 +31,6 @@
     package = (import ../../modules/emacs/emacs.nix) pkgs;
   };
 
-  services.mozillavpn.enable = true;
   nix.settings.auto-optimise-store = true;
   nix.gc = {
     automatic = true;
@@ -41,7 +42,7 @@
   services.blueman.enable = true;
 
   # Remote Builds
-  boot.binfmt.emulatedSystems = ["aarch64-linux" "i686-linux"];
+  boot.binfmt.emulatedSystems = ["aarch64-linux"];
 
   # General
   boot.loader.systemd-boot.configurationLimit = 30;
@@ -64,7 +65,7 @@
   # Users
   users.users.collin = {
     isNormalUser = true;
-    extraGroups = ["video" "wheel" "libvirtd" "input" "audio" "docker" "adbusers"];
+    extraGroups = ["video" "wheel" "libvirtd" "input" "audio" "docker" "adbusers" "multimedia" "aws"];
     shell = pkgs.zsh;
     openssh.authorizedKeys.keys = [
       "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC9+hfX1OTMC1AeAj0noGcrdVGjgWoYBjREwHbIybKAezRQGwKmrwy9C3ussdk3Xmggc3K2tIR6UxAGLtFaBFC+OMK1Se8KwNgKRHxJVAfphCP9GS/rFb30o/NJvHue25BI+j8qGQBvsLXO/drCbIsPv6PmknOlGHcto6hfZe+6Kp4OXp9Mdmd4y3Kr7YcKIWu7rVHoi8b0EG20+KIHXX7wc0KoJIjHSJOjjtWqukaaXwG2mFkoB94juyWVp1zYztZcuyenYNSKYiANuiUmf7M80PDF0wIK6+sMtAP3q5wHLNExvs6BVLMFNlkjcfq6xWcwJraxDqqYhl0GA89o8tlvCGaKn/hQK0EnTdl3BdX6/i/WmSH8G6FMoKQBIu0tI3tSkS9JNvpGWjr6Wwp+fb9oVEmpXItHc2gksaNWhhM3UdMOds6IH+hkxzrTNVS/9F8dOVrp9n7uPvCDQD+um9BQsuM+lw7e+Uce9QlxrA5mJx6zC4CG4gpqfLAoSe+eybQNj33NPRJ5LnP20YWzq5AHQF3A3HV3UgbjciGQEykzGzeKI7+9QmtRcKy19TDTe09lY3Xmq+eTxFJCtqIzxHF8s5UgNUY1oJP9gR4228mqDPk/+Uzr0xfE0UnEijbbtLlNl/eJh0MOkb1ifPaQSIqpiniuDacGmW0t51lcGFUYKQ== collin@arnett.it"
@@ -81,19 +82,9 @@
     };
   };
 
-  services.udev.packages = with pkgs; [
-    android-udev-rules
-    qmk-udev-rules
-    vial
-  ];
-
   services.udev.extraRules = ''
     'KERNEL=="hidraw*", SUBSYSTEM=="hidraw", MODE="0666", TAG+="uaccess", TAG+="udev-acl"'
   '';
-
-  environment.systemPackages = with pkgs; [
-    vial
-  ];
 
   nix.settings.trusted-users = ["collin"];
 
@@ -115,15 +106,10 @@
 
   documentation.dev.enable = true;
 
-  programs.adb.enable = true;
-
   # GPU
   hardware.opengl = {
     enable = true;
     driSupport = true;
-    extraPackages = with pkgs; [
-      rocmPackages.clr.icd
-    ];
   };
 
   # Containers

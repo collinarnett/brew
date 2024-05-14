@@ -1,4 +1,0 @@
-#!/bin/sh
-systemctl stop k3s
-rm -rf /var/lib/rancher/ /etc/rancher
-systemctl start k3s
