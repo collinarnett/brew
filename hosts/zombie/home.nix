@@ -35,7 +35,6 @@
     #    AWS_CONFIG_FILE = nixosConfig.sops.secrets.awscli2-config.path;
     #    AWS_SHARED_CREDENTIALS_FILE =
     #      nixosConfig.sops.secrets.awscli2-credentials.path;
-    OPENAI_API_KEY = "$(cat ${nixosConfig.sops.secrets.openai_api_key.path})";
     XDG_SESSION_TYPE = "wayland";
     XDG_CURRENT_DESKTOP = "sway";
     BROWSER = "firefox";
@@ -53,8 +52,6 @@
     dconf
     dfu-programmer
     dracula-theme
-    fira-code
-    fira-code-symbols
     firefox
     freetube
     fzf
@@ -73,12 +70,10 @@
     libsForQt5.kdenlive
     mpv
     neofetch
-    nerdfonts
     nil
     nix-index
-    nixfmt
+    nixfmt-classic
     nmap
-    noto-fonts-emoji
     nyxt
     obs-studio
     ormolu
@@ -91,7 +86,6 @@
     qmk
     qpwgraph
     signal-desktop
-    siji
     slurp
     statix
     texlive.combined.scheme-tetex

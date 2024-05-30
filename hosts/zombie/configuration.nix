@@ -41,6 +41,15 @@
   hardware.bluetooth.enable = true;
   services.blueman.enable = true;
 
+  fonts.packages = with pkgs; [
+    emacs-all-the-icons-fonts
+    fira-code
+    fira-code-symbols
+    siji
+    noto-fonts-emoji
+    nerdfonts
+  ];
+
   # Remote Builds
   boot.binfmt.emulatedSystems = ["aarch64-linux"];
 
