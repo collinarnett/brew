@@ -5,7 +5,7 @@
   sops.secrets.awscli2-config.group = "aws";
   sops.secrets.awscli2-credentials.group = "aws";
   sops.secrets.ddclient-config = {};
-  sops.secrets.openai_api_key = {owner = config.users.users.collin.name;};
+  sops.secrets.emacs_oai_key.owner = "collin";
   sops.secrets.searx_secret_key = {
     owner = config.systemd.services.traefik.serviceConfig.User;
   };

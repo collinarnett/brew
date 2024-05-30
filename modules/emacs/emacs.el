@@ -26,6 +26,37 @@
   :config
   (add-to-list 'same-window-buffer-names "*Personal Keybindings*"))
 
+;; tabs
+(use-package all-the-icons
+  :demand t)
+(use-package centaur-tabs
+  :demand
+  :after (all-the-icons)
+  :config
+  (centaur-tabs-headline-match)
+  (centaur-tabs-change-fonts "FiraCode" 120)
+  (centaur-tabs-mode t)
+  :custom
+  (centaur-tabs-set-icons t)
+  (centaur-tabs-height 30)
+  (centaur-tabs-set-close-button nil)
+  (centaur-tabs-style "bar")
+  (centaur-tabs-show-new-tab-button nil)
+  (centaur-tabs-set-bar 'under)
+  ;; Note: If you're not using Spacmeacs, in order for the underline to display
+  ;; correctly you must add the following line:
+  (x-underline-at-descent-line t)
+  :bind
+  ("C-<prior>" . centaur-tabs-backward)
+  ("C-<next>" . centaur-tabs-forward))
+
+;; chatgpt integration
+(use-package f)
+(use-package gptel
+  :after (f)
+  :config
+  (setq gptel-api-key (f-read-text "/run/secrets/emacs_oai_key" 'utf-8)))
+
 ;; mode line
 (use-package moody
   :config
@@ -35,8 +66,7 @@
   (moody-replace-eldoc-minibuffer-message-function))
 
 ;; font
-(add-to-list 'default-frame-alist
-             '(font . "Fira Code 12"))
+(set-frame-font "FiraCode 12" nil t)
 
 ;; vim keybinds
 (use-package evil
@@ -169,22 +199,25 @@
   :ensure nix-mode
   :commands (nix-repl))
 
+;; docker
+(use-package dockerfile-mode)
+
 ;; minibuffer completion
 (use-package helm
   :init
   (helm-mode 1))
 
-;; icons
-(use-package nerd-icons)
-
 ;; dashboard
 (use-package dashboard
-  :after (nerd-icons)
   :config
   (dashboard-setup-startup-hook)
-  (setq dashboard-startup-banner
-	"/home/collin/brew/modules/emacs/hydra.txt")
-  (setq dashboard-center-content t))
+  :custom
+  (dashboard-icon-type 'all-the-icons)
+  (dashboard-set-heading-icons t)
+  (dashboard-set-file-icons t)
+  (dashboard-startup-banner
+   "/home/collin/brew/modules/emacs/hydra.txt")
+  (dashboard-center-content t))
 
 ;; setup pinentry for gpg signing
 (use-package pinentry)
