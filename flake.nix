@@ -42,11 +42,6 @@
         ];
       };
       home-manager-path = home-manager-android.outPath;
-      home-manager = {
-        backupFileExtension = "hm-bak";
-        useGlobalPkgs = true;
-        config = ./nix-on-droid/home.nix;
-      };
     };
     nixosConfigurations = let
       mkHost = {
