@@ -32,9 +32,6 @@
     GPG_TTY = "$(tty)";
     KUBECONFIG = "/etc/rancher/k3s/k3s.yaml";
     GH_TOKEN = "$(cat ${nixosConfig.sops.secrets.gh_token.path})";
-    #    AWS_CONFIG_FILE = nixosConfig.sops.secrets.awscli2-config.path;
-    #    AWS_SHARED_CREDENTIALS_FILE =
-    #      nixosConfig.sops.secrets.awscli2-credentials.path;
     XDG_SESSION_TYPE = "wayland";
     XDG_CURRENT_DESKTOP = "sway";
     BROWSER = "firefox";
@@ -98,8 +95,6 @@
     wget
     whipper
     wl-clipboard
-    xdg-desktop-portal
-    xdg-desktop-portal-wlr
     xournalpp
     xplr
     zip

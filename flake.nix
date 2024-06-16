@@ -8,6 +8,16 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
+    nixpkgs-android.url = "github:NixOS/nixpkgs/nixos-23.11";
+    home-manager-android = {
+      url = "github:nix-community/home-manager/release-23.11";
+      inputs.nixpkgs.follows = "nixpkgs-android";
+    };
+    nix-on-droid = {
+      url = "github:nix-community/nix-on-droid/release-23.11";
+      inputs.nixpkgs.follows = "nixpkgs-android";
+      inputs.home-manager.follows = "home-manager-android";
+    };
   };
   outputs = {
     self,
@@ -16,8 +26,28 @@
     nixos-hardware,
     nixpkgs,
     sops-nix,
+    home-manager-android,
+    nix-on-droid,
+    nixpkgs-android,
     ...
   }: {
+    nixOnDroidConfigurations.default = nix-on-droid.lib.nixOnDroidConfiguration {
+      modules = [
+        ./nix-on-droid/nix-on-droid.nix
+      ];
+      pkgs = import nixpkgs-android {
+        system = "aarch64-linux";
+        overlays = [
+          nix-on-droid.overlays.default
+        ];
+      };
+      home-manager-path = home-manager-android.outPath;
+      home-manager = {
+        backupFileExtension = "hm-bak";
+        useGlobalPkgs = true;
+        config = ./nix-on-droid/home.nix;
+      };
+    };
     nixosConfigurations = let
       mkHost = {
         system ? "x86_64-linux",
@@ -46,7 +76,7 @@
                     ];
                   };
                 };
-                nixpkgs.overlays = [emacs-overlay.overlay];
+                nixpkgs.overlays = [emacs-overlay.overlay (import ./pkgs/all-packages.nix)];
               }
 
               sops-nix.nixosModules.sops
@@ -63,6 +93,7 @@
       zombie = mkHost {
         host = "zombie";
       };
+
       vampire = mkHost {host = "vampire";};
       arachne = mkHost {
         host = "arachne";

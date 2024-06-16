@@ -34,6 +34,7 @@
   :after (all-the-icons)
   :config
   (centaur-tabs-headline-match)
+  (centaur-tabs-enable-buffer-reordering)
   (centaur-tabs-change-fonts "FiraCode" 120)
   (centaur-tabs-mode t)
   :custom
@@ -91,7 +92,9 @@
 
 ;; lsp support
 (use-package lsp-mode
-  :after (direnv-mode))
+  :after (direnv-mode)
+  :hook
+  (sh-mode . lsp))
 
 (use-package lsp-ui
   :after (lsp-mode))
@@ -156,10 +159,15 @@
 (use-package python-mode
   :mode "\\.py\\'")
 
+
 (use-package lsp-pyright
   :hook (python-mode . lsp-deferred))
 
 (use-package jupyter)
+
+;; bash
+(use-package shell-script-mode
+  :mode "\\.sh\\'")
 
 ;; haskell
 (use-package lsp-haskell
