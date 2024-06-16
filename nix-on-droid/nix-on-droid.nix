@@ -14,6 +14,11 @@
     openssh
   ];
 
+  home-manager = {
+    backupFileExtension = "hm-bak";
+    useGlobalPkgs = true;
+    config = ./home.nix;
+  };
   # Backup etc files instead of failing to activate generation if a file already exists in /etc
   environment.etcBackupExtension = ".bak";
 
