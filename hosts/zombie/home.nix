@@ -47,6 +47,7 @@
     crawl
     croc
     dconf
+    ripgrep
     dfu-programmer
     dracula-theme
     firefox
