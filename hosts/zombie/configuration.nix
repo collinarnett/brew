@@ -120,10 +120,7 @@
   documentation.dev.enable = true;
 
   # GPU
-  hardware.opengl = {
-    enable = true;
-    driSupport = true;
-  };
+  hardware.graphics.enable = true;
 
   # Containers
   virtualisation.docker.enable = true;
