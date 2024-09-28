@@ -23,10 +23,10 @@ in {
         appgate-sdp =
           prev.appgate-sdp.overrideAttrs
           rec {
-            version = "6.3.1";
+            version = "6.4.0";
             src = fetchurl {
               url = "https://bin.appgate-sdp.com/${lib.versions.majorMinor version}/client/appgate-sdp_${version}_amd64.deb";
-              sha256 = "1j4xyi5xagm2wn6953ncg8zmrmppfhsp3j57sqvc78nrmcjv8nyr";
+              sha256 = "sha256-0h6Mz3B7fADGL5tGbrKNYpVIAvRu7Xx0n9OvjOeVCds=";
             };
           };
       })
@@ -38,7 +38,13 @@ in {
     security.pki.certificateFiles = ["${pkgs.dod-certs}/dod-certs.pem"];
 
     programs.appgate-sdp.enable = true;
-
+    programs.firefox.policies = {
+      SecurityDevices = {
+        Add = {
+          "CAC" = "${pkgs.cackey}/lib/libcackey.so";
+        };
+      };
+    };
     # Must go to Firefox -> Settings -> Privacy & Security -> Security Devices
     # and select "Load" then navigate to the cackey store path and select libcackey.so
     environment.systemPackages = with pkgs; [
