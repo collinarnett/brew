@@ -6,7 +6,7 @@
 }:
 stdenv.mkDerivation {
   pname = "dod-certs";
-  version = "0.1.0";
+  version = "5.13.0";
 
   src = fetchzip {
     url = "https://dl.dod.cyber.mil/wp-content/uploads/pki-pke/zip/unclass-certificates_pkcs7_DoD.zip";
