@@ -2,6 +2,7 @@
   wayland.windowManager.sway = {
     enable = true;
     wrapperFeatures.gtk = true;
+    wrapperFeatures.base = true;
     config = {
       terminal = "kitty";
       #    input = {
@@ -18,6 +19,7 @@
         DP-1 = {
           bg = "#282a36 solid_color";
           subpixel = "none";
+          scale = "2";
         };
       };
       modifier = "Mod4";
