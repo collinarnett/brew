@@ -7,6 +7,9 @@
 
 (display-line-numbers-mode +1)
 
+;; Show trailing whitespace
+(setq-default show-trailing-whitespace t)
+
 ;; Performance settings for lsp-mode
 (setq gc-cons-threshold 100000000)
 (setq read-process-output-max (* 1024 1024))
@@ -164,6 +167,11 @@
   :hook (python-mode . lsp-deferred))
 
 (use-package jupyter)
+
+(use-package groovy-mode)
+(use-package lsp-groovy
+  :hook
+  (groovy-mode . lsp-deferred))
 
 ;; bash
 (use-package shell-script-mode
