@@ -1,4 +1,12 @@
 {pkgs, ...}: {
+  xdg.mime = {
+    enable = true;
+    defaultApplications = {
+      "x-scheme-handler/http" = "firefox.desktop";
+      "x-scheme-handler/https" = "firefox.desktop";
+      "text/html" = "firefox.desktop";
+    };
+  };
   xdg.portal = {
     enable = true;
 
@@ -11,9 +19,13 @@
     # If you simply want to keep the behaviour in < 1.17, which uses the first
     # portal implementation found in lexicographical order, use the following:
     #
-    # xdg.portal.config.common.default = "*";
-    config = {common = {default = "wlr";};};
+    # config.common.default = "*";
+    config.sway.default = ["wlr" "gtk"];
+    xdgOpenUsePortal = true;
     wlr.enable = true;
+    extraPortals = [
+      pkgs.xdg-desktop-portal-gtk
+    ];
     wlr.settings.screencast = {
       output_name = "DP-2";
       chooser_type = "simple";
