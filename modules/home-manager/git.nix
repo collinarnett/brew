@@ -3,7 +3,7 @@
     enable = true;
     userEmail = "collin@arnett.it";
     userName = "Collin Arnett";
-    difftastic.enable = true;
+    difftastic.enable = false;
     extraConfig = {commit = {verbose = true;};};
     signing = {
       key = "A85650D42EB741D9";
