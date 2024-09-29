@@ -14,12 +14,11 @@ in {
     ../../modules/home-manager/mako.nix
     ../../modules/home-manager/mpd.nix
     ../../modules/home-manager/ncmpcpp.nix
-    ../../modules/home-manager/neovim/neovim.nix
     ../../modules/home-manager/starship.nix
     ../../modules/home-manager/swayidle.nix
     ../../modules/home-manager/swaylock.nix
     ../../modules/home-manager/wofi/wofi.nix
-    ../../modules/home-manager/zathura.nix
+    ../../modules/home-manager/zathura/zathura.nix
     ../../modules/home-manager/zsh.nix
     ./modules/sway.nix
     ./modules/waybar/waybar.nix

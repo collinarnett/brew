@@ -6,6 +6,7 @@
   wayland.windowManager.sway = {
     enable = true;
     wrapperFeatures.gtk = true;
+    checkConfig = false;
     config = {
       terminal = "kitty";
       bars = [{command = "${pkgs.waybar}/bin/waybar";}];

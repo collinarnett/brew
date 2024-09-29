@@ -33,7 +33,7 @@
     };
   };
 
-  hardware.opengl.enable = true;
+  hardware.graphics.enable = true;
   services.tlp = {
     enable = true;
     settings = {
@@ -93,7 +93,6 @@
   time.timeZone = "America/New_York";
 
   programs.sway.enable = true;
-  programs.vim.defaultEditor = true;
   users.users.collin = {
     isNormalUser = true;
     shell = pkgs.zsh;
@@ -103,7 +102,7 @@
   programs.dconf.enable = true; # fixes issue with home-manager
 
   environment.systemPackages = with pkgs; [
-    gnome.adwaita-icon-theme
+    adwaita-icon-theme
     hunspellDicts.en_US
     wget
     git
