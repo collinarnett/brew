@@ -75,7 +75,7 @@
                     inputs.disko.nixosModules.disko
                     inputs.sops-nix.nixosModules.sops
                     inputs.home-manager.nixosModules.home-manager
-                    ./hosts/zombie/configuration.nix
+                    ./hosts/${host}/configuration.nix
                     {
                       home-manager.useGlobalPkgs = true;
                       home-manager.useUserPackages = true;
@@ -89,12 +89,8 @@
           vampire = genSystem "collin" "vampire" [];
           arachne = genSystem "collin" "arachne" [
             ./modules/zfs
-            {
-              imports = [
-                "${nixpkgs}/nixos/modules/installer/scan/not-detected.nix"
-                "${nixos-hardware}/lenovo/thinkpad/t440p"
-              ];
-            }
+            "${nixpkgs}/nixos/modules/installer/scan/not-detected.nix"
+            "${nixos-hardware}/lenovo/thinkpad/t440p"
           ];
         };
       };
