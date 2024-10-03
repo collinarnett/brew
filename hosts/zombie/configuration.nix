@@ -13,7 +13,6 @@
     ../../modules/pipewire.nix
     ../../modules/searx.nix
     ../../modules/sops.nix
-    ../../modules/syncthing.nix
     ../../modules/traefik.nix
     ../../modules/wireguard.nix
     ../../modules/xdg.nix

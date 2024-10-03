@@ -1,6 +1,6 @@
 {...}: {
   services.syncthing = {
-    enable = true;
+    enable = false;
     openDefaultPorts = true;
     user = "collin";
     group = "users";
