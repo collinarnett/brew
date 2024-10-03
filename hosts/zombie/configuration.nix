@@ -31,7 +31,6 @@
     enable = true;
     defaultEditor = true;
     startWithGraphical = true;
-    package = (import ../../modules/emacs/emacs.nix) pkgs;
   };
 
   nix.settings.auto-optimise-store = true;
