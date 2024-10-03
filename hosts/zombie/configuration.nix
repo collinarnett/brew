@@ -94,16 +94,7 @@
 
   nix.settings.trusted-users = ["collin"];
 
-  # Fixes 'too many open files'
-  security.pam.loginLimits = [
-    {
-      domain = "*";
-      type = "soft";
-      item = "nofile";
-      value = "4096";
-    }
-  ];
-
+  # Man pages
   documentation.dev.enable = true;
 
   # GPU
