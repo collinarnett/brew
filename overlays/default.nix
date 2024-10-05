@@ -7,6 +7,7 @@ final: prev: {
     extraEmacsPackages = epkgs:
       with epkgs; [
         use-package
+        treesit-grammars.with-all-grammars
       ];
     override = self: super: {
       smartparens = super.melpaPackages.smartparens.overrideAttrs (old: {

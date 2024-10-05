@@ -3,14 +3,21 @@
     nix-settings = {pkgs, ...}: {
       nixpkgs.overlays = [
         inputs.emacs-overlay.overlay
-        (import ../overlays/python.nix)
+        (import ../overlays)
         (import ../pkgs/all-packages.nix)
       ];
       nix = {
         package = pkgs.nixVersions.latest;
         registry.pkgs.flake = inputs.nixpkgs;
         nixPath = ["nixpkgs=${inputs.nixpkgs}"];
+        gc = {
+          automatic = true;
+          randomizedDelaySec = "14m";
+          options = "--delete-older-than 10d";
+        };
         settings = {
+          experimental-features = ["nix-command" "flakes"];
+          auto-optimise-store = true;
           substituters = [
             "https://nix-community.cachix.org"
           ];

@@ -166,12 +166,11 @@
 (use-package lsp-pyright
   :hook (python-mode . lsp-deferred))
 
+
 (use-package jupyter)
 
-(use-package groovy-mode)
-(use-package lsp-groovy
-  :hook
-  (groovy-mode . lsp-deferred))
+;; typescript
+(use-package tsx-ts-mode)
 
 ;; bash
 (use-package shell-script-mode
@@ -232,7 +231,7 @@
   (dashboard-set-heading-icons t)
   (dashboard-set-file-icons t)
   (dashboard-startup-banner
-   "/home/collin/brew/modules/emacs/hydra.txt")
+   "/home/collin/brew/configurations/emacs/hydra.txt")
   (dashboard-center-content t))
 
 ;; setup pinentry for gpg signing
