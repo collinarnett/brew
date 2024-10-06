@@ -7,6 +7,10 @@
     flake-parts.url = "github:hercules-ci/flake-parts";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     home-manager.url = "github:nix-community/home-manager";
+    impermanence.url = "github:nix-community/impermanence";
+    nixos-anywhere.inputs.nixpkgs.follows = "nixpkgs";
+    nixos-anywhere.url = "github:nix-community/nixos-anywhere";
+    nixos-facter-modules.url = "github:numtide/nixos-facter-modules";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     nixpkgs-android.url = "github:NixOS/nixpkgs/nixos-23.11";
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
@@ -72,7 +76,6 @@
                 modules =
                   [
                     config.nixosModules.nix-settings
-                    inputs.disko.nixosModules.disko
                     inputs.sops-nix.nixosModules.sops
                     inputs.home-manager.nixosModules.home-manager
                     ./hosts/${host}/configuration.nix
@@ -87,6 +90,13 @@
         in {
           zombie = genSystem "collin" "zombie" [];
           vampire = genSystem "collin" "vampire" [];
+          azathoth = genSystem "collin" "azathoth" [
+            inputs.disko.nixosModules.disko
+            inputs.impermanence.nixosModules.impermanence
+            inputs.nixos-facter-modules.nixosModules.facter
+            # TODO: Figure out why this is not working
+            # inputs.impermanence.nixosModules.home-manager.impermanence
+          ];
           arachne = genSystem "collin" "arachne" [
             ./modules/zfs
             "${nixpkgs}/nixos/modules/installer/scan/not-detected.nix"
