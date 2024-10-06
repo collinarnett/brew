@@ -42,6 +42,7 @@
   in
     with pkgs;
       [
+        adwaita-icon-theme
         alejandra
         anki-bin
         audacity
@@ -51,13 +52,11 @@
         crawl
         croc
         dconf
-        ripgrep
         dfu-programmer
         dracula-theme
         firefox
         freetube
         fzf
-        adwaita-icon-theme
         google-cloud-sdk
         gotop
         grim
@@ -65,6 +64,7 @@
         helvum
         hunspellDicts.en_US
         imv
+        iommu-groups
         ipafont
         languagetool
         liberation_ttf
@@ -86,6 +86,7 @@
         pulseaudio
         qmk
         qpwgraph
+        ripgrep
         signal-desktop
         slurp
         statix
