@@ -4,20 +4,26 @@
   ...
 }: {
   imports = [
-    ../../modules/cac.nix
     ../../modules/apcupsd.nix
-    ../../modules/authelia.nix
+    ../../modules/cac.nix
     ../../modules/docker-registry.nix
-    ../../modules/jellyfin.nix
+    ../../modules/homelab.nix
     ../../modules/libvirtd.nix
     ../../modules/pipewire.nix
-    ../../modules/searx.nix
     ../../modules/sops.nix
-    ../../modules/traefik.nix
     ../../modules/wireguard.nix
     ../../modules/xdg.nix
     ./hardware-configuration.nix
   ];
+
+  # Homelab
+  services.homelab = {
+    enable = true;
+    authelia.enable = true;
+    searx.enable = true;
+    traefik.enable = true;
+    jellyfin.enable = true;
+  };
 
   services.cac.enable = true;
 

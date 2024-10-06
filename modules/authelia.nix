@@ -1,4 +1,8 @@
-{config, ...}: let
+{
+  config,
+  lib,
+  ...
+}: let
   inherit
     (config.sops.secrets)
     authelia_jwt_secret_file
@@ -6,10 +10,12 @@
     authelia_storage_encryption_key_file
     authelia_jwks_settings_file
     ;
+  inherit (lib) mkIf;
+  cfg = config.services.homelab;
 in {
   services.authelia.instances = {
     main = {
-      enable = true;
+      enable = cfg.authelia.enable;
       settingsFiles = [authelia_jwks_settings_file.path];
       secrets.jwtSecretFile = authelia_jwt_secret_file.path;
       secrets.sessionSecretFile = authelia_session_secret_file.path;
@@ -36,7 +42,7 @@ in {
           };
         };
         identity_providers.oidc = {
-          clients = [
+          clients = mkIf cfg.jellyfin.enable [
             {
               id = "jellyfin";
               description = "Jellyfin";

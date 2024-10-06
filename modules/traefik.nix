@@ -1,8 +1,15 @@
-{config, ...}: {
+{
+  config,
+  lib,
+  ...
+}: let
+  inherit (lib) mkIf;
+  cfg = config.services.homelab;
+in {
   users.groups.aws = {};
-  users.users.traefik.extraGroups = ["aws"];
+  users.users.traefik.extraGroups = mkIf cfg.traefik.enable ["aws"];
   services.traefik = {
-    enable = true;
+    enable = cfg.traefik.enable;
     staticConfigOptions = {
       entryPoints = {
         web = {
@@ -31,7 +38,7 @@
       };
     };
     dynamicConfigOptions = {
-      http.middlewares.authelia = {
+      http.middlewares.authelia = mkIf cfg.authelia.enable {
         forwardauth = {
           address = "http://127.0.0.1:9091/api/verify?rd=https://login.trexd.dev/";
           trustForwardHeader = true;
@@ -44,39 +51,39 @@
         };
       };
 
-      http.routers.authelia = {
+      http.routers.authelia = mkIf cfg.authelia.enable {
         rule = "Host(`login.trexd.dev`)";
         entryPoints = ["websecure"];
         tls.certResolver = "letsencrypt";
         service = "authelia";
       };
-      http.services.authelia.loadBalancer.servers = [{url = "http://127.0.0.1:9091";}];
+      http.services.authelia.loadBalancer.servers = mkIf cfg.authelia.enable [{url = "http://127.0.0.1:9091";}];
 
-      http.routers.searx = {
+      http.routers.searx = mkIf cfg.searx.enable {
         rule = "Host(`search.trexd.dev`)";
         entryPoints = ["websecure"];
         tls.certResolver = "letsencrypt";
         service = "searx";
         middlewares = "authelia";
       };
-      http.services.searx.loadBalancer.servers = [{url = "http://127.0.0.1:8080";}];
+      http.services.searx.loadBalancer.servers = mkIf cfg.searx.enable [{url = "http://127.0.0.1:8080";}];
 
-      http.routers.jellyfin = {
+      http.routers.jellyfin = mkIf cfg.jellyfin.enable {
         rule = "Host(`jellyfin.trexd.dev`)";
         entryPoints = ["websecure"];
         tls.certResolver = "letsencrypt";
         service = "jellyfin";
         middlewares = "authelia";
       };
-      http.services.jellyfin.loadBalancer.servers = [{url = "http://127.0.0.1:8096";}];
+      http.services.jellyfin.loadBalancer.servers = mkIf cfg.jellyfin.enable [{url = "http://127.0.0.1:8096";}];
     };
   };
 
-  systemd.services.traefik.environment = {
+  systemd.services.traefik.environment = mkIf cfg.traefik.enable {
     AWS_PROFILE = "default";
     AWS_REGION = "us-east-1";
     AWS_SHARED_CREDENTIALS_FILE = config.sops.secrets.awscli2-credentials.path;
   };
 
-  networking.firewall.allowedTCPPorts = [80 443];
+  networking.firewall.allowedTCPPorts = mkIf cfg.traefik.enable [80 443];
 }

@@ -10,21 +10,6 @@
   sops.secrets.gcloud-ai-assistant.owner = "collin";
   sops.secrets.ddclient-config = {};
   sops.secrets.emacs_oai_key.owner = "collin";
-  sops.secrets.searx_secret_key = {
-    owner = config.systemd.services.traefik.serviceConfig.User;
-  };
-  sops.secrets.authelia_jwks_settings_file = {
-    owner = config.systemd.services.authelia-main.serviceConfig.User;
-  };
-  sops.secrets.authelia_jwt_secret_file = {
-    owner = config.systemd.services.authelia-main.serviceConfig.User;
-  };
-  sops.secrets.authelia_session_secret_file = {
-    owner = config.systemd.services.authelia-main.serviceConfig.User;
-  };
-  sops.secrets.authelia_storage_encryption_key_file = {
-    owner = config.systemd.services.authelia-main.serviceConfig.User;
-  };
-  sops.secrets.authelia_session_redis_password_file = {};
   sops.secrets.gh_token = {owner = config.users.users.collin.name;};
+  # TODO: Make configurable based on which services are enabled
 }

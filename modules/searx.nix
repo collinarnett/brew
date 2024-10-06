@@ -1,6 +1,13 @@
-{config, ...}: {
+{
+  config,
+  lib,
+  ...
+}: let
+  inherit (lib) mkIf;
+  cfg = config.services.homelab;
+in {
   services.searx = {
-    enable = true;
+    enable = cfg.searx.enable;
     settings = {
       server.port = 8080;
       server.secret_key = "@SEARX_SECRET_KEY@";
@@ -11,7 +18,7 @@
       };
     };
   };
-  systemd.services.searx.environment = {
+  systemd.services.searx.environment = mkIf cfg.searx.enable {
     SEARX_SECRET_KEY = "$(cat ${config.sops.secrets.searx_secret_key.path})";
   };
 }
