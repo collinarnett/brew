@@ -3368,7 +3368,7 @@
           "[13]",
           "[14]"
         ],
-        "bogo": 8387.22,
+        "bogo": 8387.41,
         "cache": 1024,
         "units": 48,
         "physical_id": 0,
@@ -3429,7 +3429,7 @@
         "unix_device_number": {
           "type": 98,
           "major": 259,
-          "minor": 2,
+          "minor": 3,
           "range": 0
         },
         "unix_device_names": [
@@ -3583,7 +3583,7 @@
         "unix_device_number": {
           "type": 98,
           "major": 259,
-          "minor": 1,
+          "minor": 2,
           "range": 0
         },
         "unix_device_names": [
@@ -4800,61 +4800,6 @@
     "network_interface": [
       {
         "index": 155,
-        "attached_to": 0,
-        "base_class": {
-          "name": "Network Interface",
-          "value": 263
-        },
-        "sub_class": {
-          "name": "Loopback",
-          "value": 0
-        },
-        "model": "Loopback network interface",
-        "sysfs_id": "/class/net/lo",
-        "unix_device_name": "lo",
-        "unix_device_names": [
-          "lo"
-        ]
-      },
-      {
-        "index": 156,
-        "attached_to": 68,
-        "base_class": {
-          "name": "Network Interface",
-          "value": 263
-        },
-        "sub_class": {
-          "name": "Ethernet",
-          "value": 1
-        },
-        "model": "Ethernet network interface",
-        "sysfs_id": "/class/net/eno2",
-        "sysfs_device_link": "/devices/pci0000:40/0000:40:03.2/0000:42:00.0",
-        "unix_device_name": "eno2",
-        "unix_device_names": [
-          "eno2"
-        ],
-        "resources": [
-          {
-            "type": "hwaddr",
-            "address": 99
-          },
-          {
-            "type": "phwaddr",
-            "address": 99
-          }
-        ],
-        "driver": "atlantic",
-        "driver_module": "atlantic",
-        "drivers": [
-          "atlantic"
-        ],
-        "driver_modules": [
-          "atlantic"
-        ]
-      },
-      {
-        "index": 157,
         "attached_to": 59,
         "base_class": {
           "name": "Network Interface",
@@ -4888,6 +4833,61 @@
         ],
         "driver_modules": [
           "igc"
+        ]
+      },
+      {
+        "index": 156,
+        "attached_to": 0,
+        "base_class": {
+          "name": "Network Interface",
+          "value": 263
+        },
+        "sub_class": {
+          "name": "Loopback",
+          "value": 0
+        },
+        "model": "Loopback network interface",
+        "sysfs_id": "/class/net/lo",
+        "unix_device_name": "lo",
+        "unix_device_names": [
+          "lo"
+        ]
+      },
+      {
+        "index": 157,
+        "attached_to": 68,
+        "base_class": {
+          "name": "Network Interface",
+          "value": 263
+        },
+        "sub_class": {
+          "name": "Ethernet",
+          "value": 1
+        },
+        "model": "Ethernet network interface",
+        "sysfs_id": "/class/net/eno2",
+        "sysfs_device_link": "/devices/pci0000:40/0000:40:03.2/0000:42:00.0",
+        "unix_device_name": "eno2",
+        "unix_device_names": [
+          "eno2"
+        ],
+        "resources": [
+          {
+            "type": "hwaddr",
+            "address": 99
+          },
+          {
+            "type": "phwaddr",
+            "address": 99
+          }
+        ],
+        "driver": "atlantic",
+        "driver_module": "atlantic",
+        "drivers": [
+          "atlantic"
+        ],
+        "driver_modules": [
+          "atlantic"
         ]
       }
     ],
