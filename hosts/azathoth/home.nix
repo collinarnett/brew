@@ -25,12 +25,12 @@
     clang-tools
     crawl
     dconf
-    ripgrep
     dracula-theme
     fzf
     gotop
     grim
     hunspellDicts.en_US
+    iommu-groups
     ipafont
     languagetool
     liberation_ttf
@@ -42,6 +42,7 @@
     pciutils
     pinta
     pulseaudio
+    ripgrep
     slurp
     statix
     tree
