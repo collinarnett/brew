@@ -81,13 +81,6 @@
     ../../secrets/keys/collinarnett.pub
   ];
 
-  programs.ssh.knownHosts = {
-    hosts = {
-      hostNames = ["github.com" "gitlab.com"];
-      publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBmGJyuKh5/XGj2x6wZYxcS8krQZc74uBwMJaxeqaj8n collin@arnett.it";
-    };
-  };
-
   nix.settings.trusted-users = ["collin"];
 
   # Man pages
