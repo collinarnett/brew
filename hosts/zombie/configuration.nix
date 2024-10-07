@@ -8,7 +8,6 @@
     ../../modules/cac.nix
     ../../modules/docker-registry.nix
     ../../modules/homelab.nix
-    ../../modules/libvirtd.nix
     ../../modules/pipewire.nix
     ../../modules/sops.nix
     ../../modules/wireguard.nix

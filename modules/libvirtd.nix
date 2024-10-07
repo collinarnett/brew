@@ -1,7 +1,7 @@
 {pkgs, ...}: {
   boot.initrd.availableKernelModules = ["amdgpu" "vfio-pci"];
   boot.initrd.preDeviceCommands = ''
-    DEVS="0000:0f:00.0 0000:0f:00.1"
+    DEVS="0000:41:00.0 0000:41:00.1"
     for DEV in $DEVS; do
       echo "vfio-pci" > /sys/bus/pci/devices/$DEV/driver_override
     done

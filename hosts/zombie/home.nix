@@ -96,7 +96,6 @@
         usbutils
         v4l-utils
         vhs
-        virt-manager
         wget
         wl-clipboard
         xournalpp
