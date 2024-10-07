@@ -6,7 +6,6 @@
   inherit (lib) mkIf;
   cfg = config.services.homelab;
 in {
-  users.groups.aws = {};
   users.users.traefik.extraGroups = mkIf cfg.traefik.enable ["aws"];
   services.traefik = {
     enable = cfg.traefik.enable;

@@ -48,7 +48,6 @@ in {
 
   config = {
     # TODO: Figure out where to put this
-    users.groups.aws = {};
     users.groups.multimedia = {};
     systemd.tmpfiles.rules = [
       "d /media 0770 - multimedia - -"
