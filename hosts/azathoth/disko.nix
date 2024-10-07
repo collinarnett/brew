@@ -57,6 +57,9 @@
           acltype = "posixacl";
           compression = "lz4";
           mountpoint = "none";
+          encryption = "aes-256-gcm";
+          keyformat = "passphrase";
+          keylocation = "prompt";
         };
 
         datasets = {
@@ -96,15 +99,6 @@
             postCreateHook = ''
               zfs snapshot zroot/root@empty
             '';
-          };
-          encrypted = {
-            type = "zfs_fs";
-            options = {
-              mountpoint = "none";
-              encryption = "aes-256-gcm";
-              keyformat = "passphrase";
-              keylocation = "prompt";
-            };
           };
         };
       };
