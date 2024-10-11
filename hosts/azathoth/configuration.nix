@@ -6,12 +6,22 @@
   imports = [
     ../../modules/pipewire.nix
     ../../modules/sops.nix
+    ../../modules/pcie-passthrough.nix
     ./impermanence.nix
     ./disko.nix
   ];
 
   # Hardware
   facter.reportPath = ./facter.json;
+
+  # PCIE-Passthrough
+  services.pcie-passthrough = {
+    enable = true;
+    user = "collin";
+    platform = "amd";
+    # GPU
+    vfio-ids = ["10de:2204" "10de:1aef"];
+  };
 
   # Filesystem
   fileSystems."/persist".neededForBoot = true;
@@ -22,11 +32,11 @@
     kernelParams = [
       "nohibernate"
     ];
-    initrd.postDeviceCommands =
-      #wipe / and /var on boot
-      ''
-        zfs rollback -r zroot/root@empty
-      '';
+    # initrd.postDeviceCommands =
+    #   #wipe / and /var on boot
+    #   ''
+    #     zfs rollback -r zroot/root@empty
+    #   '';
     supportedFilesystems = ["vfat" "zfs"];
     zfs = {
       forceImportAll = true;
