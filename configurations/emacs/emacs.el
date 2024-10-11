@@ -169,6 +169,10 @@
 
 (use-package jupyter)
 
+;; swarm
+(use-package swarm-mode)
+
+
 ;; typescript
 (use-package tsx-ts-mode)
 
