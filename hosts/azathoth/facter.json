@@ -23,8 +23,8 @@
     },
     "bluetooth": [
       {
-        "index": 144,
-        "attached_to": 146,
+        "index": 145,
+        "attached_to": 147,
         "bus_type": {
           "name": "USB",
           "value": 134
@@ -111,7 +111,7 @@
       },
       {
         "index": 150,
-        "attached_to": 146,
+        "attached_to": 147,
         "bus_type": {
           "name": "USB",
           "value": 134
@@ -190,7 +190,7 @@
       },
       {
         "index": 152,
-        "attached_to": 146,
+        "attached_to": 147,
         "bus_type": {
           "name": "USB",
           "value": 134
@@ -3368,7 +3368,7 @@
           "[13]",
           "[14]"
         ],
-        "bogo": 8387.41,
+        "bogo": 8387.3,
         "cache": 1024,
         "units": 48,
         "physical_id": 0,
@@ -3429,7 +3429,7 @@
         "unix_device_number": {
           "type": 98,
           "major": 259,
-          "minor": 3,
+          "minor": 5,
           "range": 0
         },
         "unix_device_names": [
@@ -3654,7 +3654,7 @@
         "model": "SanDisk Cruzer Blade",
         "sysfs_id": "/class/block/sda",
         "sysfs_bus_id": "6:0:0:0",
-        "sysfs_device_link": "/devices/pci0000:40/0000:40:03.6/0000:46:00.0/0000:47:0c.0/0000:49:00.0/usb7/7-5/7-5:1.0/host6/target6:0:0/6:0:0:0",
+        "sysfs_device_link": "/devices/pci0000:40/0000:40:03.6/0000:46:00.0/0000:47:0c.0/0000:49:00.0/usb7/7-3/7-3:1.0/host6/target6:0:0/6:0:0:0",
         "unix_device_name": "/dev/sda",
         "unix_device_number": {
           "type": 98,
@@ -3665,8 +3665,8 @@
         "unix_device_names": [
           "/dev/disk/by-diskseq/12",
           "/dev/disk/by-id/usb-SanDisk_Cruzer_Blade_4C530001210624115184-0:0",
-          "/dev/disk/by-path/pci-0000:49:00.0-usb-0:5:1.0-scsi-0:0:0:0",
-          "/dev/disk/by-path/pci-0000:49:00.0-usbv2-0:5:1.0-scsi-0:0:0:0",
+          "/dev/disk/by-path/pci-0000:49:00.0-usb-0:3:1.0-scsi-0:0:0:0",
+          "/dev/disk/by-path/pci-0000:49:00.0-usbv2-0:3:1.0-scsi-0:0:0:0",
           "/dev/sda"
         ],
         "unix_device_name2": "/dev/sg0",
@@ -3885,7 +3885,7 @@
         "module_alias": "usb:v1D6Bp0003d0606dc09dsc00dp03ic09isc00ip00in00"
       },
       {
-        "index": 145,
+        "index": 146,
         "attached_to": 97,
         "bus_type": {
           "name": "USB",
@@ -3955,7 +3955,7 @@
         "module_alias": "usb:v1D6Bp0002d0606dc09dsc00dp01ic09isc00ip00in00"
       },
       {
-        "index": 146,
+        "index": 147,
         "attached_to": 63,
         "bus_type": {
           "name": "USB",
@@ -4025,7 +4025,7 @@
         "module_alias": "usb:v1D6Bp0002d0606dc09dsc00dp01ic09isc00ip00in00"
       },
       {
-        "index": 147,
+        "index": 148,
         "attached_to": 97,
         "bus_type": {
           "name": "USB",
@@ -4085,7 +4085,7 @@
         "module_alias": "usb:v1D6Bp0003d0606dc09dsc00dp03ic09isc00ip00in00"
       },
       {
-        "index": 148,
+        "index": 149,
         "attached_to": 63,
         "bus_type": {
           "name": "USB",
@@ -4574,7 +4574,7 @@
           },
           {
             "type": "irq",
-            "base": 233,
+            "base": 223,
             "triggered": 0,
             "enabled": true
           },
@@ -4604,7 +4604,7 @@
           "command": 1030,
           "header_type": 0,
           "secondary_bus": 0,
-          "irq": 233,
+          "irq": 223,
           "prog_if": 0
         },
         "driver": "igc",
@@ -5146,7 +5146,7 @@
         "resources": [
           {
             "type": "irq",
-            "base": 68,
+            "base": 77,
             "triggered": 0,
             "enabled": true
           },
@@ -5164,7 +5164,7 @@
           "command": 1030,
           "header_type": 0,
           "secondary_bus": 0,
-          "irq": 68,
+          "irq": 77,
           "prog_if": 2
         },
         "driver": "nvme",
@@ -5301,7 +5301,7 @@
         "resources": [
           {
             "type": "irq",
-            "base": 67,
+            "base": 76,
             "triggered": 0,
             "enabled": true
           },
@@ -5319,7 +5319,7 @@
           "command": 1030,
           "header_type": 0,
           "secondary_bus": 0,
-          "irq": 67,
+          "irq": 76,
           "prog_if": 2
         },
         "driver": "nvme",
@@ -6166,7 +6166,7 @@
         "resources": [
           {
             "type": "irq",
-            "base": 72,
+            "base": 67,
             "triggered": 0,
             "enabled": true
           },
@@ -6184,7 +6184,7 @@
           "command": 1027,
           "header_type": 0,
           "secondary_bus": 0,
-          "irq": 72,
+          "irq": 67,
           "prog_if": 48
         },
         "driver": "xhci_hcd",
