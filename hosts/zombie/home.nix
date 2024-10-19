@@ -98,6 +98,7 @@
         vhs
         wget
         wl-clipboard
+        virt-manager
         xournalpp
         xplr
         zip
