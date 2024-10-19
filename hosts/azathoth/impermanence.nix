@@ -1,5 +1,4 @@
 {
-  # TODO: Figure out what needs to be added here to get a MVP working
   environment.persistence."/persist" = {
     directories = [
       "/var/log"
@@ -10,6 +9,9 @@
   environment.persistence."/persist/save" = {
     users.collin = {
       directories = [
+        "brew"
+        "projects"
+        "work_projects"
         "Downloads"
         "Pictures"
         "Documents"
