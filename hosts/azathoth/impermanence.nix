@@ -16,7 +16,7 @@
         "Pictures"
         "Documents"
         "Videos"
-        ".config"
+        ".ssh"
       ];
     };
   };
