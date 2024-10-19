@@ -12,5 +12,4 @@
   sops.secrets.ddclient-config = {};
   sops.secrets.emacs_oai_key.owner = "collin";
   sops.secrets.gh_token = {owner = config.users.users.collin.name;};
-  # TODO: Make configurable based on which services are enabled
 }
