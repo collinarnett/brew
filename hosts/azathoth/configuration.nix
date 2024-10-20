@@ -24,8 +24,18 @@
   };
 
   # Filesystem
-  fileSystems."/persist".neededForBoot = true;
-  fileSystems."/persist/save".neededForBoot = true;
+  fileSystems = {
+    "/persist" = {
+      device = "zroot/persist";
+      fsType = "zfs";
+      neededForBoot = true;
+    };
+    "/persist/save" = {
+      device = "zroot/persistSave";
+      fsType = "zfs";
+      neededForBoot = true;
+    };
+  };
   boot = {
     # Newest kernels might not be supported by ZFS
     kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
@@ -114,17 +124,6 @@
     enable = true;
     ports = [8787];
     settings.PermitRootLogin = "yes";
-    hostKeys = [
-      {
-        path = "/etc/ssh/ssh_host_ed25519_key";
-        type = "ed25519";
-      }
-      {
-        path = "/etc/ssh/ssh_host_rsa_key";
-        type = "rsa";
-        bits = 4096;
-      }
-    ];
     settings.PasswordAuthentication = true;
   };
 
