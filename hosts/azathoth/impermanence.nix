@@ -2,6 +2,7 @@
   environment.persistence."/persist" = {
     directories = [
       "/var/log"
+      "/var/lib/libvirt"
       "/var/lib/nixos"
       "/var/lib/systemd/coredump"
     ];
@@ -16,7 +17,15 @@
         "Pictures"
         "Documents"
         "Videos"
-        ".ssh"
+        {
+          directory = ".config/sops/age/";
+          mode = "0700";
+        }
+        {
+          directory = ".ssh";
+          mode = "0700";
+        }
+        ".local/share/direnv"
       ];
     };
   };
