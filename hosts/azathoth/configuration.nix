@@ -1,6 +1,7 @@
 {
   pkgs,
   config,
+  lib,
   ...
 }: {
   imports = [
@@ -57,8 +58,8 @@
           zfs rollback -r zroot/root@empty && echo "rollback complete"
         '';
       };
-      services.create-needed-for-boot-dirs.requires = ["rollback.service"];
     };
+    initrd.supportedFilesystems.zfs = true;
     supportedFilesystems = ["vfat" "zfs"];
     zfs = {
       forceImportAll = true;
@@ -124,6 +125,17 @@
     enable = true;
     ports = [8787];
     settings.PermitRootLogin = "yes";
+    hostKeys = [
+      {
+        type = "ed25519";
+        path = "/persist/etc/ssh/ssh_host_ed25519_key";
+      }
+      {
+        type = "rsa";
+        bits = 4096;
+        path = "/persist/etc/ssh/ssh_host_rsa_key";
+      }
+    ];
     settings.PasswordAuthentication = true;
   };
 
