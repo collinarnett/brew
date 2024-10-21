@@ -5,12 +5,9 @@
 }: {
   users.groups.aws = {};
   sops.defaultSopsFile = ../secrets/secrets.yaml;
-  sops.age.sshKeyPaths = lib.mkMerge [
-    (lib.mkIf config.environment.persistence."/persist".enable
-      ["/persist/etc/ssh/ssh_host_ed25519_key"])
-    (lib.mkIf
-      (!config.environment.persistence."/persist".enable)
-      ["/etc/ssh/ssh_host_ed25519_key"])
+  sops.age.sshKeyPaths = [
+    "/persist/etc/ssh/ssh_host_ed25519_key"
+    "/etc/ssh/ssh_host_ed25519_key"
   ];
   sops.age.keyFile = "/home/collin/.config/sops/age/keys.txt";
   sops.secrets.awscli2-config.mode = "0440";

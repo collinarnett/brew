@@ -94,8 +94,6 @@
             inputs.disko.nixosModules.disko
             inputs.impermanence.nixosModules.impermanence
             inputs.nixos-facter-modules.nixosModules.facter
-            # TODO: Figure out why this is not working
-            # inputs.impermanence.nixosModules.home-manager.impermanence
           ];
           arachne = genSystem "collin" "arachne" [
             ./modules/zfs
