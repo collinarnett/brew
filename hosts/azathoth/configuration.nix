@@ -51,12 +51,16 @@
         unitConfig.DefaultDependencies = "no";
         wantedBy = ["initrd.target"];
         after = ["zfs-import-zroot.service"];
-        wants = ["zfs-import-zroot.service"];
+        requires = ["zfs-import-zroot.service"];
         before = ["sysroot.mount"];
         path = with pkgs; [zfs];
         script = ''
           zfs rollback -r zroot/root@empty && echo "rollback complete"
         '';
+      };
+      services.create-needed-for-boot-dirs = {
+        after = pkgs.lib.mkForce ["rollback.service"];
+        wants = pkgs.lib.mkForce ["rollback.service"];
       };
     };
     initrd.supportedFilesystems.zfs = true;

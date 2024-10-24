@@ -7,7 +7,15 @@
       "/var/lib/systemd/coredump"
     ];
   };
+  users.groups.multimedia = {};
   environment.persistence."/persist/save" = {
+    directories = [
+      {
+        directory = "/media";
+        group = "multimedia";
+        mode = "0770";
+      }
+    ];
     users.collin = {
       directories = [
         "brew"
