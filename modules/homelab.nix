@@ -47,7 +47,8 @@ in {
   };
 
   config = {
-    # TODO: Figure out where to put this
+    # TODO: Remove when moving to azathoth with impermanence since
+    # creating groups and permmissions is built in to impermanence.
     users.groups.multimedia = {};
     systemd.tmpfiles.rules = [
       "d /media 0770 - multimedia - -"
