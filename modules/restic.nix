@@ -2,7 +2,7 @@
   services.restic = {
     backups.media = {
       initialize = true;
-      repository = "s3:s3.us-east-1.amazonaws.com/collin-backups";
+      repository = "s3:s3.us-east-1.amazonaws.com/collin-backups/restic";
       passwordFile = config.sops.secrets.restic_media_password.path;
       timerConfig = {
         OnCalendar = "daily";
@@ -16,13 +16,10 @@
       ];
     };
   };
-  systemd.services.restic.environment = {
+  systemd.services.restic-backups-media.environment = {
     AWS_PROFILE = "default";
     AWS_REGION = "us-east-1";
     AWS_SHARED_CREDENTIALS_FILE = config.sops.secrets.awscli2-credentials.path;
   };
-  sops.secrets.restic_media_password = {
-    mode = "0440";
-    group = "aws";
-  };
+  sops.secrets.restic_media_password = {};
 }
