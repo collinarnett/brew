@@ -4,12 +4,10 @@
       initialize = true;
       repository = "s3:s3.us-east-1.amazonaws.com/collin-backups";
       passwordFile = config.sops.secrets.restic_media_password.path;
-      timerConfig = [
-        {
-          OnCalendar = "daily";
-          Persistent = true;
-        }
-      ];
+      timerConfig = {
+        OnCalendar = "daily";
+        Persistent = true;
+      };
       pruneOpts = [
         "--keep-last 1"
       ];
