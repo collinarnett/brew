@@ -5,12 +5,22 @@
   ...
 }: {
   imports = [
-    ../../modules/pipewire.nix
-    ../../modules/sops.nix
+    ../../modules/homelab.nix
     ../../modules/pcie-passthrough.nix
-    ./impermanence.nix
+    ../../modules/pipewire.nix
+    ../../modules/restic.nix
+    ../../modules/sops.nix
     ./disko.nix
+    ./impermanence.nix
   ];
+
+  services.homelab = {
+    enable = true;
+    searx.enable = true;
+    traefik.enable = true;
+    authelia.enable = true;
+    jellyfin.enable = true;
+  };
 
   # Hardware
   facter.reportPath = ./facter.json;

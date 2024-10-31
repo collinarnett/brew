@@ -5,6 +5,26 @@
       "/var/lib/libvirt"
       "/var/lib/nixos"
       "/var/lib/systemd/coredump"
+      "/var/lib/"
+      "/run/secrets.d"
+      {
+        directory = "/var/lib/traefik";
+        user = "traefik";
+        group = "traefik";
+        mode = "0700";
+      }
+      {
+        directory = "/var/lib/jellyfin";
+        user = "jellyfin";
+        group = "jellyfin";
+        mode = "0700";
+      }
+      {
+        directory = "/var/lib/authelia-main";
+        user = "authelia-main";
+        group = "authelia-main";
+        mode = "0700";
+      }
     ];
   };
   users.groups.multimedia = {};

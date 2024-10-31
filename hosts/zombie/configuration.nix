@@ -7,22 +7,12 @@
     ../../modules/apcupsd.nix
     ../../modules/cac.nix
     ../../modules/docker-registry.nix
-    ../../modules/homelab.nix
     ../../modules/pipewire.nix
     ../../modules/sops.nix
     ../../modules/wireguard.nix
     ../../modules/xdg.nix
     ./hardware-configuration.nix
   ];
-
-  # Homelab
-  services.homelab = {
-    enable = true;
-    authelia.enable = true;
-    searx.enable = true;
-    traefik.enable = true;
-    jellyfin.enable = true;
-  };
 
   services.cac.enable = true;
 
