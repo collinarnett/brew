@@ -109,7 +109,7 @@
       }: {
         formatter = pkgs.alejandra;
         devShells.default = pkgs.mkShell {
-          buildInputs = with pkgs; [nil alejandra];
+          buildInputs = with pkgs; [nil sops alejandra];
         };
       };
     });
