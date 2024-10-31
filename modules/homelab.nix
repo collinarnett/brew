@@ -22,7 +22,6 @@ in {
         };
       };
     };
-
     jellyfin = mkOption {
       type = types.submodule {
         options = {
