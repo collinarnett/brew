@@ -5,6 +5,7 @@
   ...
 }: {
   imports = [
+    ../../modules/apcupsd.nix
     ../../modules/homelab.nix
     ../../modules/pcie-passthrough.nix
     ../../modules/pipewire.nix
