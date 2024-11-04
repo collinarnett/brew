@@ -43,10 +43,15 @@
         "brew"
         "projects"
         "work_projects"
+        "misc"
         "Downloads"
         "Pictures"
         "Documents"
         "Videos"
+        {
+          directory = "keys";
+          mode = "0700";
+        }
         {
           directory = ".config/sops/age/";
           mode = "0700";
