@@ -21,6 +21,7 @@
     traefik.enable = true;
     authelia.enable = true;
     jellyfin.enable = true;
+    calibre-web.enable = true;
   };
 
   # Hardware

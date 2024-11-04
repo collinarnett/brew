@@ -22,6 +22,12 @@
         mode = "0700";
       }
       {
+        directory = "/var/lib/calibre-web";
+        user = "calibre-web";
+        group = "calibre-web";
+        mode = "0700";
+      }
+      {
         directory = "/var/lib/authelia-main";
         user = "authelia-main";
         group = "authelia-main";

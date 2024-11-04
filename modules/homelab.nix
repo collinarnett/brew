@@ -11,6 +11,7 @@ in {
     ./jellyfin.nix
     ./searx.nix
     ./traefik.nix
+    ./calibre-web.nix
   ];
 
   options.services.homelab = {
@@ -19,6 +20,13 @@ in {
       type = types.submodule {
         options = {
           enable = mkEnableOption "authelia";
+        };
+      };
+    };
+    calibre-web = mkOption {
+      type = types.submodule {
+        options = {
+          enable = mkEnableOption "calibre-web";
         };
       };
     };

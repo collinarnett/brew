@@ -67,6 +67,15 @@ in {
       };
       http.services.searx.loadBalancer.servers = mkIf cfg.searx.enable [{url = "http://127.0.0.1:8080";}];
 
+      http.routers.calibre-web = mkIf cfg.calibre-web.enable {
+        rule = "Host(`books.trexd.dev`)";
+        entryPoints = ["websecure"];
+        tls.certResolver = "letsencrypt";
+        service = "calibre-web";
+        middlewares = "authelia";
+      };
+      http.services.calibre-web.loadBalancer.servers = mkIf cfg.calibre-web.enable [{url = "http://127.0.0.1:8083";}];
+
       http.routers.jellyfin = mkIf cfg.jellyfin.enable {
         rule = "Host(`media.trexd.dev`)";
         entryPoints = ["websecure"];

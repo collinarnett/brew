@@ -1,11 +1,20 @@
 {
-  networking.firewall.enable = false;
-  # networking.firewall.allowedTCPPorts = [8083];
-  # networking.firewall.allowedUDPPorts = [8083];
+  config,
+  lib,
+  ...
+}: let
+  inherit (lib) mkIf;
+  cfg = config.services.homelab;
+in {
   services.calibre-web = {
-    enable = true;
-    user = "collin";
-    listen.ip = "0.0.0.0";
+    enable = cfg.calibre-web.enable;
+    listen.ip = "127.0.0.1";
     options.enableBookUploading = true;
+    options.calibreLibrary = "/media/books";
+    options.reverseProxyAuth = {
+      enable = true;
+      header = "Remote-User";
+    };
   };
+  users.users.calibre-web.extraGroups = mkIf cfg.calibre-web.enable ["multimedia"];
 }
