@@ -49,7 +49,7 @@ in {
               secret = "$pbkdf2-sha512$310000$YTPOIu.8sypt1DNtvPDj2Q$JPUVH7/9lnMOPrfQnzveXnA3e46uSBG3bw4j8I84COOJNCf1CKr8wJ/VKw/kgk1V2lULxUixiK9y4iFDPSIiPA";
               authorization_policy = "two_factor";
               redirect_uris = [
-                "https://jellyfin.trexd.dev/sso/OID/start/authelia"
+                "https://media.trexd.dev/sso/OID/start/authelia"
               ];
               scopes = ["openid" "profile" "groups"];
             }
