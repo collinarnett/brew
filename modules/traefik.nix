@@ -68,7 +68,7 @@ in {
       http.services.searx.loadBalancer.servers = mkIf cfg.searx.enable [{url = "http://127.0.0.1:8080";}];
 
       http.routers.jellyfin = mkIf cfg.jellyfin.enable {
-        rule = "Host(`jellyfin.trexd.dev`)";
+        rule = "Host(`media.trexd.dev`)";
         entryPoints = ["websecure"];
         tls.certResolver = "letsencrypt";
         service = "jellyfin";
