@@ -9,7 +9,6 @@
     ../../modules/docker-registry.nix
     ../../modules/pipewire.nix
     ../../modules/sops.nix
-    ../../modules/wireguard.nix
     ../../modules/xdg.nix
     ./hardware-configuration.nix
   ];
@@ -54,10 +53,6 @@
   # Networking
   networking = {
     hostName = "zombie";
-    nameservers = ["1.1.1.1" "9.9.9.9"];
-    useDHCP = false;
-    interfaces.enp10s0.useDHCP = true;
-    interfaces.wlp8s0.useDHCP = true;
   };
 
   # Users
