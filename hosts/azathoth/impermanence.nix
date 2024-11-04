@@ -1,6 +1,8 @@
 {
   environment.persistence."/persist" = {
     directories = [
+      "/var/cache/restic-backups-data"
+      "/var/cache/restic-backups-state"
       "/var/log"
       "/var/lib/libvirt"
       "/var/lib/nixos"
