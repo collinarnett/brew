@@ -35,20 +35,15 @@ in {
     services.pcscd.enable = true;
 
     security.pam.p11.enable = true;
-    security.pki.certificateFiles = ["${pkgs.dod-certs}/dod-certs.pem"];
+    security.pki.certificateFiles = [
+      "${pkgs.dod-certs}/dod-certs.pem"
+    ];
 
     programs.appgate-sdp.enable = true;
-    programs.firefox.policies = {
-      SecurityDevices = {
-        Add = {
-          "CAC" = "${pkgs.cackey}/lib/libcackey.so";
-        };
-      };
-    };
-    # Must go to Firefox -> Settings -> Privacy & Security -> Security Devices
-    # and select "Load" then navigate to the cackey store path and select libcackey.so
-    environment.systemPackages = with pkgs; [
-      cackey
-    ];
+    environment.etc."pkcs11/modules/opensc-pkcs11".text = ''
+      module: ${pkgs.opensc}/lib/opensc-pkcs11.so
+    '';
+
+    programs.firefox.policies.SecurityDevices.p11-kit-proxy = "${pkgs.p11-kit}/lib/p11-kit-proxy.so";
   };
 }
