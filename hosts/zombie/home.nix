@@ -30,7 +30,6 @@
   home.homeDirectory = "/home/collin";
   home.sessionVariables = {
     GPG_TTY = "$(tty)";
-    KUBECONFIG = "/etc/rancher/k3s/k3s.yaml";
     GH_TOKEN = "$(cat ${nixosConfig.sops.secrets.gh_token.path})";
     XDG_SESSION_TYPE = "wayland";
     XDG_CURRENT_DESKTOP = "sway";
@@ -66,6 +65,7 @@
         imv
         iommu-groups
         ipafont
+        k9s
         languagetool
         liberation_ttf
         libreoffice
@@ -96,9 +96,9 @@
         usbutils
         v4l-utils
         vhs
+        virt-manager
         wget
         wl-clipboard
-        virt-manager
         xournalpp
         xplr
         zip

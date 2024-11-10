@@ -3,7 +3,7 @@ k9s:
   maxConnRetry: 5
   enableMouse: false
   headless: false
-  logoless: false
+  logoless: true
   crumbsless: false
   readOnly: false
   noIcons: false
