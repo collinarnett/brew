@@ -109,6 +109,15 @@
   (setq flycheck-check-syntax-automatically
 	'(idle-change (flycheck-idle-change-delay 1))))
 
+(use-package org-journal
+  :defer t
+  :init
+  ;; Change default prefix key; needs to be set before loading org-journal
+  (setq org-journal-prefix-key "C-c j ")
+  :config
+  (setq org-journal-dir "~/org/journal/"
+        org-journal-date-format "%A, %d %B %Y"))
+
 
 ;; todo highlighting
 (use-package hl-todo
@@ -171,10 +180,6 @@
 
 ;; swarm
 (use-package swarm-mode)
-
-
-;; typescript
-(use-package tsx-ts-mode)
 
 ;; bash
 (use-package shell-script-mode
