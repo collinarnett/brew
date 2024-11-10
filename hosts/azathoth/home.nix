@@ -4,12 +4,24 @@
   ...
 }: {
   imports = [
+    ../../modules/home-manager/beets.nix
     ../../modules/home-manager/direnv.nix
+    ../../modules/home-manager/gh.nix
     ../../modules/home-manager/git.nix
     ../../modules/home-manager/gpg-agent.nix
     ../../modules/home-manager/gpg.nix
+    ../../modules/home-manager/gtk.nix
+    ../../modules/home-manager/k9s/k9s.nix
     ../../modules/home-manager/keychain.nix
+    ../../modules/home-manager/kitty.nix
+    ../../modules/home-manager/mako.nix
+    ../../modules/home-manager/mpd.nix
+    ../../modules/home-manager/ncmpcpp.nix
     ../../modules/home-manager/starship.nix
+    ../../modules/home-manager/sway.nix
+    ../../modules/home-manager/waybar/waybar.nix
+    ../../modules/home-manager/wofi/wofi.nix
+    ../../modules/home-manager/zathura/zathura.nix
     ../../modules/home-manager/zsh.nix
   ];
 
