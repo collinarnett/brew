@@ -1,21 +1,23 @@
 {pkgs, ...}: {
+  home.packages = with pkgs; [
+    emacs-all-the-icons-fonts
+    fira-code
+    fira-code-symbols
+    siji
+    noto-fonts-emoji
+    nerdfonts
+    ipafont
+    liberation_ttf
+  ];
+  fonts.fontconfig.enable = true;
+
   wayland.windowManager.sway = {
     enable = true;
     wrapperFeatures.gtk = true;
     wrapperFeatures.base = true;
     config = {
       terminal = "kitty";
-      #    input = {
-      #      "*" = {
-      #        repeat_delay = "180";
-      #        repeat_rate = "31";
-      #      };
-      #    };
       output = {
-        DP-3 = {
-          bg = "#282a36 solid_color";
-          subpixel = "none";
-        };
         DP-1 = {
           bg = "#282a36 solid_color";
           subpixel = "none";
@@ -62,6 +64,7 @@
         };
         background = "#F8F8F2";
       };
+      window.titlebar = false;
       menu = "${pkgs.wofi}/bin/wofi";
     };
     extraConfig = ''
@@ -72,7 +75,7 @@
       bindsym XF86AudioPlay exec playerctl play-pause
       bindsym XF86AudioNext exec playerctl next
       bindsym XF86AudioPrev exec playerctl previous
-      bindsym $mod+p exec grim -g "$(slurp -d)" - | wl-copy -t image/png
+      bindsym $mod+p exec ${pkgs.grim}/bin/grim -g "$(${pkgs.slurp}/bin/slurp -d)" - | ${pkgs.wl-clipboard}/bin/wl-copy -t image/png
     '';
   };
 }
