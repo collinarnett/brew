@@ -3,7 +3,7 @@
     enable = true;
     settings = {
       mainBar = {
-        modules-left = ["cpu" "pulseaudio" "disk" "memory" "mpd" "network"];
+        modules-left = ["cpu" "pulseaudio" "disk" "memory" "network"];
         modules-center = ["sway/workspaces"];
         modules-right = ["clock"];
         "sway/workspaces" = {
@@ -11,7 +11,6 @@
           format-icons = {default = "";};
         };
         "pulseaudio" = {format = " {volume}%";};
-        "mpd" = {format = " {title}";};
         "clock" = {format = " {:%A, %h %d %I:%M %p}";};
         "cpu" = {format = " {usage}%";};
         "disk" = {format = " {percentage_used}%";};
