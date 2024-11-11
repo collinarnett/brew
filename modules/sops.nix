@@ -7,9 +7,8 @@
   sops.defaultSopsFile = ../secrets/secrets.yaml;
   sops.age.sshKeyPaths = [
     "/persist/etc/ssh/ssh_host_ed25519_key"
-    "/etc/ssh/ssh_host_ed25519_key"
   ];
-  sops.age.keyFile = "/home/collin/.config/sops/age/keys.txt";
+  sops.age.keyFile = "/persist/save/home/collin/.config/sops/age/keys.txt";
   sops.secrets.awscli2-config.mode = "0440";
   sops.secrets.awscli2-credentials.mode = "0440";
   sops.secrets.awscli2-config.group = "aws";
