@@ -7,8 +7,6 @@
       "/var/lib/libvirt"
       "/var/lib/nixos"
       "/var/lib/systemd/coredump"
-      "/var/lib/"
-      "/run/secrets.d"
       {
         directory = "/var/lib/traefik";
         user = "traefik";
@@ -50,10 +48,16 @@
         "projects"
         "work_projects"
         "misc"
+        "org"
         "Downloads"
         "Pictures"
         "Documents"
         "Videos"
+        ".mozilla"
+        {
+          directory = ".gnupg";
+          mode = "0700";
+        }
         {
           directory = "keys";
           mode = "0700";
