@@ -6,6 +6,8 @@
 }: {
   imports = [
     ../../modules/apcupsd.nix
+    ../../modules/cac.nix
+    ../../modules/greetd.nix
     ../../modules/homelab.nix
     ../../modules/pcie-passthrough.nix
     ../../modules/pipewire.nix
@@ -14,6 +16,9 @@
     ./disko.nix
     ./impermanence.nix
   ];
+
+  # Browser
+  programs.firefox.enable = true;
 
   services.homelab = {
     enable = true;
@@ -135,6 +140,9 @@
 
   # Man pages
   documentation.dev.enable = true;
+
+  # Graphics
+  hardware.graphics.enable = true;
 
   # SSH
   services.openssh = {
