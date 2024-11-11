@@ -38,7 +38,7 @@
       bindsym XF86AudioNext exec playerctl next
       bindsym XF86AudioPrev exec playerctl previous
       bindsym $mod+p exec ${pkgs.grim}/bin/grim -g "$(${pkgs.slurp}/bin/slurp -d)" - | wl-copy -t image/png
-        bindsym $mod+l exec ${pkgs.swaylock}/bin/swaylock
+      bindsym $mod+l exec ${pkgs.swaylock}/bin/swaylock
     '';
   };
 }
