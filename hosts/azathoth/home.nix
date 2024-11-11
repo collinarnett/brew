@@ -6,7 +6,6 @@
   imports = [
     ../../modules/home-manager/beets.nix
     ../../modules/home-manager/direnv.nix
-    ../../modules/home-manager/gh.nix
     ../../modules/home-manager/git.nix
     ../../modules/home-manager/gpg-agent.nix
     ../../modules/home-manager/gpg.nix
@@ -15,8 +14,6 @@
     ../../modules/home-manager/keychain.nix
     ../../modules/home-manager/kitty.nix
     ../../modules/home-manager/mako.nix
-    ../../modules/home-manager/mpd.nix
-    ../../modules/home-manager/ncmpcpp.nix
     ../../modules/home-manager/starship.nix
     ../../modules/home-manager/sway.nix
     ../../modules/home-manager/waybar/waybar.nix
@@ -33,29 +30,21 @@
 
   home.packages = with pkgs; [
     alejandra
-    awscli2
     clang-tools
     crawl
     dconf
-    dracula-theme
     fzf
     gotop
-    grim
     hunspellDicts.en_US
     iommu-groups
-    ipafont
     languagetool
-    liberation_ttf
     neofetch
     nil
-    ormolu
     pandoc
-    parted
     pciutils
-    pinta
     pulseaudio
     ripgrep
-    slurp
+    signal-desktop
     statix
     tree
     unzip
