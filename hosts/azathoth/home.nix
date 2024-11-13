@@ -30,6 +30,7 @@
 
   home.packages = with pkgs; [
     alejandra
+    chromium
     clang-tools
     crawl
     dconf

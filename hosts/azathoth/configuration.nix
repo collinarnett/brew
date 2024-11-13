@@ -16,9 +16,10 @@
     ./disko.nix
     ./impermanence.nix
   ];
-
   # Browser
   programs.firefox.enable = true;
+
+  services.cac.enable = true;
 
   services.homelab = {
     enable = true;
