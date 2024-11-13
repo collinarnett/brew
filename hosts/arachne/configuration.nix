@@ -2,13 +2,14 @@
   imports = [
     ../../modules/pipewire.nix
     ../../modules/greetd.nix
+    ../../modules/cac.nix
     ./modules/sops.nix
   ];
 
+  services.cac.enable = true;
   services.emacs = {
     enable = true;
     startWithGraphical = true;
-    package = (import ../../modules/emacs/emacs.nix) pkgs;
   };
 
   zfs-root = {

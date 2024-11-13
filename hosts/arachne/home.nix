@@ -34,6 +34,7 @@ in {
     git
     gotop
     grim
+    chromium
     croc
     helvum
     imv
