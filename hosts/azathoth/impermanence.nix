@@ -44,16 +44,18 @@
     ];
     users.collin = {
       directories = [
-        "brew"
-        "projects"
-        "work_projects"
-        "misc"
-        "org"
+        ".config/Signal"
+        ".local/share/direnv"
+        ".mozilla"
+        "Documents"
         "Downloads"
         "Pictures"
-        "Documents"
         "Videos"
-        ".mozilla"
+        "brew"
+        "misc"
+        "org"
+        "projects"
+        "work_projects"
         {
           directory = ".gnupg";
           mode = "0700";
@@ -70,7 +72,9 @@
           directory = ".ssh";
           mode = "0700";
         }
-        ".local/share/direnv"
+      ];
+      files = [
+        ".zsh_history"
       ];
     };
   };
