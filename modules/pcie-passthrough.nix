@@ -21,6 +21,7 @@ in {
     };
   };
   config = mkIf cfg.enable {
+    programs.virt-manager.enable = true;
     boot = {
       kernelModules = ["kvm-${cfg.platform}" "vfio_virqfd" "vfio_pci" "vfio_iommu_type1" "vfio"];
       kernelParams = ["${cfg.platform}_iommu=on" "${cfg.platform}_iommu=pt" "kvm.ignore_msrs=1"];

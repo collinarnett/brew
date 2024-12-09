@@ -21,4 +21,15 @@ in {
   systemd.services.searx.environment = mkIf cfg.searx.enable {
     SEARX_SECRET_KEY = "$(cat ${config.sops.secrets.searx_secret_key.path})";
   };
+  programs.firefox.policies = {
+    "SearchEngines" = {
+      "Default" = "SearX";
+      "Add" = {
+        "SearX" = {
+          "URLTemplate" = "https://search.trexd.dev/search?q={searchTerms}";
+          "SuggestURLTemplate" = "https://search.trexd.dev/autocompleter?q={searchTerms}";
+        };
+      };
+    };
+  };
 }

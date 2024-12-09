@@ -13,11 +13,16 @@
     ../../modules/pipewire.nix
     ../../modules/restic.nix
     ../../modules/sops.nix
+    ../../modules/xdg.nix
     ./disko.nix
     ./impermanence.nix
   ];
   # Browser
   programs.firefox.enable = true;
+
+  networking.hosts = {
+    "127.0.0.1" = ["prerequisites-kafka-broker-0.prerequisites-kafka-broker-headless.datahub.svc.cluster.local"];
+  };
 
   services.cac.enable = true;
 

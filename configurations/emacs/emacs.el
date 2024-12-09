@@ -145,6 +145,16 @@
   :config
   (which-key-mode))
 
+;; terraform
+(use-package terraform-mode
+  ;; if using straight
+  ;; :straight t
+
+  ;; if using package.el
+  ;; :ensure t
+  :custom (terraform-indent-level 4)
+  :hook (terraform-mode . lsp-deferred))
+
 ;; scala
 (use-package lsp-metals
   :custom
@@ -178,8 +188,6 @@
 
 (use-package jupyter)
 
-;; swarm
-(use-package swarm-mode)
 
 ;; bash
 (use-package shell-script-mode
