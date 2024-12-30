@@ -109,6 +109,33 @@
   (setq flycheck-check-syntax-automatically
 	'(idle-change (flycheck-idle-change-delay 1))))
 
+(use-package org-roam
+  :custom
+  (org-roam-directory (file-truename "/home/collin/org/roam/"))
+  (org-roam-completion-everywhere t)
+  :bind (("C-c n l" . org-roam-buffer-toggle)
+         ("C-c n f" . org-roam-node-find)
+         ("C-c n g" . org-roam-graph)
+         ("C-c n i" . org-roam-node-insert)
+         ("C-c n c" . org-roam-capture)
+         :map org-roam-dailies-map
+         ("Y" . org-roam-dailies-capture-yesterday)
+         ("T" . org-roam-dailies-capture-tomorrow))
+  :bind-keymap
+  ("C-c n d" . org-roam-dailies-map)
+  :config
+  (setq org-roam-dailies-capture-templates
+	'(("d" "default" entry
+           "* %?"
+           :target (file+head "%<%Y-%m-%d>.org"
+                              "#+title: %<%Y-%m-%d>\n"))))
+  ;; If you're using a vertical completion framework, you might want a more informative completion interface
+  (setq org-roam-node-display-template (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag)))
+  (org-roam-db-autosync-mode)
+  (require 'org-roam-dailies) ;; Ensure the keymap is available
+  ;; If using org-roam-protocol
+  (require 'org-roam-protocol))
+
 (use-package org-journal
   :defer t
   :init
@@ -117,6 +144,29 @@
   :config
   (setq org-journal-dir "~/org/journal/"
         org-journal-date-format "%A, %d %B %Y"))
+
+(use-package hydra)
+(use-package org-fc
+  :custom
+  (org-fc-directories '("/home/collin/org/"))
+  :bind ("C-c f" . org-fc-hydra/body)
+  :config
+  (require 'org-fc-hydra)
+  ;; Keybindings for org-fc-review-flip-mode
+  (evil-define-minor-mode-key '(normal insert emacs) 'org-fc-review-flip-mode
+    (kbd "RET") 'org-fc-review-flip
+    (kbd "n") 'org-fc-review-flip
+    (kbd "s") 'org-fc-review-suspend-card
+    (kbd "q") 'org-fc-review-quit)
+
+  ;; Keybindings for org-fc-review-rate-mode
+  (evil-define-minor-mode-key '(normal insert emacs) 'org-fc-review-rate-mode
+    (kbd "a") 'org-fc-review-rate-again
+    (kbd "h") 'org-fc-review-rate-hard
+    (kbd "g") 'org-fc-review-rate-good
+    (kbd "e") 'org-fc-review-rate-easy
+    (kbd "s") 'org-fc-review-suspend-card
+    (kbd "q") 'org-fc-review-quit))
 
 
 ;; todo highlighting
@@ -276,6 +326,14 @@
   (setq inferior-lisp-program "sbcl"
 	slime-completion-at-point-functions 'slime-fuzzy-complete-symbol))
 
+(use-package typescript-mode
+  :mode
+  "\\.tsx\\'"
+  :hook
+  (tsx-ts-mode . lsp-deffered)
+  :custom
+  (typescript-indent-level 2))
+
 (use-package lisp-mode
   :mode
   "\\.cl\\'")
@@ -295,6 +353,12 @@
 ;;(before-save . lsp-format-buffer)
 ;;(before-save . lsp-organize-imports))
 
+;; org
+(use-package org
+  :config
+  (setq fill-column 80)
+  :hook
+  (org-mode . auto-fill-mode))
 
 ;; markdown
 (use-package markdown-mode
@@ -402,5 +466,24 @@
 		(setq-local format-all-formatters '(("Nix" (alejandra "--quiet")))))))
 
 (use-package yaml-mode)
+
+
+;; Custom Functions
+
+(defun copy-envrc-and-setup-direnv ()
+  "Copy .envrc from ~/projects/flake-templates/.envrc to a specified directory, create a .direnv directory there, and run `direnv-allow`."
+  (interactive)
+  (let ((source-file "~/projects/flake-templates/.envrc")
+        (target-dir (read-directory-name "Specify target directory (default: current directory): " default-directory)))
+    ;; Copy the .envrc file to the target directory
+    (copy-file source-file (expand-file-name ".envrc" target-dir) t)
+    ;; Create the .direnv directory in the target directory
+    (make-directory (expand-file-name ".direnv" target-dir) t)
+    ;; Change to the target directory
+    (let ((default-directory target-dir))
+      ;; Run direnv-allow
+      (direnv-allow))
+    ;; Notify the user
+    (message "Copied .envrc to %s, created .direnv, and ran direnv-allow." target-dir)))
 
 ;;; emacs.el ends here
