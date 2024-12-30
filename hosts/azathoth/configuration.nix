@@ -62,7 +62,6 @@
   };
   boot = {
     # Newest kernels might not be supported by ZFS
-    kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
     kernelParams = [
       "nohibernate"
     ];
@@ -144,6 +143,10 @@
   ];
 
   nix.settings.trusted-users = ["collin"];
+
+  # Docker
+  virtualisation.docker.enable = true;
+  virtualisation.oci-containers.backend = "docker";
 
   # Man pages
   documentation.dev.enable = true;

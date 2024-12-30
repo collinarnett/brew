@@ -1,5 +1,6 @@
 {
   nixosConfig,
+  lib,
   pkgs,
   ...
 }: {
@@ -14,7 +15,6 @@
     ../../modules/home-manager/keychain.nix
     ../../modules/home-manager/kitty.nix
     ../../modules/home-manager/mako.nix
-    ../../modules/home-manager/ssh.nix
     ../../modules/home-manager/starship.nix
     ../../modules/home-manager/sway.nix
     ../../modules/home-manager/waybar/waybar.nix
@@ -34,14 +34,18 @@
   in
     with pkgs; [
       alejandra
+      bibata-cursors
       chromium
       clang-tools
+      code-cursor
       crawl
       dconf
       freetube
       fzf
       gotop
+      httpie
       hunspellDicts.en_US
+      imv
       iommu-groups
       languagetool
       neofetch
@@ -52,11 +56,13 @@
       ripgrep
       signal-desktop
       statix
+      texliveFull
       tree
       unzip
       usbutils
       wget
       whipper
+      wl-clipboard
       xplr
       zip
     ];
