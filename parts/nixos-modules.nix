@@ -6,6 +6,7 @@
         (import ../overlays)
         (import ../pkgs/all-packages.nix)
       ];
+      nixpkgs.config.allowUnfree = true;
       nix = {
         package = pkgs.nixVersions.latest;
         registry.pkgs.flake = inputs.nixpkgs;

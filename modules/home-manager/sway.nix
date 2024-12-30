@@ -5,7 +5,6 @@
     fira-code-symbols
     siji
     noto-fonts-emoji
-    nerdfonts
     ipafont
     liberation_ttf
   ];
