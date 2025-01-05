@@ -6,6 +6,7 @@
 }: {
   imports = [
     ../../modules/home-manager/beets.nix
+    ../../modules/home-manager/btop.nix
     ../../modules/home-manager/direnv.nix
     ../../modules/home-manager/git.nix
     ../../modules/home-manager/gpg-agent.nix
@@ -42,7 +43,6 @@
       dconf
       freetube
       fzf
-      gotop
       httpie
       hunspellDicts.en_US
       imv
