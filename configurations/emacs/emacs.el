@@ -469,8 +469,7 @@
   (prog-mode . format-all-mode)
   (python-mode . (lambda ()
 		   (setq-local format-all-formatters '(("Python"
-							(black)
-							(isort))))))
+							(ruff))))))
   (nix-mode . (lambda ()
 		(setq-local format-all-formatters '(("Nix" (alejandra "--quiet")))))))
 
