@@ -23,6 +23,13 @@
 
 (setq require-final-newline t)
 
+;; Fix flycheck opening on the right
+(add-to-list 'display-buffer-alist
+             '("\\*Flycheck errors\\*"
+               ;; Reuse an existing window or create a new one at the bottom:
+               (display-buffer-reuse-window display-buffer-at-bottom)
+               ;; Optionally set the desired height:
+               (window-height . 0.3)))
 
 (use-package bind-key
   :ensure t
@@ -285,6 +292,7 @@
 (use-package dockerfile-mode)
 
 ;; minibuffer completion
+(global-set-key (kbd "C-x C-f") #'helm-find-files)
 (use-package helm
   :init
   (helm-mode 1))
