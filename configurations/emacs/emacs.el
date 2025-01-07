@@ -159,6 +159,7 @@
   :bind ("C-c f" . org-fc-hydra/body)
   :config
   (require 'org-fc-hydra)
+  (require 'org-fc-keymap-hint)
   ;; Keybindings for org-fc-review-flip-mode
   (evil-define-minor-mode-key '(normal insert emacs) 'org-fc-review-flip-mode
     (kbd "RET") 'org-fc-review-flip
