@@ -131,6 +131,47 @@
   :bind-keymap
   ("C-c n d" . org-roam-dailies-map)
   :config
+  (setq org-roam-capture-templates
+	'(("l"  ;; A key to trigger this template, e.g., "l" for "LeetCode".
+           "LeetCode Problem"
+           plain
+           ;; The body of the capture template:
+           ;; ------------------------------------------------------------
+           "
+* [[%^{LeetCode URL}][Problem %^{Problem Number}. %^{Problem Title}]]
+** Brute Force Solution
+#+begin_src python
+%?
+#+end_src
+
+*** Explanation
+Describe your brute force approach here.
+
+- Time Complexity:
+- Space Complexity:
+
+** Optimal Solution
+
+*** Algorithm Name:
+(Explain the name of the algorithm if relevant, e.g., Boyer–Moore, Two-Pointer, etc.)
+
+#+begin_src python
+#+end_src
+
+*** Explanation
+Describe your optimal approach here.
+
+- Time Complexity:
+- Space Complexity:
+"
+           ;; ------------------------------------------------------------
+           ;; Where to store the new note file:
+           :if-new
+           (file+head
+            "leetcode/${slug}.org"          ;; Creates a file leetcode/your-problem-title.org
+            "#+title: Problem %^{Problem Number}. %^{Problem Title}\n")
+           :immediate-finish nil
+           :jump-to-captured t)))
   (setq org-roam-dailies-capture-templates
 	'(("d" "default" entry
            "* %?"
@@ -469,7 +510,8 @@
   (prog-mode . format-all-mode)
   (python-mode . (lambda ()
 		   (setq-local format-all-formatters '(("Python"
-							(ruff))))))
+							(ruff
+							 pyright))))))
   (nix-mode . (lambda ()
 		(setq-local format-all-formatters '(("Nix" (alejandra "--quiet")))))))
 
