@@ -36,6 +36,11 @@
   :config
   (add-to-list 'same-window-buffer-names "*Personal Keybindings*"))
 
+;; git
+(use-package magit
+  :config
+  (setq magit-define-global-key-bindings 'recommended))
+
 ;; tabs
 (use-package all-the-icons
   :demand t)
