@@ -353,7 +353,9 @@ Describe your optimal approach here.
   (dashboard-set-heading-icons t)
   (dashboard-set-file-icons t)
   (dashboard-startup-banner
-   "/home/collin/brew/configurations/emacs/hydra.txt")
+   (cons "/home/collin/brew/configurations/emacs/azathoth_dracula.png"
+	 "/home/collin/brew/configurations/emacs/hydra.txt"))
+  (dashboard-image-banner-max-height 512)
   (dashboard-center-content t))
 
 ;; setup pinentry for gpg signing
