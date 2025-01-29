@@ -2,8 +2,8 @@
 Unstable](https://img.shields.io/badge/NixOS-unstable-blue.svg?style=flat-square&logo=NixOS&logoColor=white)](https://nixos.org)
 
 # 🧪 brew
-
-A personal NixOS configuration.
+	
+My NixOS configuration.
 
 ## Architecture
 
@@ -11,7 +11,7 @@ A personal NixOS configuration.
 
 | Tooling       | Name          |
 |---------------|---------------|
-| **Editor**    | vim           |
+| **Editor**    | emacs         |
 | **Browser**   | firefox       |
 | **WM**        | sway + waybar |
 | **Terminal**  | kitty         |
@@ -21,28 +21,28 @@ A personal NixOS configuration.
 
 ### Hosts
 
-#### `zombie` 🧟
+#### `azathoth` 👾
 
 My main workstation and also my server.
 
 Specs:
 
-| Part   | Name                                       |
-|--------|--------------------------------------------|
-| CPU    | AMD Ryzen 9 3900X 12-core, 24 threads      |
-| RAM    | G.Skill Ripjaws V 64 GB DDR4-3200          |
-| GPU    | RTX 3090 MSI SUPRIM X                      |
-| GPU    | AMD Radeon PRO WX-2100                     |
-| MOBO   | ASRock X470 Taichi ATX AM4                 |
-| PSU    | SeaSonic PRIME Titanium 750 W 80+ Titanium |
-| KBD    | ZSA Planck-EZ                              |
-| MOUSE  | Razer DeathAdder V2                        |
-| CASE   | Fractal Design Define R6 Blackout ATX      |
-| COOLER | Noctua NH-D15                              |
+| Part   | Name                                                   |
+|--------|--------------------------------------------            |
+| CPU    | AMD Ryzen Threadripper 7960X 24-core, 48 threads       |
+| RAM    | Kingston Fury Renegade Pro Expo 128GB                  |
+| GPU    | RTX 3090 MSI SUPRIM X                                  |
+| GPU    | AMD Radeon PRO WX-3200                                 |
+| MOBO   | ASUS Pro WS TRX50-SAGE WIFI                            |
+| PSU    | SeaSonic PRIME Titanium 1300W 80+ Titanium             |
+| KBD    | ZSA Planck-EZ                                          |
+| MOUSE  | Razer DeathAdder V2                                    |
+| CASE   | SilverStone Technology RM44                            |
+| COOLER | SilverStone Technology XE360-TR5                       |
 
 ### arachne 🕷️
 
-My pinebook pro.
+My Thinkpad T440.
 
 ## Motivation
 
