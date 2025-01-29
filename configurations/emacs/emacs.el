@@ -353,8 +353,11 @@ Describe your optimal approach here.
   (dashboard-set-heading-icons t)
   (dashboard-set-file-icons t)
   (dashboard-startup-banner
-   (cons "/home/collin/brew/configurations/emacs/azathoth_dracula.png"
-	 "/home/collin/brew/configurations/emacs/hydra.txt"))
+   (let ((hostname (system-name)))
+     (pcase hostname
+       ("arachne" "/home/collin/brew/configurations/emacs/arachne_dracula.png")
+       ("azathoth" "/home/collin/brew/configurations/emacs/azathoth_dracula.png")
+       (_ "/home/collin/brew/configurations/emacs/hydra.txt"))))
   (dashboard-image-banner-max-height 512)
   (dashboard-center-content t))
 
