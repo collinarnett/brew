@@ -22,6 +22,20 @@
       ];
     };
 
+    backups.org = {
+      inherit initialize repository passwordFile;
+      timerConfig = {
+        OnCalendar = "daily";
+        Persistent = true;
+      };
+      pruneOpts = [
+        "--keep-last 10"
+      ];
+      paths = [
+        "/persist/save/home/collin/org"
+      ];
+    };
+
     # Backup for 'projects' and 'work_projects' directories - Daily
     backups.projects = {
       inherit initialize repository passwordFile;
@@ -92,6 +106,7 @@
   systemd.services =
     lib.genAttrs [
       "restic-backups-projects"
+      "restic-backups-org"
       "restic-backups-pictures"
       "restic-backups-documents"
       "restic-backups-media"
