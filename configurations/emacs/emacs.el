@@ -151,32 +151,32 @@
            ;; The body of the capture template:
            ;; ------------------------------------------------------------
            "
-* [[%^{LeetCode URL}][Problem %^{Problem Number}. %^{Problem Title}]]
-** Brute Force Solution
-#+begin_src python
-%?
-#+end_src
+	   * [[%^{LeetCode URL}][Problem %^{Problem Number}. %^{Problem Title}]]
+	   ** Brute Force Solution
+	   #+begin_src python
+	   %?
+	   #+end_src
 
-*** Explanation
-Describe your brute force approach here.
+	   *** Explanation
+	   Describe your brute force approach here.
 
-- Time Complexity:
-- Space Complexity:
+	   - Time Complexity:
+	   - Space Complexity:
 
-** Optimal Solution
+	   ** Optimal Solution
 
-*** Algorithm Name:
-(Explain the name of the algorithm if relevant, e.g., Boyer–Moore, Two-Pointer, etc.)
+	   *** Algorithm Name:
+	   (Explain the name of the algorithm if relevant, e.g., Boyer–Moore, Two-Pointer, etc.)
 
-#+begin_src python
-#+end_src
+	   #+begin_src python
+	   #+end_src
 
-*** Explanation
-Describe your optimal approach here.
+	   *** Explanation
+	   Describe your optimal approach here.
 
-- Time Complexity:
-- Space Complexity:
-"
+	   - Time Complexity:
+	   - Space Complexity:
+	   "
            ;; ------------------------------------------------------------
            ;; Where to store the new note file:
            :if-new
