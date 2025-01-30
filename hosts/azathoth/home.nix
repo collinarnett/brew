@@ -52,6 +52,7 @@
       nil
       pandoc
       pciutils
+      pinta
       pulseaudio
       ripgrep
       signal-desktop
