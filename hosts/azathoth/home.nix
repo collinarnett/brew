@@ -41,6 +41,7 @@
       code-cursor
       crawl
       dconf
+      electrum
       fastfetch
       freetube
       fzf
