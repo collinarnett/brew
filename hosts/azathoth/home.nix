@@ -41,6 +41,7 @@
       code-cursor
       crawl
       dconf
+      fastfetch
       freetube
       fzf
       httpie
@@ -48,7 +49,6 @@
       imv
       iommu-groups
       languagetool
-      neofetch
       nil
       pandoc
       pciutils
