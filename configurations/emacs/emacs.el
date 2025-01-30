@@ -311,12 +311,12 @@
   (haskell-mode . lsp-deferred)
   (haskell-literate-mode. lsp-deferred))
 
-;; (use-package haskell-mode
-;;   :config
-;;   (setq haskell-stylish-on-save t)
-;;   :hook
-;;   (haskell-mode . interactive-haskell-mode)
-;;   :mode "\\.hs\\'")
+(use-package haskell-mode
+  :config
+  (setq haskell-stylish-on-save t)
+  :hook
+  (haskell-mode . interactive-haskell-mode)
+  :mode "\\.hs\\'")
 
 (use-package reformatter)
 
