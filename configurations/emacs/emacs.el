@@ -70,6 +70,8 @@
 (use-package f)
 (use-package gptel
   :after (f)
+  :bind
+  ("C-c l" . gptel)
   :config
   (setq gptel-api-key (f-read-text "/run/secrets/emacs_oai_key" 'utf-8)))
 
