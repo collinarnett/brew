@@ -23,6 +23,12 @@
 
 (setq require-final-newline t)
 
+;; Fix packages not found when using tramp
+(require 'tramp-sh)
+(setq tramp-remote-path
+      (append tramp-remote-path
+ 	       '(tramp-own-remote-path)))
+
 ;; Fix flycheck opening on the right
 (add-to-list 'display-buffer-alist
              '("\\*Flycheck errors\\*"
@@ -367,14 +373,12 @@ Describe your optimal approach here.
 (use-package pinentry)
 (pinentry-start)
 
-
-;direnv integration
-(use-package direnv
-  :hook
-  (prog-mode . direnv-update-environment)
+;; direnv intergration
+(use-package envrc
   :config
-  (setq direnv-always-show-summary nil)
-  (direnv-mode))
+  (setq envrc-remote t)
+  :hook
+  (after-init . envrc-global-mode))
 
 ;; smart parenthesis
 (use-package smartparens
