@@ -145,7 +145,12 @@
   ("C-c n d" . org-roam-dailies-map)
   :config
   (setq org-roam-capture-templates
-	'(("l"  ;; A key to trigger this template, e.g., "l" for "LeetCode".
+	'(
+	  ("d" "default" plain "%?"
+	   :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
+			      "#+title: ${title}\n")
+	   :unnarrowed t)
+	  ("l"  ;; A key to trigger this template, e.g., "l" for "LeetCode".
            "LeetCode Problem"
            plain
            ;; The body of the capture template:
@@ -185,11 +190,6 @@
             "#+title: Problem %^{Problem Number}. %^{Problem Title}\n")
            :immediate-finish nil
            :jump-to-captured t)))
-  (setq org-roam-dailies-capture-templates
-	'(("d" "default" entry
-           "* %?"
-           :target (file+head "%<%Y-%m-%d>.org"
-                              "#+title: %<%Y-%m-%d>\n"))))
   ;; If you're using a vertical completion framework, you might want a more informative completion interface
   (setq org-roam-node-display-template (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag)))
   (org-roam-db-autosync-mode)
