@@ -129,6 +129,8 @@
   (setq flycheck-check-syntax-automatically
 	'(idle-change (flycheck-idle-change-delay 1))))
 
+(require 'ob-haskell)
+(setq org-confirm-babel-evaluate nil)
 (use-package org-roam
   :custom
   (org-roam-directory (file-truename "/home/collin/org/roam/"))
@@ -312,8 +314,6 @@
   (haskell-literate-mode. lsp-deferred))
 
 (use-package haskell-mode
-  :config
-  (setq haskell-stylish-on-save t)
   :hook
   (haskell-mode . interactive-haskell-mode)
   :mode "\\.hs\\'")
