@@ -562,23 +562,21 @@
   (global-ligature-mode t))
 
 ;; Auto-indent
-(use-package aggressive-indent
-  :hook
-  (emacs-lisp-mode . aggressive-indent-mode)
-  (python-mode . aggressive-indent-mode)
-  :config
-  (global-aggressive-indent-mode 1))
+;; (use-package aggressive-indent
+;;   :hook
+;;   (emacs-lisp-mode . aggressive-indent-mode)
+;;   (python-mode . aggressive-indent-mode)
+;;   :config
+;;   (global-aggressive-indent-mode 1))
 
 ;; For use when lsp does not contain formatter methods
-(use-package format-all
-  :hook
-  (prog-mode . format-all-mode)
-  (python-mode . (lambda ()
-		   (setq-local format-all-formatters '(("Python"
-							(ruff
-							 pyright))))))
-  (nix-mode . (lambda ()
-		(setq-local format-all-formatters '(("Nix" (alejandra "--quiet")))))))
+;; (use-package format-all
+;;   :hook
+;;   (prog-mode . format-all-mode)
+;;   (python-mode . (lambda ()
+;; 		   (setq-local format-all-formatters '(("Python" (ruff))))))
+;;   (nix-mode . (lambda ()
+;; 		(setq-local format-all-formatters '(("Nix" (alejandra "--quiet")))))))
 
 (use-package yaml-mode)
 
