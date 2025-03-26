@@ -345,6 +345,12 @@
 
 (use-package jupyter)
 
+  :ensure t
+  :custom
+  (lsp-pyright-langserver-command "pyright") ;; or basedpyright
+  :hook (python-mode . (lambda ()
+                         (require 'lsp-pyright)
+                         (lsp-deferred))))  ; or lsp-deferred
 
 ;; bash
 (use-package shell-script-mode
@@ -591,7 +597,7 @@
     ;; Change to the target directory
     (let ((default-directory target-dir))
       ;; Run direnv-allow
-      (direnv-allow))
+      (envrc-allow))
     ;; Notify the user
     (message "Copied .envrc to %s, created .direnv, and ran direnv-allow." target-dir)))
 
