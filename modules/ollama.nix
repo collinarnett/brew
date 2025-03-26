@@ -1,4 +1,3 @@
 {
-  services.ollama.enable = false;
-  services.ollama.acceleration = "cuda";
+  services.ollama.enable = true;
 }
