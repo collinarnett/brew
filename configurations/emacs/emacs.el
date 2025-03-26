@@ -129,7 +129,48 @@
   (setq flycheck-check-syntax-automatically
 	'(idle-change (flycheck-idle-change-delay 1))))
 
+;; mindmap
+
 (require 'ob-haskell)
+
+
+(setq my-publish-time 0)   ; see the next section for context
+(defun roam-publication-wrapper (plist filename pubdir)
+  (org-roam-graph)
+  (org-html-publish-to-html plist filename pubdir)
+  (setq my-publish-time (cadr (current-time))))
+
+(defun roam-sitemap (title list)
+  (concat "#+OPTIONS: ^:nil author:nil html-postamble:nil\n"
+          "#+SETUPFILE: ./simple_inline.theme\n"
+          "#+TITLE: " title "\n\n"
+          (org-list-to-org list) "\nfile:sitemap.svg"))
+
+(setq org-publish-project-alist
+      '(("roam"
+	 :base-directory "/home/collin/org/roam/"
+         :base-extension "org"
+         :recursive t
+	 :auto-sitemap t
+	 :sitemap-function roam-sitemap
+	 :sitemap-title "Roam notes"
+	 :publishing-function roam-publication-wrapper
+	 :publishing-directory "/home/collin/org/roam/site/"
+	 :section-number nil
+	 :table-of-contents nil
+	 :style "<link rel=\"stylesheet\" href=\"../other/mystyle.cs\" type=\"text/css\">")))
+
+(defun org-roam-custom-link-builder (node)
+  (let ((file (org-roam-node-file node)))
+    (concat (file-name-base file) ".html")))
+
+(setq org-roam-graph-link-builder 'org-roam-custom-link-builder)
+(add-hook 'org-roam-graph-generation-hook
+          (lambda (dot svg) (if (< (- (cadr (current-time)) my-publish-time) 5)
+                                (progn (copy-file svg "/home/collin/org/roam/site/sitemap.svg" 't)
+				       (kill-buffer (file-name-nondirectory svg))
+				       (setq my-publish-time 0)))))
+
 (setq org-confirm-babel-evaluate nil)
 (use-package org-roam
   :custom
@@ -195,7 +236,9 @@
   ;; If you're using a vertical completion framework, you might want a more informative completion interface
   (setq org-roam-node-display-template (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag)))
   (org-roam-db-autosync-mode)
+
   (require 'org-roam-dailies) ;; Ensure the keymap is available
+  (require 'org-roam-export)
   ;; If using org-roam-protocol
   (require 'org-roam-protocol))
 
