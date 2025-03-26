@@ -22,6 +22,16 @@
   # Browser
   programs.firefox.enable = true;
 
+  programs.tmux.enable = true;
+  programs.nh = {
+    enable = true;
+    clean.enable = true;
+    clean.extraArgs = "--keep-since 4d --keep 3";
+    flake = "/home/collin/brew";
+  };
+
+  programs.kdeconnect.enable = true;
+
   networking.hosts = {
     "127.0.0.1" = ["prerequisites-kafka-broker-0.prerequisites-kafka-broker-headless.datahub.svc.cluster.local"];
   };
