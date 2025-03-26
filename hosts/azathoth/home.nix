@@ -38,6 +38,7 @@
       bibata-cursors
       chromium
       clang-tools
+      cloc
       code-cursor
       crawl
       dconf
@@ -45,19 +46,27 @@
       fastfetch
       freetube
       fzf
+      graphviz
       httpie
       hunspellDicts.en_US
       imv
       iommu-groups
       languagetool
+      libreoffice
       nil
+      nix-output-monitor
+      nix-tree
+      nixfmt-rfc-style
       pandoc
       pciutils
       pinta
       pulseaudio
+      pyright
       ripgrep
+      ruff
       signal-desktop
       statix
+      tealdeer
       texliveFull
       tree
       unzip
