@@ -12,7 +12,7 @@
       plugins = ["colored-man-pages"];
     };
     shellAliases = {
-      update = "sudo nixos-rebuild switch --flake ~/brew";
+      update = "{pkgs.nh}/bin/nh os switch /home/collin/brew";
       ssh = "kitty +kitten ssh";
       vimwiki = "vim -c VimwikiIndex";
     };
