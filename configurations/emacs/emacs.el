@@ -113,11 +113,17 @@
 ;; required for lsp-mode
 (use-package yasnippet)
 
+;; search
+(use-package rg
+  :config
+  (rg-enable-default-bindings))
+
 ;; lsp support
 (use-package lsp-mode
-  :after (direnv-mode)
   :hook
-  (sh-mode . lsp))
+  (sh-mode . lsp-deferred)
+  :custom
+  (lsp-ruff-server-command '(ruff server --preview)))
 
 (use-package lsp-ui
   :after (lsp-mode))
@@ -338,19 +344,14 @@
 (use-package python-mode
   :mode "\\.py\\'")
 
-
 (use-package lsp-pyright
-  :hook (python-mode . lsp-deferred))
-
-
-(use-package jupyter)
-
   :ensure t
   :custom
   (lsp-pyright-langserver-command "pyright") ;; or basedpyright
   :hook (python-mode . (lambda ()
                          (require 'lsp-pyright)
                          (lsp-deferred))))  ; or lsp-deferred
+(use-package python-pytest)
 
 ;; bash
 (use-package shell-script-mode
