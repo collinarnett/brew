@@ -7,8 +7,10 @@
   imports = [
     ../../modules/apcupsd.nix
     ../../modules/cac.nix
+    ../../modules/chromadb.nix
     ../../modules/greetd.nix
     ../../modules/homelab.nix
+    ../../modules/ollama.nix
     ../../modules/pcie-passthrough.nix
     ../../modules/pipewire.nix
     ../../modules/restic.nix
