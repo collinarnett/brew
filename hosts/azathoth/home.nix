@@ -8,6 +8,7 @@
     ../../modules/home-manager/beets.nix
     ../../modules/home-manager/btop.nix
     ../../modules/home-manager/direnv.nix
+    ../../modules/home-manager/gh.nix
     ../../modules/home-manager/git.nix
     ../../modules/home-manager/gpg-agent.nix
     ../../modules/home-manager/gpg.nix
@@ -27,6 +28,7 @@
   home.username = "collin";
   home.homeDirectory = "/home/collin";
   home.sessionVariables = {
+    GH_TOKEN = "$(cat ${nixosConfig.sops.secrets.gh_token.path})";
     GPG_TTY = "$(tty)";
   };
 
@@ -57,6 +59,7 @@
       nix-output-monitor
       nix-tree
       nixfmt-rfc-style
+      nixpkgs-review
       pandoc
       pciutils
       pinta
