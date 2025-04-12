@@ -1,4 +1,5 @@
-{pkgs, ...}: let
+{ pkgs, ... }:
+let
   background = "#282a36";
   background-alt = "#282a36";
   background-attention = "#181920";
@@ -26,7 +27,8 @@
     bottom = 6;
     left = 8;
   };
-in {
+in
+{
   programs.qutebrowser = {
     package = pkgs.pinned.qutebrowser;
     enable = true;

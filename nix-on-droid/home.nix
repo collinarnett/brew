@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   imports = [
     ../../modules/home-manager/direnv.nix
     ../../modules/home-manager/git.nix

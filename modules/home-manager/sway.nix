@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   home.packages = with pkgs; [
     emacs-all-the-icons-fonts
     fira-code
@@ -24,7 +25,7 @@
         };
       };
       modifier = "Mod4";
-      bars = [{command = "${pkgs.waybar}/bin/waybar";}];
+      bars = [ { command = "${pkgs.waybar}/bin/waybar"; } ];
       colors = {
         focused = {
           background = "#6272A4";

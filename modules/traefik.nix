@@ -2,11 +2,13 @@
   config,
   lib,
   ...
-}: let
+}:
+let
   inherit (lib) mkIf;
   cfg = config.services.homelab;
-in {
-  users.users.traefik.extraGroups = mkIf cfg.traefik.enable ["aws"];
+in
+{
+  users.users.traefik.extraGroups = mkIf cfg.traefik.enable [ "aws" ];
   services.traefik = {
     enable = cfg.traefik.enable;
     staticConfigOptions = {
@@ -21,7 +23,10 @@ in {
         websecure = {
           address = ":443";
           forwardedHeaders = {
-            trustedIPs = ["192.168.1.1/32" "127.0.0.1/32"];
+            trustedIPs = [
+              "192.168.1.1/32"
+              "127.0.0.1/32"
+            ];
           };
           http.tls.certResolver = "letsencrypt";
         };
@@ -29,7 +34,9 @@ in {
       certificatesresolvers.letsencrypt.acme = {
         email = "collin@arnett.it";
         storage = "/var/lib/traefik/acme.json";
-        dnsChallenge = {provider = "route53";};
+        dnsChallenge = {
+          provider = "route53";
+        };
       };
       log = {
         filePath = "/var/lib/traefik/traefik.log";
@@ -52,38 +59,46 @@ in {
 
       http.routers.authelia = mkIf cfg.authelia.enable {
         rule = "Host(`login.trexd.dev`)";
-        entryPoints = ["websecure"];
+        entryPoints = [ "websecure" ];
         tls.certResolver = "letsencrypt";
         service = "authelia";
       };
-      http.services.authelia.loadBalancer.servers = mkIf cfg.authelia.enable [{url = "http://127.0.0.1:9091";}];
+      http.services.authelia.loadBalancer.servers = mkIf cfg.authelia.enable [
+        { url = "http://127.0.0.1:9091"; }
+      ];
 
       http.routers.searx = mkIf cfg.searx.enable {
         rule = "Host(`search.trexd.dev`)";
-        entryPoints = ["websecure"];
+        entryPoints = [ "websecure" ];
         tls.certResolver = "letsencrypt";
         service = "searx";
         middlewares = "authelia";
       };
-      http.services.searx.loadBalancer.servers = mkIf cfg.searx.enable [{url = "http://127.0.0.1:8080";}];
+      http.services.searx.loadBalancer.servers = mkIf cfg.searx.enable [
+        { url = "http://127.0.0.1:8080"; }
+      ];
 
       http.routers.calibre-web = mkIf cfg.calibre-web.enable {
         rule = "Host(`books.trexd.dev`)";
-        entryPoints = ["websecure"];
+        entryPoints = [ "websecure" ];
         tls.certResolver = "letsencrypt";
         service = "calibre-web";
         middlewares = "authelia";
       };
-      http.services.calibre-web.loadBalancer.servers = mkIf cfg.calibre-web.enable [{url = "http://127.0.0.1:8083";}];
+      http.services.calibre-web.loadBalancer.servers = mkIf cfg.calibre-web.enable [
+        { url = "http://127.0.0.1:8083"; }
+      ];
 
       http.routers.jellyfin = mkIf cfg.jellyfin.enable {
         rule = "Host(`media.trexd.dev`)";
-        entryPoints = ["websecure"];
+        entryPoints = [ "websecure" ];
         tls.certResolver = "letsencrypt";
         service = "jellyfin";
         middlewares = "authelia";
       };
-      http.services.jellyfin.loadBalancer.servers = mkIf cfg.jellyfin.enable [{url = "http://127.0.0.1:8096";}];
+      http.services.jellyfin.loadBalancer.servers = mkIf cfg.jellyfin.enable [
+        { url = "http://127.0.0.1:8096"; }
+      ];
     };
   };
 
@@ -93,5 +108,8 @@ in {
     AWS_SHARED_CREDENTIALS_FILE = config.sops.secrets.awscli2-credentials.path;
   };
 
-  networking.firewall.allowedTCPPorts = mkIf cfg.traefik.enable [80 443];
+  networking.firewall.allowedTCPPorts = mkIf cfg.traefik.enable [
+    80
+    443
+  ];
 }

@@ -2,10 +2,12 @@
   config,
   lib,
   ...
-}: let
+}:
+let
   inherit (lib) mkIf;
   cfg = config.services.homelab;
-in {
+in
+{
   services.calibre-web = {
     enable = cfg.calibre-web.enable;
     listen.ip = "127.0.0.1";
@@ -16,5 +18,5 @@ in {
       header = "Remote-User";
     };
   };
-  users.users.calibre-web.extraGroups = mkIf cfg.calibre-web.enable ["multimedia"];
+  users.users.calibre-web.extraGroups = mkIf cfg.calibre-web.enable [ "multimedia" ];
 }

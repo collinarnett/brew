@@ -1,4 +1,4 @@
-{writeShellScriptBin, ...}:
+{ writeShellScriptBin, ... }:
 writeShellScriptBin "iommu-groups" ''
   shopt -s nullglob
   for d in /sys/kernel/iommu_groups/*/devices/*; do

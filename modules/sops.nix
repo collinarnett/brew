@@ -2,8 +2,9 @@
   config,
   lib,
   ...
-}: {
-  users.groups.aws = {};
+}:
+{
+  users.groups.aws = { };
   sops.defaultSopsFile = ../secrets/secrets.yaml;
   sops.age.sshKeyPaths = [
     "/persist/etc/ssh/ssh_host_ed25519_key"
@@ -15,7 +16,9 @@
   sops.secrets.awscli2-credentials.group = "aws";
   sops.secrets.gcloud-ai-assistant.mode = "0440";
   sops.secrets.gcloud-ai-assistant.owner = "collin";
-  sops.secrets.ddclient-config = {};
+  sops.secrets.ddclient-config = { };
   sops.secrets.emacs_oai_key.owner = "collin";
-  sops.secrets.gh_token = {owner = config.users.users.collin.name;};
+  sops.secrets.gh_token = {
+    owner = config.users.users.collin.name;
+  };
 }

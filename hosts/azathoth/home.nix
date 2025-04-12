@@ -3,7 +3,8 @@
   lib,
   pkgs,
   ...
-}: {
+}:
+{
   imports = [
     ../../modules/home-manager/beets.nix
     ../../modules/home-manager/btop.nix
@@ -32,10 +33,12 @@
     GPG_TTY = "$(tty)";
   };
 
-  home.packages = let
-    whipper = pkgs.whipper.override {python3 = pkgs.python311;};
-  in
-    with pkgs; [
+  home.packages =
+    let
+      whipper = pkgs.whipper.override { python3 = pkgs.python311; };
+    in
+    with pkgs;
+    [
       alejandra
       bibata-cursors
       chromium

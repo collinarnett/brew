@@ -2,14 +2,15 @@
   pkgs,
   config,
   ...
-}: {
+}:
+{
   wayland.windowManager.sway = {
     enable = true;
     wrapperFeatures.gtk = true;
     checkConfig = false;
     config = {
       terminal = "kitty";
-      bars = [{command = "${pkgs.waybar}/bin/waybar";}];
+      bars = [ { command = "${pkgs.waybar}/bin/waybar"; } ];
       output = {
         eDP-1 = {
           bg = "/home/collin/pictures/purple_swamp.jpg fill";

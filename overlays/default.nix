@@ -4,8 +4,8 @@ final: prev: {
     alwaysEnsure = true;
     defaultInitFile = true;
     package = prev.emacs-unstable;
-    extraEmacsPackages = epkgs:
-      with epkgs; [
+    extraEmacsPackages =
+      epkgs: with epkgs; [
         use-package
         treesit-grammars.with-all-grammars
         (epkgs.trivialBuild {
@@ -21,7 +21,10 @@ final: prev: {
             epkgs.elpaPackages.org
             epkgs.melpaPackages.hydra
           ];
-          propagatedUserEnvPkgs = with prev; [findutils gawk];
+          propagatedUserEnvPkgs = with prev; [
+            findutils
+            gawk
+          ];
 
           postInstall = ''
             cp -r ./awk/ $LISPDIR/

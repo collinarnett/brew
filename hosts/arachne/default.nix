@@ -8,6 +8,7 @@
   system,
   pkgs,
   ...
-}: {
+}:
+{
   inherit pkgs system;
 }

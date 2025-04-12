@@ -13,7 +13,10 @@ stdenv.mkDerivation {
     sha256 = "sha256-HhbGyHgwV8bbZutDqhHriso3y84XxumtuED9BHO0XEk=";
   };
 
-  nativeBuildInputs = [unzip openssl];
+  nativeBuildInputs = [
+    unzip
+    openssl
+  ];
 
   buildPhase = ''
     ls

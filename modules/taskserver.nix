@@ -3,6 +3,6 @@
     enable = true;
     debug = true;
     ipLog = true;
-    organisations.trexd.users = ["collin"];
+    organisations.trexd.users = [ "collin" ];
   };
 }

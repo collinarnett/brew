@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   imports = [
     ../../modules/pipewire.nix
     ../../modules/greetd.nix
@@ -15,15 +16,25 @@
   zfs-root = {
     boot = {
       devNodes = "/dev/disk/by-id/";
-      bootDevices = ["ata-CT480BX500SSD1_2246E686D9FD" "ata-CT480BX500SSD1_2303E69EE264"];
+      bootDevices = [
+        "ata-CT480BX500SSD1_2246E686D9FD"
+        "ata-CT480BX500SSD1_2303E69EE264"
+      ];
       immutable = false;
-      availableKernelModules = ["xhci_pci" "ehci_pci" "ahci" "usb_storage" "sd_mod" "rtsx_pci_sdmmc"];
+      availableKernelModules = [
+        "xhci_pci"
+        "ehci_pci"
+        "ahci"
+        "usb_storage"
+        "sd_mod"
+        "rtsx_pci_sdmmc"
+      ];
       removableEfi = true;
-      kernelParams = [];
+      kernelParams = [ ];
       sshUnlock = {
         # read sshUnlock.txt file.
         enable = false;
-        authorizedKeys = [];
+        authorizedKeys = [ ];
       };
     };
     networking = {
@@ -72,13 +83,21 @@
     buildMachines = [
       {
         hostName = "zombie";
-        systems = ["x86_64-linux" "aarch64-linux"];
+        systems = [
+          "x86_64-linux"
+          "aarch64-linux"
+        ];
         speedFactor = 2;
-        supportedFeatures = ["nixos-test" "benchmark" "big-parallel" "kvm"];
+        supportedFeatures = [
+          "nixos-test"
+          "benchmark"
+          "big-parallel"
+          "kvm"
+        ];
       }
     ];
     settings.max-jobs = 0;
-    settings.trusted-users = ["collin"];
+    settings.trusted-users = [ "collin" ];
     distributedBuilds = true;
     extraOptions = ''
       builders-use-substitutes = true
@@ -97,7 +116,11 @@
   users.users.collin = {
     isNormalUser = true;
     shell = pkgs.zsh;
-    extraGroups = ["wheel" "networkmanager" "video"];
+    extraGroups = [
+      "wheel"
+      "networkmanager"
+      "video"
+    ];
   };
   programs.zsh.enable = true;
   programs.dconf.enable = true; # fixes issue with home-manager
@@ -115,7 +138,7 @@
   };
 
   services.openssh.enable = true;
-  security.pam.services.swaylock = {};
+  security.pam.services.swaylock = { };
 
   system.stateVersion = "21.11";
 }

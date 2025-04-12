@@ -1,4 +1,5 @@
-{...}: {
+{ ... }:
+{
   services.syncthing = {
     enable = false;
     openDefaultPorts = true;
@@ -13,7 +14,7 @@
         type = "sendonly";
         path = "/home/collin/music";
         label = "Music";
-        devices = ["phone"];
+        devices = [ "phone" ];
       };
     };
     settings.devices = {

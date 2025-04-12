@@ -2,9 +2,9 @@
   config,
   lib,
   ...
-}: let
-  inherit
-    (config.sops.secrets)
+}:
+let
+  inherit (config.sops.secrets)
     authelia_jwt_secret_file
     authelia_session_secret_file
     authelia_storage_encryption_key_file
@@ -12,11 +12,12 @@
     ;
   inherit (lib) mkIf;
   cfg = config.services.homelab;
-in {
+in
+{
   services.authelia.instances = {
     main = {
       enable = cfg.authelia.enable;
-      settingsFiles = [authelia_jwks_settings_file.path];
+      settingsFiles = [ authelia_jwks_settings_file.path ];
       secrets.jwtSecretFile = authelia_jwt_secret_file.path;
       secrets.sessionSecretFile = authelia_session_secret_file.path;
       secrets.storageEncryptionKeyFile = authelia_storage_encryption_key_file.path;
@@ -51,7 +52,11 @@ in {
               redirect_uris = [
                 "https://media.trexd.dev/sso/OID/start/authelia"
               ];
-              scopes = ["openid" "profile" "groups"];
+              scopes = [
+                "openid"
+                "profile"
+                "groups"
+              ];
             }
           ];
         };

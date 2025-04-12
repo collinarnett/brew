@@ -2,7 +2,8 @@
   nixosConfig,
   pkgs,
   ...
-}: {
+}:
+{
   imports = [
     ../../modules/home-manager/beets.nix
     ../../modules/home-manager/direnv.nix
@@ -36,74 +37,75 @@
     BROWSER = "firefox";
   };
 
-  home.packages = let
-    whipper = pkgs.whipper.override {python3 = pkgs.python311;};
-  in
+  home.packages =
+    let
+      whipper = pkgs.whipper.override { python3 = pkgs.python311; };
+    in
     with pkgs;
-      [
-        adwaita-icon-theme
-        alejandra
-        anki-bin
-        audacity
-        awscli2
-        chromium
-        clang-tools
-        crawl
-        croc
-        dconf
-        dfu-programmer
-        dracula-theme
-        firefox
-        freetube
-        fzf
-        google-cloud-sdk
-        gotop
-        grim
-        heimdall-gui
-        helvum
-        hunspellDicts.en_US
-        imv
-        iommu-groups
-        ipafont
-        k9s
-        languagetool
-        liberation_ttf
-        libreoffice
-        libsForQt5.kdenlive
-        mpv
-        neofetch
-        nil
-        nix-index
-        nixfmt-classic
-        nmap
-        obs-studio
-        ormolu
-        pandoc
-        parted
-        pavucontrol
-        pciutils
-        pinta
-        pulseaudio
-        qmk
-        qpwgraph
-        ripgrep
-        signal-desktop
-        slurp
-        statix
-        texlive.combined.scheme-tetex
-        tree
-        unzip
-        usbutils
-        v4l-utils
-        vhs
-        virt-manager
-        wget
-        wl-clipboard
-        xournalpp
-        xplr
-        zip
-      ]
-      ++ [whipper];
+    [
+      adwaita-icon-theme
+      alejandra
+      anki-bin
+      audacity
+      awscli2
+      chromium
+      clang-tools
+      crawl
+      croc
+      dconf
+      dfu-programmer
+      dracula-theme
+      firefox
+      freetube
+      fzf
+      google-cloud-sdk
+      gotop
+      grim
+      heimdall-gui
+      helvum
+      hunspellDicts.en_US
+      imv
+      iommu-groups
+      ipafont
+      k9s
+      languagetool
+      liberation_ttf
+      libreoffice
+      libsForQt5.kdenlive
+      mpv
+      neofetch
+      nil
+      nix-index
+      nixfmt-classic
+      nmap
+      obs-studio
+      ormolu
+      pandoc
+      parted
+      pavucontrol
+      pciutils
+      pinta
+      pulseaudio
+      qmk
+      qpwgraph
+      ripgrep
+      signal-desktop
+      slurp
+      statix
+      texlive.combined.scheme-tetex
+      tree
+      unzip
+      usbutils
+      v4l-utils
+      vhs
+      virt-manager
+      wget
+      wl-clipboard
+      xournalpp
+      xplr
+      zip
+    ]
+    ++ [ whipper ];
 
   home.stateVersion = "21.11";
   programs.home-manager.enable = true;

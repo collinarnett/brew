@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   programs.firefox.enable = true;
   programs.firefox.package = pkgs.firefox-esr;
   programs.firefox.policies = {

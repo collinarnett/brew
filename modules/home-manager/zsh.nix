@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   programs.zsh = {
     enable = true;
     enableCompletion = true;
@@ -9,7 +10,7 @@
     '';
     oh-my-zsh = {
       enable = true;
-      plugins = ["colored-man-pages"];
+      plugins = [ "colored-man-pages" ];
     };
     shellAliases = {
       update = "{pkgs.nh}/bin/nh os switch /home/collin/brew";

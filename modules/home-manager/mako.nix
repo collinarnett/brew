@@ -1,4 +1,5 @@
-{...}: {
+{ ... }:
+{
   services.mako = {
     enable = true;
     backgroundColor = "#282a36";

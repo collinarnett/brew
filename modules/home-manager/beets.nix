@@ -3,7 +3,7 @@
     enable = true;
     settings = {
       directory = "/media/music/";
-      plugins = ["fetchart"];
+      plugins = [ "fetchart" ];
     };
   };
 }

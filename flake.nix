@@ -27,97 +27,112 @@
       inputs.home-manager.follows = "home-manager-android";
     };
   };
-  outputs = inputs @ {
-    self,
-    ghostty,
-    emacs-overlay,
-    flake-parts,
-    home-manager,
-    nixos-hardware,
-    sops-nix,
-    disko,
-    home-manager-android,
-    nix-on-droid,
-    nixpkgs,
-    nixpkgs-android,
-    ...
-  }:
-    flake-parts.lib.mkFlake {inherit inputs;} ({
-      withSystem,
-      inputs,
+  outputs =
+    inputs@{
+      self,
+      ghostty,
+      emacs-overlay,
+      flake-parts,
+      home-manager,
+      nixos-hardware,
+      sops-nix,
+      disko,
+      home-manager-android,
+      nix-on-droid,
+      nixpkgs,
+      nixpkgs-android,
       ...
-    }: {
-      imports = [
-        ./parts/nixos-modules.nix
-      ];
-      systems = ["x86_64-linux"];
-      flake = {config, ...}: {
-        nixOnDroidConfigurations.default = nix-on-droid.lib.nixOnDroidConfiguration {
-          modules = [
-            ./nix-on-droid/nix-on-droid.nix
-          ];
-          pkgs = import nixpkgs-android {
-            system = "aarch64-linux";
-            overlays = [
-              nix-on-droid.overlays.default
-            ];
-          };
-          home-manager-path = home-manager-android.outPath;
-        };
-
-        nixosConfigurations = let
-          genSystem = user: host: extras:
-            withSystem "x86_64-linux" ({
-              pkgs,
-              system,
-              ...
-            }:
-              inputs.nixpkgs.lib.nixosSystem {
-                inherit system;
-
-                modules =
-                  [
-                    config.nixosModules.nix-settings
-                    inputs.sops-nix.nixosModules.sops
-                    inputs.home-manager.nixosModules.home-manager
-                    ./hosts/${host}/configuration.nix
-                    {
-                      home-manager.useGlobalPkgs = true;
-                      home-manager.useUserPackages = true;
-                      home-manager.users.${user} = import ./hosts/${host}/home.nix;
-                    }
-                  ]
-                  ++ extras;
-              });
-        in {
-          zombie = genSystem "collin" "zombie" [];
-          vampire = genSystem "collin" "vampire" [];
-          azathoth = genSystem "collin" "azathoth" [
-            {
-              environment.systemPackages = [
-                ghostty.packages.x86_64-linux.default
-              ];
-            }
-            inputs.disko.nixosModules.disko
-            inputs.impermanence.nixosModules.impermanence
-            inputs.nixos-facter-modules.nixosModules.facter
-          ];
-          arachne = genSystem "collin" "arachne" [
-            ./modules/zfs
-            "${nixpkgs}/nixos/modules/installer/scan/not-detected.nix"
-            "${nixos-hardware}/lenovo/thinkpad/t440p"
-          ];
-        };
-      };
-      perSystem = {
-        pkgs,
-        system,
+    }:
+    flake-parts.lib.mkFlake { inherit inputs; } (
+      {
+        withSystem,
+        inputs,
         ...
-      }: {
-        formatter = pkgs.alejandra;
-        devShells.default = pkgs.mkShell {
-          buildInputs = with pkgs; [nil sops alejandra];
-        };
-      };
-    });
+      }:
+      {
+        imports = [
+          ./parts/nixos-modules.nix
+        ];
+        systems = [ "x86_64-linux" ];
+        flake =
+          { config, ... }:
+          {
+            nixOnDroidConfigurations.default = nix-on-droid.lib.nixOnDroidConfiguration {
+              modules = [
+                ./nix-on-droid/nix-on-droid.nix
+              ];
+              pkgs = import nixpkgs-android {
+                system = "aarch64-linux";
+                overlays = [
+                  nix-on-droid.overlays.default
+                ];
+              };
+              home-manager-path = home-manager-android.outPath;
+            };
+
+            nixosConfigurations =
+              let
+                genSystem =
+                  user: host: extras:
+                  withSystem "x86_64-linux" (
+                    {
+                      pkgs,
+                      system,
+                      ...
+                    }:
+                    inputs.nixpkgs.lib.nixosSystem {
+                      inherit system;
+
+                      modules = [
+                        config.nixosModules.nix-settings
+                        inputs.sops-nix.nixosModules.sops
+                        inputs.home-manager.nixosModules.home-manager
+                        ./hosts/${host}/configuration.nix
+                        {
+                          home-manager.useGlobalPkgs = true;
+                          home-manager.useUserPackages = true;
+                          home-manager.users.${user} = import ./hosts/${host}/home.nix;
+                        }
+                      ] ++ extras;
+                    }
+                  );
+              in
+              {
+                zombie = genSystem "collin" "zombie" [ ];
+                vampire = genSystem "collin" "vampire" [ ];
+                azathoth = genSystem "collin" "azathoth" [
+                  {
+                    environment.systemPackages = [
+                      ghostty.packages.x86_64-linux.default
+                    ];
+                  }
+                  inputs.disko.nixosModules.disko
+                  inputs.impermanence.nixosModules.impermanence
+                  inputs.nixos-facter-modules.nixosModules.facter
+                ];
+                arachne = genSystem "collin" "arachne" [
+                  ./modules/zfs
+                  "${nixpkgs}/nixos/modules/installer/scan/not-detected.nix"
+                  "${nixos-hardware}/lenovo/thinkpad/t440p"
+                ];
+              };
+          };
+        perSystem =
+          {
+            pkgs,
+            system,
+            ...
+          }:
+          {
+            formatter = pkgs.alejandra;
+            devShells.default = pkgs.mkShell {
+              buildInputs = with pkgs; [
+                nil
+                sops
+                alejandra
+              ];
+            };
+          };
+      }
+    );
 }

@@ -2,10 +2,17 @@
   config,
   lib,
   ...
-}: let
-  inherit (lib) mkIf mkEnableOption mkOption types;
+}:
+let
+  inherit (lib)
+    mkIf
+    mkEnableOption
+    mkOption
+    types
+    ;
   cfg = config.services.homelab;
-in {
+in
+{
   imports = [
     ./authelia.nix
     ./jellyfin.nix
@@ -56,7 +63,7 @@ in {
   config = {
     # TODO: Remove when moving to azathoth with impermanence since
     # creating groups and permmissions is built in to impermanence.
-    users.groups.multimedia = {};
+    users.groups.multimedia = { };
     systemd.tmpfiles.rules = [
       "d /media 0770 - multimedia - -"
     ];
@@ -76,6 +83,6 @@ in {
     sops.secrets.authelia_storage_encryption_key_file = mkIf cfg.authelia.enable {
       owner = config.systemd.services.authelia-main.serviceConfig.User;
     };
-    sops.secrets.authelia_session_redis_password_file = mkIf cfg.authelia.enable {};
+    sops.secrets.authelia_session_redis_password_file = mkIf cfg.authelia.enable { };
   };
 }

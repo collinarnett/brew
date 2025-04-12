@@ -8,7 +8,9 @@
       rebase = {
         autostash = true;
       };
-      commit = {verbose = true;};
+      commit = {
+        verbose = true;
+      };
       core = {
         fsmonitor = true;
         untrackedcache = true;

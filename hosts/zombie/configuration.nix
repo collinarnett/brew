@@ -2,7 +2,8 @@
   config,
   pkgs,
   ...
-}: {
+}:
+{
   imports = [
     ../../modules/apcupsd.nix
     ../../modules/cac.nix
@@ -37,14 +38,17 @@
   ];
 
   # Remote Builds
-  boot.binfmt.emulatedSystems = ["aarch64-linux"];
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
   # General
   boot.loader.systemd-boot.configurationLimit = 30;
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.kernelModules = ["v4l2loopback" "amdgpu"];
-  boot.extraModulePackages = [config.boot.kernelPackages.v4l2loopback];
+  boot.kernelModules = [
+    "v4l2loopback"
+    "amdgpu"
+  ];
+  boot.extraModulePackages = [ config.boot.kernelPackages.v4l2loopback ];
   services.gvfs.enable = true;
 
   time.timeZone = "America/New_York";
@@ -52,7 +56,11 @@
 
   # Networking
   networking = {
-    nameservers = ["1.1.1.1" "8.8.8.8" "9.9.9.9"];
+    nameservers = [
+      "1.1.1.1"
+      "8.8.8.8"
+      "9.9.9.9"
+    ];
     hostName = "zombie";
   };
 
@@ -82,12 +90,15 @@
 
   programs.ssh.knownHosts = {
     hosts = {
-      hostNames = ["github.com" "gitlab.com"];
+      hostNames = [
+        "github.com"
+        "gitlab.com"
+      ];
       publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBmGJyuKh5/XGj2x6wZYxcS8krQZc74uBwMJaxeqaj8n collin@arnett.it";
     };
   };
 
-  nix.settings.trusted-users = ["collin"];
+  nix.settings.trusted-users = [ "collin" ];
 
   # Man pages
   documentation.dev.enable = true;
@@ -102,7 +113,7 @@
   # SSH
   services.openssh = {
     enable = true;
-    ports = [6767];
+    ports = [ 6767 ];
     settings.PermitRootLogin = "yes";
     settings.PasswordAuthentication = false;
   };

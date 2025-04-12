@@ -1,4 +1,5 @@
-{pkgs, ...}: let
+{ pkgs, ... }:
+let
   vim-nickel = pkgs.vimUtils.buildVimPlugin {
     name = "vim-better-whitespace";
     src = pkgs.fetchFromGitHub {
@@ -8,11 +9,14 @@
       sha256 = "sha256-rwpPNZiCnjQK+26NDlkE7R+L33EpZuMlNhGrRNsDK7I";
     };
   };
-in {
+in
+{
   programs.vim = {
     enable = true;
     extraConfig = builtins.readFile ./vimrc;
-    settings = {number = true;};
+    settings = {
+      number = true;
+    };
     plugins = with pkgs.vimPlugins; [
       ale
       dracula-vim

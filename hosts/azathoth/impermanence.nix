@@ -33,7 +33,7 @@
       }
     ];
   };
-  users.groups.multimedia = {};
+  users.groups.multimedia = { };
   environment.persistence."/persist/save" = {
     directories = [
       {

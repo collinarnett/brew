@@ -3,7 +3,8 @@
   config,
   lib,
   ...
-}: {
+}:
+{
   imports = [
     ../../modules/apcupsd.nix
     ../../modules/cac.nix
@@ -32,10 +33,6 @@
 
   programs.kdeconnect.enable = true;
 
-  networking.hosts = {
-    "127.0.0.1" = ["prerequisites-kafka-broker-0.prerequisites-kafka-broker-headless.datahub.svc.cluster.local"];
-  };
-
   services.cac.enable = true;
 
   services.homelab = {
@@ -56,7 +53,10 @@
     user = "collin";
     platform = "amd";
     # GPU
-    vfio-ids = ["10de:2204" "10de:1aef"];
+    vfio-ids = [
+      "10de:2204"
+      "10de:1aef"
+    ];
   };
 
   # Filesystem
@@ -83,22 +83,25 @@
         description = "Rollback ZFS datasets to a pristine state";
         serviceConfig.Type = "oneshot";
         unitConfig.DefaultDependencies = "no";
-        wantedBy = ["initrd.target"];
-        after = ["zfs-import-zroot.service"];
-        requires = ["zfs-import-zroot.service"];
-        before = ["sysroot.mount"];
-        path = with pkgs; [zfs];
+        wantedBy = [ "initrd.target" ];
+        after = [ "zfs-import-zroot.service" ];
+        requires = [ "zfs-import-zroot.service" ];
+        before = [ "sysroot.mount" ];
+        path = with pkgs; [ zfs ];
         script = ''
           zfs rollback -r zroot/root@empty && echo "rollback complete"
         '';
       };
       services.create-needed-for-boot-dirs = {
-        after = pkgs.lib.mkForce ["rollback.service"];
-        wants = pkgs.lib.mkForce ["rollback.service"];
+        after = pkgs.lib.mkForce [ "rollback.service" ];
+        wants = pkgs.lib.mkForce [ "rollback.service" ];
       };
     };
     initrd.supportedFilesystems.zfs = true;
-    supportedFilesystems = ["vfat" "zfs"];
+    supportedFilesystems = [
+      "vfat"
+      "zfs"
+    ];
     zfs = {
       forceImportAll = true;
     };
@@ -124,7 +127,10 @@
     hostName = "azathoth";
     # head -c 8 /etc/machine-id
     hostId = "20556d4b";
-    nameservers = ["1.1.1.1" "9.9.9.9"];
+    nameservers = [
+      "1.1.1.1"
+      "9.9.9.9"
+    ];
   };
 
   # Users
@@ -154,7 +160,7 @@
     ../../secrets/keys/collinarnett.pub
   ];
 
-  nix.settings.trusted-users = ["collin"];
+  nix.settings.trusted-users = [ "collin" ];
 
   # Docker
   virtualisation.docker.enable = true;
@@ -169,7 +175,7 @@
   # SSH
   services.openssh = {
     enable = true;
-    ports = [8787];
+    ports = [ 8787 ];
     settings.PermitRootLogin = "yes";
     hostKeys = [
       {

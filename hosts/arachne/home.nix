@@ -1,8 +1,10 @@
-{pkgs, ...}: let
+{ pkgs, ... }:
+let
   ocean = pkgs.writeShellScriptBin "ocean" ''
     ${pkgs.sox}/bin/play -n synth brownnoise synth pinknoise mix synth sine amod 0.1 10
   '';
-in {
+in
+{
   imports = [
     ../../modules/home-manager/direnv.nix
     ../../modules/home-manager/gh.nix

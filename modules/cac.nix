@@ -4,32 +4,37 @@
   pkgs,
   ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.services.cac;
-in {
+in
+{
   options.services.cac = {
     enable = mkEnableOption "CAC service";
   };
 
   config = mkIf cfg.enable {
-    nixpkgs.config.allowUnfreePredicate = pkg:
+    nixpkgs.config.allowUnfreePredicate =
+      pkg:
       builtins.elem (lib.getName pkg) [
         "appgate-sdp"
       ];
     nixpkgs.overlays = [
-      (final: prev: let
-        inherit (prev) lib fetchurl;
-      in {
-        appgate-sdp =
-          prev.appgate-sdp.overrideAttrs
-          rec {
+      (
+        final: prev:
+        let
+          inherit (prev) lib fetchurl;
+        in
+        {
+          appgate-sdp = prev.appgate-sdp.overrideAttrs rec {
             version = "6.4.1";
             src = fetchurl {
               url = "https://bin.appgate-sdp.com/${lib.versions.majorMinor version}/client/appgate-sdp_${version}_amd64.deb";
               sha256 = "sha256-wnao0W03vpV9HMnUXEY3pf63jN3gB2jExfuA1hsG00I=";
             };
           };
-      })
+        }
+      )
     ];
 
     services.pcscd.enable = true;

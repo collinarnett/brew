@@ -3,7 +3,8 @@
   lib,
   pkgs,
   ...
-}: {
+}:
+{
   environment.packages = with pkgs; [
     vim # or some other editor, e.g. nano or neovim
 

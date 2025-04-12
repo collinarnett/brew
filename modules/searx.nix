@@ -2,10 +2,12 @@
   config,
   lib,
   ...
-}: let
+}:
+let
   inherit (lib) mkIf;
   cfg = config.services.homelab;
-in {
+in
+{
   services.searx = {
     enable = cfg.searx.enable;
     settings = {
