@@ -42,6 +42,10 @@
         mode = "0770";
       }
     ];
+    files = [
+      "/root/.ssh/remotebuild"
+      "/root/.ssh/remotebuild.pub"
+    ];
     users.collin = {
       directories = [
         ".config/Signal"

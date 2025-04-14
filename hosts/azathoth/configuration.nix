@@ -14,6 +14,7 @@
     ../../modules/ollama.nix
     ../../modules/pcie-passthrough.nix
     ../../modules/pipewire.nix
+    ../../modules/remote-build.nix
     ../../modules/restic.nix
     ../../modules/sops.nix
     ../../modules/xdg.nix
