@@ -1,9 +1,11 @@
 { pkgs, ... }:
 {
   imports = [
-    ../../modules/pipewire.nix
-    ../../modules/greetd.nix
     ../../modules/cac.nix
+    ../../modules/emacs.nix
+    ../../modules/firefox.nix
+    ../../modules/greetd.nix
+    ../../modules/pipewire.nix
     ./modules/sops.nix
   ];
 
