@@ -31,18 +31,21 @@ in
 
   home.packages = with pkgs; [
     anki-bin
+    chromium
+    croc
+    drawio
+    emacs-all-the-icons-fonts
     fira-code
-    firefox
+    fira-code
+    fira-code-symbols
+    forge-mtg
     git
     gotop
     grim
-    chromium
-    croc
     helvum
     imv
-    mpv
     neofetch
-    nerdfonts
+    noto-fonts-emoji
     noto-fonts-emoji
     ocean
     openconnect
