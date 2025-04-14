@@ -2,6 +2,7 @@
 {
   imports = [
     ../../modules/cac.nix
+    ../../modules/distributed-builds.nix
     ../../modules/firefox.nix
     ../../modules/greetd.nix
     ../../modules/pipewire.nix
@@ -79,32 +80,6 @@
       TPSMAPI_ENABLE = 1;
     };
   }; # Flakes
-
-  nix = {
-    buildMachines = [
-      {
-        hostName = "zombie";
-        systems = [
-          "x86_64-linux"
-          "aarch64-linux"
-        ];
-        speedFactor = 2;
-        supportedFeatures = [
-          "nixos-test"
-          "benchmark"
-          "big-parallel"
-          "kvm"
-        ];
-      }
-    ];
-    settings.max-jobs = 0;
-    settings.trusted-users = [ "collin" ];
-    distributedBuilds = true;
-    extraOptions = ''
-      builders-use-substitutes = true
-        experimental-features = nix-command flakes
-    '';
-  };
 
   networking.hostName = "arachne";
   networking.networkmanager.enable = true;
