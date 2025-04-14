@@ -2,7 +2,6 @@
 {
   imports = [
     ../../modules/cac.nix
-    ../../modules/emacs.nix
     ../../modules/firefox.nix
     ../../modules/greetd.nix
     ../../modules/pipewire.nix
@@ -108,9 +107,7 @@
   };
 
   networking.hostName = "arachne";
-  networking.wireless.enable = true;
-  networking.useDHCP = false;
-  networking.interfaces.wlan0.useDHCP = true;
+  networking.networkmanager.enable = true;
 
   time.timeZone = "America/New_York";
 
