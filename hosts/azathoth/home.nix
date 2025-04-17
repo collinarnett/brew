@@ -6,6 +6,7 @@
 }:
 {
   imports = [
+    ../../modules/home-manager/bat.nix
     ../../modules/home-manager/beets.nix
     ../../modules/home-manager/btop.nix
     ../../modules/home-manager/direnv.nix
