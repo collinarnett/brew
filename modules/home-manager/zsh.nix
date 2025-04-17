@@ -13,7 +13,7 @@
       plugins = [ "colored-man-pages" ];
     };
     shellAliases = {
-      update = "{pkgs.nh}/bin/nh os switch /home/collin/brew";
+      update = "${pkgs.nh}/bin/nh os switch /home/collin/brew";
       ssh = "kitty +kitten ssh";
       vimwiki = "vim -c VimwikiIndex";
     };
