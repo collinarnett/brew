@@ -36,24 +36,16 @@ final: prev: {
           };
         })
       ];
-    override = self: super: {
-      smartparens = super.melpaPackages.smartparens.overrideAttrs (old: {
-        src = prev.fetchFromGitHub {
-          owner = "Fuco1";
-          repo = "smartparens";
-          rev = "a5c68cac1bea737b482a37aa92de4f6efbf7580b";
-          sha256 = "sha256-ldt0O9nQP3RSsEvF5+irx6SRt2GVWbIao4IOO7lOexM=";
-        };
-      });
-    };
   };
   python312 = prev.python312.override {
     packageOverrides = finalPkgs: prevPkgs: {
-      nose = prevPkgs.nose.overrideAttrs {
+      # Remove after April 30, 2025 and update nixos-unstable pin when https://nixpk.gs/pr-tracker.html?pr=400080 propagates
+      flask-limiter = prevPkgs.flask-limiter.overrideAttrs {
         patches = [
-          (final.fetchpatch2 {
-            url = "https://github.com/NixOS/nixpkgs/raw/599e471d78801f95ccd2c424a37e76ce177e50b9/pkgs/development/python-modules/nose/0001-nose-python-3.12-fixes.patch";
-            hash = "sha256-aePOvO5+TJL4JzXywc7rEiYRzfdObSI9fg9Cfrp+e2o=";
+          # permit use of rich < 15 -- remove when updating past 3.12
+          (final.fetchpatch {
+            url = "https://github.com/alisaifee/flask-limiter/commit/008a5c89f249e18e5375f16d79efc3ac518e9bcc.patch";
+            hash = "sha256-dvTPVnuPs7xCRfUBBA1bgeWGuevFUZ+Kgl9MBHdgfKU=";
           })
         ];
       };
