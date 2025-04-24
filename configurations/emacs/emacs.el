@@ -23,6 +23,7 @@
 
 (setq require-final-newline t)
 
+
 ;; Fix packages not found when using tramp
 (require 'tramp-sh)
 (setq tramp-remote-path
@@ -136,49 +137,13 @@
 	'(idle-change (flycheck-idle-change-delay 1))))
 
 ;; mindmap
+(use-package htmlize)
 
 (require 'ob-haskell)
 
 
-(setq my-publish-time 0)   ; see the next section for context
-(defun roam-publication-wrapper (plist filename pubdir)
-  (org-roam-graph)
-  (org-html-publish-to-html plist filename pubdir)
-  (setq my-publish-time (cadr (current-time))))
-
-(defun roam-sitemap (title list)
-  (concat "#+OPTIONS: ^:nil author:nil html-postamble:nil\n"
-          "#+SETUPFILE: ./simple_inline.theme\n"
-          "#+TITLE: " title "\n\n"
-          (org-list-to-org list) "\nfile:sitemap.svg"))
-
-(setq org-publish-project-alist
-      '(("roam"
-	 :base-directory "/home/collin/org/roam/"
-         :base-extension "org"
-         :recursive t
-	 :auto-sitemap t
-	 :sitemap-function roam-sitemap
-	 :sitemap-title "Roam notes"
-	 :publishing-function roam-publication-wrapper
-	 :publishing-directory "/home/collin/org/roam/site/"
-	 :section-number nil
-	 :table-of-contents nil
-	 :style "<link rel=\"stylesheet\" href=\"../other/mystyle.cs\" type=\"text/css\">")))
-
-(defun org-roam-custom-link-builder (node)
-  (let ((file (org-roam-node-file node)))
-    (concat (file-name-base file) ".html")))
-
-(setq org-roam-graph-link-builder 'org-roam-custom-link-builder)
-(add-hook 'org-roam-graph-generation-hook
-          (lambda (dot svg) (if (< (- (cadr (current-time)) my-publish-time) 5)
-                                (progn (copy-file svg "/home/collin/org/roam/site/sitemap.svg" 't)
-				       (kill-buffer (file-name-nondirectory svg))
-				       (setq my-publish-time 0)))))
-
-(setq org-confirm-babel-evaluate nil)
 (use-package org-roam
+  :demand t
   :custom
   (org-roam-directory (file-truename "/home/collin/org/roam/"))
   (org-roam-completion-everywhere t)
@@ -193,6 +158,34 @@
   :bind-keymap
   ("C-c n d" . org-roam-dailies-map)
   :config
+  (setq my-publish-time 0)   ; see the next section for context
+  (defun roam-publication-wrapper (plist filename pubdir)
+    (org-html-publish-to-html plist filename pubdir)
+    (setq my-publish-time (cadr (current-time))))
+  (defun roam-sitemap (title list)
+    (concat "#+OPTIONS: ^:nil author:nil html-postamble:nil\n"
+            "#+SETUPFILE: ./simple_inline.theme\n"
+            "#+TITLE: " title "\n\n"
+            (org-list-to-org list) "\nfile:sitemap.svg"))
+  (setq org-publish-project-alist
+    `(("roam"
+       :base-directory "/home/collin/org/roam/"
+       :base-extension "org"
+       :recursive t
+       :auto-sitemap t
+       :exclude "\\(daily\\|work\\|leetcode\\)"
+       :sitemap-function  roam-sitemap
+       :sitemap-title     "Roam notes"
+       :publishing-function roam-publication-wrapper
+       :publishing-directory "/home/collin/org/roam/site/"
+       :exclude-tags ("noexport")
+       :style "<link rel=\"stylesheet\" href=\"../other/mystyle.cs\" type=\"text/css\">")))
+  (defun org-roam-custom-link-builder (node)
+    (let ((file (org-roam-node-file node)))
+      (concat (file-name-base file) ".html")))
+  (setq org-roam-graph-link-builder 'org-roam-custom-link-builder)
+
+  (setq org-confirm-babel-evaluate nil)
   (setq org-roam-capture-templates
 	'(
 	  ("d" "default" plain "%?"
@@ -425,10 +418,27 @@
 
 ;; direnv intergration
 (use-package envrc
+  :hook
+  (after-init . envrc-global-mode)
   :config
   (setq envrc-remote t)
-  :hook
-  (after-init . envrc-global-mode))
+  ;; 1.  All Babel execution that happens during export
+
+  (advice-add #'org-babel-execute-src-block :around #'envrc-propagate-environment)
+  (advice-add 'org-babel-exp-src-block :around #'envrc-propagate-environment)
+  (advice-add 'org-export-as :around #'envrc-propagate-environment)
+  (advice-add 'org-html-export-to-html :around #'envrc-propagate-environment)
+  ;; 2.  Any direct compiler-detection that ob-haskell (or haskell-mode) does
+;; Add this to your configuration
+  (advice-add 'org-babel-execute:haskell :around #'envrc-propagate-environment)
+  (advice-add 'org-babel-haskell-initiate-session :around #'envrc-propagate-environment)
+  (advice-add 'org-babel-prep-session:haskell :around #'envrc-propagate-environment)
+  (advice-add 'org-babel-haskell-evaluate :around #'envrc-propagate-environment)
+  (advice-add 'org-babel-variable-assignments:haskell :around #'envrc-propagate-environment)
+  (advice-add 'org-babel-expand-body:haskell :around #'envrc-propagate-environment)
+  (advice-add 'org-babel-haskell--session-buffer :around #'envrc-propagate-environment)
+  (advice-add 'org-babel-haskell--buffer-contents :around #'envrc-propagate-environment))
+
 
 ;; smart parenthesis
 (use-package smartparens
