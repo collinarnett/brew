@@ -49,6 +49,7 @@
       code-cursor
       crawl
       dconf
+      drawio
       electrum
       fastfetch
       freetube
@@ -58,6 +59,7 @@
       hunspellDicts.en_US
       imv
       iommu-groups
+      jq
       languagetool
       libreoffice
       nil
