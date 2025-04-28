@@ -162,22 +162,41 @@
   (defun roam-publication-wrapper (plist filename pubdir)
     (org-html-publish-to-html plist filename pubdir)
     (setq my-publish-time (cadr (current-time))))
+  (require 'seq)
+
+  (defun filter-backlinks (ast)
+    (cl-destructuring-bind (type &rest items) ast
+      (cons type
+            (seq-filter
+             (lambda (it)
+               (let* ((link (car it))
+                      (file (when (and (stringp link)
+                                       (string-match "\\[\\[file:\\([^][|]+\\)\\]" link))
+                              (expand-file-name (match-string 1 link) org-roam-directory))))
+		 (or (null file)
+                     (not (seq-some
+                           (lambda (n)
+                             (and (string= (org-roam-node-file n) file)
+                                  (org-roam-backlinks-get n)))
+                           (org-roam-node-list))))))
+             items))))
   (defun roam-sitemap (title list)
     (concat "#+OPTIONS: ^:nil author:nil html-postamble:nil\n"
             "#+SETUPFILE: ./simple_inline.theme\n"
             "#+TITLE: " title "\n\n"
-            (org-list-to-org list) "\nfile:sitemap.svg"))
+            (org-list-to-org (filter-backlinks list))))
   (setq org-publish-project-alist
     `(("roam"
-       :base-directory "/home/collin/org/roam/"
+       :base-directory "~/org/roam/"
        :base-extension "org"
        :recursive t
        :auto-sitemap t
-       :exclude "\\(daily\\|work\\|leetcode\\)"
        :sitemap-function  roam-sitemap
+       :stiemap-style list
        :sitemap-title     "Roam notes"
+       :exclude "\\([0-9]\\{4\\}-[0-9]\\{2\\}-[0-9]\\{2\\}\\)\\.org"
        :publishing-function roam-publication-wrapper
-       :publishing-directory "/home/collin/org/roam/site/"
+       :publishing-directory "~/org/roam/site/"
        :exclude-tags ("noexport")
        :style "<link rel=\"stylesheet\" href=\"../other/mystyle.cs\" type=\"text/css\">")))
   (defun org-roam-custom-link-builder (node)
