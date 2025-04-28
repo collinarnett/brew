@@ -46,7 +46,6 @@
       clang-tools
       claude-code
       cloc
-      code-cursor
       crawl
       dconf
       drawio
