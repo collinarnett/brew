@@ -1,0 +1,32 @@
+* {
+	font-family: "Siji";
+	font-size: 12px;
+	background: #282a36;
+}
+
+window#waybar {
+	color: #f8f8f2;
+	padding-left: 2px;
+	padding-right: 2px;
+}
+
+#pulseaudio, #mpd, #disk, #clock, #cpu, #memory, #battery {
+	margin-left: 4px;
+	margin-right: 4px;
+	padding-left: 4px;
+	color: #50fa7b;
+}
+
+#workspaces button {
+    color: #44475a;
+    margin: 0 2px;
+    padding: 0 4px;
+}
+
+#workspaces button.persistent {
+    color: #44475a;
+}
+
+#workspaces button.visible {
+    color: #ff79c6;
+}

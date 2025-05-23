@@ -157,6 +157,22 @@
         "type": "github"
       }
     },
+    "gpd-duo-nixos-hardware": {
+      "locked": {
+        "lastModified": 1746389920,
+        "narHash": "sha256-YqlxEg1QV8G/CPNcMJbMvYXtzV+qtQ3Mmr0Rnn7t7dc=",
+        "owner": "shymega",
+        "repo": "nixos-hardware",
+        "rev": "0e7f9e2af8ea3bb245ad3aa10c99f99c48939a8f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "shymega",
+        "ref": "add-gpd-duo",
+        "repo": "nixos-hardware",
+        "type": "github"
+      }
+    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -564,6 +580,7 @@
         "emacs-overlay": "emacs-overlay",
         "flake-parts": "flake-parts",
         "ghostty": "ghostty",
+        "gpd-duo-nixos-hardware": "gpd-duo-nixos-hardware",
         "home-manager": "home-manager",
         "home-manager-android": "home-manager-android",
         "impermanence": "impermanence",

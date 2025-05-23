@@ -6,6 +6,7 @@
     disko.url = "github:nix-community/disko";
     emacs-overlay.url = "github:nix-community/emacs-overlay";
     flake-parts.url = "github:hercules-ci/flake-parts";
+    gpd-duo-nixos-hardware.url = "github:/shymega/nixos-hardware/add-gpd-duo";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     home-manager.url = "github:nix-community/home-manager";
     impermanence.url = "github:nix-community/impermanence";
@@ -35,6 +36,7 @@
       flake-parts,
       home-manager,
       nixos-hardware,
+      gpd-duo-nixos-hardware,
       sops-nix,
       disko,
       home-manager-android,
@@ -100,6 +102,17 @@
               {
                 zombie = genSystem "collin" "zombie" [ ];
                 vampire = genSystem "collin" "vampire" [ ];
+                ghoul = genSystem "collin" "ghoul" [
+                  {
+                    environment.systemPackages = [
+                      ghostty.packages.x86_64-linux.default
+                    ];
+                  }
+                  inputs.disko.nixosModules.disko
+                  inputs.impermanence.nixosModules.impermanence
+                  inputs.nixos-facter-modules.nixosModules.facter
+                  "${gpd-duo-nixos-hardware}/gpd/duo"
+                ];
                 azathoth = genSystem "collin" "azathoth" [
                   {
                     environment.systemPackages = [
