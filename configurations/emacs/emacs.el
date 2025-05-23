@@ -133,8 +133,9 @@
 (use-package flycheck
   :init (global-flycheck-mode)
   :config
-  (setq flycheck-check-syntax-automatically
-	'(idle-change (flycheck-idle-change-delay 1))))
+  (setq flycheck-idle-change-delay 1)
+  (setq flycheck-check-syntax-automatically '(save idle-change)))
+
 
 ;; mindmap
 (use-package htmlize)
@@ -296,13 +297,9 @@
 
 ;; todo highlighting
 (use-package hl-todo
-  :config (setq hl-todo-keyword-faces '(("TODO"   . "#FFB86C")))
-  :hook
-  (flycheck-mode . hl-todo-mode))
+  :config (setq hl-todo-keyword-faces '(("TODO"   . "#FFB86C"))))
 
 (use-package flycheck-hl-todo
-  :hook
-  (hl-todo-mode . flycheck-hl-todo-enable)
   :init
   (flycheck-hl-todo-setup))
 
@@ -373,7 +370,7 @@
 (use-package lsp-haskell
   :hook
   (haskell-mode . lsp-deferred)
-  (haskell-literate-mode. lsp-deferred))
+  (haskell-literate-mode . lsp-deferred))
 
 (use-package haskell-mode
   :hook
