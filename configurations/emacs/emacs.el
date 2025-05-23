@@ -612,6 +612,12 @@
 (use-package yaml-mode)
 
 
+(use-package reformatter
+  :hook (python-mode . ruff-format-on-save-mode)
+  :config
+  (reformatter-define ruff-format :program "ruff"
+    :args (list "format" "--stdin-filename" input-file "-")))
+
 ;; Custom Functions
 
 (defun copy-envrc-and-setup-direnv ()
