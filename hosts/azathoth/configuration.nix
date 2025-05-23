@@ -153,6 +153,7 @@
     openssh.authorizedKeys.keyFiles = [
       ../../secrets/keys/collinarnett.pub
       ../../secrets/keys/arachne.pub
+      ../../secrets/keys/ghoul.pub
     ];
   };
 
@@ -161,7 +162,12 @@
     ../../secrets/keys/collinarnett.pub
   ];
 
-  nix.settings.trusted-users = [ "collin" ];
+  nix.settings = {
+    trusted-users = [ "collin" ];
+    extra-sandbox-paths = [
+      "/etc/nix/netrc"
+    ];
+  };
 
   # Docker
   virtualisation.docker.enable = true;
