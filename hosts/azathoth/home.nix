@@ -41,6 +41,7 @@
     with pkgs;
     [
       alejandra
+      anki-bin
       bibata-cursors
       chromium
       clang-tools
