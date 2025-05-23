@@ -373,6 +373,8 @@
   (haskell-literate-mode . lsp-deferred))
 
 (use-package haskell-mode
+  :config
+  (setq haskell-indent-offset 2)
   :hook
   (haskell-mode . interactive-haskell-mode)
   :mode "\\.hs\\'")
@@ -391,6 +393,8 @@
   (nix-mode . lsp-deferred))
 
 (use-package nix-mode
+  :config
+  (setq nix-indent-offset 2)
   :mode ("\\.nix\\'" "\\.nix.in\\'"))
 (use-package nix-drv-mode
   :ensure nix-mode
