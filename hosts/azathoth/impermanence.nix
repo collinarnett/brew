@@ -32,6 +32,9 @@
         mode = "0700";
       }
     ];
+    files = [
+      "/etc/nix/netrc"
+    ];
   };
   users.groups.multimedia = { };
   environment.persistence."/persist/save" = {
