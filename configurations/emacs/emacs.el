@@ -159,6 +159,7 @@
   :bind-keymap
   ("C-c n d" . org-roam-dailies-map)
   :config
+  (setq org-roam-dailies-directory "/home/collin/org/roam/")
   (setq my-publish-time 0)   ; see the next section for context
   (defun roam-publication-wrapper (plist filename pubdir)
     (org-html-publish-to-html plist filename pubdir)
