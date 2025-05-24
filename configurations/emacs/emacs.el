@@ -427,6 +427,7 @@
   (dashboard-startup-banner
    (let ((hostname (system-name)))
      (pcase hostname
+       ("ghoul" "/home/collin/brew/configurations/emacs/ghoul_dracula.png")
        ("arachne" "/home/collin/brew/configurations/emacs/arachne_dracula.png")
        ("azathoth" "/home/collin/brew/configurations/emacs/azathoth_dracula.png")
        (_ "/home/collin/brew/configurations/emacs/hydra.txt"))))
