@@ -4,7 +4,7 @@
     settings = {
       show-failed-attempts = true;
       daemonize = true;
-      image = "/home/collin/pictures/purple_swamp_blured.jpg";
+      image = "/home/collin/Pictures/purple_swamp_blured.jpg";
       scaling = "fill";
       font = "FiraCode";
       color = "282a36";
