@@ -3,7 +3,7 @@ final: prev: {
     config = ../configurations/emacs/emacs.el;
     alwaysEnsure = true;
     defaultInitFile = true;
-    package = prev.emacs-unstable;
+    package = prev.emacs-unstable-pgtk;
     extraEmacsPackages =
       epkgs: with epkgs; [
         use-package
