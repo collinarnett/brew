@@ -12,7 +12,13 @@
       terminal = "kitty";
       bars = [ { command = "${pkgs.waybar}/bin/waybar"; } ];
       output = {
+        DP-3 = {
+          position = "0 0";  # top display
+          bg = "/home/collin/Pictures/purple_swamp.jpg fill";
+        };
         eDP-1 = {
+          transform = "normal";
+          position = "0 1800";  # stacked below DP-3
           bg = "/home/collin/Pictures/purple_swamp.jpg fill";
         };
       };
