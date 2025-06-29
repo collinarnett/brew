@@ -318,6 +318,10 @@
   :config
   (which-key-mode))
 
+;; json
+(use-package json-mode
+  :mode "\\.json\\'")
+
 ;; terraform
 (use-package terraform-mode
   ;; if using straight
