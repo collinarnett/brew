@@ -392,6 +392,13 @@
   (:map haskell-mode-map
 	("C-c r" . ormolu-format-buffer)))
 
+;; tidal
+(use-package tidal
+  :config
+  (setq tidal-interpreter "tidal")
+  (setq tidal-boot-script-path "/nix/store/vb6a29270572fxwbm54dyj2wfgsxqiq7-source/BootTidal.hs" )
+  :mode ("\\.tidal\\'" . tidal-mode))
+
 ;; nix
 (use-package lsp-nix
   :hook
