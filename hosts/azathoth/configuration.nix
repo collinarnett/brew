@@ -25,6 +25,7 @@
   # Browser
   programs.firefox.enable = true;
 
+  programs.obs-studio.enable = true;
   programs.tmux.enable = true;
   programs.nh = {
     enable = true;
