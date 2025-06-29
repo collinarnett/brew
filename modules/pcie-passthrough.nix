@@ -26,6 +26,7 @@ in
     };
   config = mkIf cfg.enable {
     programs.virt-manager.enable = true;
+    virtualisation.spiceUSBRedirection.enable = true;
     boot = {
       kernelModules = [
         "kvm-${cfg.platform}"
