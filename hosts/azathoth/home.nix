@@ -78,6 +78,7 @@
       statix
       tealdeer
       texliveFull
+      timg
       tree
       unzip
       usbutils
