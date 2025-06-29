@@ -18,6 +18,7 @@
   sops.secrets.gcloud-ai-assistant.owner = "collin";
   sops.secrets.ddclient-config = { };
   sops.secrets.emacs_oai_key.owner = "collin";
+  sops.secrets.attic_environment.mode = "0440";
   sops.secrets.gh_token = {
     owner = config.users.users.collin.name;
   };
