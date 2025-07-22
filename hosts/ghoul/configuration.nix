@@ -6,6 +6,7 @@
     ../../modules/firefox.nix
     ../../modules/greetd.nix
     ../../modules/pipewire.nix
+    ../../modules/steam.nix
     ./disko.nix
     ./impermanence.nix
     ./modules/sops.nix

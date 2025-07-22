@@ -14,6 +14,7 @@
       directories = [
         ".config/Signal"
         ".local/share/direnv"
+        ".local/share/Steam"
         ".mozilla"
         "Documents"
         "Downloads"
