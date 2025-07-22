@@ -130,6 +130,7 @@
   programs.zsh.enable = true;
   programs.dconf.enable = true; # fixes issue with home-manager
 
+  services.blueman.enable = true;
   environment.systemPackages = with pkgs; [
     adwaita-icon-theme
     hunspellDicts.en_US
