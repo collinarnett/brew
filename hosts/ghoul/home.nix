@@ -51,7 +51,6 @@ in
     libreoffice
     neofetch
     noto-fonts-emoji
-    noto-fonts-emoji
     ocean
     openconnect
     pandoc
