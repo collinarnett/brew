@@ -1,17 +1,20 @@
 {
   environment.persistence."/persist" = {
     directories = [
+      "/etc/NetworkManager/system-connections"
       "/var/cache/restic-backups-data"
       "/var/cache/restic-backups-state"
-      "/var/log"
+      "/var/lib/NetworkManager"
       "/var/lib/nixos"
       "/var/lib/systemd/coredump"
+      "/var/log"
     ];
   };
   users.groups.multimedia = { };
   environment.persistence."/persist/save" = {
     users.collin = {
       directories = [
+        ".config/pulse"
         ".config/Signal"
         ".local/share/direnv"
         ".local/share/Steam"
