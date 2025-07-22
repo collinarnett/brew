@@ -10,6 +10,7 @@
     ../../modules/atticd.nix
     ../../modules/cac.nix
     ../../modules/chromadb.nix
+    ../../modules/docker-registry.nix
     ../../modules/greetd.nix
     ../../modules/homelab.nix
     ../../modules/ollama.nix
