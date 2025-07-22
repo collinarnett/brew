@@ -29,6 +29,10 @@ in
 
   home.username = "collin";
   home.homeDirectory = "/home/collin";
+  home.sessionVariables = {
+    ELECTRON_OZONE_PLATFORM_HINT = "auto";
+    GPG_TTY = "$(tty)";
+  };
 
   home.packages = with pkgs; [
     anki-bin
