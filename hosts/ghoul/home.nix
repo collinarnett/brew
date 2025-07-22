@@ -6,6 +6,8 @@ let
 in
 {
   imports = [
+    ../../modules/home-manager/bat.nix
+    ../../modules/home-manager/btop.nix
     ../../modules/home-manager/direnv.nix
     ../../modules/home-manager/gh.nix
     ../../modules/home-manager/git.nix
@@ -31,6 +33,8 @@ in
 
   home.packages = with pkgs; [
     anki-bin
+    bluetui
+    claude-code
     chromium
     croc
     drawio
@@ -44,6 +48,7 @@ in
     grim
     helvum
     imv
+    libreoffice
     neofetch
     noto-fonts-emoji
     noto-fonts-emoji
