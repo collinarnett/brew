@@ -24,6 +24,10 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  boot.extraModprobeConfig = ''
+    options bluetooth disable_ertm=Y
+  '';
+
   fileSystems = {
     "/persist" = {
       device = "zroot/persist";
