@@ -2,10 +2,12 @@
 {
   services.mako = {
     enable = true;
-    backgroundColor = "#282a36";
-    textColor = "#f8f8f2";
-    borderColor = "#282a36";
-    defaultTimeout = 5000;
+    settings = {
+      background-color = "#282a36";
+      text-color = "#f8f8f2";
+      border-color = "#282a36";
+      default-timeout= 5000;
+    };
     extraConfig = ''
       [urgency=low]
       border-color=#8be9fd
