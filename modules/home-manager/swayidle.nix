@@ -5,27 +5,26 @@
     events = [
       {
         event = "before-sleep";
-        command = "${pkgs.swaylock}/bin/swaylock";
+        command = "${pkgs.swaylock}/bin/swaylock -f";
       }
       {
         event = "lock";
-        command = "lock";
+        command = "${pkgs.swaylock}/bin/swaylock -f";
       }
     ];
     timeouts = [
       {
-        timeout = 120;
-        command = "brightnessctl set 30%";
-        resumeCommand = "brightnessctl set 80%";
+        timeout = 300;
+        command = "${pkgs.swaylock}/bin/swaylock -f";
       }
       {
-        timeout = 300;
-        command = "${pkgs.swaylock}/bin/swaylock";
+        timeout = 310;
+        command = ''${pkgs.sway}/bin/swaymsg "output * dpms off"'';
+        resumeCommand = ''${pkgs.sway}/bin/swaymsg "output * dpms on"'';
       }
       {
         timeout = 600;
-        command = ''swaymsg "output * dpms off"'';
-        resumeCommand = ''swaymsg "output * dpms on"'';
+        command = "${pkgs.systemd}/bin/systemctl suspend";
       }
     ];
   };
