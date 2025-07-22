@@ -22,6 +22,7 @@ in
     ../../modules/home-manager/wofi/wofi.nix
     ../../modules/home-manager/zathura/zathura.nix
     ../../modules/home-manager/zsh.nix
+    ./modules/keychain.nix
     ./modules/sway.nix
     ./modules/waybar/waybar.nix
   ];
