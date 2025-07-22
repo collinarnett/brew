@@ -110,6 +110,7 @@
 
   networking.hostName = "ghoul";
   networking.networkmanager.enable = true;
+  networking.networkmanager.wifi.scanRandMacAddress = false;
 
   time.timeZone = "America/New_York";
 
