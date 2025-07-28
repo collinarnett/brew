@@ -6,6 +6,7 @@
 }:
 {
   imports = [
+    ../../modules/home-manager/autojump.nix
     ../../modules/home-manager/bat.nix
     ../../modules/home-manager/beets.nix
     ../../modules/home-manager/btop.nix
