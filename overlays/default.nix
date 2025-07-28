@@ -37,19 +37,4 @@ final: prev: {
         })
       ];
   };
-  python312 = prev.python312.override {
-    packageOverrides = finalPkgs: prevPkgs: {
-      # Remove after April 30, 2025 and update nixos-unstable pin when https://nixpk.gs/pr-tracker.html?pr=400080 propagates
-      flask-limiter = prevPkgs.flask-limiter.overrideAttrs {
-        patches = [
-          # permit use of rich < 15 -- remove when updating past 3.12
-          (final.fetchpatch {
-            url = "https://github.com/alisaifee/flask-limiter/commit/008a5c89f249e18e5375f16d79efc3ac518e9bcc.patch";
-            hash = "sha256-dvTPVnuPs7xCRfUBBA1bgeWGuevFUZ+Kgl9MBHdgfKU=";
-          })
-        ];
-      };
-    };
-  };
-  python312Packages = final.python312.pkgs;
 }
