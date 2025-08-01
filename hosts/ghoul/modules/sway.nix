@@ -34,6 +34,8 @@
       menu = "${pkgs.wofi}/bin/wofi";
     };
     extraConfig = ''
+      for_window [class=".*"] inhibit_idle fullscreen
+      for_window [app_id=".*"] inhibit_idle fullscreen
       set $mod Mod4
       bindsym XF86MonBrightnessDown exec "brightnessctl set 2%-"
       bindsym XF86MonBrightnessUp exec "brightnessctl set +2%"
