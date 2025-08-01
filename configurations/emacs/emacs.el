@@ -73,6 +73,14 @@
   ("C-<prior>" . centaur-tabs-backward)
   ("C-<next>" . centaur-tabs-forward))
 
+;; for eat terminal backend:
+(use-package eat :ensure t)
+
+;; install claude-code.el
+(use-package claude-code :ensure t
+  :config (claude-code-mode)
+  :bind-keymap ("C-c c" . claude-code-command-map))
+
 ;; chatgpt integration
 (use-package f)
 (use-package gptel
