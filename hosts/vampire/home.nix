@@ -17,10 +17,12 @@
     black
     fira-code
     git
+    hunspellDicts.en_US
     nil
     nixfmt-classic
     nodejs
     noto-fonts-emoji
+    ripgrep
     statix
     tree
     unzip
