@@ -9,7 +9,6 @@
 {
   imports = [
     # Include the results of the hardware scan.
-    ../../modules/tailscale.nix
     ../../modules/ollama.nix
     ./hardware-configuration.nix
   ];
