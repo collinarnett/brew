@@ -17,7 +17,6 @@
     black
     fira-code
     git
-    gotop
     nil
     nixfmt-classic
     nodejs
