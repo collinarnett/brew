@@ -1,8 +1,4 @@
-{ pkgs, ... }:
-let
-  emacs = (import ../../modules/emacs/emacs.nix) pkgs;
-in
-{
+{pkgs, ...}: {
   imports = [
     ../../modules/home-manager/direnv.nix
     ../../modules/home-manager/git.nix
@@ -19,7 +15,6 @@ in
   home.packages = with pkgs; [
     alejandra
     black
-    emacs
     fira-code
     git
     gotop
