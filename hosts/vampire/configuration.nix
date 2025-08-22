@@ -56,8 +56,6 @@
   services.xserver.xkb.layout = "us";
   services.xserver.xkb.variant = "";
 
-  programs.vim.defaultEditor = true;
-
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.collin = {
     isNormalUser = true;
