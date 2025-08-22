@@ -13,6 +13,10 @@
     ./hardware-configuration.nix
   ];
 
+  services.ollama.acceleration = "cuda";
+  services.ollama.openFirewall = true;
+  services.ollama.host = "0.0.0.0";
+
   # Flakes
   nix.settings.sandbox = true;
   nix.extraOptions = ''
@@ -106,12 +110,6 @@
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
-
-  # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [ 80 ];
-  networking.firewall.allowedUDPPorts = [ 80 ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
