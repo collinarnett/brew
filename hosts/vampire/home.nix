@@ -1,5 +1,6 @@
 {pkgs, ...}: {
   imports = [
+    ../../modules/home-manager/btop.nix
     ../../modules/home-manager/direnv.nix
     ../../modules/home-manager/git.nix
     ../../modules/home-manager/gpg-agent.nix
