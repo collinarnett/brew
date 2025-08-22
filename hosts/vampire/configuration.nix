@@ -5,8 +5,7 @@
   config,
   pkgs,
   ...
-}:
-{
+}: {
   imports = [
     # Include the results of the hardware scan.
     ../../modules/ollama.nix
@@ -73,7 +72,7 @@
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
-  services.xserver.videoDrivers = [ "nvidia" ];
+  services.xserver.videoDrivers = ["nvidia"];
   hardware.opengl.enable = true;
 
   # List packages installed in system profile. To search, run:
@@ -86,8 +85,8 @@
   ];
 
   # Binary Caches
-  nix.settings.trusted-users = [ "@wheel" ];
-  nix.settings.substituters = [ "https://cache.nixos.org/" ];
+  nix.settings.trusted-users = ["@wheel"];
+  nix.settings.substituters = ["https://cache.nixos.org/"];
   nix.settings.trusted-public-keys = [
     "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
     "cuda-maintainers.cachix.org-1:0dq3bujKpuEPMCX6U4WylrUDZ9JyUG0VpVZa7CNfq5E="
