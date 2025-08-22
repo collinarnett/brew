@@ -24,6 +24,12 @@
   virtualisation.docker.package = pkgs.docker_25;
   hardware.nvidia-container-toolkit.enable = true;
 
+  services.emacs = {
+    enable = true;
+    defaultEditor = true;
+    startWithGraphical = true;
+  };
+
   # Bootloader.
   boot.loader.grub.enable = true;
   boot.loader.grub.device = "/dev/vda";
