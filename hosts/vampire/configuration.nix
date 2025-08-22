@@ -73,6 +73,7 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
   services.xserver.videoDrivers = ["nvidia"];
+  hardware.nvidia.open = true;
   hardware.opengl.enable = true;
 
   # List packages installed in system profile. To search, run:
