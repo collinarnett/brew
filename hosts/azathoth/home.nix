@@ -80,6 +80,7 @@
       tree
       unzip
       usbutils
+      waypipe
       wget
       whipper
       wl-clipboard
