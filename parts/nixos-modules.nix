@@ -14,11 +14,6 @@
           package = pkgs.nixVersions.latest;
           registry.pkgs.flake = inputs.nixpkgs;
           nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
-          gc = {
-            automatic = true;
-            randomizedDelaySec = "14m";
-            options = "--delete-older-than 10d";
-          };
           settings = {
             experimental-features = [
               "nix-command"
