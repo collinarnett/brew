@@ -1,7 +1,6 @@
 {
   description = "NixOS configuration";
   inputs = {
-    ghostty.url = "github:ghostty-org/ghostty";
     disko.inputs.nixpkgs.follows = "nixpkgs";
     disko.url = "github:nix-community/disko";
     emacs-overlay.url = "github:nix-community/emacs-overlay";
@@ -31,7 +30,6 @@
   outputs =
     inputs@{
       self,
-      ghostty,
       emacs-overlay,
       flake-parts,
       home-manager,
@@ -103,22 +101,12 @@
                 zombie = genSystem "collin" "zombie" [ ];
                 vampire = genSystem "collin" "vampire" [ ];
                 ghoul = genSystem "collin" "ghoul" [
-                  {
-                    environment.systemPackages = [
-                      ghostty.packages.x86_64-linux.default
-                    ];
-                  }
                   inputs.disko.nixosModules.disko
                   inputs.impermanence.nixosModules.impermanence
                   inputs.nixos-facter-modules.nixosModules.facter
                   "${gpd-duo-nixos-hardware}/gpd/duo"
                 ];
                 azathoth = genSystem "collin" "azathoth" [
-                  {
-                    environment.systemPackages = [
-                      ghostty.packages.x86_64-linux.default
-                    ];
-                  }
                   inputs.disko.nixosModules.disko
                   inputs.impermanence.nixosModules.impermanence
                   inputs.nixos-facter-modules.nixosModules.facter
