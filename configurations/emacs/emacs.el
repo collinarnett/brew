@@ -449,8 +449,26 @@
        ("arachne" "/home/collin/brew/configurations/emacs/arachne_dracula.png")
        ("azathoth" "/home/collin/brew/configurations/emacs/azathoth_dracula.png")
        (_ "/home/collin/brew/configurations/emacs/hydra.txt"))))
+  (dashboard-projects-backend 'projectile)
+  (dashboard-items '((recents  . 5)
+			  (bookmarks . 5)
+			  (projects . 10)))
   (dashboard-image-banner-max-height 512)
   (dashboard-center-content t))
+
+;; project management
+(use-package projectile
+  :ensure t
+  :custom
+  (projectile-project-search-path '("~/projects/" "~/work_projects/"))
+  :config
+  (define-key projectile-mode-map (kbd "C-c C-p") 'projectile-command-map)
+  (global-set-key (kbd "C-c p") 'projectile-command-map)
+  (projectile-mode +1))
+
+(use-package helm-projectile
+  :after projectile
+  :ensure t)
 
 ;; setup pinentry for gpg signing
 (use-package pinentry)
