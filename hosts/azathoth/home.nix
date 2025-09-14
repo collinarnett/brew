@@ -36,9 +36,6 @@
   };
 
   home.packages =
-    let
-      whipper = pkgs.whipper.override { python3 = pkgs.python311; };
-    in
     with pkgs;
     [
       alejandra
