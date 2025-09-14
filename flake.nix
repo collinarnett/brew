@@ -125,12 +125,12 @@
             ...
           }:
           {
-            formatter = pkgs.alejandra;
+            formatter = pkgs.nixfmt;
             devShells.default = pkgs.mkShell {
               buildInputs = with pkgs; [
                 nil
                 sops
-                alejandra
+                nixfmt
               ];
             };
           };
