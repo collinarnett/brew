@@ -40,6 +40,7 @@
     [
       alejandra
       anki-bin
+      bash-language-server
       bibata-cursors
       chromium
       clang-tools
