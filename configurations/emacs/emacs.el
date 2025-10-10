@@ -305,12 +305,12 @@
 
 
 ;; todo highlighting
-(use-package hl-todo
-  :config (setq hl-todo-keyword-faces '(("TODO"   . "#FFB86C"))))
+;; (use-package hl-todo
+;;   :config (setq hl-todo-keyword-faces '(("TODO"   . "#FFB86C"))))
 
-(use-package flycheck-hl-todo
-  :init
-  (flycheck-hl-todo-setup))
+;; (use-package flycheck-hl-todo
+;;   :init
+;;   (flycheck-hl-todo-setup))
 
 ;; text completion
 (use-package company
