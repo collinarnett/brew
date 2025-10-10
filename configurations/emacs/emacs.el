@@ -675,4 +675,12 @@
     ;; Notify the user
     (message "Copied .envrc to %s, created .direnv, and ran direnv-allow." target-dir)))
 
+(defun smerge-keep-all-upper ()
+  "Keep upper version for all conflicts in buffer."
+  (interactive)
+  (save-excursion
+    (goto-char (point-min))
+    (while (ignore-errors (not (smerge-next)))
+      (smerge-keep-upper))))
+
 ;;; emacs.el ends here
