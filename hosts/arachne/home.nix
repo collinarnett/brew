@@ -21,6 +21,7 @@ in
     ../../modules/home-manager/swaylock.nix
     ../../modules/home-manager/wofi/wofi.nix
     ../../modules/home-manager/zathura/zathura.nix
+    ../../modules/home-manager/zoxide.nix
     ../../modules/home-manager/zsh.nix
     ./modules/sway.nix
     ./modules/waybar/waybar.nix
