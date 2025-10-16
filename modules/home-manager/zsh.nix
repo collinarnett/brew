@@ -17,5 +17,6 @@
       ssh = "kitty +kitten ssh";
       vimwiki = "vim -c VimwikiIndex";
     };
+    history.path = "$HOME/.local/share/zsh/.zsh_history";
   };
 }

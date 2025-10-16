@@ -53,6 +53,7 @@
       directories = [
         ".config/Signal"
         ".local/share/direnv"
+        ".local/share/zsh"
         ".mozilla"
         "Documents"
         "Downloads"
@@ -79,9 +80,6 @@
           directory = ".ssh";
           mode = "0700";
         }
-      ];
-      files = [
-        ".zsh_history"
       ];
     };
   };
