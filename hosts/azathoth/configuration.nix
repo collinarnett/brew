@@ -23,6 +23,13 @@
     ./disko.nix
     ./impermanence.nix
   ];
+
+  networking.hosts = {
+    "127.0.0.1" = [
+      "kubernetes"
+    ];
+  };
+
   # Browser
   programs.firefox.enable = true;
 
