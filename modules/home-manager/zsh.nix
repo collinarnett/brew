@@ -15,7 +15,6 @@
     shellAliases = {
       update = "${pkgs.nh}/bin/nh os switch /home/collin/brew";
       ssh = "kitty +kitten ssh";
-      vimwiki = "vim -c VimwikiIndex";
     };
     history.path = "$HOME/.local/share/zsh/.zsh_history";
   };
