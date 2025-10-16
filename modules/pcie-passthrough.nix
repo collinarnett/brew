@@ -47,7 +47,6 @@ in
       extraConfig = ''
         user='${cfg.user}'
       '';
-      qemu.ovmf.enable = true;
       onBoot = "ignore";
       onShutdown = "shutdown";
     };
