@@ -1,0 +1,196 @@
+diff --git a/src/java.desktop/unix/classes/sun/awt/X11/XDesktopPeer.java b/src/java.desktop/unix/classes/sun/awt/X11/XDesktopPeer.java
+index 384e65e0793..e0c397c9b80 100644
+--- a/src/java.desktop/unix/classes/sun/awt/X11/XDesktopPeer.java
++++ b/src/java.desktop/unix/classes/sun/awt/X11/XDesktopPeer.java
+@@ -43,6 +43,8 @@ import java.util.List;
+ /**
+  * Concrete implementation of the interface {@code DesktopPeer} for
+  * the Gnome desktop on Linux and Unix platforms.
++ * This implementation supports both native GTK libraries and xdg-open fallback
++ * for better compatibility with Snap/Flatpak packages.
+  *
+  * @see DesktopPeer
+  */
+@@ -53,14 +55,38 @@ public class XDesktopPeer implements DesktopPeer {
+             = new ArrayList<>(Arrays.asList(Action.OPEN, Action.MAIL, Action.BROWSE));
+ 
+     private static boolean nativeLibraryLoaded = false;
++    private static boolean xdgOpenExists = false;
+     private static boolean initExecuted = false;
+ 
++    private static boolean checkXdgOpenExists() {
++        try {
++            Process process = Runtime.getRuntime().exec(new String[]{"which", "xdg-open"});
++            process.waitFor();
++            return process.exitValue() == 0;
++        } catch (Exception e) {
++            return false;
++        }
++    }
++
+     private static void initWithLock(){
+         XToolkit.awtLock();
+         try {
+             if (!initExecuted) {
+                 nativeLibraryLoaded = init(UNIXToolkit.getEnabledGtkVersion()
+                         .getNumber(), UNIXToolkit.isGtkVerbose());
++                xdgOpenExists = checkXdgOpenExists();
++                
++                // If native libraries failed to support BROWSE/MAIL but xdg-open is available,
++                // restore these actions to the supported list
++                if (xdgOpenExists) {
++                    if (!supportedActions.contains(Action.BROWSE)) {
++                        supportedActions.add(Action.BROWSE);
++                    }
++                    if (!supportedActions.contains(Action.MAIL)) {
++                        supportedActions.add(Action.MAIL);
++                    }
++                }
++                
+             }
+         } finally {
+             initExecuted = true;
+@@ -75,7 +101,7 @@ public class XDesktopPeer implements DesktopPeer {
+ 
+     static boolean isDesktopSupported() {
+         initWithLock();
+-        return nativeLibraryLoaded && !supportedActions.isEmpty();
++        return (nativeLibraryLoaded || xdgOpenExists) && !supportedActions.isEmpty();
+     }
+ 
+     public boolean isSupported(Action type) {
+@@ -109,19 +135,31 @@ public class XDesktopPeer implements DesktopPeer {
+     }
+ 
+     private void launch(URI uri) throws IOException {
+-        byte[] uriByteArray = ( uri.toString() + '\0' ).getBytes();
+         boolean result = false;
+-        XToolkit.awtLock();
+-        try {
+-            if (!nativeLibraryLoaded) {
+-                throw new IOException("Failed to load native libraries.");
++        
++        if (nativeLibraryLoaded) {
++            byte[] uriByteArray = ( uri.toString() + '\0' ).getBytes();
++            XToolkit.awtLock();
++            try {
++                result = gnome_url_show(uriByteArray);
++            } finally {
++                XToolkit.awtUnlock();
+             }
+-            result = gnome_url_show(uriByteArray);
+-        } finally {
+-            XToolkit.awtUnlock();
++        } else if (xdgOpenExists) {
++            try {
++                String[] launchCommand = new String[]{"xdg-open", uri.toString()};
++                Runtime.getRuntime().exec(launchCommand);
++                result = true;
++            } catch (Exception e) {
++                throw new IOException("Failed to launch xdg-open: " + e.getMessage());
++            }
++        } else {
++            throw new IOException("Neither native GTK libraries nor xdg-open could be found in PATH. " +
++                                "Please ensure xdg-open is installed and available in your PATH variable.");
+         }
++        
+         if (!result) {
+-            throw new IOException("Failed to show URI:" + uri);
++            throw new IOException("Failed to show URI: " + uri);
+         }
+     }
+ 
+diff --git a/src/java.desktop/unix/classes/sun/awt/wl/WLDesktopPeer.java b/src/java.desktop/unix/classes/sun/awt/wl/WLDesktopPeer.java
+index 29bffbbee2d..9c04b8503a9 100644
+--- a/src/java.desktop/unix/classes/sun/awt/wl/WLDesktopPeer.java
++++ b/src/java.desktop/unix/classes/sun/awt/wl/WLDesktopPeer.java
+@@ -47,8 +47,19 @@ public class WLDesktopPeer implements DesktopPeer {
+             = new ArrayList<>(Arrays.asList(Action.OPEN, Action.MAIL, Action.BROWSE));
+ 
+     private static boolean nativeLibraryLoaded = false;
++    private static boolean xdgOpenExists = false;
+     private static boolean initExecuted = false;
+ 
++    private static boolean checkXdgOpenExists() {
++        try {
++            Process process = Runtime.getRuntime().exec(new String[]{"which", "xdg-open"});
++            process.waitFor();
++            return process.exitValue() == 0;
++        } catch (Exception e) {
++            return false;
++        }
++    }
++
+     private static void initWithLock(){
+         SunToolkit.awtLock();
+         try {
+@@ -56,6 +67,19 @@ public class WLDesktopPeer implements DesktopPeer {
+                 nativeLibraryLoaded = init(
+                         UNIXToolkit.getEnabledGtkVersion().getNumber(),
+                         UNIXToolkit.isGtkVerbose());
++                xdgOpenExists = checkXdgOpenExists();
++                
++                // If native libraries failed to support BROWSE/MAIL but xdg-open is available,
++                // restore these actions to the supported list
++                if (xdgOpenExists) {
++                    if (!supportedActions.contains(Action.BROWSE)) {
++                        supportedActions.add(Action.BROWSE);
++                    }
++                    if (!supportedActions.contains(Action.MAIL)) {
++                        supportedActions.add(Action.MAIL);
++                    }
++                }
++                
+             }
+         } finally {
+             initExecuted = true;
+@@ -69,7 +93,7 @@ public class WLDesktopPeer implements DesktopPeer {
+ 
+     static boolean isDesktopSupported() {
+         initWithLock();
+-        return nativeLibraryLoaded && !supportedActions.isEmpty();
++        return (nativeLibraryLoaded || xdgOpenExists) && !supportedActions.isEmpty();
+     }
+ 
+     public boolean isSupported(Action type) {
+@@ -103,19 +127,31 @@ public class WLDesktopPeer implements DesktopPeer {
+     }
+ 
+     private void launch(URI uri) throws IOException {
+-        byte[] uriByteArray = ( uri.toString() + '\0' ).getBytes();
+         boolean result = false;
+-        SunToolkit.awtLock();
+-        try {
+-            if (!nativeLibraryLoaded) {
+-                throw new IOException("Failed to load native libraries.");
++        
++        if (nativeLibraryLoaded) {
++            byte[] uriByteArray = ( uri.toString() + '\0' ).getBytes();
++            SunToolkit.awtLock();
++            try {
++                result = gnome_url_show(uriByteArray);
++            } finally {
++                SunToolkit.awtUnlock();
+             }
+-            result = gnome_url_show(uriByteArray);
+-        } finally {
+-            SunToolkit.awtUnlock();
++        } else if (xdgOpenExists) {
++            try {
++                String[] launchCommand = new String[]{"xdg-open", uri.toString()};
++                Runtime.getRuntime().exec(launchCommand);
++                result = true;
++            } catch (Exception e) {
++                throw new IOException("Failed to launch xdg-open: " + e.getMessage());
++            }
++        } else {
++            throw new IOException("Neither native GTK libraries nor xdg-open could be found in PATH. " +
++                                "Please ensure xdg-open is installed and available in your PATH variable.");
+         }
++        
+         if (!result) {
+-            throw new IOException("Failed to show URI:" + uri);
++            throw new IOException("Failed to show URI: " + uri);
+         }
+     }
+ 

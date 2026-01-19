@@ -1,4 +1,27 @@
 final: prev: {
+  leiningen = prev.leiningen.override {
+    jdk = final.openjdk21.overrideAttrs (prev_: {
+      src = final.fetchFromGitHub {
+        owner = "openjdk";
+        repo = "wakefield";
+        rev = "bbb963506776619e2d34740148e6ea67fba5eb2d";
+        hash = "sha256-ERuuBzB9vhnV7oGhc3fK1vpnQvQVDIpo++w0DXXMVGM=";
+      };
+      patches = prev_.patches ++ [ ./patches/jdk-xdg-open-support.patch ];
+      nativeBuildInputs = prev_.nativeBuildInputs ++ [
+        final.shaderc
+        final.wayland
+      ];
+      configureFlags = prev_.configureFlags ++ [
+        "--with-libffi-include=${final.libffi.dev}/include"
+        "--with-libffi-lib=${final.libffi.out}/lib"
+        "--with-wayland-include=${final.wayland.dev}/include"
+        "--with-wayland-lib=${final.wayland.out}/lib"
+        "--with-vulkan-include=${final.vulkan-headers}/include"
+        "--with-vulkan-shader-compiler=glslc"
+      ];
+    });
+  };
   emacs = prev.emacsWithPackagesFromUsePackage {
     config = ../configurations/emacs/emacs.el;
     alwaysEnsure = true;
