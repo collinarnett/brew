@@ -1,4 +1,4 @@
-;; -*- lexical-binding: t; -*-
+; -*- lexical-binding: t; -*-
 ;; disable gui elements
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
@@ -7,8 +7,10 @@
 
 (display-line-numbers-mode +1)
 
-;; Show trailing whitespace
-(setq-default show-trailing-whitespace t)
+;; Show trailing whitespace only in programming and writing buffers
+(add-hook 'prog-mode-hook (lambda () (setq show-trailing-whitespace t)))
+(add-hook 'org-mode-hook (lambda () (setq show-trailing-whitespace t)))
+(add-hook 'markdown-mode-hook (lambda () (setq show-trailing-whitespace t)))
 
 ;; Performance settings for lsp-mode
 (setq gc-cons-threshold 100000000)
@@ -73,13 +75,21 @@
   ("C-<prior>" . centaur-tabs-backward)
   ("C-<next>" . centaur-tabs-forward))
 
+(use-package monet :ensure t)
+
 ;; for eat terminal backend:
 (use-package eat :ensure t)
 
 ;; install claude-code.el
 (use-package claude-code :ensure t
-  :config (claude-code-mode)
-  :bind-keymap ("C-c c" . claude-code-command-map))
+  :after (eat monet)
+  :custom
+  (claude-code-terminal-backend 'eat)
+  :config
+  (add-hook 'claude-code-process-environment-functions #'monet-start-server-function)
+  (monet-mode 1)
+  (claude-code-mode)
+  :bind ("C-c c" . claude-code-transient))
 
 ;; chatgpt integration
 (use-package f)
@@ -112,7 +122,9 @@
 (use-package evil-collection
   :after (evil)
   :config
-  (evil-collection-init))
+  (evil-collection-init)
+  ;; Remove org-agenda-mode from emacs state so evil keybindings work
+  (setq evil-emacs-state-modes (delq 'org-agenda-mode evil-emacs-state-modes)))
 
 ;; theme
 (use-package dracula-theme
@@ -375,10 +387,6 @@
                          (lsp-deferred))))  ; or lsp-deferred
 (use-package python-pytest)
 
-;; bash
-(use-package shell-script-mode
-  :mode "\\.sh\\'")
-
 ;; haskell
 (use-package lsp-haskell
   :hook
@@ -407,11 +415,11 @@
   :mode ("\\.tidal\\'" . tidal-mode))
 
 ;; nix
-(use-package lsp-nix
-  :hook
-  (nix-mode . lsp-deferred))
-
 (use-package nix-mode
+  :hook
+  (nix-mode . lsp-deferred)
+  :custom
+  (lsp-nix-nil-auto-eval-inputs t)
   :config
   (setq nix-indent-offset 2)
   :mode ("\\.nix\\'" "\\.nix.in\\'"))
@@ -462,6 +470,7 @@
   :custom
   (projectile-project-search-path '("~/projects/" "~/work_projects/"))
   :config
+  (setq projectile-indexing-method 'alien)
   (define-key projectile-mode-map (kbd "C-c C-p") 'projectile-command-map)
   (global-set-key (kbd "C-c p") 'projectile-command-map)
   (projectile-mode +1)
@@ -519,10 +528,6 @@
   :custom
   (typescript-indent-level 2))
 
-(use-package lisp-mode
-  :mode
-  "\\.cl\\'")
-
 ;; futhark
 (use-package futhark-mode
   :mode
@@ -540,8 +545,14 @@
 
 ;; org
 (use-package org
+  :bind
+  ("C-c a" . org-agenda)
   :config
   (setq fill-column 80)
+  (setq org-agenda-files '("~/org/roam/"))
+  ;; TODO states matching taskwarrior workflow
+  (setq org-todo-keywords
+        '((sequence "TODO(t)" "ACTIVE(a)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")))
   :hook
   (org-mode . auto-fill-mode))
 
@@ -682,5 +693,16 @@
     (goto-char (point-min))
     (while (ignore-errors (not (smerge-next)))
       (smerge-keep-upper))))
+
+
+(use-package ob-mermaid
+  :config
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((mermaid . t)
+     (scheme . t)
+     (python . t)
+     (haskell . t))))
+
 
 ;;; emacs.el ends here
