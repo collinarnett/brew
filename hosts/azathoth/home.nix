@@ -50,17 +50,20 @@
       crawl
       dconf
       drawio
-      electrum
+      electron_38
       fastfetch
+      fd
       freetube
       fzf
       graphviz
+      hledger
       httpie
       hunspellDicts.en_US
       imv
       iommu-groups
       jq
       languagetool
+      leiningen
       libreoffice
       nil
       nix-output-monitor
@@ -86,6 +89,7 @@
       wget
       whipper
       wl-clipboard
+      xauth
       xplr
       zip
     ];
