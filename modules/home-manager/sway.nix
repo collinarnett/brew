@@ -5,7 +5,7 @@
     fira-code
     fira-code-symbols
     siji
-    noto-fonts-emoji
+    noto-fonts-color-emoji
     ipafont
     liberation_ttf
   ];
@@ -13,13 +13,14 @@
 
   wayland.windowManager.sway = {
     enable = true;
+    checkConfig = false;
     wrapperFeatures.gtk = true;
     wrapperFeatures.base = true;
     config = {
       terminal = "kitty";
       output = {
         DP-1 = {
-          bg = "#282a36 solid_color";
+          bg = "/home/collin/Downloads/signal-2025-12-01-192702_002.jpg fill";
           subpixel = "none";
           scale = "2";
         };
