@@ -27,6 +27,23 @@ final: prev: {
     alwaysEnsure = true;
     defaultInitFile = true;
     package = prev.emacs-unstable-pgtk;
+    override = epkgs: epkgs // {
+      claude-code = epkgs.melpaPackages.claude-code.overrideAttrs (old: {
+        src = prev.fetchFromGitHub {
+          owner = "stevemolitor";
+          repo = "claude-code.el";
+          rev = "main";
+          sha256 = "sha256-ISlD6q1hceckry1Jd19BX1MfobHJxng5ulX2gq9f644=";
+        };
+        packageRequires = with epkgs; [
+          eat
+          melpaPackages.inheritenv
+          melpaPackages.markdown-mode
+          melpaPackages.projectile
+          melpaPackages.transient
+        ];
+      });
+    };
     extraEmacsPackages =
       epkgs: with epkgs; [
         use-package
@@ -56,6 +73,24 @@ final: prev: {
           meta = {
             description = "Spaced Repetition System for Emacs org-mode";
             license = prev.lib.licenses.gpl3;
+          };
+        })
+        (epkgs.trivialBuild {
+          pname = "monet";
+          version = "0-unstable-2025-09-25";
+          src = prev.fetchFromGitHub {
+            owner = "stevemolitor";
+            repo = "monet";
+            rev = "72a18d372fef4b0971267bf13f127dcce681859a";
+            sha256 = "sha256-3e5DIR+X6JLDaY7vRDutH3EAsyaqK3Jc73ugZTDRUrQ=";
+          };
+          packageRequires = [
+            epkgs.elpaPackages.websocket
+          ];
+
+          meta = {
+            description = "Implements Claude Code IDE protocol for Emacs";
+            license = prev.lib.licenses.mit;
           };
         })
       ];
