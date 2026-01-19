@@ -1,10 +1,12 @@
 {
+  programs.difftastic.enable = false;
   programs.git = {
     enable = true;
-    userEmail = "collin@arnett.it";
-    userName = "Collin Arnett";
-    difftastic.enable = false;
-    extraConfig = {
+    settings = {
+      user = {
+        email = "collin@arnett.it";
+        name = "Collin Arnett";
+      };
       rebase = {
         autostash = true;
       };

@@ -65,7 +65,7 @@
       nil
       nix-output-monitor
       nix-tree
-      nixfmt-rfc-style
+      nixfmt
       nixpkgs-review
       pandoc
       pciutils
