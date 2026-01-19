@@ -15,6 +15,7 @@
     shellAliases = {
       update = "${pkgs.nh}/bin/nh os switch /home/collin/brew";
       ssh = "kitty +kitten ssh";
+      cat = "${pkgs.bat}/bin/bat";
     };
     history.path = "$HOME/.local/share/zsh/.zsh_history";
   };

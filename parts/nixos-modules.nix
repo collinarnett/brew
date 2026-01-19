@@ -19,6 +19,14 @@
               "nix-command"
               "flakes"
               "pipe-operators"
+              "auto-allocate-uids"
+              "cgroups"
+            ];
+            auto-allocate-uids = true;
+
+            system-features = [
+              "nixos-test"
+              "uid-range"
             ];
             auto-optimise-store = true;
             substituters = [

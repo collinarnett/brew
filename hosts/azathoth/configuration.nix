@@ -166,6 +166,8 @@
     ];
   };
 
+  programs.ssh.setXAuthLocation = true;
+
   # Temporary for setup
   users.users.root.openssh.authorizedKeys.keyFiles = [
     ../../secrets/keys/collinarnett.pub
@@ -193,6 +195,7 @@
   services.openssh = {
     enable = true;
     ports = [ 8787 ];
+    settings.X11Forwarding = true;
     settings.PermitRootLogin = "yes";
     hostKeys = [
       {
