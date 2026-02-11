@@ -29,6 +29,10 @@
   };
 
   # Browser
+
+  # Sway
+  programs.sway.enable = true;
+  security.pam.services.swaylock = { };
   programs.firefox.enable = true;
 
   programs.obs-studio.enable = true;

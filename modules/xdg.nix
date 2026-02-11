@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 {
   xdg.mime = {
     enable = true;
@@ -11,7 +11,7 @@
   xdg.portal = {
     enable = true;
     xdgOpenUsePortal = true;
-    config.sway.default = ["wlr" "gtk"];
+    config.sway.default = lib.mkForce ["wlr" "gtk"];
     extraPortals = with pkgs; [
       xdg-desktop-portal-wlr
       xdg-desktop-portal-gtk
