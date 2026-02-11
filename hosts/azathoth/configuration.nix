@@ -12,7 +12,6 @@
     ../../modules/docker-registry.nix
     ../../modules/greetd.nix
     ../../modules/homelab.nix
-    ../../modules/ollama.nix
     ../../modules/pcie-passthrough.nix
     ../../modules/pipewire.nix
     ../../modules/remote-build.nix
