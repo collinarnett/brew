@@ -78,14 +78,36 @@
 (use-package monet :ensure t)
 
 ;; for eat terminal backend:
-(use-package eat :ensure t)
+(use-package eat :ensure t
+  :bind
+  (("C-c t" . eat-project)
+   ("C-c T" . eat))
+  :config
+  (defun my/eat-fix-fringes-h ()
+    "Properly set fringes and margins for eat buffers to fix terminal width."
+    (setq-local left-margin-width 0 right-margin-width 0
+                left-fringe-width 0 right-fringe-width 0)
+    (dolist (window (get-buffer-window-list))
+      (set-window-fringes window 0 0)
+      (set-window-margins window 0 0))
+    (display-line-numbers-mode -1))
+  (add-hook 'eat-mode-hook #'my/eat-fix-fringes-h))
 
 ;; install claude-code.el
 (use-package claude-code :ensure t
   :after (eat monet)
   :custom
   (claude-code-terminal-backend 'eat)
+  (claude-code-enable-notifications t)
   :config
+  (defun my-claude-notify (title message)
+    "Display a Linux notification with sound using notify-send and paplay."
+    (when (executable-find "notify-send")
+      (call-process "notify-send" nil nil nil title message))
+    (when (executable-find "paplay")
+      (call-process "paplay" nil nil nil
+                    "/run/current-system/sw/share/sounds/freedesktop/stereo/message.oga")))
+  (setq claude-code-notification-function #'my-claude-notify)
   (add-hook 'claude-code-process-environment-functions #'monet-start-server-function)
   (monet-mode 1)
   (claude-code-mode)
