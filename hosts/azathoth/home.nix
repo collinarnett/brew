@@ -74,7 +74,6 @@
       pciutils
       pinta
       pulseaudio
-      pyright
       ripgrep
       ruff
       signal-desktop
