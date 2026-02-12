@@ -19,7 +19,7 @@
     config = {
       terminal = "kitty";
       output = {
-        DP-1 = {
+        DP-4 = {
           bg = "/home/collin/Downloads/signal-2025-12-01-192702_002.jpg fill";
           subpixel = "none";
           scale = "2";
