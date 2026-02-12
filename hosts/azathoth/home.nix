@@ -11,6 +11,7 @@
     ../../modules/home-manager/beets.nix
     ../../modules/home-manager/btop.nix
     ../../modules/home-manager/direnv.nix
+    ../../modules/home-manager/fzf.nix
     ../../modules/home-manager/gh.nix
     ../../modules/home-manager/git.nix
     ../../modules/home-manager/gpg-agent.nix
@@ -54,7 +55,6 @@
       fastfetch
       fd
       freetube
-      fzf
       graphviz
       hledger
       httpie
