@@ -166,7 +166,7 @@
   :hook
   (sh-mode . lsp-deferred)
   :custom
-  (lsp-ruff-server-command '(ruff server --preview)))
+  (lsp-ruff-server-command '("ruff" "server" "--preview")))
 
 (use-package lsp-ui
   :after (lsp-mode))
