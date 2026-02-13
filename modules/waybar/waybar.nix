@@ -22,23 +22,23 @@ in
           "sway/workspaces" = {
             format = "{icon}";
             format-icons = {
-              default = "";
+              default = "";
             };
           };
           "pulseaudio" = {
-            format = " {volume}%";
+            format = " {volume}%";
           };
           "clock" = {
-            format = " {:%A, %h %d %I:%M %p}";
+            format = " {:%A, %h %d %I:%M %p}";
           };
           "cpu" = {
-            format = " {usage}%";
+            format = " {usage}%";
           };
           "disk" = {
-            format = " {percentage_used}%";
+            format = " {percentage_used}%";
           };
           "memory" = {
-            format = " {used:0.1f}G";
+            format = " {used:0.1f}G";
           };
           "network" = {
             format = "{ifname}: {bandwidthDownBits} | {bandwidthUpBits}";
