@@ -570,6 +570,8 @@
 (use-package org
   :bind
   ("C-c a" . org-agenda)
+  ("C-c C-x C-i" . org-clock-in)
+  ("C-c C-x C-o" . org-clock-out)
   :config
   (setq fill-column 80)
   (setq org-agenda-files '("~/org/roam/"))
