@@ -22,7 +22,7 @@
     ../../modules/home-manager/kitty.nix
     ../../modules/home-manager/mako.nix
     ../../modules/home-manager/starship.nix
-    ../../modules/home-manager/sway.nix
+    ../../modules/home-manager/sway
     ../../modules/home-manager/waybar/waybar.nix
     ../../modules/home-manager/wofi/wofi.nix
     ../../modules/home-manager/xdg.nix
