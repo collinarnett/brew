@@ -64,6 +64,8 @@
         "org"
         "projects"
         "work_projects"
+        ".claude"
+        ".config/obs-studio"
         {
           directory = ".gnupg";
           mode = "0700";
