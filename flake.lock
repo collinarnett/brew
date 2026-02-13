@@ -197,6 +197,45 @@
         "type": "github"
       }
     },
+    "import-tree": {
+      "locked": {
+        "lastModified": 1763762820,
+        "narHash": "sha256-ZvYKbFib3AEwiNMLsejb/CWs/OL/srFQ8AogkebEPF0=",
+        "owner": "vic",
+        "repo": "import-tree",
+        "rev": "3c23749d8013ec6daa1d7255057590e9ca726646",
+        "type": "github"
+      },
+      "original": {
+        "owner": "vic",
+        "repo": "import-tree",
+        "type": "github"
+      }
+    },
+    "newt": {
+      "inputs": {
+        "flake-parts": [
+          "flake-parts"
+        ],
+        "import-tree": "import-tree",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1771013836,
+        "narHash": "sha256-1KtR0OsNKx1l7L1uVD4n9uxyV5A6O0TcZGIZLh7FUOs=",
+        "ref": "refs/heads/master",
+        "rev": "d95f359064ba645c74baf6f40e2b3dfb290af359",
+        "revCount": 3,
+        "type": "git",
+        "url": "file:///home/collin/newt"
+      },
+      "original": {
+        "type": "git",
+        "url": "file:///home/collin/newt"
+      }
+    },
     "nix-formatter-pack": {
       "inputs": {
         "nixpkgs": [
@@ -557,6 +596,7 @@
         "home-manager": "home-manager",
         "home-manager-android": "home-manager-android",
         "impermanence": "impermanence",
+        "newt": "newt",
         "nix-on-droid": "nix-on-droid",
         "nixos-anywhere": "nixos-anywhere",
         "nixos-facter-modules": "nixos-facter-modules",

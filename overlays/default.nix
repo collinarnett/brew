@@ -1,4 +1,4 @@
-final: prev: {
+inputs: final: prev: {
   openjdk25-wakefield = prev.openjdk25.overrideAttrs (old: {
     pname = "openjdk-wakefield";
     version = "25.0.2";
@@ -35,7 +35,11 @@ final: prev: {
     jdk = final.openjdk25-wakefield;
   };
   emacs = prev.emacsWithPackagesFromUsePackage {
-    config = ../configurations/emacs/emacs.el;
+    config = builtins.toFile "emacs-config.el" (
+      builtins.readFile ../configurations/emacs/emacs.el
+      + "\n;; === newt proprietary config ===\n"
+      + builtins.readFile "${inputs.newt}/configurations/emacs/newt.el"
+    );
     alwaysEnsure = true;
     defaultInitFile = true;
     package = prev.emacs-unstable-pgtk;

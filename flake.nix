@@ -15,6 +15,9 @@
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     nixpkgs-android.url = "github:NixOS/nixpkgs/nixos-23.11";
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    newt.url = "git+file:///home/collin/newt";
+    newt.inputs.nixpkgs.follows = "nixpkgs";
+    newt.inputs.flake-parts.follows = "flake-parts";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
     sops-nix.url = "github:Mic92/sops-nix";
     home-manager-android = {
@@ -33,6 +36,7 @@
       emacs-overlay,
       flake-parts,
       home-manager,
+      newt,
       nixos-hardware,
       gpd-duo-nixos-hardware,
       sops-nix,
@@ -91,9 +95,13 @@
                         {
                           home-manager.useGlobalPkgs = true;
                           home-manager.useUserPackages = true;
-                          home-manager.users.${user} = import ./hosts/${host}/home.nix;
+                          home-manager.users.${user} = {
+                            imports = (builtins.attrValues (inputs.newt.homeManagerModules or {}))
+                              ++ [ ./hosts/${host}/home.nix ];
+                          };
                         }
-                      ] ++ extras;
+                      ] ++ (builtins.attrValues (inputs.newt.nixosModules or {}))
+                        ++ extras;
                     }
                   );
               in

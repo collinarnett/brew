@@ -6,9 +6,9 @@
       {
         nixpkgs.overlays = [
           inputs.emacs-overlay.overlay
-          (import ../overlays)
+          (import ../overlays inputs)
           (import ../pkgs/all-packages.nix)
-        ];
+        ] ++ (builtins.attrValues (inputs.newt.overlays or {}));
         nixpkgs.config.allowUnfree = true;
         nix = {
           package = pkgs.nixVersions.latest;
