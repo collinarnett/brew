@@ -128,7 +128,8 @@ stdenv.mkDerivation rec {
   buildInputs = [
     python3
     python3.pkgs.dbus-python
-  ] ++ deps;
+  ]
+  ++ deps;
 
   nativeBuildInputs = [
     autoPatchelfHook

@@ -4,16 +4,15 @@
   pkgs,
   ...
 }:
-with lib;
 let
-  cfg = config.services.cac;
+  cfg = config.brew.cac;
 in
 {
-  options.services.cac = {
-    enable = mkEnableOption "CAC service";
+  options.brew.cac = {
+    enable = lib.mkEnableOption "CAC service";
   };
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     nixpkgs.config.allowUnfreePredicate =
       pkg:
       builtins.elem (lib.getName pkg) [

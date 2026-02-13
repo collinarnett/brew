@@ -1,5 +1,10 @@
+{ config, lib, ... }:
+let
+  cfg = config.brew.ollama;
+in
 {
-  services.ollama.enable = true;
-  # services.open-webui.enable = true;
-  # services.open-webui.port = 3000;
+  options.brew.ollama.enable = lib.mkEnableOption "ollama";
+  config = lib.mkIf cfg.enable {
+    services.ollama.enable = true;
+  };
 }

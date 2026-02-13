@@ -8,27 +8,18 @@
     gpd-duo-nixos-hardware.url = "github:/shymega/nixos-hardware/add-gpd-duo";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     home-manager.url = "github:nix-community/home-manager";
+    import-tree.url = "github:vic/import-tree";
     impermanence.url = "github:nix-community/impermanence";
     nixos-anywhere.inputs.nixpkgs.follows = "nixpkgs";
     nixos-anywhere.url = "github:nix-community/nixos-anywhere";
     nixos-facter-modules.url = "github:numtide/nixos-facter-modules";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
-    nixpkgs-android.url = "github:NixOS/nixpkgs/nixos-23.11";
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     newt.url = "git+file:///home/collin/newt";
     newt.inputs.nixpkgs.follows = "nixpkgs";
     newt.inputs.flake-parts.follows = "flake-parts";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
     sops-nix.url = "github:Mic92/sops-nix";
-    home-manager-android = {
-      url = "github:nix-community/home-manager/release-23.11";
-      inputs.nixpkgs.follows = "nixpkgs-android";
-    };
-    nix-on-droid = {
-      url = "github:nix-community/nix-on-droid/release-23.11";
-      inputs.nixpkgs.follows = "nixpkgs-android";
-      inputs.home-manager.follows = "home-manager-android";
-    };
   };
   outputs =
     inputs@{
@@ -36,15 +27,13 @@
       emacs-overlay,
       flake-parts,
       home-manager,
+      import-tree,
       newt,
       nixos-hardware,
       gpd-duo-nixos-hardware,
       sops-nix,
       disko,
-      home-manager-android,
-      nix-on-droid,
       nixpkgs,
-      nixpkgs-android,
       ...
     }:
     flake-parts.lib.mkFlake { inherit inputs; } (
@@ -61,19 +50,6 @@
         flake =
           { config, ... }:
           {
-            nixOnDroidConfigurations.default = nix-on-droid.lib.nixOnDroidConfiguration {
-              modules = [
-                ./nix-on-droid/nix-on-droid.nix
-              ];
-              pkgs = import nixpkgs-android {
-                system = "aarch64-linux";
-                overlays = [
-                  nix-on-droid.overlays.default
-                ];
-              };
-              home-manager-path = home-manager-android.outPath;
-            };
-
             nixosConfigurations =
               let
                 genSystem =
@@ -88,20 +64,20 @@
                       inherit system;
 
                       modules = [
+                        (inputs.import-tree ./modules)
                         config.nixosModules.nix-settings
                         inputs.sops-nix.nixosModules.sops
                         inputs.home-manager.nixosModules.home-manager
                         ./hosts/${host}/configuration.nix
                         {
+                          brew.user = user;
                           home-manager.useGlobalPkgs = true;
                           home-manager.useUserPackages = true;
-                          home-manager.users.${user} = {
-                            imports = (builtins.attrValues (inputs.newt.homeManagerModules or {}))
-                              ++ [ ./hosts/${host}/home.nix ];
-                          };
+                          home-manager.users.${user}.imports = builtins.attrValues (inputs.newt.homeManagerModules or { });
                         }
-                      ] ++ (builtins.attrValues (inputs.newt.nixosModules or {}))
-                        ++ extras;
+                      ]
+                      ++ (builtins.attrValues (inputs.newt.nixosModules or { }))
+                      ++ extras;
                     }
                   );
               in

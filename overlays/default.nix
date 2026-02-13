@@ -16,7 +16,7 @@ inputs: final: prev: {
       final.wayland-scanner
     ];
 
-    buildInputs = (old.buildInputs or []) ++ [
+    buildInputs = (old.buildInputs or [ ]) ++ [
       final.wayland
       final.libxkbcommon
       final.wayland-protocols
@@ -43,23 +43,26 @@ inputs: final: prev: {
     alwaysEnsure = true;
     defaultInitFile = true;
     package = prev.emacs-unstable-pgtk;
-    override = epkgs: epkgs // {
-      claude-code = epkgs.melpaPackages.claude-code.overrideAttrs (old: {
-        src = prev.fetchFromGitHub {
-          owner = "stevemolitor";
-          repo = "claude-code.el";
-          rev = "main";
-          sha256 = "sha256-ISlD6q1hceckry1Jd19BX1MfobHJxng5ulX2gq9f644=";
-        };
-        packageRequires = with epkgs; [
-          eat
-          melpaPackages.inheritenv
-          melpaPackages.markdown-mode
-          melpaPackages.projectile
-          melpaPackages.transient
-        ];
-      });
-    };
+    override =
+      epkgs:
+      epkgs
+      // {
+        claude-code = epkgs.melpaPackages.claude-code.overrideAttrs (old: {
+          src = prev.fetchFromGitHub {
+            owner = "stevemolitor";
+            repo = "claude-code.el";
+            rev = "main";
+            sha256 = "sha256-ISlD6q1hceckry1Jd19BX1MfobHJxng5ulX2gq9f644=";
+          };
+          packageRequires = with epkgs; [
+            eat
+            melpaPackages.inheritenv
+            melpaPackages.markdown-mode
+            melpaPackages.projectile
+            melpaPackages.transient
+          ];
+        });
+      };
     extraEmacsPackages =
       epkgs: with epkgs; [
         use-package

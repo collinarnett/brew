@@ -6,34 +6,85 @@
 }:
 {
   imports = [
-    ../../modules/apcupsd.nix
-    ../../modules/atticd.nix
-    ../../modules/cac.nix
-    ../../modules/docker-registry.nix
-    ../../modules/greetd.nix
-    ../../modules/homelab.nix
-    ../../modules/pcie-passthrough.nix
-    ../../modules/pipewire.nix
-    ../../modules/remote-build.nix
-    ../../modules/restic.nix
-    ../../modules/sops.nix
-    ../../modules/xdg.nix
     ./disko.nix
     ./impermanence.nix
   ];
+
+  brew = {
+    apcupsd.enable = true;
+    atticd.enable = true;
+    cac.enable = true;
+    docker-registry.enable = true;
+    firefox.enable = true;
+    greetd.enable = true;
+    pipewire.enable = true;
+    remote-build.enable = true;
+    restic.enable = true;
+    sops.enable = true;
+    xdg-portal.enable = true;
+
+    homelab = {
+      enable = true;
+      searx.enable = true;
+      traefik.enable = true;
+      authelia.enable = true;
+      jellyfin.enable = true;
+      calibre-web.enable = true;
+    };
+
+    pcie-passthrough = {
+      enable = true;
+      user = "collin";
+      platform = "amd";
+      vfio-ids = [
+        "10de:2204"
+        "10de:1aef"
+      ];
+    };
+
+    # Home-manager feature modules
+    autojump.enable = true;
+    bat.enable = true;
+    beets.enable = true;
+    fzf.enable = true;
+    gh.enable = true;
+    gtk.enable = true;
+    k9s.enable = true;
+    kitty.enable = true;
+    mako.enable = true;
+    wofi.enable = true;
+    xdg-mime.enable = true;
+    zathura.enable = true;
+    zoxide.enable = true;
+
+    keychain = {
+      enable = true;
+      keys = [
+        "id_ed25519"
+        "clan-gitea"
+      ];
+      extraFlags = [ "--systemd" ];
+    };
+
+    sway = {
+      enable = true;
+      outputs = {
+        DP-4 = {
+          bg = "${../../modules/sway/blackhole.jpg} fill";
+          subpixel = "none";
+          scale = "2";
+        };
+      };
+    };
+
+    waybar.enable = true;
+  };
 
   networking.hosts = {
     "127.0.0.1" = [
       "kubernetes"
     ];
   };
-
-  # Browser
-
-  # Sway
-  programs.sway.enable = true;
-  security.pam.services.swaylock = { };
-  programs.firefox.enable = true;
 
   programs.obs-studio.enable = true;
   programs.tmux.enable = true;
@@ -46,33 +97,8 @@
 
   programs.kdeconnect.enable = true;
 
-  services.cac.enable = true;
-
-  services.homelab = {
-    enable = true;
-    searx.enable = true;
-    traefik.enable = true;
-    authelia.enable = true;
-    jellyfin.enable = true;
-    calibre-web.enable = true;
-  };
-
-  # Hardware
   facter.reportPath = ./facter.json;
 
-  # PCIE-Passthrough
-  services.pcie-passthrough = {
-    enable = true;
-    user = "collin";
-    platform = "amd";
-    # GPU
-    vfio-ids = [
-      "10de:2204"
-      "10de:1aef"
-    ];
-  };
-
-  # Filesystem
   fileSystems = {
     "/persist" = {
       device = "zroot/persist";
@@ -86,7 +112,6 @@
     };
   };
   boot = {
-    # Newest kernels might not be supported by ZFS
     kernelParams = [
       "nohibernate"
     ];
@@ -120,14 +145,12 @@
     };
   };
 
-  # Editor
   services.emacs = {
     enable = true;
     defaultEditor = true;
     startWithGraphical = true;
   };
 
-  # General
   boot.loader.systemd-boot.configurationLimit = 30;
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -135,10 +158,8 @@
   time.timeZone = "America/New_York";
   programs.zsh.enable = true;
 
-  # Networking
   networking = {
     hostName = "azathoth";
-    # head -c 8 /etc/machine-id
     hostId = "20556d4b";
     nameservers = [
       "1.1.1.1"
@@ -146,7 +167,6 @@
     ];
   };
 
-  # Users
   users.users.collin = {
     isNormalUser = true;
     extraGroups = [
@@ -170,7 +190,6 @@
 
   programs.ssh.setXAuthLocation = true;
 
-  # Temporary for setup
   users.users.root.openssh.authorizedKeys.keyFiles = [
     ../../secrets/keys/collinarnett.pub
   ];
@@ -183,17 +202,13 @@
     ];
   };
 
-  # Docker
   virtualisation.docker.enable = true;
   virtualisation.oci-containers.backend = "docker";
 
-  # Man pages
   documentation.dev.enable = true;
 
-  # Graphics
   hardware.graphics.enable = true;
 
-  # SSH
   services.openssh = {
     enable = true;
     ports = [ 8787 ];
@@ -213,5 +228,72 @@
     settings.PasswordAuthentication = true;
   };
 
-  system.stateVersion = "24.11"; # Did you read the comment?
+  # Home-manager user config
+  home-manager.users.${config.brew.user} = {
+    home.username = "collin";
+    home.homeDirectory = "/home/collin";
+    home.sessionVariables = {
+      GH_TOKEN = "$(cat ${config.sops.secrets.gh_token.path})";
+      GPG_TTY = "$(tty)";
+    };
+
+    home.packages = with pkgs; [
+      alejandra
+      anki-bin
+      bash-language-server
+      bibata-cursors
+      chromium
+      clang-tools
+      claude-code
+      cloc
+      crawl
+      dconf
+      drawio
+      electron_38
+      fastfetch
+      fd
+      freetube
+      graphviz
+      hledger
+      httpie
+      hunspellDicts.en_US
+      imv
+      iommu-groups
+      jq
+      languagetool
+      leiningen
+      libreoffice
+      nixd
+      nix-output-monitor
+      nix-tree
+      nixfmt
+      nixpkgs-review
+      pandoc
+      pciutils
+      pinta
+      pulseaudio
+      ripgrep
+      ruff
+      signal-desktop
+      statix
+      tealdeer
+      texliveFull
+      timg
+      tree
+      unzip
+      usbutils
+      waypipe
+      wget
+      whipper
+      wl-clipboard
+      xauth
+      xplr
+      zip
+    ];
+
+    home.stateVersion = "24.11";
+    programs.home-manager.enable = true;
+  };
+
+  system.stateVersion = "24.11";
 }

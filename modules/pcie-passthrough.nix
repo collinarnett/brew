@@ -5,10 +5,10 @@
 }:
 let
   inherit (lib) mkEnableOption mkOption mkIf;
-  cfg = config.services.pcie-passthrough;
+  cfg = config.brew.pcie-passthrough;
 in
 {
-  options.services.pcie-passthrough =
+  options.brew.pcie-passthrough =
     let
       inherit (lib.types) str listOf;
     in
