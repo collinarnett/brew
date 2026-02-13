@@ -398,15 +398,17 @@
 
 ;; python
 (use-package python-mode
-  :mode "\\.py\\'")
+  :mode "\\.py\\'"
+  :hook (python-mode . lsp-deferred))
 
 (use-package lsp-pyright
   :ensure t
   :custom
-  (lsp-pyright-langserver-command "pyright") ;; or basedpyright
-  :hook (python-mode . (lambda ()
-                         (require 'lsp-pyright)
-                         (lsp-deferred))))  ; or lsp-deferred
+  (lsp-pyright-langserver-command "pyright"))
+
+;; pylsp settings (built into lsp-mode, not a separate package)
+(setq lsp-pylsp-plugins-mypy-enabled t)
+
 (use-package python-pytest)
 
 ;; haskell
