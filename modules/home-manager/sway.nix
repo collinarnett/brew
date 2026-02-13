@@ -16,6 +16,7 @@
     checkConfig = false;
     wrapperFeatures.gtk = true;
     wrapperFeatures.base = true;
+    systemd.variables = ["--all"];
     config = {
       terminal = "kitty";
       output = {

@@ -25,6 +25,7 @@
     ../../modules/home-manager/sway.nix
     ../../modules/home-manager/waybar/waybar.nix
     ../../modules/home-manager/wofi/wofi.nix
+    ../../modules/home-manager/xdg.nix
     ../../modules/home-manager/zathura/zathura.nix
     ../../modules/home-manager/zoxide.nix
     ../../modules/home-manager/zsh.nix
