@@ -18,7 +18,7 @@
     fira-code
     git
     hunspellDicts.en_US
-    nil
+    nixd
     nixfmt-classic
     nodejs
     noto-fonts-emoji

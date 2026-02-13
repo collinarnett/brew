@@ -66,7 +66,7 @@
       languagetool
       leiningen
       libreoffice
-      nil
+      nixd
       nix-output-monitor
       nix-tree
       nixfmt

@@ -128,7 +128,6 @@
             formatter = pkgs.nixfmt;
             devShells.default = pkgs.mkShell {
               buildInputs = with pkgs; [
-                nil
                 sops
                 nixfmt
               ];

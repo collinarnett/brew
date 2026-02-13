@@ -441,7 +441,7 @@
   :hook
   (nix-mode . lsp-deferred)
   :custom
-  (lsp-nix-nil-auto-eval-inputs t)
+  (lsp-nix-server 'nixd)
   :config
   (setq nix-indent-offset 2)
   :mode ("\\.nix\\'" "\\.nix.in\\'"))
