@@ -1,26 +1,38 @@
 final: prev: {
+  openjdk25-wakefield = prev.openjdk25.overrideAttrs (old: {
+    pname = "openjdk-wakefield";
+    version = "25.0.2";
+
+    src = final.fetchFromGitHub {
+      owner = "openjdk";
+      repo = "wakefield";
+      rev = "0bf2bd412d3323fa534be586b6f449fb77ea2e4c";
+      hash = "sha256-vQlCarQVdyj6NRcIiYT1uMkYFLp6YjLPMwsOP+VC7ns=";
+    };
+
+    patches = old.patches ++ [ ./patches/jdk-xdg-open-support.patch ];
+
+    nativeBuildInputs = old.nativeBuildInputs ++ [
+      final.wayland-scanner
+    ];
+
+    buildInputs = (old.buildInputs or []) ++ [
+      final.wayland
+      final.libxkbcommon
+      final.wayland-protocols
+    ];
+
+    configureFlags = old.configureFlags ++ [
+      "--with-wayland-include=${final.wayland.dev}/include"
+      "--with-wayland-lib=${final.wayland.out}/lib"
+      "--with-wayland-protocols=${final.wayland-protocols}/share/wayland-protocols"
+      "--with-xkbcommon-include=${final.libxkbcommon.dev}/include"
+      "--with-xkbcommon-lib=${final.libxkbcommon.out}/lib"
+    ];
+  });
+
   leiningen = prev.leiningen.override {
-    jdk = final.openjdk21.overrideAttrs (prev_: {
-      src = final.fetchFromGitHub {
-        owner = "openjdk";
-        repo = "wakefield";
-        rev = "bbb963506776619e2d34740148e6ea67fba5eb2d";
-        hash = "sha256-ERuuBzB9vhnV7oGhc3fK1vpnQvQVDIpo++w0DXXMVGM=";
-      };
-      patches = prev_.patches ++ [ ./patches/jdk-xdg-open-support.patch ];
-      nativeBuildInputs = prev_.nativeBuildInputs ++ [
-        final.shaderc
-        final.wayland
-      ];
-      configureFlags = prev_.configureFlags ++ [
-        "--with-libffi-include=${final.libffi.dev}/include"
-        "--with-libffi-lib=${final.libffi.out}/lib"
-        "--with-wayland-include=${final.wayland.dev}/include"
-        "--with-wayland-lib=${final.wayland.out}/lib"
-        "--with-vulkan-include=${final.vulkan-headers}/include"
-        "--with-vulkan-shader-compiler=glslc"
-      ];
-    });
+    jdk = final.openjdk25-wakefield;
   };
   emacs = prev.emacsWithPackagesFromUsePackage {
     config = ../configurations/emacs/emacs.el;
