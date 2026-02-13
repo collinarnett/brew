@@ -24,6 +24,7 @@
         "Pictures"
         "Videos"
         "brew"
+        "newt"
         "misc"
         "org"
         "projects"
