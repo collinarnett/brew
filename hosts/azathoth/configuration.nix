@@ -164,7 +164,6 @@
     hashedPassword = "$y$j9T$x.RDCNGwrERU4QtCPXuGB1$5hKCIlIQvWLFTiMI90EOCARUWWqUFDS2oXdYI8JrLe3";
     openssh.authorizedKeys.keyFiles = [
       ../../secrets/keys/collinarnett.pub
-      ../../secrets/keys/arachne.pub
       ../../secrets/keys/ghoul.pub
     ];
   };

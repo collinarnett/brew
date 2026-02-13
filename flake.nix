@@ -98,7 +98,6 @@
                   );
               in
               {
-                zombie = genSystem "collin" "zombie" [ ];
                 vampire = genSystem "collin" "vampire" [ ];
                 ghoul = genSystem "collin" "ghoul" [
                   inputs.disko.nixosModules.disko
@@ -110,11 +109,6 @@
                   inputs.disko.nixosModules.disko
                   inputs.impermanence.nixosModules.impermanence
                   inputs.nixos-facter-modules.nixosModules.facter
-                ];
-                arachne = genSystem "collin" "arachne" [
-                  ./modules/zfs
-                  "${nixpkgs}/nixos/modules/installer/scan/not-detected.nix"
-                  "${nixos-hardware}/lenovo/thinkpad/t440p"
                 ];
               };
           };

@@ -40,10 +40,6 @@ Specs:
 | CASE   | SilverStone Technology RM44                            |
 | COOLER | SilverStone Technology XE360-TR5                       |
 
-### arachne 🕷️
-
-My Thinkpad T440.
-
 ## Motivation
 
 NixOS let's me track and manage my Linux configuration in a declarative
