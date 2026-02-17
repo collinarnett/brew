@@ -12,6 +12,9 @@ in
   config = lib.mkIf cfg.enable {
     programs.firefox.enable = true;
     programs.firefox.package = pkgs.firefox-esr;
+    home-manager.users.${config.brew.user} = {
+      home.packages = [ pkgs.firefox-esr ];
+    };
     programs.firefox.policies = {
       SearchEngines = {
         Default = "SearX";
