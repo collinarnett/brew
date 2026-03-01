@@ -9,9 +9,7 @@ let
   user = config.brew.user;
 in
 {
-  options.brew.gpg-agent.enable = lib.mkEnableOption "gpg-agent" // {
-    default = true;
-  };
+  options.brew.gpg-agent.enable = lib.mkEnableOption "gpg-agent";
   config = lib.mkIf cfg.enable {
     home-manager.users.${user} = {
       services.gpg-agent = {

@@ -11,27 +11,13 @@
   ];
 
   brew = {
-    apcupsd.enable = true;
-    atticd.enable = true;
-    cac.enable = true;
-    docker-registry.enable = true;
-    firefox.enable = true;
-    greetd.enable = true;
-    pipewire.enable = true;
-    remote-build.enable = true;
-    restic.enable = true;
-    sops.enable = true;
-    xdg-portal.enable = true;
+    common.enable = true;
+    desktop.enable = true;
+    server.enable = true;
 
-    homelab = {
-      enable = true;
-      searx.enable = true;
-      traefik.enable = true;
-      authelia.enable = true;
-      jellyfin.enable = true;
-      calibre-web.enable = true;
-    };
-
+    # Host-specific modules
+    beets.enable = true;
+    k9s.enable = true;
     pcie-passthrough = {
       enable = true;
       user = "collin";
@@ -42,42 +28,30 @@
       ];
     };
 
-    # Home-manager feature modules
-    autojump.enable = true;
-    bat.enable = true;
-    beets.enable = true;
-    fzf.enable = true;
-    gh.enable = true;
-    gtk.enable = true;
-    k9s.enable = true;
-    kitty.enable = true;
-    mako.enable = true;
-    wofi.enable = true;
-    xdg-mime.enable = true;
-    zathura.enable = true;
-    zoxide.enable = true;
+    # Sub-services (homelab.enable comes from server profile)
+    homelab = {
+      searx.enable = true;
+      traefik.enable = true;
+      authelia.enable = true;
+      jellyfin.enable = true;
+      calibre-web.enable = true;
+    };
 
+    # Host-specific overrides
     keychain = {
-      enable = true;
       keys = [
         "id_ed25519"
         "clan-gitea"
       ];
       extraFlags = [ "--systemd" ];
     };
-
-    sway = {
-      enable = true;
-      outputs = {
-        DP-4 = {
-          bg = "${../../modules/sway/blackhole.jpg} fill";
-          subpixel = "none";
-          scale = "2";
-        };
+    sway.outputs = {
+      DP-4 = {
+        bg = "${../../modules/sway/blackhole.jpg} fill";
+        subpixel = "none";
+        scale = "2";
       };
     };
-
-    waybar.enable = true;
   };
 
   networking.hosts = {

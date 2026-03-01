@@ -44,6 +44,7 @@
       }:
       {
         imports = [
+          (inputs.import-tree ./modules)
           ./parts/nixos-modules.nix
         ];
         systems = [ "x86_64-linux" ];
@@ -63,21 +64,21 @@
                     inputs.nixpkgs.lib.nixosSystem {
                       inherit system;
 
-                      modules = [
-                        (inputs.import-tree ./modules)
-                        config.nixosModules.nix-settings
-                        inputs.sops-nix.nixosModules.sops
-                        inputs.home-manager.nixosModules.home-manager
-                        ./hosts/${host}/configuration.nix
-                        {
-                          brew.user = user;
-                          home-manager.useGlobalPkgs = true;
-                          home-manager.useUserPackages = true;
-                          home-manager.users.${user}.imports = builtins.attrValues (inputs.newt.homeManagerModules or { });
-                        }
-                      ]
-                      ++ (builtins.attrValues (inputs.newt.nixosModules or { }))
-                      ++ extras;
+                      modules =
+                        builtins.attrValues config.nixosModules
+                        ++ [
+                          inputs.sops-nix.nixosModules.sops
+                          inputs.home-manager.nixosModules.home-manager
+                          ./hosts/${host}/configuration.nix
+                          {
+                            brew.user = user;
+                            home-manager.useGlobalPkgs = true;
+                            home-manager.useUserPackages = true;
+                            home-manager.users.${user}.imports = builtins.attrValues (inputs.newt.homeManagerModules or { });
+                          }
+                        ]
+                        ++ (builtins.attrValues (inputs.newt.nixosModules or { }))
+                        ++ extras;
                     }
                   );
               in

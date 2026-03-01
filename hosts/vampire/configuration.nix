@@ -8,6 +8,7 @@
     ./hardware-configuration.nix
   ];
 
+  brew.common.enable = true;
   brew.ollama.enable = true;
 
   services.ollama.package = pkgs.ollama-cuda;

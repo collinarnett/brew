@@ -4,9 +4,7 @@ let
   user = config.brew.user;
 in
 {
-  options.brew.btop.enable = lib.mkEnableOption "btop" // {
-    default = true;
-  };
+  options.brew.btop.enable = lib.mkEnableOption "btop";
   config = lib.mkIf cfg.enable {
     home-manager.users.${user} = {
       programs.btop = {

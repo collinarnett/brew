@@ -6,31 +6,17 @@
   ];
 
   brew = {
-    cac.enable = true;
-    distributed-builds.enable = true;
-    firefox.enable = true;
-    greetd.enable = true;
-    pipewire.enable = true;
-    steam.enable = true;
+    common.enable = true;
+    desktop.enable = true;
+    laptop.enable = true;
 
-    bat.enable = true;
-    gh.enable = true;
-    gtk.enable = true;
-    kitty.enable = true;
-    mako.enable = true;
-    swayidle.enable = true;
-    swaylock.enable = true;
-    wofi.enable = true;
-    zathura.enable = true;
-
+    # Host-specific overrides
     keychain = {
-      enable = true;
       keys = [ "ghoul" ];
       extraFlags = [ ];
     };
 
     sway = {
-      enable = true;
       outputs = {
         DP-3 = {
           position = "0 0";
@@ -53,7 +39,6 @@
     };
 
     waybar = {
-      enable = true;
       settings = {
         topBar = {
           output = "DP-3";

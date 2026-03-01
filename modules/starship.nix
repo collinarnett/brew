@@ -4,9 +4,7 @@ let
   user = config.brew.user;
 in
 {
-  options.brew.starship.enable = lib.mkEnableOption "starship" // {
-    default = true;
-  };
+  options.brew.starship.enable = lib.mkEnableOption "starship";
   config = lib.mkIf cfg.enable {
     home-manager.users.${user} = {
       programs.starship = {

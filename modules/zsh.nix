@@ -9,9 +9,7 @@ let
   user = config.brew.user;
 in
 {
-  options.brew.zsh.enable = lib.mkEnableOption "zsh" // {
-    default = true;
-  };
+  options.brew.zsh.enable = lib.mkEnableOption "zsh";
   config = lib.mkIf cfg.enable {
     home-manager.users.${user} = {
       programs.zsh = {

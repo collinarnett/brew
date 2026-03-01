@@ -4,9 +4,7 @@ let
   user = config.brew.user;
 in
 {
-  options.brew.direnv.enable = lib.mkEnableOption "direnv" // {
-    default = true;
-  };
+  options.brew.direnv.enable = lib.mkEnableOption "direnv";
   config = lib.mkIf cfg.enable {
     home-manager.users.${user} = {
       programs.direnv = {

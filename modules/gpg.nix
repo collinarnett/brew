@@ -4,9 +4,7 @@ let
   user = config.brew.user;
 in
 {
-  options.brew.gpg.enable = lib.mkEnableOption "gpg" // {
-    default = true;
-  };
+  options.brew.gpg.enable = lib.mkEnableOption "gpg";
   config = lib.mkIf cfg.enable {
     home-manager.users.${user} = {
       programs.gpg = {

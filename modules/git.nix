@@ -4,9 +4,7 @@ let
   user = config.brew.user;
 in
 {
-  options.brew.git.enable = lib.mkEnableOption "git" // {
-    default = true;
-  };
+  options.brew.git.enable = lib.mkEnableOption "git";
   config = lib.mkIf cfg.enable {
     home-manager.users.${user} = {
       programs.difftastic.enable = false;
