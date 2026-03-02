@@ -8,39 +8,32 @@
     ./hardware-configuration.nix
   ];
 
+  # ── Brew Module Configuration ─────────────────────────────────────
+
   brew.common.enable = true;
   brew.ollama.enable = true;
 
-  services.ollama.package = pkgs.ollama-cuda;
-  services.ollama.openFirewall = true;
-  services.ollama.host = "0.0.0.0";
+  # ── Boot ──────────────────────────────────────────────────────────
 
-  nix.settings.sandbox = true;
-  nix.extraOptions = ''
-    experimental-features = nix-command flakes
-  '';
-
-  virtualisation.docker.enable = true;
-  virtualisation.docker.package = pkgs.docker_25;
-  hardware.nvidia-container-toolkit.enable = true;
-
-  services.emacs = {
+  boot.loader.grub = {
     enable = true;
-    defaultEditor = true;
-    startWithGraphical = true;
+    device = "/dev/vda";
+    useOSProber = true;
   };
 
-  boot.loader.grub.enable = true;
-  boot.loader.grub.device = "/dev/vda";
-  boot.loader.grub.useOSProber = true;
+  # ── Networking ────────────────────────────────────────────────────
 
   networking.hostName = "vampire";
-  programs.zsh.enable = true;
   networking.networkmanager.enable = true;
-  time.timeZone = "America/New_York";
 
-  services.xserver.xkb.layout = "us";
-  services.xserver.xkb.variant = "";
+  # ── Hardware ──────────────────────────────────────────────────────
+
+  services.xserver.videoDrivers = [ "nvidia" ];
+  hardware.nvidia.open = true;
+  hardware.opengl.enable = true;
+  hardware.nvidia-container-toolkit.enable = true;
+
+  # ── Users ─────────────────────────────────────────────────────────
 
   users.users.collin = {
     isNormalUser = true;
@@ -53,12 +46,53 @@
     ];
   };
 
+  programs.zsh.enable = true;
+
+  # ── Services ──────────────────────────────────────────────────────
+
+  services.emacs = {
+    enable = true;
+    defaultEditor = true;
+    startWithGraphical = true;
+  };
+
+  services.ollama = {
+    package = pkgs.ollama-cuda;
+    openFirewall = true;
+    host = "0.0.0.0";
+  };
+
+  services.openssh.enable = true;
   services.getty.autologinUser = "collin";
+  services.xserver.xkb = {
+    layout = "us";
+    variant = "";
+  };
+
+  virtualisation.docker = {
+    enable = true;
+    package = pkgs.docker_25;
+  };
+
+  # ── Nix Settings ──────────────────────────────────────────────────
+
+  nix.settings = {
+    sandbox = true;
+    trusted-users = [ "@wheel" ];
+    substituters = [ "https://cache.nixos.org/" ];
+    trusted-public-keys = [
+      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+      "cuda-maintainers.cachix.org-1:0dq3bujKpuEPMCX6U4WylrUDZ9JyUG0VpVZa7CNfq5E="
+    ];
+  };
+
+  nix.extraOptions = ''
+    experimental-features = nix-command flakes
+  '';
 
   nixpkgs.config.allowUnfree = true;
-  services.xserver.videoDrivers = [ "nvidia" ];
-  hardware.nvidia.open = true;
-  hardware.opengl.enable = true;
+
+  # ── Packages ──────────────────────────────────────────────────────
 
   environment.systemPackages = with pkgs; [
     vim
@@ -66,16 +100,13 @@
     git
   ];
 
-  nix.settings.trusted-users = [ "@wheel" ];
-  nix.settings.substituters = [ "https://cache.nixos.org/" ];
-  nix.settings.trusted-public-keys = [
-    "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-    "cuda-maintainers.cachix.org-1:0dq3bujKpuEPMCX6U4WylrUDZ9JyUG0VpVZa7CNfq5E="
-  ];
+  # ── System ────────────────────────────────────────────────────────
 
-  services.openssh.enable = true;
+  time.timeZone = "America/New_York";
+  system.stateVersion = "22.05";
 
-  # Home-manager user config
+  # ── Home Manager ──────────────────────────────────────────────────
+
   home-manager.users.${config.brew.user} = {
     home.username = "collin";
     home.homeDirectory = "/home/collin";
@@ -100,6 +131,4 @@
     home.stateVersion = "21.11";
     programs.home-manager.enable = true;
   };
-
-  system.stateVersion = "22.05";
 }

@@ -10,12 +10,13 @@
     ./impermanence.nix
   ];
 
+  # ── Brew Module Configuration ─────────────────────────────────────
+
   brew = {
     common.enable = true;
     desktop.enable = true;
     server.enable = true;
 
-    # Host-specific modules
     beets.enable = true;
     k9s.enable = true;
     pcie-passthrough = {
@@ -28,7 +29,6 @@
       ];
     };
 
-    # Sub-services (homelab.enable comes from server profile)
     homelab = {
       searx.enable = true;
       traefik.enable = true;
@@ -37,7 +37,6 @@
       calibre-web.enable = true;
     };
 
-    # Host-specific overrides
     keychain = {
       keys = [
         "id_ed25519"
@@ -54,24 +53,48 @@
     };
   };
 
-  networking.hosts = {
-    "127.0.0.1" = [
-      "kubernetes"
+  # ── Boot & Storage ────────────────────────────────────────────────
+
+  boot = {
+    loader = {
+      systemd-boot = {
+        enable = true;
+        configurationLimit = 30;
+      };
+      efi.canTouchEfiVariables = true;
+    };
+    kernelParams = [
+      "nohibernate"
     ];
+    initrd = {
+      supportedFilesystems.zfs = true;
+      systemd = {
+        enable = true;
+        services.rollback = {
+          description = "Rollback ZFS datasets to a pristine state";
+          serviceConfig.Type = "oneshot";
+          unitConfig.DefaultDependencies = "no";
+          wantedBy = [ "initrd.target" ];
+          after = [ "zfs-import-zroot.service" ];
+          requires = [ "zfs-import-zroot.service" ];
+          before = [ "sysroot.mount" ];
+          path = with pkgs; [ zfs ];
+          script = ''
+            zfs rollback -r zroot/root@empty && echo "rollback complete"
+          '';
+        };
+        services.create-needed-for-boot-dirs = {
+          after = pkgs.lib.mkForce [ "rollback.service" ];
+          wants = pkgs.lib.mkForce [ "rollback.service" ];
+        };
+      };
+    };
+    supportedFilesystems = [
+      "vfat"
+      "zfs"
+    ];
+    zfs.forceImportAll = true;
   };
-
-  programs.obs-studio.enable = true;
-  programs.tmux.enable = true;
-  programs.nh = {
-    enable = true;
-    clean.enable = true;
-    clean.extraArgs = "--keep-since 4d --keep 3";
-    flake = "/home/collin/brew";
-  };
-
-  programs.kdeconnect.enable = true;
-
-  facter.reportPath = ./facter.json;
 
   fileSystems = {
     "/persist" = {
@@ -85,52 +108,8 @@
       neededForBoot = true;
     };
   };
-  boot = {
-    kernelParams = [
-      "nohibernate"
-    ];
-    initrd.systemd = {
-      enable = true;
-      services.rollback = {
-        description = "Rollback ZFS datasets to a pristine state";
-        serviceConfig.Type = "oneshot";
-        unitConfig.DefaultDependencies = "no";
-        wantedBy = [ "initrd.target" ];
-        after = [ "zfs-import-zroot.service" ];
-        requires = [ "zfs-import-zroot.service" ];
-        before = [ "sysroot.mount" ];
-        path = with pkgs; [ zfs ];
-        script = ''
-          zfs rollback -r zroot/root@empty && echo "rollback complete"
-        '';
-      };
-      services.create-needed-for-boot-dirs = {
-        after = pkgs.lib.mkForce [ "rollback.service" ];
-        wants = pkgs.lib.mkForce [ "rollback.service" ];
-      };
-    };
-    initrd.supportedFilesystems.zfs = true;
-    supportedFilesystems = [
-      "vfat"
-      "zfs"
-    ];
-    zfs = {
-      forceImportAll = true;
-    };
-  };
 
-  services.emacs = {
-    enable = true;
-    defaultEditor = true;
-    startWithGraphical = true;
-  };
-
-  boot.loader.systemd-boot.configurationLimit = 30;
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-
-  time.timeZone = "America/New_York";
-  programs.zsh.enable = true;
+  # ── Networking ────────────────────────────────────────────────────
 
   networking = {
     hostName = "azathoth";
@@ -139,7 +118,18 @@
       "1.1.1.1"
       "9.9.9.9"
     ];
+    hosts = {
+      "127.0.0.1" = [
+        "kubernetes"
+      ];
+    };
   };
+
+  # ── Hardware ──────────────────────────────────────────────────────
+
+  hardware.graphics.enable = true;
+
+  # ── Users ─────────────────────────────────────────────────────────
 
   users.users.collin = {
     isNormalUser = true;
@@ -162,26 +152,20 @@
     ];
   };
 
-  programs.ssh.setXAuthLocation = true;
-
   users.users.root.openssh.authorizedKeys.keyFiles = [
     ../../secrets/keys/collinarnett.pub
   ];
 
-  nix.settings = {
-    trusted-users = [ "collin" ];
-    netrc-file = "/etc/nix/netrc";
-    extra-sandbox-paths = [
-      "/etc/nix/netrc"
-    ];
+  programs.zsh.enable = true;
+  programs.ssh.setXAuthLocation = true;
+
+  # ── Services ──────────────────────────────────────────────────────
+
+  services.emacs = {
+    enable = true;
+    defaultEditor = true;
+    startWithGraphical = true;
   };
-
-  virtualisation.docker.enable = true;
-  virtualisation.oci-containers.backend = "docker";
-
-  documentation.dev.enable = true;
-
-  hardware.graphics.enable = true;
 
   services.openssh = {
     enable = true;
@@ -202,7 +186,41 @@
     settings.PasswordAuthentication = true;
   };
 
-  # Home-manager user config
+  virtualisation.docker.enable = true;
+  virtualisation.oci-containers.backend = "docker";
+
+  documentation.dev.enable = true;
+
+  # ── Nix Settings ──────────────────────────────────────────────────
+
+  nix.settings = {
+    trusted-users = [ "collin" ];
+    netrc-file = "/etc/nix/netrc";
+    extra-sandbox-paths = [
+      "/etc/nix/netrc"
+    ];
+  };
+
+  # ── Programs & Packages ───────────────────────────────────────────
+
+  programs.obs-studio.enable = true;
+  programs.tmux.enable = true;
+  programs.nh = {
+    enable = true;
+    clean.enable = true;
+    clean.extraArgs = "--keep-since 4d --keep 3";
+    flake = "/home/collin/brew";
+  };
+  programs.kdeconnect.enable = true;
+
+  # ── System ────────────────────────────────────────────────────────
+
+  time.timeZone = "America/New_York";
+  facter.reportPath = ./facter.json;
+  system.stateVersion = "24.11";
+
+  # ── Home Manager ──────────────────────────────────────────────────
+
   home-manager.users.${config.brew.user} = {
     home.username = "collin";
     home.homeDirectory = "/home/collin";
@@ -268,6 +286,4 @@
     home.stateVersion = "24.11";
     programs.home-manager.enable = true;
   };
-
-  system.stateVersion = "24.11";
 }

@@ -5,12 +5,13 @@
     ./impermanence.nix
   ];
 
+  # ── Brew Module Configuration ─────────────────────────────────────
+
   brew = {
     common.enable = true;
     desktop.enable = true;
     laptop.enable = true;
 
-    # Host-specific overrides
     keychain = {
       keys = [ "ghoul" ];
       extraFlags = [ ];
@@ -64,26 +65,26 @@
               sort-by-number = [ ];
               format = "{icon}";
               format-icons = {
-                default = "";
+                default = "";
               };
             };
             "clock" = {
-              format = " {:%I:%M}";
+              format = " {:%I:%M}";
             };
             "cpu" = {
-              format = " {usage}%";
+              format = " {usage}%";
             };
             "pulseaudio" = {
-              format = " {volume}%";
+              format = " {volume}%";
             };
             "disk" = {
-              format = " {percentage_used}%";
+              format = " {percentage_used}%";
             };
             "mpd" = {
-              format = " {title}";
+              format = " {title}";
             };
             "memory" = {
-              format = " {used:0.1f}G";
+              format = " {used:0.1f}G";
             };
             "battery" = {
               format = "{icon}{capacity}%";
@@ -92,10 +93,10 @@
                 critical = 15;
               };
               format-icons = [
-                ""
-                ""
-                ""
-                ""
+                ""
+                ""
+                ""
+                ""
               ];
             };
           };
@@ -117,12 +118,12 @@
               sort-by-number = [ ];
               format = "{icon}";
               format-icons = {
-                default = "";
+                default = "";
               };
               all-outputs = false;
             };
             "clock" = {
-              format = " {:%I:%M}";
+              format = " {:%I:%M}";
             };
           };
         };
@@ -131,27 +132,51 @@
     };
   };
 
-  # Ghoul-specific sops (different key paths from shared module)
-  sops.defaultSopsFile = ../../secrets/secrets.yaml;
-  sops.age.keyFile = "/home/collin/.config/sops/age/keys.txt";
-  sops.secrets.gh_token = {
-    owner = config.users.users.collin.name;
+  # ── Boot & Storage ────────────────────────────────────────────────
+
+  boot = {
+    loader = {
+      systemd-boot = {
+        enable = true;
+        configurationLimit = 30;
+      };
+      efi.canTouchEfiVariables = true;
+    };
+    extraModprobeConfig = ''
+      options bluetooth disable_ertm=Y
+    '';
+    kernelParams = [
+      "nohibernate"
+    ];
+    initrd = {
+      supportedFilesystems.zfs = true;
+      systemd = {
+        enable = true;
+        services.rollback = {
+          description = "Rollback ZFS datasets to a pristine state";
+          serviceConfig.Type = "oneshot";
+          unitConfig.DefaultDependencies = "no";
+          wantedBy = [ "initrd.target" ];
+          after = [ "zfs-import-zroot.service" ];
+          requires = [ "zfs-import-zroot.service" ];
+          before = [ "sysroot.mount" ];
+          path = with pkgs; [ zfs ];
+          script = ''
+            zfs rollback -r zroot/root@empty && echo "rollback complete"
+          '';
+        };
+        services.create-needed-for-boot-dirs = {
+          after = pkgs.lib.mkForce [ "rollback.service" ];
+          wants = pkgs.lib.mkForce [ "rollback.service" ];
+        };
+      };
+    };
+    supportedFilesystems = [
+      "vfat"
+      "zfs"
+    ];
+    zfs.forceImportAll = true;
   };
-
-  services.emacs = {
-    enable = true;
-    startWithGraphical = true;
-  };
-
-  facter.reportPath = ./facter.json;
-
-  boot.loader.systemd-boot.configurationLimit = 30;
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-
-  boot.extraModprobeConfig = ''
-    options bluetooth disable_ertm=Y
-  '';
 
   fileSystems = {
     "/persist" = {
@@ -166,43 +191,21 @@
     };
   };
 
-  networking.hostId = "b68778ef";
+  # ── Networking ────────────────────────────────────────────────────
 
-  boot = {
-    kernelParams = [
-      "nohibernate"
-    ];
-    initrd.systemd = {
+  networking = {
+    hostName = "ghoul";
+    hostId = "b68778ef";
+    networkmanager = {
       enable = true;
-      services.rollback = {
-        description = "Rollback ZFS datasets to a pristine state";
-        serviceConfig.Type = "oneshot";
-        unitConfig.DefaultDependencies = "no";
-        wantedBy = [ "initrd.target" ];
-        after = [ "zfs-import-zroot.service" ];
-        requires = [ "zfs-import-zroot.service" ];
-        before = [ "sysroot.mount" ];
-        path = with pkgs; [ zfs ];
-        script = ''
-          zfs rollback -r zroot/root@empty && echo "rollback complete"
-        '';
-      };
-      services.create-needed-for-boot-dirs = {
-        after = pkgs.lib.mkForce [ "rollback.service" ];
-        wants = pkgs.lib.mkForce [ "rollback.service" ];
-      };
-    };
-    initrd.supportedFilesystems.zfs = true;
-    supportedFilesystems = [
-      "vfat"
-      "zfs"
-    ];
-    zfs = {
-      forceImportAll = true;
+      wifi.scanRandMacAddress = false;
     };
   };
 
+  # ── Hardware ──────────────────────────────────────────────────────
+
   hardware.graphics.enable = true;
+
   services.tlp = {
     enable = true;
     settings = {
@@ -229,11 +232,7 @@
     };
   };
 
-  networking.hostName = "ghoul";
-  networking.networkmanager.enable = true;
-  networking.networkmanager.wifi.scanRandMacAddress = false;
-
-  time.timeZone = "America/New_York";
+  # ── Users ─────────────────────────────────────────────────────────
 
   users.users.collin = {
     isNormalUser = true;
@@ -248,10 +247,28 @@
       "video"
     ];
   };
+
   programs.zsh.enable = true;
   programs.dconf.enable = true;
 
+  # ── Services ──────────────────────────────────────────────────────
+
+  services.emacs = {
+    enable = true;
+    startWithGraphical = true;
+  };
+
+  services.openssh.enable = true;
   services.blueman.enable = true;
+
+  sops.defaultSopsFile = ../../secrets/secrets.yaml;
+  sops.age.keyFile = "/home/collin/.config/sops/age/keys.txt";
+  sops.secrets.gh_token = {
+    owner = config.users.users.collin.name;
+  };
+
+  # ── Packages & Environment ────────────────────────────────────────
+
   environment.systemPackages = with pkgs; [
     adwaita-icon-theme
     hunspellDicts.en_US
@@ -259,14 +276,20 @@
     git
     brightnessctl
   ];
+
   environment.sessionVariables = {
     GPG_TTY = "$(tty)";
     WLR_NO_HARDWARE_CURSORS = "1";
   };
 
-  services.openssh.enable = true;
+  # ── System ────────────────────────────────────────────────────────
 
-  # Home-manager user config
+  time.timeZone = "America/New_York";
+  facter.reportPath = ./facter.json;
+  system.stateVersion = "24.11";
+
+  # ── Home Manager ──────────────────────────────────────────────────
+
   home-manager.users.${config.brew.user} = {
     home.username = "collin";
     home.homeDirectory = "/home/collin";
@@ -313,6 +336,4 @@
     home.stateVersion = "21.11";
     programs.home-manager.enable = true;
   };
-
-  system.stateVersion = "24.11";
 }
