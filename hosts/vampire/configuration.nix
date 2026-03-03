@@ -12,6 +12,12 @@
 
   brew.common.enable = true;
   brew.ollama.enable = true;
+  brew.prometheus.enable = true;
+  brew.grafana.enable = true;
+  brew.sillytavern.enable = true;
+
+  # Enable SysRq for emergency recovery
+  boot.kernel.sysctl."kernel.sysrq" = 1;
 
   # ── Boot ──────────────────────────────────────────────────────────
 
@@ -62,7 +68,11 @@
     host = "0.0.0.0";
   };
 
-  services.openssh.enable = true;
+  services.openssh = {
+    enable = true;
+    forwardX11 = true;
+  };
+
   services.getty.autologinUser = "collin";
   services.xserver.xkb = {
     layout = "us";
@@ -73,6 +83,11 @@
     enable = true;
     package = pkgs.docker_25;
   };
+
+  # ── Programs ──────────────────────────────────────────────────────
+
+  programs.ssh.setXAuthLocation = true;
+  programs.tmux.enable = true;
 
   # ── Nix Settings ──────────────────────────────────────────────────
 
@@ -86,10 +101,6 @@
     ];
   };
 
-  nix.extraOptions = ''
-    experimental-features = nix-command flakes
-  '';
-
   nixpkgs.config.allowUnfree = true;
 
   # ── Packages ──────────────────────────────────────────────────────
@@ -98,6 +109,7 @@
     vim
     podman-compose
     git
+    nvtopPackages.nvidia
   ];
 
   # ── System ────────────────────────────────────────────────────────
@@ -113,7 +125,10 @@
 
     home.packages = with pkgs; [
       alejandra
+      bat
       black
+      claude-code
+      fd
       fira-code
       git
       hunspellDicts.en_US
@@ -125,8 +140,12 @@
       statix
       tree
       unzip
+      waypipe
       wget
+      xauth
     ];
+
+    programs.btop.package = pkgs.btop-cuda;
 
     home.stateVersion = "21.11";
     programs.home-manager.enable = true;

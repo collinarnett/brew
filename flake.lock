@@ -412,6 +412,22 @@
         "type": "github"
       }
     },
+    "nixpkgs-prometheus": {
+      "locked": {
+        "lastModified": 1766891544,
+        "narHash": "sha256-zIvH6PxiHcN/0CRW1UFqwtbYrecXcLB0e3JX9qP1aPQ=",
+        "owner": "collinarnett",
+        "repo": "nixpkgs",
+        "rev": "0dad10503c55d962eb93e82d24699c6d241ad2d7",
+        "type": "github"
+      },
+      "original": {
+        "owner": "collinarnett",
+        "ref": "dcgm-prometheus-exporter",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nixpkgs_3": {
       "locked": {
         "lastModified": 1771848320,
@@ -442,6 +458,7 @@
         "nixos-facter-modules": "nixos-facter-modules",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_3",
+        "nixpkgs-prometheus": "nixpkgs-prometheus",
         "sops-nix": "sops-nix"
       }
     },

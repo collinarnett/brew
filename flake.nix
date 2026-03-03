@@ -14,6 +14,7 @@
     nixos-anywhere.url = "github:nix-community/nixos-anywhere";
     nixos-facter-modules.url = "github:numtide/nixos-facter-modules";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    nixpkgs-prometheus.url = "github:collinarnett/nixpkgs/dcgm-prometheus-exporter";
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     newt.url = "git+file:///home/collin/newt";
     newt.inputs.nixpkgs.follows = "nixpkgs";
