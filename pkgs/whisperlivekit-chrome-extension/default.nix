@@ -58,76 +58,75 @@ stdenvNoCC.mkDerivation {
     print(ext_id, end="")
   '';
 
-  buildPhase = ''
-        runHook preBuild
+  managedSchema = builtins.toFile "managed_schema.json" (builtins.toJSON {
+    type = "object";
+    properties.websocketUrl = {
+      type = "string";
+      description = "WebSocket URL for the WhisperLiveKit server";
+    };
+  });
 
-        # Assemble extension directory
-        mkdir -p ext/icons ext/web/src
-
-        # Extension-specific files
-        cp chrome-extension/manifest.json ext/
-        cp chrome-extension/background.js ext/
-        cp chrome-extension/sidepanel.js ext/
-        cp chrome-extension/requestPermissions.html ext/
-        cp chrome-extension/requestPermissions.js ext/
-        cp chrome-extension/icons/* ext/icons/
-
-        # Sync web frontend files (replicates scripts/sync_extension.py)
-        cp whisperlivekit/web/live_transcription.html ext/
-        cp whisperlivekit/web/live_transcription.js ext/
-        cp whisperlivekit/web/live_transcription.css ext/
-        cp whisperlivekit/web/src/system_mode.svg ext/web/src/
-        cp whisperlivekit/web/src/light_mode.svg ext/web/src/
-        cp whisperlivekit/web/src/dark_mode.svg ext/web/src/
-        cp whisperlivekit/web/src/settings.svg ext/web/src/
-
-        # Add managed storage schema for enterprise policy support
-        cat > ext/managed_schema.json << 'SCHEMA'
-        {
-          "type": "object",
-          "properties": {
-            "websocketUrl": {
-              "type": "string",
-              "description": "WebSocket URL for the WhisperLiveKit server"
-            }
-          }
+  managedStoragePatch = builtins.toFile "managed_storage_patch.js" ''
+    if (isExtension && chrome.storage && chrome.storage.managed) {
+      chrome.storage.managed.get("websocketUrl", (result) => {
+        if (result && result.websocketUrl) {
+          websocketUrl = result.websocketUrl;
+          websocketInput.value = websocketUrl;
+          if (websocketDefaultSpan) websocketDefaultSpan.textContent = websocketUrl;
         }
-        SCHEMA
+      });
+    }
+  '';
 
-        # Patch manifest.json to reference managed storage schema
-        jq '. + {"storage": {"managed_schema": "managed_schema.json"}}' ext/manifest.json > ext/manifest.json.tmp
-        mv ext/manifest.json.tmp ext/manifest.json
+  buildPhase = ''
+    runHook preBuild
 
-        # Patch live_transcription.js to read managed storage policy
-        cat > managed_storage_patch.js << 'PATCH'
-      if (isExtension && chrome.storage && chrome.storage.managed) {
-        chrome.storage.managed.get("websocketUrl", (result) => {
-          if (result && result.websocketUrl) {
-            websocketUrl = result.websocketUrl;
-            websocketInput.value = websocketUrl;
-            if (websocketDefaultSpan) websocketDefaultSpan.textContent = websocketUrl;
-          }
-        });
-      }
-    PATCH
-        sed -i '/websocketUrl = defaultWebSocketUrl;/r managed_storage_patch.js' ext/live_transcription.js
+    # Assemble extension directory
+    mkdir -p ext/icons ext/web/src
 
-        # Create zip of extension directory
-        (cd ext && zip -r -X ../extension.zip .)
+    # Extension-specific files
+    cp chrome-extension/manifest.json ext/
+    cp chrome-extension/background.js ext/
+    cp chrome-extension/sidepanel.js ext/
+    cp chrome-extension/requestPermissions.html ext/
+    cp chrome-extension/requestPermissions.js ext/
+    cp chrome-extension/icons/* ext/icons/
 
-        # Extract DER public key from PEM private key
-        openssl rsa -in "$signingKey" -pubout -outform DER -out pub.der 2>/dev/null
+    # Sync web frontend files (replicates scripts/sync_extension.py)
+    cp whisperlivekit/web/live_transcription.html ext/
+    cp whisperlivekit/web/live_transcription.js ext/
+    cp whisperlivekit/web/live_transcription.css ext/
+    cp whisperlivekit/web/src/system_mode.svg ext/web/src/
+    cp whisperlivekit/web/src/light_mode.svg ext/web/src/
+    cp whisperlivekit/web/src/dark_mode.svg ext/web/src/
+    cp whisperlivekit/web/src/settings.svg ext/web/src/
 
-        # Sign the zip with SHA1-RSA
-        openssl dgst -sha1 -sign "$signingKey" -out sig.der extension.zip
+    # Add managed storage schema for enterprise policy support
+    cp "$managedSchema" ext/managed_schema.json
 
-        # Build CRX2 file
-        python3 "$packCrx"
+    # Patch manifest.json to reference managed storage schema
+    jq '. + {"storage": {"managed_schema": "managed_schema.json"}}' ext/manifest.json > ext/manifest.json.tmp
+    mv ext/manifest.json.tmp ext/manifest.json
 
-        # Compute extension ID
-        python3 "$computeId" > extension-id
+    # Patch live_transcription.js to read managed storage policy
+    sed -i '/websocketUrl = defaultWebSocketUrl;/r '"$managedStoragePatch" ext/live_transcription.js
 
-        runHook postBuild
+    # Create zip of extension directory
+    (cd ext && zip -r -X ../extension.zip .)
+
+    # Extract DER public key from PEM private key
+    openssl rsa -in "$signingKey" -pubout -outform DER -out pub.der 2>/dev/null
+
+    # Sign the zip with SHA1-RSA
+    openssl dgst -sha1 -sign "$signingKey" -out sig.der extension.zip
+
+    # Build CRX2 file
+    python3 "$packCrx"
+
+    # Compute extension ID
+    python3 "$computeId" > extension-id
+
+    runHook postBuild
   '';
 
   passthru.extensionId = "nhnakplebgmjlfejkadcbdchmfglljki";
