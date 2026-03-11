@@ -123,11 +123,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1768770171,
-        "narHash": "sha256-JPmLGZgdWa8QcQbbtBqyZhpmxIHZ3lUO48laERjw+4k=",
+        "lastModified": 1773179137,
+        "narHash": "sha256-EdW2bwzlfme0vbMOcStnNmKlOAA05Bp6su2O8VLGT0k=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "521d5ea1a229ba315dd1cceaf869946ddcc83d36",
+        "rev": "3f98e2bbc661ec0aaf558d8a283d6955f05f1d09",
         "type": "github"
       },
       "original": {
@@ -380,6 +380,22 @@
         "type": "github"
       }
     },
+    "nixpkgs-prometheus": {
+      "locked": {
+        "lastModified": 1766891544,
+        "narHash": "sha256-zIvH6PxiHcN/0CRW1UFqwtbYrecXcLB0e3JX9qP1aPQ=",
+        "owner": "collinarnett",
+        "repo": "nixpkgs",
+        "rev": "0dad10503c55d962eb93e82d24699c6d241ad2d7",
+        "type": "github"
+      },
+      "original": {
+        "owner": "collinarnett",
+        "ref": "dcgm-prometheus-exporter",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nixpkgs-stable": {
       "locked": {
         "lastModified": 1767313136,
@@ -408,22 +424,6 @@
       "original": {
         "owner": "nixos",
         "ref": "nixos-unstable",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
-    "nixpkgs-prometheus": {
-      "locked": {
-        "lastModified": 1766891544,
-        "narHash": "sha256-zIvH6PxiHcN/0CRW1UFqwtbYrecXcLB0e3JX9qP1aPQ=",
-        "owner": "collinarnett",
-        "repo": "nixpkgs",
-        "rev": "0dad10503c55d962eb93e82d24699c6d241ad2d7",
-        "type": "github"
-      },
-      "original": {
-        "owner": "collinarnett",
-        "ref": "dcgm-prometheus-exporter",
         "repo": "nixpkgs",
         "type": "github"
       }
