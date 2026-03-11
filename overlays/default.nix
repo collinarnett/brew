@@ -39,6 +39,7 @@ inputs: final: prev: {
   };
 
   whisperlivekit = prev.callPackage ../pkgs/whisperlivekit { };
+  whisperlivekit-chrome-extension = prev.callPackage ../pkgs/whisperlivekit-chrome-extension { };
 
   whisperlivekit-cuda =
     let
