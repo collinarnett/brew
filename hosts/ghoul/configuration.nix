@@ -227,6 +227,14 @@
     };
   };
 
+  systemd.services.trackpad-rebind = {
+    description = "Rebind SP3105FT touchpad I2C HID";
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = "${pkgs.bash}/bin/bash -c 'echo i2c-SP3105FT:00 > /sys/bus/i2c/drivers/i2c_hid_acpi/unbind && sleep 1 && echo i2c-SP3105FT:00 > /sys/bus/i2c/drivers/i2c_hid_acpi/bind'";
+    };
+  };
+
   # ── Networking ────────────────────────────────────────────────────
 
   networking = {
@@ -286,6 +294,7 @@
 
   programs.zsh.enable = true;
   programs.dconf.enable = true;
+  programs.ssh.setXAuthLocation = true;
 
   # ── Services ──────────────────────────────────────────────────────
 
@@ -298,7 +307,7 @@
   services.blueman.enable = true;
 
   sops.defaultSopsFile = ../../secrets/secrets.yaml;
-  sops.age.keyFile = "/home/collin/.config/sops/age/keys.txt";
+  sops.age.keyFile = "/persist/save/home/collin/.config/sops/age/keys.txt";
   sops.secrets.gh_token = {
     owner = config.users.users.collin.name;
   };
@@ -348,11 +357,9 @@
       gotop
       grim
       helvum
-      imv
       libreoffice
       neofetch
       noto-fonts-color-emoji
-      openconnect
       pandoc
       pavucontrol
       poppler-utils
@@ -361,11 +368,12 @@
       signal-desktop
       siji
       slurp
-      thunderbird
+      timg
       tree
       unzip
+      waypipe
       wl-clipboard
-      xournalpp
+      xauth
     ];
 
     home.stateVersion = "21.11";
