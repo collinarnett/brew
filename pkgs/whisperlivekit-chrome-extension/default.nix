@@ -27,23 +27,73 @@ stdenvNoCC.mkDerivation {
     jq
   ];
 
-  packCrx = builtins.toFile "pack_crx.py" ''
-    import struct, sys
+  # CRX3 packing: two-phase process.
+  # Phase 1: build SignedData protobuf and the payload that gets signed.
+  # Phase 2 (after openssl signs the payload): assemble the final CRX3 file.
+  prepareCrx3 = builtins.toFile "prepare_crx3.py" ''
+    import struct, hashlib
+
+    def varint(value):
+        out = []
+        while value > 0x7F:
+            out.append((value & 0x7F) | 0x80)
+            value >>= 7
+        out.append(value)
+        return bytes(out)
+
+    def field(num, data):
+        return varint((num << 3) | 2) + varint(len(data)) + data
+
+    with open('pub.der', 'rb') as f:
+        pubkey = f.read()
+    with open('extension.zip', 'rb') as f:
+        zipdata = f.read()
+
+    crx_id = hashlib.sha256(pubkey).digest()[:16]
+    signed_header_data = field(1, crx_id)
+
+    with open('signed_header_data.bin', 'wb') as f:
+        f.write(signed_header_data)
+
+    # Payload to sign: "CRX3 SignedData\x00" + le32(len) + signed_header_data + zip
+    with open('payload.bin', 'wb') as f:
+        f.write(b"CRX3 SignedData\x00")
+        f.write(struct.pack('<I', len(signed_header_data)))
+        f.write(signed_header_data)
+        f.write(zipdata)
+  '';
+
+  assembleCrx3 = builtins.toFile "assemble_crx3.py" ''
+    import struct
+
+    def varint(value):
+        out = []
+        while value > 0x7F:
+            out.append((value & 0x7F) | 0x80)
+            value >>= 7
+        out.append(value)
+        return bytes(out)
+
+    def field(num, data):
+        return varint((num << 3) | 2) + varint(len(data)) + data
 
     with open('pub.der', 'rb') as f:
         pubkey = f.read()
     with open('sig.der', 'rb') as f:
         sig = f.read()
+    with open('signed_header_data.bin', 'rb') as f:
+        signed_header_data = f.read()
     with open('extension.zip', 'rb') as f:
         zipdata = f.read()
 
+    proof = field(1, pubkey) + field(2, sig)
+    header = field(2, proof) + field(10000, signed_header_data)
+
     with open('whisperlivekit.crx', 'wb') as f:
         f.write(b'Cr24')
-        f.write(struct.pack('<I', 2))
-        f.write(struct.pack('<I', len(pubkey)))
-        f.write(struct.pack('<I', len(sig)))
-        f.write(pubkey)
-        f.write(sig)
+        f.write(struct.pack('<I', 3))
+        f.write(struct.pack('<I', len(header)))
+        f.write(header)
         f.write(zipdata)
   '';
 
@@ -105,7 +155,7 @@ stdenvNoCC.mkDerivation {
     cp "$managedSchema" ext/managed_schema.json
 
     # Patch manifest.json to reference managed storage schema
-    jq '. + {"storage": {"managed_schema": "managed_schema.json"}}' ext/manifest.json > ext/manifest.json.tmp
+    jq --arg v "$version" '. + {"version": $v, "storage": {"managed_schema": "managed_schema.json"}}' ext/manifest.json > ext/manifest.json.tmp
     mv ext/manifest.json.tmp ext/manifest.json
 
     # Patch live_transcription.js to read managed storage policy
@@ -117,11 +167,14 @@ stdenvNoCC.mkDerivation {
     # Extract DER public key from PEM private key
     openssl rsa -in "$signingKey" -pubout -outform DER -out pub.der 2>/dev/null
 
-    # Sign the zip with SHA1-RSA
-    openssl dgst -sha1 -sign "$signingKey" -out sig.der extension.zip
+    # Build CRX3: prepare signed-header protobuf and payload to sign
+    python3 "$prepareCrx3"
 
-    # Build CRX2 file
-    python3 "$packCrx"
+    # Sign the payload with RSA PKCS#1 v1.5 SHA-256
+    openssl dgst -sha256 -sign "$signingKey" -out sig.der payload.bin
+
+    # Assemble the final CRX3 file
+    python3 "$assembleCrx3"
 
     # Compute extension ID
     python3 "$computeId" > extension-id
