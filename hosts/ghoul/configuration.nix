@@ -11,6 +11,7 @@
     common.enable = true;
     desktop.enable = true;
     laptop.enable = true;
+    claude-code.enable = true;
 
     keychain = {
       keys = [ "ghoul" ];
@@ -301,8 +302,7 @@
     home.packages = with pkgs; [
       anki-bin
       bluetui
-      claude-code
-      chromium
+
       croc
       drawio
       emacs-all-the-icons-fonts

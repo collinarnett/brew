@@ -11,6 +11,7 @@
   # ── Brew Module Configuration ─────────────────────────────────────
 
   brew.common.enable = true;
+  brew.claude-code.enable = true;
   brew.ollama.enable = true;
   brew.prometheus.enable = true;
   brew.grafana.enable = true;
@@ -130,7 +131,6 @@
       alejandra
       bat
       black
-      claude-code
       fd
       fira-code
       git

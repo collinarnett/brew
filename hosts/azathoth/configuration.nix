@@ -17,6 +17,7 @@
     desktop.enable = true;
     server.enable = true;
 
+    claude-code.enable = true;
     beets.enable = true;
     k9s.enable = true;
     pcie-passthrough = {
@@ -234,9 +235,8 @@
       anki-bin
       bash-language-server
       bibata-cursors
-      chromium
       clang-tools
-      claude-code
+
       cloc
       crawl
       dconf
