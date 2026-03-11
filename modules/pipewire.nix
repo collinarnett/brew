@@ -19,6 +19,14 @@
           alsa.enable = true;
           pulse.enable = true;
           socketActivation = true;
+          wireplumber.extraConfig."10-bluez" = {
+            "monitor.bluez.properties" = {
+              "bluez5.auto-connect" = [
+                "a2dp_sink"
+                "a2dp_source"
+              ];
+            };
+          };
         };
         environment.systemPackages = with pkgs; [
           pavucontrol
