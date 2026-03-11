@@ -9,6 +9,21 @@
     }:
     let
       cfg = config.brew.chromium;
+      ext = pkgs.whisperlivekit-chrome-extension;
+
+      # Chromium on Linux ignores ~/.config/chromium/External Extensions/
+      # (home-manager's crxPath target); it only reads external extension
+      # JSON from <binary-dir>/extensions/, which is read-only in the nix
+      # store.  Use ExtensionInstallForcelist with a local update manifest
+      # instead — Chromium's supported enterprise side-loading mechanism.
+      updateManifest = pkgs.writeText "whisperlivekit-update-manifest.xml" ''
+        <?xml version='1.0' encoding='UTF-8'?>
+        <gupdate xmlns='http://www.google.com/update2/response' protocol='2.0'>
+          <app appid='${ext.extensionId}'>
+            <updatecheck codebase='file://${ext}/whisperlivekit.crx' version='${ext.version}' />
+          </app>
+        </gupdate>
+      '';
     in
     {
       options.brew.chromium = {
@@ -22,22 +37,24 @@
       };
 
       config = lib.mkIf cfg.enable {
-        programs.chromium.extraOpts."3rdparty".extensions.${pkgs.whisperlivekit-chrome-extension.extensionId} = {
-          websocketUrl = cfg.whisperlivekit.serverUrl;
+        programs.chromium = {
+          enable = true;
+          extensions = [
+            "${ext.extensionId};file://${updateManifest}"
+          ];
+          extraOpts = {
+            "3rdparty".extensions.${ext.extensionId} = {
+              websocketUrl = cfg.whisperlivekit.serverUrl;
+            };
+            AudioCaptureAllowedUrls = [
+              "chrome-extension://${ext.extensionId}"
+            ];
+          };
         };
 
         home-manager.sharedModules = [
           {
-            programs.chromium = {
-              enable = true;
-              extensions = [
-                {
-                  id = pkgs.whisperlivekit-chrome-extension.extensionId;
-                  crxPath = "${pkgs.whisperlivekit-chrome-extension}/whisperlivekit.crx";
-                  version = pkgs.whisperlivekit-chrome-extension.version;
-                }
-              ];
-            };
+            programs.chromium.enable = true;
           }
         ];
       };
