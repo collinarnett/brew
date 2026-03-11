@@ -31,6 +31,31 @@ inputs: final: prev: {
     ];
   });
 
+  # ── WhisperLiveKit ───────────────────────────────────────────────
+
+  ctranslate2-cuda = prev.ctranslate2.override {
+    withCUDA = true;
+    withCuDNN = true;
+  };
+
+  whisperlivekit = prev.callPackage ../pkgs/whisperlivekit { };
+
+  whisperlivekit-cuda =
+    let
+      ctranslate2-python-cuda = prev.python3Packages.ctranslate2.override {
+        ctranslate2-cpp = final.ctranslate2-cuda;
+      };
+      faster-whisper-cuda = prev.python3Packages.faster-whisper.override {
+        ctranslate2 = ctranslate2-python-cuda;
+      };
+    in
+    prev.callPackage ../pkgs/whisperlivekit {
+      cudaSupport = true;
+      faster-whisper = faster-whisper-cuda;
+    };
+
+  # ── JDK / Tooling ──────────────────────────────────────────────
+
   leiningen = prev.leiningen.override {
     jdk = final.openjdk25-wakefield;
   };
