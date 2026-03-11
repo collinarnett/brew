@@ -24,6 +24,24 @@
           default = { };
           description = "Sway output configuration per host";
         };
+        workspaceOutputAssign = lib.mkOption {
+          type = lib.types.listOf (lib.types.attrsOf lib.types.str);
+          default = [ ];
+          description = "Workspace to output assignments";
+          example = lib.literalExpression ''[ { workspace = "1"; output = "eDP-1"; } ]'';
+        };
+        assigns = lib.mkOption {
+          type = lib.types.attrsOf (lib.types.listOf lib.types.attrs);
+          default = { };
+          description = "Window assignments to workspaces";
+          example = lib.literalExpression ''{ "0" = [{ class = "^Emacs$"; }]; }'';
+        };
+        startup = lib.mkOption {
+          type = lib.types.listOf lib.types.attrs;
+          default = [ ];
+          description = "Commands to run on sway startup";
+          example = lib.literalExpression ''[ { command = "firefox-esr"; } ]'';
+        };
         extraConfig = lib.mkOption {
           type = lib.types.lines;
           default = "";
@@ -56,6 +74,9 @@
               output = cfg.outputs;
               modifier = cfg.modifier;
               bars = [ { command = "${pkgs.waybar}/bin/waybar"; } ];
+              workspaceOutputAssign = cfg.workspaceOutputAssign;
+              assigns = cfg.assigns;
+              startup = cfg.startup;
               colors = {
                 focused = {
                   background = "#6272A4";

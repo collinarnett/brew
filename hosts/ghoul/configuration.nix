@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 {
   imports = [
     ./disko.nix
@@ -33,6 +33,37 @@
           bg = "/home/collin/Pictures/purple_swamp.jpg fill";
         };
       };
+      workspaceOutputAssign =
+        (map (ws: { workspace = toString ws; output = "eDP-1"; }) (lib.range 1 5))
+        ++ (map (ws: { workspace = toString ws; output = "DP-3"; }) (lib.range 6 9))
+        ++ [ { workspace = "0"; output = "DP-3"; } ];
+      assigns = {
+        "0" = [ { class = "^Emacs$"; } ];
+        "1" = [ { class = "^firefox-esr$"; } ];
+        "9" = [ { app_id = "^kitty$"; } ];
+      };
+      startup = [
+        {
+          command = "${pkgs.writeShellScriptBin "sway-startup" ''
+            # Check internet connectivity
+            if ! (${pkgs.iputils}/bin/ping -c 1 -W 2 8.8.8.8 >/dev/null 2>&1 || \
+                  ${pkgs.iputils}/bin/ping -c 1 -W 2 1.1.1.1 >/dev/null 2>&1); then
+              echo "No internet connection detected, skipping startup automation"
+              exit 0
+            fi
+
+            echo "Internet connection detected, starting automated setup..."
+
+            # Launch kitty with waypipe ssh, starting emacs and firefox-esr remotely
+            ${pkgs.kitty}/bin/kitty sh -c "waypipe ssh -X azathoth 'emacs & firefox-esr &'; exec \$SHELL" &
+
+            # Wait a moment then switch to workspace 2 and launch firefox
+            sleep 5
+            ${pkgs.sway}/bin/swaymsg workspace number 2
+            ${pkgs.firefox}/bin/firefox &
+          ''}/bin/sway-startup";
+        }
+      ];
       extraConfig = ''
         for_window [class=".*"] inhibit_idle fullscreen
         for_window [app_id=".*"] inhibit_idle fullscreen
