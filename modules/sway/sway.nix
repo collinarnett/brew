@@ -14,6 +14,11 @@
     {
       options.brew.sway = {
         enable = lib.mkEnableOption "sway";
+        modifier = lib.mkOption {
+          type = lib.types.str;
+          default = "Mod4";
+          description = "Modifier key (Mod1 for Alt, Mod4 for Super)";
+        };
         outputs = lib.mkOption {
           type = lib.types.attrs;
           default = { };
@@ -49,7 +54,7 @@
             config = {
               terminal = "kitty";
               output = cfg.outputs;
-              modifier = "Mod4";
+              modifier = cfg.modifier;
               bars = [ { command = "${pkgs.waybar}/bin/waybar"; } ];
               colors = {
                 focused = {
@@ -93,7 +98,7 @@
               menu = "${pkgs.wofi}/bin/wofi";
             };
             extraConfig = ''
-              set $mod Mod4
+              set $mod ${cfg.modifier}
               bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
               bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
               bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle

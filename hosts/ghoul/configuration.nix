@@ -21,6 +21,7 @@
     };
 
     sway = {
+      modifier = "Mod1";
       outputs = {
         DP-3 = {
           position = "0 0";
@@ -38,6 +39,7 @@
         bindsym XF86MonBrightnessDown exec "brightnessctl set 2%-"
         bindsym XF86MonBrightnessUp exec "brightnessctl set +2%"
         bindsym XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
+        unbindsym $mod+l
         bindsym $mod+l exec ${pkgs.swaylock}/bin/swaylock
       '';
     };
