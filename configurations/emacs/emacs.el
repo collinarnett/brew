@@ -411,6 +411,24 @@
 
 (use-package python-pytest)
 
+;; jupyter notebooks
+(use-package ein
+  :mode ("\\.ipynb\\'" . ein:ipynb-mode)
+  :commands (ein:run ein:login)
+  :custom
+  (ein:jupyter-default-kernel "python3")
+  (ein:jupyter-server-use-subcommand "server")
+  :config
+  (dolist (fn '(ein:process-open-notebook
+                ein:process-refresh-processes
+                ein:jupyter-server-start
+                ein:jupyter-server--run
+                ein:jupyter-process-lines
+                ein:run
+                ein:login))
+    (advice-add fn :around #'envrc-propagate-environment))
+  (add-hook 'find-file-hook #'ein:process-find-file-callback))
+
 ;; haskell
 (use-package lsp-haskell
   :hook
