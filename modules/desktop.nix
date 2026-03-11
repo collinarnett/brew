@@ -21,6 +21,7 @@
           wofi.enable = true;
           xdg-mime.enable = true;
           xdg-portal.enable = true;
+          obs-studio.enable = true;
           zathura.enable = true;
         };
       };
