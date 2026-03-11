@@ -19,12 +19,17 @@
           default = [ "--systemd" ];
           description = "Extra flags to pass to keychain";
         };
+        enableZshIntegration = lib.mkOption {
+          type = lib.types.bool;
+          default = true;
+          description = "Whether to enable zsh integration";
+        };
       };
       config = lib.mkIf cfg.enable {
         home-manager.users.${user} = {
           programs.keychain = {
             enable = true;
-            enableZshIntegration = true;
+            enableZshIntegration = cfg.enableZshIntegration;
             extraFlags = cfg.extraFlags;
             keys = cfg.keys;
           };
