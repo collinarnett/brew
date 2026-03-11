@@ -13,6 +13,8 @@
     laptop.enable = true;
     claude-code.enable = true;
 
+    swayidle.enableDpms = false;
+
     keychain = {
       keys = [ "ghoul" ];
       extraFlags = [ ];

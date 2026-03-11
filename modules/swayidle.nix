@@ -10,9 +10,21 @@
     let
       cfg = config.brew.swayidle;
       user = config.brew.user;
+      dpmsTimeout = lib.optional cfg.enableDpms {
+        timeout = 310;
+        command = ''${pkgs.sway}/bin/swaymsg "output * dpms off"'';
+        resumeCommand = ''${pkgs.sway}/bin/swaymsg "output * dpms on"'';
+      };
     in
     {
-      options.brew.swayidle.enable = lib.mkEnableOption "swayidle";
+      options.brew.swayidle = {
+        enable = lib.mkEnableOption "swayidle";
+        enableDpms = lib.mkOption {
+          type = lib.types.bool;
+          default = true;
+          description = "Whether to enable dpms timeout (turn off displays after lock)";
+        };
+      };
       config = lib.mkIf cfg.enable {
         home-manager.users.${user} = {
           services.swayidle = {
@@ -32,11 +44,9 @@
                 timeout = 300;
                 command = "${pkgs.swaylock}/bin/swaylock -f";
               }
-              {
-                timeout = 310;
-                command = ''${pkgs.sway}/bin/swaymsg "output * dpms off"'';
-                resumeCommand = ''${pkgs.sway}/bin/swaymsg "output * dpms on"'';
-              }
+            ]
+            ++ dpmsTimeout
+            ++ [
               {
                 timeout = 600;
                 command = "${pkgs.systemd}/bin/systemctl suspend";
