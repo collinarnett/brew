@@ -52,6 +52,10 @@
         scale = "2";
       };
     };
+    chromium = {
+      enable = true;
+      whisperlivekit.serverUrl = "ws://192.168.122.132:8010/asr";
+    };
   };
 
   # ── Boot & Storage ────────────────────────────────────────────────
