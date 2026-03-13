@@ -29,6 +29,7 @@
         "org"
         "projects"
         "work_projects"
+        ".claude"
         {
           directory = ".gnupg";
           mode = "0700";
