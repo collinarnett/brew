@@ -70,10 +70,25 @@
           default = [ ];
           description = "Extra command-line arguments passed to the server.";
         };
+
+        transcriptOutput = {
+          enable = lib.mkEnableOption "persistent JSONL transcript output";
+          directory = lib.mkOption {
+            type = lib.types.str;
+            default = "/var/lib/whisperlivekit-transcripts";
+            description = "Directory where JSONL transcript files are written. Must be outside the service state directory so the transcript consumer group can access it.";
+          };
+        };
       };
 
       config = lib.mkIf cfg.enable {
         networking.firewall.allowedTCPPorts = lib.mkIf cfg.openFirewall [ cfg.port ];
+
+        users.groups.whisperlivekit-transcripts = lib.mkIf cfg.transcriptOutput.enable { };
+
+        systemd.tmpfiles.rules = lib.mkIf cfg.transcriptOutput.enable [
+          "d ${cfg.transcriptOutput.directory} 2770 root whisperlivekit-transcripts -"
+        ];
 
         systemd.services.whisperlivekit = {
           description = "WhisperLiveKit speech-to-text server";
@@ -100,6 +115,10 @@
                 "--language"
                 cfg.language
               ]
+              ++ lib.optionals cfg.transcriptOutput.enable [
+                "--output-dir"
+                cfg.transcriptOutput.directory
+              ]
               ++ cfg.extraArgs
             );
 
@@ -110,6 +129,13 @@
 
             Restart = "on-failure";
             RestartSec = 10;
+
+            SupplementaryGroups = lib.mkIf cfg.transcriptOutput.enable [
+              "whisperlivekit-transcripts"
+            ];
+            ReadWritePaths = lib.mkIf cfg.transcriptOutput.enable [
+              cfg.transcriptOutput.directory
+            ];
 
             # Device access — use character device classes (not specific paths)
             # so any number of GPUs is covered automatically.
@@ -155,7 +181,7 @@
               "@system-service"
               "~@privileged"
             ];
-            UMask = "0077";
+            UMask = if cfg.transcriptOutput.enable then "0027" else "0077";
           };
         };
       };
