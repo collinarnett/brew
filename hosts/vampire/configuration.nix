@@ -19,10 +19,11 @@
 
   brew.whisperlivekit = {
     enable = true;
-    package = pkgs.whisperlivekit-cuda;
+    package = pkgs.whisperlivekit-server-cuda;
     model = "base";
     port = 8010;
     openFirewall = true;
+    transcriptOutput.enable = true;
   };
 
   # Enable SysRq for emergency recovery
