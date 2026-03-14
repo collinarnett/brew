@@ -150,6 +150,8 @@ stdenvNoCC.mkDerivation {
     cp whisperlivekit/web/src/light_mode.svg ext/web/src/
     cp whisperlivekit/web/src/dark_mode.svg ext/web/src/
     cp whisperlivekit/web/src/settings.svg ext/web/src/
+    cp whisperlivekit/web/pcm_worklet.js ext/web/
+    cp whisperlivekit/web/recorder_worker.js ext/web/
 
     # Add managed storage schema for enterprise policy support
     cp "$managedSchema" ext/managed_schema.json
@@ -160,6 +162,10 @@ stdenvNoCC.mkDerivation {
 
     # Patch live_transcription.js to read managed storage policy
     sed -i '/websocketUrl = defaultWebSocketUrl;/r '"$managedStoragePatch" ext/live_transcription.js
+
+    # Fix worker paths for extension context (absolute /web/ paths don't resolve in extensions)
+    sed -i 's|"/web/pcm_worklet.js"|chrome.runtime.getURL("web/pcm_worklet.js")|g' ext/live_transcription.js
+    sed -i 's|"/web/recorder_worker.js"|chrome.runtime.getURL("web/recorder_worker.js")|g' ext/live_transcription.js
 
     # Create zip of extension directory
     (cd ext && zip -r -X ../extension.zip .)
