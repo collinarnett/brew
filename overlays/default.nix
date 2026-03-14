@@ -55,6 +55,14 @@ inputs: final: prev: {
       faster-whisper = faster-whisper-cuda;
     };
 
+  whisperlivekit-server = prev.callPackage ../pkgs/whisperlivekit-server {
+    whisperlivekit = final.whisperlivekit;
+  };
+  whisperlivekit-server-cuda = prev.callPackage ../pkgs/whisperlivekit-server {
+    whisperlivekit = final.whisperlivekit-cuda;
+    cudaSupport = true;
+  };
+
   # ── JDK / Tooling ──────────────────────────────────────────────
 
   leiningen = prev.leiningen.override {
