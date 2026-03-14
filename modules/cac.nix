@@ -68,6 +68,7 @@
             home.activation.setupChromiumCac = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
               NSSDB="$HOME/.pki/nssdb"
               if [ ! -f "$NSSDB/cert9.db" ]; then
+                $DRY_RUN_CMD mkdir -p "$NSSDB"
                 $DRY_RUN_CMD ${pkgs.nssTools}/bin/certutil \
                   -d sql:"$NSSDB" -N --empty-password
               fi
