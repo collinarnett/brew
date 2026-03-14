@@ -15,6 +15,11 @@
 
     swayidle.enableDpms = false;
 
+    chromium = {
+      enable = true;
+      whisperlivekit.serverUrl = "ws://localhost:8010/asr";
+    };
+
     keychain = {
       keys = [ "ghoul" ];
       extraFlags = [ ];
