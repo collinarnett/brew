@@ -43,8 +43,8 @@
         ++ (map (ws: { workspace = toString ws; output = "DP-3"; }) (lib.range 6 9))
         ++ [ { workspace = "0"; output = "DP-3"; } ];
       assigns = {
-        "0" = [ { class = "^Emacs$"; } ];
-        "1" = [ { class = "^firefox-esr$"; } ];
+        "0" = [ { class = "^Emacs$"; } { app_id = "^emacs$"; } ];
+        "1" = [ { class = "^firefox(-esr)?$"; } { app_id = "^firefox(-esr)?$"; } ];
         "9" = [ { app_id = "^kitty$"; } ];
       };
       startup = [
@@ -65,7 +65,7 @@
             # Wait a moment then switch to workspace 2 and launch firefox
             sleep 5
             ${pkgs.sway}/bin/swaymsg workspace number 2
-            ${pkgs.firefox}/bin/firefox &
+            ${pkgs.firefox-esr}/bin/firefox-esr &
           ''}/bin/sway-startup";
         }
       ];
