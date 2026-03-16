@@ -358,9 +358,7 @@
       git
       gotop
       grim
-      helvum
       libreoffice
-      neofetch
       noto-fonts-color-emoji
       pandoc
       pavucontrol
