@@ -1,4 +1,8 @@
 {
+  # Point sops-nix at the persist path directly so the age key is available
+  # during initrd activation (before impermanence bind mounts are set up).
+  clan.core.vars.sops.secretUploadDirectory = "/persist/var/lib/sops-nix";
+
   environment.persistence."/persist" = {
     directories = [
       "/etc/NetworkManager/system-connections"
@@ -6,6 +10,7 @@
       "/var/cache/restic-backups-state"
       "/var/lib/NetworkManager"
       "/var/lib/nixos"
+      "/var/lib/sops-nix"
       "/var/lib/systemd/coredump"
       "/var/log"
     ];
