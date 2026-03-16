@@ -30,7 +30,7 @@
         };
         environment.systemPackages = with pkgs; [
           pavucontrol
-          helvum
+          crosspipe
         ];
       };
     };
