@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.nixosModules.pipewire =
+  flake.modules.nixos.pipewire =
     {
       config,
       lib,

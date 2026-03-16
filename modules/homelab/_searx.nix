@@ -22,7 +22,7 @@ in
       };
     };
     systemd.services.searx.environment = {
-      SEARX_SECRET_KEY = "$(cat ${config.sops.secrets.searx_secret_key.path})";
+      SEARX_SECRET_KEY = "$(cat ${config.clan.core.vars.generators.searx_secret_key.files.searx_secret_key.path})";
     };
   };
 }

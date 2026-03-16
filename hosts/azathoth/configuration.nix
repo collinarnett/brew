@@ -45,6 +45,7 @@
       ];
       extraFlags = [ "--systemd" ];
     };
+    gh-token.enable = true;
     sway.outputs = {
       DP-4 = {
         bg = "${../../modules/sway/blackhole.jpg} fill";
@@ -157,10 +158,6 @@
     ];
   };
 
-  users.users.root.openssh.authorizedKeys.keyFiles = [
-    ../../secrets/keys/collinarnett.pub
-  ];
-
   programs.zsh.enable = true;
   programs.ssh.setXAuthLocation = true;
 
@@ -177,18 +174,6 @@
     ports = [ 8787 ];
     settings.X11Forwarding = true;
     settings.PermitRootLogin = "yes";
-    hostKeys = [
-      {
-        type = "ed25519";
-        path = "/persist/etc/ssh/ssh_host_ed25519_key";
-      }
-      {
-        type = "rsa";
-        bits = 4096;
-        path = "/persist/etc/ssh/ssh_host_rsa_key";
-      }
-    ];
-    settings.PasswordAuthentication = true;
   };
 
   virtualisation.docker.enable = true;
@@ -230,7 +215,7 @@
     home.username = "collin";
     home.homeDirectory = "/home/collin";
     home.sessionVariables = {
-      GH_TOKEN = "$(cat ${config.sops.secrets.gh_token.path})";
+      GH_TOKEN = "$(cat ${config.clan.core.vars.generators.gh_token.files.gh_token.path})";
       GPG_TTY = "$(tty)";
     };
 

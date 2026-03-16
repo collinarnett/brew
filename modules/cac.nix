@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.nixosModules.cac =
+  flake.modules.nixos.cac =
     {
       lib,
       config,
@@ -58,30 +58,48 @@
           };
         };
 
+        home-manager.sharedModules = [
+          { brew.cac.enable = true; }
+        ];
+      };
+    };
+
+  flake.modules.homeManager.cac =
+    {
+      lib,
+      config,
+      pkgs,
+      ...
+    }:
+    let
+      cfg = config.brew.cac;
+    in
+    {
+      options.brew.cac = {
+        enable = lib.mkEnableOption "CAC service";
+      };
+
+      config = lib.mkIf cfg.enable {
         # Chrome uses a per-user NSS database (~/.pki/nssdb) and does not read
         # /etc/pkcs11/modules/ directly. Register p11-kit-proxy there once so
         # Chrome can reach OpenSC through the system-wide module config above.
         # The modutil call is skipped if the module is already registered.
-        home-manager.users.${config.brew.user} =
-          { lib, ... }:
-          {
-            home.activation.setupChromiumCac = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-              NSSDB="$HOME/.pki/nssdb"
-              if [ ! -f "$NSSDB/cert9.db" ]; then
-                $DRY_RUN_CMD mkdir -p "$NSSDB"
-                $DRY_RUN_CMD ${pkgs.nssTools}/bin/certutil \
-                  -d sql:"$NSSDB" -N --empty-password
-              fi
-              if ! ${pkgs.nssTools}/bin/modutil -dbdir sql:"$NSSDB" -list 2>/dev/null \
-                  | grep -q "p11-kit-proxy"; then
-                $DRY_RUN_CMD ${pkgs.nssTools}/bin/modutil \
-                  -force \
-                  -dbdir sql:"$NSSDB" \
-                  -add "p11-kit-proxy" \
-                  -libfile ${pkgs.p11-kit}/lib/p11-kit-proxy.so
-              fi
-            '';
-          };
+        home.activation.setupChromiumCac = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+          NSSDB="$HOME/.pki/nssdb"
+          if [ ! -f "$NSSDB/cert9.db" ]; then
+            $DRY_RUN_CMD mkdir -p "$NSSDB"
+            $DRY_RUN_CMD ${pkgs.nssTools}/bin/certutil \
+              -d sql:"$NSSDB" -N --empty-password
+          fi
+          if ! ${pkgs.nssTools}/bin/modutil -dbdir sql:"$NSSDB" -list 2>/dev/null \
+              | grep -q "p11-kit-proxy"; then
+            $DRY_RUN_CMD ${pkgs.nssTools}/bin/modutil \
+              -force \
+              -dbdir sql:"$NSSDB" \
+              -add "p11-kit-proxy" \
+              -libfile ${pkgs.p11-kit}/lib/p11-kit-proxy.so
+          fi
+        '';
       };
     };
 }

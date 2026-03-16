@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.nixosModules.greetd =
+  flake.modules.nixos.greetd =
     {
       config,
       lib,

@@ -1,11 +1,7 @@
 { ... }:
-{
-  flake.nixosModules.waybar =
-    { config, lib, ... }:
-    let
-      cfg = config.brew.waybar;
-      user = config.brew.user;
-    in
+let
+  waybarOptions =
+    { lib, ... }:
     {
       options.brew.waybar = {
         enable = lib.mkEnableOption "waybar";
@@ -56,13 +52,40 @@
           description = "Waybar style CSS file";
         };
       };
+    };
+in
+{
+  flake.modules.nixos.waybar =
+    { config, lib, ... }:
+    let
+      cfg = config.brew.waybar;
+    in
+    {
+      imports = [ waybarOptions ];
       config = lib.mkIf cfg.enable {
-        home-manager.users.${user} = {
-          programs.waybar = {
-            enable = true;
-            settings = cfg.settings;
-            style = cfg.style;
-          };
+        home-manager.sharedModules = [
+          {
+            brew.waybar = {
+              enable = true;
+              inherit (cfg) settings style;
+            };
+          }
+        ];
+      };
+    };
+
+  flake.modules.homeManager.waybar =
+    { config, lib, ... }:
+    let
+      cfg = config.brew.waybar;
+    in
+    {
+      imports = [ waybarOptions ];
+      config = lib.mkIf cfg.enable {
+        programs.waybar = {
+          enable = true;
+          settings = cfg.settings;
+          style = cfg.style;
         };
       };
     };

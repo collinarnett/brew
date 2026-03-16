@@ -1,16 +1,7 @@
 { ... }:
-{
-  flake.nixosModules.sway =
-    {
-      config,
-      lib,
-      pkgs,
-      ...
-    }:
-    let
-      cfg = config.brew.sway;
-      user = config.brew.user;
-    in
+let
+  swayOptions =
+    { lib, ... }:
     {
       options.brew.sway = {
         enable = lib.mkEnableOption "sway";
@@ -48,77 +39,118 @@
           description = "Extra sway config lines per host";
         };
       };
+    };
+in
+{
+  flake.modules.nixos.sway =
+    { config, lib, ... }:
+    let
+      cfg = config.brew.sway;
+    in
+    {
+      imports = [ swayOptions ];
       config = lib.mkIf cfg.enable {
         programs.sway.enable = true;
         security.pam.services.swaylock = { };
-        home-manager.users.${user} = {
-          home.packages = with pkgs; [
-            emacs-all-the-icons-fonts
-            fira-code
-            fira-code-symbols
-            siji
-            noto-fonts-color-emoji
-            ipafont
-            liberation_ttf
-          ];
-          fonts.fontconfig.enable = true;
-
-          wayland.windowManager.sway = {
-            enable = true;
-            checkConfig = false;
-            wrapperFeatures.gtk = true;
-            wrapperFeatures.base = true;
-            systemd.variables = [ "--all" ];
-            config = {
-              terminal = "kitty";
-              output = cfg.outputs;
-              modifier = cfg.modifier;
-              bars = [ { command = "${pkgs.waybar}/bin/waybar"; } ];
-              workspaceOutputAssign = cfg.workspaceOutputAssign;
-              assigns = cfg.assigns;
-              startup = cfg.startup;
-              colors = {
-                focused = {
-                  background = "#6272A4";
-                  border = "#6272A4";
-                  childBorder = "#6272A4";
-                  indicator = "#6272A4";
-                  text = "#F8F8F2";
-                };
-                focusedInactive = {
-                  background = "#44475A";
-                  border = "#44475A";
-                  childBorder = "#44475A";
-                  indicator = "#44475A";
-                  text = "#F8F8F2";
-                };
-                unfocused = {
-                  background = "#282A36";
-                  border = "#282A36";
-                  childBorder = "#282A36";
-                  indicator = "#282A36";
-                  text = "#BFBFBF";
-                };
-                urgent = {
-                  background = "#FF5555";
-                  border = "#44475A";
-                  childBorder = "#FF5555";
-                  indicator = "#FF5555";
-                  text = "#F8F8F2";
-                };
-                placeholder = {
-                  background = "#282A36";
-                  border = "#282A36";
-                  childBorder = "#282A36";
-                  indicator = "#282A36";
-                  text = "#F8F8F2";
-                };
-                background = "#F8F8F2";
-              };
-              window.titlebar = false;
-              menu = "${pkgs.wofi}/bin/wofi";
+        home-manager.sharedModules = [
+          {
+            brew.sway = {
+              enable = true;
+              inherit (cfg)
+                modifier
+                outputs
+                workspaceOutputAssign
+                assigns
+                startup
+                extraConfig
+                ;
             };
-            extraConfig = ''
+          }
+        ];
+      };
+    };
+
+  flake.modules.homeManager.sway =
+    {
+      config,
+      lib,
+      pkgs,
+      ...
+    }:
+    let
+      cfg = config.brew.sway;
+    in
+    {
+      imports = [ swayOptions ];
+      config = lib.mkIf cfg.enable {
+        home.packages = with pkgs; [
+          emacs-all-the-icons-fonts
+          fira-code
+          fira-code-symbols
+          siji
+          noto-fonts-color-emoji
+          ipafont
+          liberation_ttf
+        ];
+        fonts.fontconfig.enable = true;
+
+        wayland.windowManager.sway = {
+          enable = true;
+          checkConfig = false;
+          wrapperFeatures.gtk = true;
+          wrapperFeatures.base = true;
+          systemd.variables = [ "--all" ];
+          config = {
+            terminal = "kitty";
+            output = cfg.outputs;
+            modifier = cfg.modifier;
+            bars = [ { command = "${pkgs.waybar}/bin/waybar"; } ];
+            workspaceOutputAssign = cfg.workspaceOutputAssign;
+            assigns = cfg.assigns;
+            startup = cfg.startup;
+            colors = {
+              focused = {
+                background = "#6272A4";
+                border = "#6272A4";
+                childBorder = "#6272A4";
+                indicator = "#6272A4";
+                text = "#F8F8F2";
+              };
+              focusedInactive = {
+                background = "#44475A";
+                border = "#44475A";
+                childBorder = "#44475A";
+                indicator = "#44475A";
+                text = "#F8F8F2";
+              };
+              unfocused = {
+                background = "#282A36";
+                border = "#282A36";
+                childBorder = "#282A36";
+                indicator = "#282A36";
+                text = "#BFBFBF";
+              };
+              urgent = {
+                background = "#FF5555";
+                border = "#44475A";
+                childBorder = "#FF5555";
+                indicator = "#FF5555";
+                text = "#F8F8F2";
+              };
+              placeholder = {
+                background = "#282A36";
+                border = "#282A36";
+                childBorder = "#282A36";
+                indicator = "#282A36";
+                text = "#F8F8F2";
+              };
+              background = "#F8F8F2";
+            };
+            window.titlebar = false;
+            menu = "${pkgs.wofi}/bin/wofi";
+          };
+          extraConfig =
+            ''
               set $mod ${cfg.modifier}
               bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
               bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
@@ -129,7 +161,6 @@
               bindsym $mod+p exec ${pkgs.grim}/bin/grim -g "$(${pkgs.slurp}/bin/slurp -d)" - | ${pkgs.wl-clipboard}/bin/wl-copy -t image/png
             ''
             + cfg.extraConfig;
-          };
         };
       };
     };

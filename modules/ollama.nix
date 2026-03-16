@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.nixosModules.ollama =
+  flake.modules.nixos.ollama =
     { config, lib, ... }:
     let
       cfg = config.brew.ollama;

@@ -1,8 +1,9 @@
 {
   description = "NixOS configuration";
   inputs = {
-    disko.inputs.nixpkgs.follows = "nixpkgs";
-    disko.url = "github:nix-community/disko";
+    clan-core.url = "https://git.clan.lol/clan/clan-core/archive/main.tar.gz";
+    clan-core.inputs.nixpkgs.follows = "nixpkgs";
+    clan-core.inputs.flake-parts.follows = "flake-parts";
     emacs-overlay.url = "github:nix-community/emacs-overlay";
     flake-parts.url = "github:hercules-ci/flake-parts";
     gpd-duo-nixos-hardware.url = "github:/shymega/nixos-hardware/add-gpd-duo";
@@ -19,8 +20,6 @@
     newt.url = "git+file:///home/collin/newt";
     newt.inputs.nixpkgs.follows = "nixpkgs";
     newt.inputs.flake-parts.follows = "flake-parts";
-    sops-nix.inputs.nixpkgs.follows = "nixpkgs";
-    sops-nix.url = "github:Mic92/sops-nix";
   };
   outputs =
     inputs@{
@@ -32,84 +31,92 @@
       newt,
       nixos-hardware,
       gpd-duo-nixos-hardware,
-      sops-nix,
-      disko,
       nixpkgs,
       ...
     }:
     flake-parts.lib.mkFlake { inherit inputs; } (
-      {
-        withSystem,
-        inputs,
-        ...
-      }:
+      { config, inputs, ... }:
+      let
+        brewNixosModules = builtins.attrValues config.flake.modules.nixos;
+        brewHmModules = builtins.attrValues config.flake.modules.homeManager;
+        machineBase = {
+          nixpkgs.hostPlatform = "x86_64-linux";
+          brew.user = "collin";
+          home-manager.sharedModules = brewHmModules;
+        };
+      in
       {
         imports = [
+          inputs.flake-parts.flakeModules.modules
+          inputs.clan-core.flakeModules.default
           (inputs.import-tree ./modules)
-          ./parts/nixos-modules.nix
         ];
         systems = [ "x86_64-linux" ];
-        flake =
-          { config, ... }:
-          {
-            nixosConfigurations =
-              let
-                genSystem =
-                  user: host: extras:
-                  withSystem "x86_64-linux" (
-                    {
-                      pkgs,
-                      system,
-                      ...
-                    }:
-                    inputs.nixpkgs.lib.nixosSystem {
-                      inherit system;
 
-                      modules =
-                        builtins.attrValues config.nixosModules
-                        ++ [
-                          inputs.sops-nix.nixosModules.sops
-                          inputs.home-manager.nixosModules.home-manager
-                          ./hosts/${host}/configuration.nix
-                          {
-                            brew.user = user;
-                            home-manager.useGlobalPkgs = true;
-                            home-manager.useUserPackages = true;
-                            home-manager.users.${user}.imports = builtins.attrValues (inputs.newt.homeManagerModules or { });
-                          }
-                        ]
-                        ++ (builtins.attrValues (inputs.newt.nixosModules or { }))
-                        ++ extras;
-                    }
-                  );
-              in
-              {
-                vampire = genSystem "collin" "vampire" [ ];
-                ghoul = genSystem "collin" "ghoul" [
-                  inputs.disko.nixosModules.disko
-                  inputs.impermanence.nixosModules.impermanence
-                  inputs.nixos-facter-modules.nixosModules.facter
-                  "${gpd-duo-nixos-hardware}/gpd/duo"
-                ];
-                azathoth = genSystem "collin" "azathoth" [
-                  inputs.disko.nixosModules.disko
-                  inputs.impermanence.nixosModules.impermanence
-                  inputs.nixos-facter-modules.nixosModules.facter
-                ];
-              };
+        clan = {
+          meta.name = "brew";
+          inventory.machines = {
+            azathoth.deploy.targetHost = "root@azathoth:8787";
+            ghoul.deploy = {
+              targetHost = "root@ghoul";
+              buildHost = "root@azathoth:8787";
+            };
+            vampire.deploy.targetHost = "root@vampire";
           };
+          inventory.instances = {
+            sshd-brew = {
+              module = {
+                name = "sshd";
+                input = "clan-core";
+              };
+              roles.server.tags.all = { };
+              roles.client.tags.all = { };
+            };
+            yggdrasil = {
+              roles.default.tags.all = { };
+            };
+            internet = {
+              roles.default.machines.azathoth.settings = {
+                host = "trexd.dev";
+              };
+            };
+          };
+          machines = {
+            vampire = {
+              imports = brewNixosModules ++ [
+                ./hosts/vampire/configuration.nix
+                machineBase
+              ];
+            };
+            ghoul = {
+              imports = brewNixosModules ++ [
+                inputs.impermanence.nixosModules.impermanence
+                inputs.nixos-facter-modules.nixosModules.facter
+                "${gpd-duo-nixos-hardware}/gpd/duo"
+                ./hosts/ghoul/configuration.nix
+                machineBase
+              ];
+            };
+            azathoth = {
+              imports = brewNixosModules ++ [
+                inputs.impermanence.nixosModules.impermanence
+                inputs.nixos-facter-modules.nixosModules.facter
+                ./hosts/azathoth/configuration.nix
+                machineBase
+              ];
+            };
+          };
+        };
+
         perSystem =
-          {
-            pkgs,
-            system,
-            ...
-          }:
+          { pkgs, ... }:
           {
             formatter = pkgs.nixfmt;
             devShells.default = pkgs.mkShell {
-              buildInputs = with pkgs; [
-                sops
-                nixfmt
+              buildInputs = [
+                inputs.clan-core.packages.${pkgs.system}.default
+                pkgs.sops
+                pkgs.nixfmt
               ];
             };
           };
