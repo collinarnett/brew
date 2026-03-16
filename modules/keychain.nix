@@ -1,11 +1,7 @@
 { ... }:
-{
-  flake.nixosModules.keychain =
-    { config, lib, ... }:
-    let
-      cfg = config.brew.keychain;
-      user = config.brew.user;
-    in
+let
+  keychainOptions =
+    { lib, ... }:
     {
       options.brew.keychain = {
         enable = lib.mkEnableOption "keychain";
@@ -25,14 +21,41 @@
           description = "Whether to enable zsh integration";
         };
       };
+    };
+in
+{
+  flake.modules.nixos.keychain =
+    { config, lib, ... }:
+    let
+      cfg = config.brew.keychain;
+    in
+    {
+      imports = [ keychainOptions ];
       config = lib.mkIf cfg.enable {
-        home-manager.users.${user} = {
-          programs.keychain = {
-            enable = true;
-            enableZshIntegration = cfg.enableZshIntegration;
-            extraFlags = cfg.extraFlags;
-            keys = cfg.keys;
-          };
+        home-manager.sharedModules = [
+          {
+            brew.keychain = {
+              enable = true;
+              inherit (cfg) keys extraFlags enableZshIntegration;
+            };
+          }
+        ];
+      };
+    };
+
+  flake.modules.homeManager.keychain =
+    { config, lib, ... }:
+    let
+      cfg = config.brew.keychain;
+    in
+    {
+      imports = [ keychainOptions ];
+      config = lib.mkIf cfg.enable {
+        programs.keychain = {
+          enable = true;
+          enableZshIntegration = cfg.enableZshIntegration;
+          extraFlags = cfg.extraFlags;
+          keys = cfg.keys;
         };
       };
     };

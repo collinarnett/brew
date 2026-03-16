@@ -311,11 +311,7 @@
   services.openssh.enable = true;
   services.blueman.enable = true;
 
-  sops.defaultSopsFile = ../../secrets/secrets.yaml;
-  sops.age.keyFile = "/persist/save/home/collin/.config/sops/age/keys.txt";
-  sops.secrets.gh_token = {
-    owner = config.users.users.collin.name;
-  };
+  brew.gh-token.enable = true;
 
   # ── Packages & Environment ────────────────────────────────────────
 
@@ -345,6 +341,7 @@
     home.homeDirectory = "/home/collin";
     home.sessionVariables = {
       ELECTRON_OZONE_PLATFORM_HINT = "auto";
+      GH_TOKEN = "$(cat ${config.clan.core.vars.generators.gh_token.files.gh_token.path})";
       GPG_TTY = "$(tty)";
     };
 

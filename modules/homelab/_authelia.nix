@@ -12,10 +12,10 @@ in
     services.authelia.instances = {
       main = {
         enable = true;
-        settingsFiles = [ config.sops.secrets.authelia_jwks_settings_file.path ];
-        secrets.jwtSecretFile = config.sops.secrets.authelia_jwt_secret_file.path;
-        secrets.sessionSecretFile = config.sops.secrets.authelia_session_secret_file.path;
-        secrets.storageEncryptionKeyFile = config.sops.secrets.authelia_storage_encryption_key_file.path;
+        settingsFiles = [ config.clan.core.vars.generators.authelia_jwks_settings_file.files.authelia_jwks_settings_file.path ];
+        secrets.jwtSecretFile = config.clan.core.vars.generators.authelia_jwt_secret_file.files.authelia_jwt_secret_file.path;
+        secrets.sessionSecretFile = config.clan.core.vars.generators.authelia_session_secret_file.files.authelia_session_secret_file.path;
+        secrets.storageEncryptionKeyFile = config.clan.core.vars.generators.authelia_storage_encryption_key_file.files.authelia_storage_encryption_key_file.path;
         settings.default_2fa_method = "totp";
         settings = {
           authentication_backend.file.path = "/var/lib/authelia-main/users_database.yml";

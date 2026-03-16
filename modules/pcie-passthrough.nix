@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.nixosModules.pcie-passthrough =
+  flake.modules.nixos.pcie-passthrough =
     {
       config,
       lib,

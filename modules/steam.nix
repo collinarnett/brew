@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.nixosModules.steam =
+  flake.modules.nixos.steam =
     { config, lib, ... }:
     let
       cfg = config.brew.steam;

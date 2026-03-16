@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.nixosModules.obs-studio =
+  flake.modules.nixos.obs-studio =
     { config, lib, ... }:
     {
       options.brew.obs-studio.enable = lib.mkEnableOption "obs-studio";

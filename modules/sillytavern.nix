@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.nixosModules.sillytavern =
+  flake.modules.nixos.sillytavern =
     { config, lib, ... }:
     let
       cfg = config.brew.sillytavern;

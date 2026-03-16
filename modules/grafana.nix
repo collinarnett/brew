@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.nixosModules.grafana =
+  flake.modules.nixos.grafana =
     { config, lib, ... }:
     let
       cfg = config.brew.grafana;

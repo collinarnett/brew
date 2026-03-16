@@ -1,10 +1,9 @@
 { ... }:
 {
-  flake.nixosModules.beets =
+  flake.modules.nixos.beets =
     { config, lib, ... }:
     let
       cfg = config.brew.beets;
-      user = config.brew.user;
     in
     {
       options.brew.beets.enable = lib.mkEnableOption "beets";
@@ -20,16 +19,28 @@
             });
           })
         ];
-        home-manager.users.${user} = {
-          programs.beets = {
-            enable = true;
-            settings = {
-              directory = "/media/music/";
-              plugins = [
-                "fetchart"
-                "musicbrainz"
-              ];
-            };
+        home-manager.sharedModules = [
+          { brew.beets.enable = true; }
+        ];
+      };
+    };
+
+  flake.modules.homeManager.beets =
+    { config, lib, ... }:
+    let
+      cfg = config.brew.beets;
+    in
+    {
+      options.brew.beets.enable = lib.mkEnableOption "beets";
+      config = lib.mkIf cfg.enable {
+        programs.beets = {
+          enable = true;
+          settings = {
+            directory = "/media/music/";
+            plugins = [
+              "fetchart"
+              "musicbrainz"
+            ];
           };
         };
       };

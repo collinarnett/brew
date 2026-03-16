@@ -106,7 +106,7 @@ in
     systemd.services.traefik.environment = {
       AWS_PROFILE = "default";
       AWS_REGION = "us-east-1";
-      AWS_SHARED_CREDENTIALS_FILE = config.sops.secrets.awscli2-credentials.path;
+      AWS_SHARED_CREDENTIALS_FILE = config.clan.core.vars.generators.awscli2-credentials.files.awscli2-credentials.path;
     };
 
     networking.firewall.allowedTCPPorts = [

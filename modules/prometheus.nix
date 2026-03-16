@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.nixosModules.prometheus =
+  flake.modules.nixos.prometheus =
     { config, lib, ... }:
     let
       cfg = config.brew.prometheus;

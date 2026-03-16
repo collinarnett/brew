@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.nixosModules.server =
+  flake.modules.nixos.server =
     { config, lib, ... }:
     let
       cfg = config.brew.server;
@@ -13,7 +13,6 @@
           atticd.enable = true;
           docker-registry.enable = true;
           homelab.enable = true;
-          remote-build.enable = true;
           restic.enable = true;
           sops.enable = true;
         };

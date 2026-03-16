@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.nixosModules.firefox =
+  flake.modules.nixos.firefox =
     {
       config,
       lib,
@@ -15,9 +15,6 @@
       config = lib.mkIf cfg.enable {
         programs.firefox.enable = true;
         programs.firefox.package = pkgs.firefox-esr;
-        home-manager.users.${config.brew.user} = {
-          home.packages = [ pkgs.firefox-esr ];
-        };
         programs.firefox.policies = {
           SearchEngines = {
             Default = "SearX";
@@ -39,6 +36,26 @@
             ];
           };
         };
+        home-manager.sharedModules = [
+          { brew.firefox.enable = true; }
+        ];
+      };
+    };
+
+  flake.modules.homeManager.firefox =
+    {
+      config,
+      lib,
+      pkgs,
+      ...
+    }:
+    let
+      cfg = config.brew.firefox;
+    in
+    {
+      options.brew.firefox.enable = lib.mkEnableOption "firefox";
+      config = lib.mkIf cfg.enable {
+        home.packages = [ pkgs.firefox-esr ];
       };
     };
 }

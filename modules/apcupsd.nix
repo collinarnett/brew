@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.nixosModules.apcupsd =
+  flake.modules.nixos.apcupsd =
     { config, lib, ... }:
     let
       cfg = config.brew.apcupsd;

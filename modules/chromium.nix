@@ -1,6 +1,20 @@
 { ... }:
+let
+  chromiumOptions =
+    { lib, ... }:
+    {
+      options.brew.chromium = {
+        enable = lib.mkEnableOption "Chromium browser with WhisperLiveKit extension";
+        whisperlivekit.serverUrl = lib.mkOption {
+          type = lib.types.str;
+          description = "WebSocket URL for the WhisperLiveKit server.";
+          example = "ws://vampire:8010/asr";
+        };
+      };
+    };
+in
 {
-  flake.nixosModules.chromium =
+  flake.modules.nixos.chromium =
     {
       config,
       lib,
@@ -26,16 +40,7 @@
       '';
     in
     {
-      options.brew.chromium = {
-        enable = lib.mkEnableOption "Chromium browser with WhisperLiveKit extension";
-
-        whisperlivekit.serverUrl = lib.mkOption {
-          type = lib.types.str;
-          description = "WebSocket URL for the WhisperLiveKit server.";
-          example = "ws://vampire:8010/asr";
-        };
-      };
-
+      imports = [ chromiumOptions ];
       config = lib.mkIf cfg.enable {
         programs.chromium = {
           enable = true;
@@ -53,10 +58,20 @@
         };
 
         home-manager.sharedModules = [
-          {
-            programs.chromium.enable = true;
-          }
+          { brew.chromium.enable = true; }
         ];
+      };
+    };
+
+  flake.modules.homeManager.chromium =
+    { config, lib, ... }:
+    let
+      cfg = config.brew.chromium;
+    in
+    {
+      options.brew.chromium.enable = lib.mkEnableOption "Chromium browser";
+      config = lib.mkIf cfg.enable {
+        programs.chromium.enable = true;
       };
     };
 }
