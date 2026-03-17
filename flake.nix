@@ -73,6 +73,7 @@
               roles.server.settings.authorizedKeys = {
                 collinarnett = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDq/9Nx7ckExoMDyi2lx5No1Ndv/rz9n83Tyy+yjyaRU collin@zombie";
                 ghoul = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAU8UPb5Szy5STfAz8/0KI+RMCVSTvuqcwwEC4RDa1fM collin@ghoul";
+                azathoth = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGSPMVlGvq4uWZm1ALkDSoErk1/bhOW4CVhhAWS5J6Gd collin@arnett.it";
               };
               roles.client.tags.all = { };
             };
