@@ -1,7 +1,7 @@
 {
   description = "NixOS configuration";
   inputs = {
-    clan-core.url = "https://git.clan.lol/clan/clan-core/archive/main.tar.gz";
+    clan-core.url = "git+https://git.clan.lol/collinarnett/clan-core?ref=fix/yggdrasil-export-hostname";
     clan-core.inputs.nixpkgs.follows = "nixpkgs";
     clan-core.inputs.flake-parts.follows = "flake-parts";
     emacs-overlay.url = "github:nix-community/emacs-overlay";
@@ -55,14 +55,6 @@
 
         clan = {
           meta.name = "brew";
-          inventory.machines = {
-            azathoth.deploy.targetHost = "root@azathoth:8787";
-            ghoul.deploy = {
-              targetHost = "root@ghoul";
-              buildHost = "root@azathoth:8787";
-            };
-            vampire.deploy.targetHost = "root@vampire";
-          };
           inventory.instances = {
             sshd-brew = {
               module = {
@@ -79,7 +71,12 @@
             };
             yggdrasil = {
               roles.default.tags.all = { };
+              roles.default.settings.extraPeers = [
+                "tls://ygg.jjolly.dev:3443"
+                "tls://mo.us.ygg.triplebit.org:993"
+              ];
             };
+
             internet = {
               roles.default.machines.azathoth.settings = {
                 host = "trexd.dev";
@@ -101,6 +98,7 @@
                 ./hosts/ghoul/configuration.nix
                 machineBase
               ];
+              clan.core.networking.buildHost = "root@azathoth.clan";
             };
             azathoth = {
               imports = brewNixosModules ++ [
