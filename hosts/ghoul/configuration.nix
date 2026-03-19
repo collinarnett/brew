@@ -328,7 +328,6 @@
     startWithGraphical = true;
   };
 
-  services.openssh.enable = true;
   services.blueman.enable = true;
 
   brew.gh-token.enable = true;

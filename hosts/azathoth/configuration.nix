@@ -169,12 +169,7 @@
     startWithGraphical = true;
   };
 
-  services.openssh = {
-    enable = true;
-    ports = [ 8787 ];
-    settings.X11Forwarding = true;
-    settings.PermitRootLogin = "yes";
-  };
+  services.openssh.settings.X11Forwarding = true;
 
   virtualisation.docker.enable = true;
   virtualisation.oci-containers.backend = "docker";
