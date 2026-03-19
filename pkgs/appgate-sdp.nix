@@ -196,7 +196,8 @@ stdenv.mkDerivation rec {
     # causing them to load incompatible bundled libs and crash.
     # RPATH entries above handle library resolution instead.
     makeWrapper $out/opt/appgate/Appgate $out/bin/appgate \
-        --suffix PATH : ${lib.makeBinPath [ xdg-utils ]}
+        --suffix PATH : ${lib.makeBinPath [ xdg-utils ]} \
+        --add-flags "--ozone-platform=wayland"
   '';
 
   # autoPatchelfHook may re-add LD_LIBRARY_PATH to wrappers; strip it
