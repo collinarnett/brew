@@ -265,6 +265,26 @@
         "type": "github"
       }
     },
+    "mcp-servers-nix": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1774314635,
+        "narHash": "sha256-nsU3H4/oS3ad7yfgF1PjnquLQht2ql+ZKPL8JFqm2eQ=",
+        "owner": "natsukium",
+        "repo": "mcp-servers-nix",
+        "rev": "83190486143d2808ffa244b2538bbd5a270797a0",
+        "type": "github"
+      },
+      "original": {
+        "owner": "natsukium",
+        "repo": "mcp-servers-nix",
+        "type": "github"
+      }
+    },
     "newt": {
       "inputs": {
         "flake-parts": [
@@ -546,6 +566,7 @@
         "home-manager": "home-manager",
         "impermanence": "impermanence",
         "import-tree": "import-tree",
+        "mcp-servers-nix": "mcp-servers-nix",
         "newt": "newt",
         "nixos-anywhere": "nixos-anywhere",
         "nixos-facter-modules": "nixos-facter-modules",

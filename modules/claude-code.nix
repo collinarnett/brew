@@ -16,7 +16,11 @@
 
       config = lib.mkIf cfg.enable {
         home-manager.sharedModules = [
-          { brew.claude-code.enable = true; }
+          {
+            brew.claude-code.enable = true;
+            brew.claude-code.ghTokenFile = lib.mkIf config.brew.gh-token.enable
+              config.clan.core.vars.generators.gh_token.files.gh_token.path;
+          }
         ];
       };
     };
@@ -33,11 +37,31 @@
     {
       options.brew.claude-code = {
         enable = lib.mkEnableOption "Claude Code CLI";
+        ghTokenFile = lib.mkOption {
+          type = lib.types.nullOr lib.types.path;
+          default = null;
+          description = "Path to file containing GitHub personal access token";
+        };
       };
 
       config = lib.mkIf cfg.enable {
+        programs.mcp.enable = true;
+        mcp-servers.programs = {
+          nixos.enable = true;
+          git.enable = true;
+          github = {
+            enable = true;
+            passwordCommand = lib.mkIf (cfg.ghTokenFile != null) {
+              GITHUB_PERSONAL_ACCESS_TOKEN = [
+                "cat"
+                cfg.ghTokenFile
+              ];
+            };
+          };
+        };
         programs.claude-code = {
           enable = true;
+          enableMcpIntegration = true;
           settings = {
             alwaysThinkingEnabled = true;
             permissions.allow = [

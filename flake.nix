@@ -9,6 +9,8 @@
     gpd-duo-nixos-hardware.url = "github:/shymega/nixos-hardware/add-gpd-duo";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     home-manager.url = "github:nix-community/home-manager";
+    mcp-servers-nix.url = "github:natsukium/mcp-servers-nix";
+    mcp-servers-nix.inputs.nixpkgs.follows = "nixpkgs";
     import-tree.url = "github:vic/import-tree";
     impermanence.url = "github:nix-community/impermanence";
     nixos-anywhere.inputs.nixpkgs.follows = "nixpkgs";
@@ -42,7 +44,9 @@
         machineBase = {
           nixpkgs.hostPlatform = "x86_64-linux";
           brew.user = "collin";
-          home-manager.sharedModules = brewHmModules;
+          home-manager.sharedModules = brewHmModules ++ [
+            inputs.mcp-servers-nix.homeManagerModules.default
+          ];
         };
       in
       {
