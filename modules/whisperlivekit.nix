@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.nixosModules.whisperlivekit =
+  flake.modules.nixos.whisperlivekit =
     {
       config,
       lib,

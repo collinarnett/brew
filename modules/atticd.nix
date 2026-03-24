@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.nixosModules.atticd =
+  flake.modules.nixos.atticd =
     { config, lib, ... }:
     let
       cfg = config.brew.atticd;
@@ -20,12 +20,12 @@
         };
 
         systemd.services.atticd = {
-          serviceConfig.LoadCredentials = "credentials:${config.sops.secrets.attic_environment.path}";
+          serviceConfig.LoadCredentials = "credentials:${config.clan.core.vars.generators.attic_environment.files.attic_environment.path}";
         };
 
         services.atticd = {
           enable = true;
-          environmentFile = config.sops.secrets.attic_environment.path;
+          environmentFile = config.clan.core.vars.generators.attic_environment.files.attic_environment.path;
           settings = {
             listen = "[::]:8085";
 

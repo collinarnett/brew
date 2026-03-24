@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.nixosModules.restic =
+  flake.modules.nixos.restic =
     {
       config,
       lib,
@@ -12,11 +12,20 @@
     {
       options.brew.restic.enable = lib.mkEnableOption "restic";
       config = lib.mkIf cfg.enable {
+        clan.core.vars.generators.restic_s3_password = {
+          files.restic_s3_password = { };
+          prompts.restic_s3_password = {
+            description = "Restic S3 repository password";
+            type = "hidden";
+            persist = true;
+          };
+        };
+
         services.restic =
           let
             initialize = true;
             repository = "s3:s3.us-east-1.amazonaws.com/collin-backups/restic";
-            passwordFile = config.sops.secrets.restic_s3_password.path;
+            passwordFile = config.clan.core.vars.generators.restic_s3_password.files.restic_s3_password.path;
           in
           {
             backups.media = {
@@ -128,14 +137,10 @@
               environment = {
                 AWS_PROFILE = "default";
                 AWS_REGION = "us-east-1";
-                AWS_SHARED_CREDENTIALS_FILE = config.sops.secrets.awscli2-credentials.path;
+                AWS_SHARED_CREDENTIALS_FILE = config.clan.core.vars.generators.awscli2-credentials.files.awscli2-credentials.path;
               };
             });
 
-        # Define sops secrets for each backup password
-        sops.secrets = {
-          restic_s3_password = { };
-        };
       };
     };
 }

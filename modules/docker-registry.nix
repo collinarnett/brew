@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.nixosModules.docker-registry =
+  flake.modules.nixos.docker-registry =
     { config, lib, ... }:
     let
       cfg = config.brew.docker-registry;

@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.nixosModules.pipewire =
+  flake.modules.nixos.pipewire =
     {
       config,
       lib,
@@ -30,7 +30,7 @@
         };
         environment.systemPackages = with pkgs; [
           pavucontrol
-          helvum
+          crosspipe
         ];
       };
     };

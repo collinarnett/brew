@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.nixosModules.xdg-portal =
+  flake.modules.nixos.xdg-portal =
     {
       config,
       lib,

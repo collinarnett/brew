@@ -1,8 +1,9 @@
 {
   description = "NixOS configuration";
   inputs = {
-    disko.inputs.nixpkgs.follows = "nixpkgs";
-    disko.url = "github:nix-community/disko";
+    clan-core.url = "git+https://git.clan.lol/collinarnett/clan-core?ref=fix/yggdrasil-export-hostname";
+    clan-core.inputs.nixpkgs.follows = "nixpkgs";
+    clan-core.inputs.flake-parts.follows = "flake-parts";
     emacs-overlay.url = "github:nix-community/emacs-overlay";
     flake-parts.url = "github:hercules-ci/flake-parts";
     gpd-duo-nixos-hardware.url = "github:/shymega/nixos-hardware/add-gpd-duo";
@@ -19,8 +20,6 @@
     newt.url = "git+file:///home/collin/newt";
     newt.inputs.nixpkgs.follows = "nixpkgs";
     newt.inputs.flake-parts.follows = "flake-parts";
-    sops-nix.inputs.nixpkgs.follows = "nixpkgs";
-    sops-nix.url = "github:Mic92/sops-nix";
   };
   outputs =
     inputs@{
@@ -32,84 +31,95 @@
       newt,
       nixos-hardware,
       gpd-duo-nixos-hardware,
-      sops-nix,
-      disko,
       nixpkgs,
       ...
     }:
     flake-parts.lib.mkFlake { inherit inputs; } (
-      {
-        withSystem,
-        inputs,
-        ...
-      }:
+      { config, inputs, ... }:
+      let
+        brewNixosModules = builtins.attrValues config.flake.modules.nixos;
+        brewHmModules = builtins.attrValues config.flake.modules.homeManager;
+        machineBase = {
+          nixpkgs.hostPlatform = "x86_64-linux";
+          brew.user = "collin";
+          home-manager.sharedModules = brewHmModules;
+        };
+      in
       {
         imports = [
+          inputs.flake-parts.flakeModules.modules
+          inputs.clan-core.flakeModules.default
           (inputs.import-tree ./modules)
-          ./parts/nixos-modules.nix
         ];
         systems = [ "x86_64-linux" ];
-        flake =
-          { config, ... }:
-          {
-            nixosConfigurations =
-              let
-                genSystem =
-                  user: host: extras:
-                  withSystem "x86_64-linux" (
-                    {
-                      pkgs,
-                      system,
-                      ...
-                    }:
-                    inputs.nixpkgs.lib.nixosSystem {
-                      inherit system;
 
-                      modules =
-                        builtins.attrValues config.nixosModules
-                        ++ [
-                          inputs.sops-nix.nixosModules.sops
-                          inputs.home-manager.nixosModules.home-manager
-                          ./hosts/${host}/configuration.nix
-                          {
-                            brew.user = user;
-                            home-manager.useGlobalPkgs = true;
-                            home-manager.useUserPackages = true;
-                            home-manager.users.${user}.imports = builtins.attrValues (inputs.newt.homeManagerModules or { });
-                          }
-                        ]
-                        ++ (builtins.attrValues (inputs.newt.nixosModules or { }))
-                        ++ extras;
-                    }
-                  );
-              in
-              {
-                vampire = genSystem "collin" "vampire" [ ];
-                ghoul = genSystem "collin" "ghoul" [
-                  inputs.disko.nixosModules.disko
-                  inputs.impermanence.nixosModules.impermanence
-                  inputs.nixos-facter-modules.nixosModules.facter
-                  "${gpd-duo-nixos-hardware}/gpd/duo"
-                ];
-                azathoth = genSystem "collin" "azathoth" [
-                  inputs.disko.nixosModules.disko
-                  inputs.impermanence.nixosModules.impermanence
-                  inputs.nixos-facter-modules.nixosModules.facter
-                ];
+        clan = {
+          meta.name = "brew";
+          inventory.instances = {
+            sshd-brew = {
+              module = {
+                name = "sshd";
+                input = "clan-core";
               };
+              roles.server.tags.all = { };
+              roles.server.settings.authorizedKeys = {
+                collinarnett = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDq/9Nx7ckExoMDyi2lx5No1Ndv/rz9n83Tyy+yjyaRU collin@zombie";
+                ghoul = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAU8UPb5Szy5STfAz8/0KI+RMCVSTvuqcwwEC4RDa1fM collin@ghoul";
+                azathoth = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGSPMVlGvq4uWZm1ALkDSoErk1/bhOW4CVhhAWS5J6Gd collin@arnett.it";
+              };
+              roles.client.tags.all = { };
+            };
+            yggdrasil = {
+              roles.default.tags.all = { };
+              roles.default.settings.extraPeers = [
+                "tls://ygg.jjolly.dev:3443"
+                "tls://mo.us.ygg.triplebit.org:993"
+              ];
+            };
+
+            internet = {
+              roles.default.machines.azathoth.settings = {
+                host = "trexd.dev";
+              };
+            };
           };
+          machines = {
+            vampire = {
+              imports = brewNixosModules ++ [
+                ./hosts/vampire/configuration.nix
+                machineBase
+              ];
+            };
+            ghoul = {
+              imports = brewNixosModules ++ [
+                inputs.impermanence.nixosModules.impermanence
+                inputs.nixos-facter-modules.nixosModules.facter
+                "${gpd-duo-nixos-hardware}/gpd/duo"
+                ./hosts/ghoul/configuration.nix
+                machineBase
+              ];
+              clan.core.networking.buildHost = "root@azathoth.clan";
+            };
+            azathoth = {
+              imports = brewNixosModules ++ [
+                inputs.impermanence.nixosModules.impermanence
+                inputs.nixos-facter-modules.nixosModules.facter
+                ./hosts/azathoth/configuration.nix
+                machineBase
+              ];
+            };
+          };
+        };
+
         perSystem =
-          {
-            pkgs,
-            system,
-            ...
-          }:
+          { pkgs, ... }:
           {
             formatter = pkgs.nixfmt;
             devShells.default = pkgs.mkShell {
-              buildInputs = with pkgs; [
-                sops
-                nixfmt
+              buildInputs = [
+                inputs.clan-core.packages.${pkgs.system}.default
+                pkgs.sops
+                pkgs.nixfmt
               ];
             };
           };

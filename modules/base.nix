@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.nixosModules.base =
+  flake.modules.nixos.base =
     { lib, ... }:
     {
       options.brew.user = lib.mkOption {
