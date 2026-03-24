@@ -29,6 +29,7 @@
     {
       config,
       lib,
+      pkgs,
       ...
     }:
     let
@@ -62,6 +63,9 @@
         programs.claude-code = {
           enable = true;
           enableMcpIntegration = true;
+          mcpServers.gitlab = {
+            command = lib.getExe pkgs.gitlab-mcp;
+          };
           settings = {
             alwaysThinkingEnabled = true;
             permissions.allow = [
