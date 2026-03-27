@@ -124,6 +124,7 @@
               "Bash(nix-prefetch-url:*)"
             ];
           };
+          memory.source = ../configurations/claude-code/CLAUDE.md;
           skillsDir = ../configurations/claude-code/skills;
         };
       };
