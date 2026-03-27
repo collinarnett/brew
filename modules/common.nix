@@ -30,6 +30,7 @@
         nixpkgs.overlays =
           [
             inputs.emacs-overlay.overlay
+            inputs.claude-code-nix.overlays.default
             (import ../overlays inputs)
             (import ../pkgs/all-packages.nix)
           ]
