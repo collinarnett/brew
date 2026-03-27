@@ -26,7 +26,6 @@
     {
       options.brew.xwayland-satellite.enable = lib.mkEnableOption "xwayland-satellite";
       config = lib.mkIf cfg.enable {
-        home.sessionVariables.DISPLAY = ":1";
         home.packages = [ pkgs.xrandr ];
         systemd.user.services.xwayland-satellite = {
           Install.WantedBy = [ "graphical-session.target" ];
@@ -39,6 +38,7 @@
             Type = "notify";
             NotifyAccess = "all";
             ExecStart = "${lib.getExe pkgs.xwayland-satellite} :1";
+            ExecStartPost = "${pkgs.systemd}/bin/systemctl --user set-environment DISPLAY=:1";
             Restart = "on-failure";
           };
         };
