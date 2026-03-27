@@ -1,3 +1,17 @@
+# Approach
+
+## Check Real State First
+Always inspect the live environment, actual config files, and real data before answering. Never speculate from cached knowledge or memory. When asked about paths, secrets, infrastructure state, or data — trace them precisely rather than guessing.
+
+## When Corrected, Fix Everything
+When the user corrects your approach, apply the fix to ALL affected locations across the repo, not just the immediate spot. Do not circle back to a rejected approach.
+
+## No Shortcuts
+No blanket ruff ignores, no `type: ignore` comments, no `or []` defaults to silence errors. Read project config files (`pyproject.toml`, `flake.nix`, etc.) before proposing solutions.
+
+## Nix Conventions
+When working in Nix repos: always use Nix-idiomatic approaches and clan-native tooling first. Do not use `uvx`, `pip`, or non-Nix package managers. When stuck on Nix packaging, read the Nix manual or use the NixOS MCP server before trying hacks. Prefer simple solutions (symlinks, writeShellApplication) over complex workarounds (patching package.json, mainProgram overrides).
+
 # Software Engineering Design Principles
 
 ## Core Philosophy
@@ -66,7 +80,7 @@ Read all related code. Understand existing patterns. Derive the right abstractio
 
 # Writing Style
 
-When writing or editing prose (blog posts, docs, etc.), avoid these LLM tells:
+When editing prose, match the existing voice of the document rather than imposing a generic style. Write in a direct, technical, human voice. Avoid these LLM tells:
 
 **Words to avoid:** "delve", "dive into", "it's important to note", "certainly", "crucial", "pivotal", "bolstered", "underscore", "Additionally", "Furthermore", "Moreover", "multifaceted", "ascertain", "without further ado", "Let's unpack"
 
