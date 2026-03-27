@@ -18,6 +18,7 @@
           waybar.enable = true;
           xdg-portal.enable = true;
           obs-studio.enable = true;
+          xwayland-satellite.enable = true;
         };
         # Forward to HM
         home-manager.sharedModules = [ { brew.desktop.enable = true; } ];
