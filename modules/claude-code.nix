@@ -68,6 +68,7 @@
           };
           settings = {
             alwaysThinkingEnabled = true;
+            permissions.defaultMode = "auto";
             permissions.allow = [
               # Web
               "WebSearch"
