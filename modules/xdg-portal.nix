@@ -16,10 +16,13 @@
         xdg.portal = {
           enable = true;
           xdgOpenUsePortal = false;
-          config.sway.default = lib.mkForce [
-            "wlr"
-            "gtk"
-          ];
+          config.sway = {
+            default = lib.mkForce [
+              "wlr"
+              "gtk"
+            ];
+            "org.freedesktop.impl.portal.Notification" = "none";
+          };
           extraPortals = with pkgs; [
             xdg-desktop-portal-wlr
             xdg-desktop-portal-gtk
