@@ -12,6 +12,8 @@ No blanket ruff ignores, no `type: ignore` comments, no `or []` defaults to sile
 ## Nix Conventions
 When working in Nix repos: always use Nix-idiomatic approaches and clan-native tooling first. Do not use `uvx`, `pip`, or non-Nix package managers. When stuck on Nix packaging, read the Nix manual or use the NixOS MCP server before trying hacks. Prefer simple solutions (symlinks, writeShellApplication) over complex workarounds (patching package.json, mainProgram overrides).
 
+Common tools like `python3`, `jq`, etc. are not in `$PATH` by default on NixOS. Use `nix shell nixpkgs#<pkg> -c <cmd>` or `nix run nixpkgs#<pkg>` to access them ad hoc. Prefer the new Nix CLI (`nix build`, `nix shell`, `nix run`, `nix develop`, `nix eval`) over legacy commands (`nix-build`, `nix-shell`, `nix-env`).
+
 # Software Engineering Design Principles
 
 ## Core Philosophy
