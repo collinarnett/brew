@@ -34,17 +34,21 @@
         };
         eDP-1 = {
           transform = "normal";
-          position = "0 1800";
+          position = "0 900";
           bg = "/home/collin/Pictures/purple_swamp.jpg fill";
         };
       };
       focusWorkspace = "9";
+      # Top monitor (DP-3): workspaces 6 7 8 9 10
+      # Bottom monitor (eDP-1): workspaces 1 2 3 4 5
+      # sway maps $mod+0 to "workspace number 10", not "workspace number 0"
       workspaces =
         let
-          ws = output: { inherit output; };
+          top = { output = "DP-3"; };
+          bottom = { output = "eDP-1"; };
         in
         {
-          "0" = (ws "DP-3") // {
+          "10" = top // {
             assigns = [
               { class = "^Emacs$"; }
               { app_id = "^emacs$"; }
@@ -52,42 +56,43 @@
             startup = [
               {
                 command = "waypipe ssh -X azathoth emacs";
-                terminal = true;
                 requiresInternet = true;
                 waitFor = "emacs";
               }
             ];
           };
-          "1" = (ws "eDP-1") // {
-            assigns = [
-              { class = "^firefox(-esr)?$"; }
-              { app_id = "^firefox(-esr)?$"; }
-            ];
+          "1" = bottom // {
             startup = [
               {
                 command = "waypipe ssh -X azathoth firefox-esr";
-                terminal = true;
+                preCommand = "/run/current-system/sw/bin/ssh azathoth 'pkill -f /firefox-esr || true' 2>/dev/null; sleep 1";
                 requiresInternet = true;
                 waitFor = "firefox";
               }
             ];
           };
-          "2" = (ws "eDP-1") // {
+          "2" = bottom // {
             startup = [
               {
                 command = "${pkgs.firefox-esr}/bin/firefox-esr";
                 waitFor = "firefox";
-                noAssign = true;
               }
             ];
           };
-          "3" = ws "eDP-1";
-          "4" = ws "eDP-1";
-          "5" = ws "eDP-1";
-          "6" = ws "DP-3";
-          "7" = ws "DP-3";
-          "8" = ws "DP-3";
-          "9" = ws "DP-3";
+          "3" = bottom;
+          "4" = bottom;
+          "5" = bottom;
+          "6" = top;
+          "7" = top;
+          "8" = top;
+          "9" = top // {
+            startup = [
+              {
+                command = "kitty";
+                waitFor = "kitty";
+              }
+            ];
+          };
         };
       extraConfig = ''
         for_window [class=".*"] inhibit_idle fullscreen

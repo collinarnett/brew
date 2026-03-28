@@ -26,6 +26,11 @@ let
         default = false;
         description = "Move window back to this workspace after launch (overrides conflicting assign rules)";
       };
+      preCommand = lib.mkOption {
+        type = lib.types.nullOr lib.types.str;
+        default = null;
+        description = "Shell command to run before launching the app (e.g. kill an existing instance)";
+      };
     };
   };
 
@@ -154,21 +159,37 @@ in
       ping = "${pkgs.iputils}/bin/ping";
       kitty = "${pkgs.kitty}/bin/kitty";
 
-      # Helper script that waits for a window matching a pattern via sway IPC
+      logFile = "/tmp/sway-startup.log";
+
+      # Helper script that waits for a window matching a pattern via sway IPC.
+      # Prints the matched container's con_id to stdout.
+      # Uses process substitution so exit kills the swaymsg subscription immediately.
       waitForWindow = pkgs.writeShellScript "sway-wait-for-window" ''
         PATTERN="$1"
         TIMEOUT="''${2:-30}"
-        timeout "$TIMEOUT" bash -c "
-          ${swaymsg} -t subscribe -m '[\"window\"]' | while read -r event; do
+        LOG="''${3:-/tmp/sway-startup.log}"
+        echo "[$(date +%T)] Waiting for window matching '$PATTERN' (timeout: ''${TIMEOUT}s)" >> "$LOG"
+        CON_ID=$(timeout "$TIMEOUT" bash -c "
+          while read -r event; do
             change=\$(echo \"\$event\" | ${jq} -r '.change // empty')
             [ \"\$change\" = \"new\" ] || continue
             app_id=\$(echo \"\$event\" | ${jq} -r '.container.app_id // empty')
             wclass=\$(echo \"\$event\" | ${jq} -r '.container.window_properties.class // empty')
+            echo \"[\$(date +%T)] Window event: app_id=\$app_id class=\$wclass (looking for $PATTERN)\" >> \"$LOG\"
             if echo \"\$app_id \$wclass\" | grep -qiE \"$PATTERN\"; then
+              con_id=\$(echo \"\$event\" | ${jq} -r '.container.id // empty')
+              echo \"[\$(date +%T)] Matched '$PATTERN' (con_id=\$con_id)\" >> \"$LOG\"
+              echo \"\$con_id\"
               exit 0
             fi
-          done
-        " || echo "Timed out waiting for $PATTERN"
+          done < <(${swaymsg} -t subscribe -m '[\"window\"]')
+        ")
+        STATUS=$?
+        if [ $STATUS -ne 0 ]; then
+          echo "[$(date +%T)] TIMEOUT waiting for '$PATTERN' after ''${TIMEOUT}s" >> "$LOG"
+          exit $STATUS
+        fi
+        echo "$CON_ID"
       '';
 
       mkLaunchBlock = wsName: app:
@@ -181,30 +202,48 @@ in
         in
         ''
           # Workspace ${wsName}: ${app.command}
+          echo "[$(date +%T)] Switching to workspace ${wsName} for: ${app.command}" >> ${logFile}
           ${swaymsg} 'workspace number ${wsName}'
         ''
         + lib.optionalString app.requiresInternet ''
           if [ "$HAS_INTERNET" = "1" ]; then
         ''
+        + lib.optionalString (app.preCommand != null) ''
+          echo "[$(date +%T)] Running preCommand: ${app.preCommand}" >> ${logFile}
+          ${app.preCommand}
+        ''
+        + lib.optionalString (app.waitFor != null) ''
+          CON_ID_FILE=$(mktemp)
+          ${waitForWindow} '${app.waitFor}' 30 ${logFile} > "$CON_ID_FILE" &
+          WAIT_PID=$!
+          sleep 0.05
+        ''
         + ''
+          echo "[$(date +%T)] Launching: ${cmd}" >> ${logFile}
           ${cmd} &
         ''
         + lib.optionalString (app.waitFor != null) ''
-          ${waitForWindow} '${app.waitFor}' 30
-        ''
-        + lib.optionalString app.noAssign ''
-          sleep 0.2
-          ${swaymsg} '[app_id="${app.waitFor}"] move to workspace number ${wsName}' 2>/dev/null || \
-          ${swaymsg} '[class="${app.waitFor}"] move to workspace number ${wsName}' 2>/dev/null || true
+          wait $WAIT_PID
+          MATCHED_CON=$(cat "$CON_ID_FILE")
+          rm -f "$CON_ID_FILE"
+          if [ -n "$MATCHED_CON" ] && [ "$MATCHED_CON" != "null" ]; then
+            ${swaymsg} "[con_id=$MATCHED_CON] move to workspace number ${wsName}" 2>/dev/null || true
+            echo "[$(date +%T)] Moved con_id=$MATCHED_CON ('${app.waitFor}') to ws ${wsName}" >> ${logFile}
+          else
+            echo "[$(date +%T)] WARNING: Could not find container for '${app.waitFor}' to move" >> ${logFile}
+          fi
         ''
         + lib.optionalString app.requiresInternet ''
           else
-            echo "Skipping ${app.command} (no internet)"
+            echo "[$(date +%T)] Skipping ${app.command} (no internet)" >> ${logFile}
           fi
         '';
 
       startupScript = pkgs.writeShellScript "sway-startup" (
-        lib.optionalString hasInternetApps ''
+        ''
+          echo "[$(date +%T)] === sway-startup begin ===" > ${logFile}
+        ''
+        + lib.optionalString hasInternetApps ''
 
           # Check internet connectivity
           HAS_INTERNET=0
@@ -212,6 +251,7 @@ in
               ${ping} -c 1 -W 2 1.1.1.1 >/dev/null 2>&1); then
             HAS_INTERNET=1
           fi
+          echo "[$(date +%T)] Internet: $HAS_INTERNET" >> ${logFile}
         ''
         + ''
 
@@ -220,6 +260,11 @@ in
             ${swaymsg} -t get_tree >/dev/null 2>&1 && break
             sleep 0.5
           done
+          echo "[$(date +%T)] Sway IPC ready" >> ${logFile}
+
+          # Log connected outputs
+          echo "[$(date +%T)] Connected outputs:" >> ${logFile}
+          ${swaymsg} -t get_outputs | ${jq} -r '.[] | select(.active) | "  \(.name) \(.current_mode.width)x\(.current_mode.height)+\(.rect.x)+\(.rect.y)"' >> ${logFile}
 
           # Pre-create all workspaces on correct outputs
         ''
@@ -233,6 +278,10 @@ in
         )
         + ''
 
+          # Log workspace-to-output mapping after pre-creation
+          echo "[$(date +%T)] Workspace-to-output mapping:" >> ${logFile}
+          ${swaymsg} -t get_workspaces | ${jq} -r '.[] | "  ws \(.name) -> \(.output)"' >> ${logFile}
+
           # Launch startup apps
         ''
         + lib.concatStringsSep "\n" (
@@ -242,8 +291,14 @@ in
         )
         + ''
 
+          # Final layout snapshot
+          echo "[$(date +%T)] Final layout:" >> ${logFile}
+          ${swaymsg} -t get_workspaces | ${jq} -r '.[] | "  ws \(.name) on \(.output)"' >> ${logFile}
+
           # Focus final workspace
+          echo "[$(date +%T)] Focusing workspace ${cfg.focusWorkspace}" >> ${logFile}
           ${swaymsg} 'workspace number ${cfg.focusWorkspace}'
+          echo "[$(date +%T)] === sway-startup complete ===" >> ${logFile}
         ''
       );
     in
