@@ -17,19 +17,23 @@ The reason `git add -p` is insufficient is that it only operates at hunk granula
 
 Before touching the index, plan the full sequence of commits. This prevents dependency violations and wasted rework.
 
-### 1. Read every diff
+### 1. Read the commit history
+
+Run `git log --oneline -20` to see recent commit messages. Match your commit message style to the repository's convention — whether that's conventional commits (`feat: ...`, `fix(module): ...`), imperative (`Add ...`, `Fix ...`), prefixed (`module: description`), or something else. The short message format matters most; body style is less critical.
+
+### 2. Read every diff
 
 Run `git diff` (all files) and read the full output. Do not skip files or skim — you need to understand every change to group them correctly.
 
-### 2. Identify logical groups
+### 3. Identify logical groups
 
 Each group should be a single coherent concern: one feature, one bugfix, one refactor. A file may contribute lines to multiple groups. An overlay entry and the package it references are the same group.
 
-### 3. Order groups by dependency
+### 4. Order groups by dependency
 
 If group B references something introduced by group A (a function, a file, an import, an overlay entry), then A must be committed before B. Walk through each group and ask: "does this reference anything that doesn't exist in the tree yet?" If yes, the group that introduces it must come first.
 
-### 4. Verify the plan
+### 5. Verify the plan
 
 For each commit in order, mentally check: "if I checked out the tree at this commit, would it be internally consistent?" Every import must resolve, every reference must exist. If not, reorder or merge groups.
 
