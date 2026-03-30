@@ -97,9 +97,9 @@
       extraConfig = ''
         for_window [class=".*"] inhibit_idle fullscreen
         for_window [app_id=".*"] inhibit_idle fullscreen
-        bindsym XF86MonBrightnessDown exec "brightnessctl set 2%-"
-        bindsym XF86MonBrightnessUp exec "brightnessctl set +2%"
-        bindsym XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
+        bindsym --locked XF86MonBrightnessDown exec "brightnessctl set 2%-"
+        bindsym --locked XF86MonBrightnessUp exec "brightnessctl set +2%"
+        bindsym --locked XF86AudioMicMute exec ${pkgs.wireplumber}/bin/wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
         unbindsym $mod+l
         bindsym $mod+l exec ${pkgs.swaylock}/bin/swaylock
       '';

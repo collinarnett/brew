@@ -158,6 +158,8 @@ in
       jq = "${pkgs.jq}/bin/jq";
       ping = "${pkgs.iputils}/bin/ping";
       kitty = "${pkgs.kitty}/bin/kitty";
+      wpctl = "${pkgs.wireplumber}/bin/wpctl";
+      playerctl = "${pkgs.playerctl}/bin/playerctl";
 
       logFile = "/tmp/sway-startup.log";
 
@@ -374,16 +376,18 @@ in
           extraConfig =
             ''
               set $mod ${cfg.modifier}
-              bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
-              bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
-              bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
-              bindsym XF86AudioPlay exec playerctl play-pause
-              bindsym XF86AudioNext exec playerctl next
-              bindsym XF86AudioPrev exec playerctl previous
+              bindsym --locked XF86AudioRaiseVolume exec ${wpctl} set-volume @DEFAULT_AUDIO_SINK@ 5%+ -l 1.0
+              bindsym --locked XF86AudioLowerVolume exec ${wpctl} set-volume @DEFAULT_AUDIO_SINK@ 5%-
+              bindsym --locked XF86AudioMute exec ${wpctl} set-mute @DEFAULT_AUDIO_SINK@ toggle
+              bindsym --locked XF86AudioPlay exec ${playerctl} play-pause
+              bindsym --locked XF86AudioNext exec ${playerctl} next
+              bindsym --locked XF86AudioPrev exec ${playerctl} previous
               bindsym $mod+p exec ${pkgs.grim}/bin/grim -g "$(${pkgs.slurp}/bin/slurp -d)" - | ${pkgs.wl-clipboard}/bin/wl-copy -t image/png
             ''
             + cfg.extraConfig;
         };
+        services.playerctld.enable = true;
+        services.mpris-proxy.enable = true;
       };
     };
 }
