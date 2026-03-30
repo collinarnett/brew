@@ -23,6 +23,7 @@
         ".config/Signal"
         ".local/share/direnv"
         ".local/share/Steam"
+        ".config/obs-studio"
         ".mozilla"
         "Documents"
         "Downloads"
