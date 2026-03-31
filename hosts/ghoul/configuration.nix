@@ -131,26 +131,26 @@
               sort-by-number = [ ];
               format = "{icon}";
               format-icons = {
-                default = "";
+                default = "";
               };
             };
             "clock" = {
-              format = " {:%I:%M}";
+              format = " {:%I:%M}";
             };
             "cpu" = {
-              format = " {usage}%";
+              format = " {usage}%";
             };
             "pulseaudio" = {
-              format = " {volume}%";
+              format = " {volume}%";
             };
             "disk" = {
-              format = " {percentage_used}%";
+              format = " {percentage_used}%";
             };
             "mpd" = {
-              format = " {title}";
+              format = " {title}";
             };
             "memory" = {
-              format = " {used:0.1f}G";
+              format = " {used:0.1f}G";
             };
             "battery" = {
               format = "{icon}{capacity}%";
@@ -159,10 +159,10 @@
                 critical = 15;
               };
               format-icons = [
-                ""
-                ""
-                ""
-                ""
+                ""
+                ""
+                ""
+                ""
               ];
             };
           };
@@ -184,12 +184,12 @@
               sort-by-number = [ ];
               format = "{icon}";
               format-icons = {
-                default = "";
+                default = "";
               };
               all-outputs = false;
             };
             "clock" = {
-              format = " {:%I:%M}";
+              format = " {:%I:%M}";
             };
           };
         };
