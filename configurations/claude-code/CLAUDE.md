@@ -1,3 +1,7 @@
+# Memory
+
+Persist information to auto-memory for things specific to the current project. For brew-specific or cross-project knowledge, add it to this file instead so it applies everywhere.
+
 # Approach
 
 ## Check Real State First
