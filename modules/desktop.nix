@@ -19,6 +19,7 @@
           xdg-portal.enable = true;
           obs-studio.enable = true;
           xwayland-satellite.enable = true;
+          tomat.enable = true;
           zoom.enable = true;
         };
         # Forward to HM

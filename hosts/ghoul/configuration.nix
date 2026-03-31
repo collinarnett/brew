@@ -118,7 +118,7 @@
             "battery"
           ];
           modules-center = [ "sway/workspaces" ];
-          modules-right = [ "clock" ];
+          modules-right = [ "custom/tomat" "clock" ];
           modules = {
             "sway/workspaces" = {
               persistent-workspaces = {
@@ -164,6 +164,14 @@
                 ""
                 ""
               ];
+            };
+            "custom/tomat" = {
+              exec = "tomat status";
+              interval = 1;
+              return-type = "json";
+              format = "{}";
+              on-click = "tomat toggle";
+              on-click-right = "tomat skip";
             };
           };
         };

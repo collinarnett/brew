@@ -17,7 +17,7 @@ let
                 "network"
               ];
               modules-center = [ "sway/workspaces" ];
-              modules-right = [ "clock" ];
+              modules-right = [ "custom/tomat" "clock" ];
               "sway/workspaces" = {
                 format = "{icon}";
                 format-icons = {
@@ -41,6 +41,14 @@ let
               };
               "network" = {
                 format = "{ifname}: {bandwidthDownBits} | {bandwidthUpBits}";
+              };
+              "custom/tomat" = {
+                exec = "tomat status";
+                interval = 1;
+                return-type = "json";
+                format = "{}";
+                on-click = "tomat toggle";
+                on-click-right = "tomat skip";
               };
             };
           };
