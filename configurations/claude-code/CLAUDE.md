@@ -84,6 +84,9 @@ Each commit is one logical change. Use surgical staging when a file has mixed ch
 ### Understand Before Refactoring
 Read all related code. Understand existing patterns. Derive the right abstraction from what the code does, not from theory.
 
+### Preserve Special Characters
+Files may contain Private Use Area Unicode characters (e.g. Siji icons in waybar configs) that Claude cannot render or type. Never rewrite these files with Edit or Write — use `perl` with `\x{XXXX}` escapes or `sed` with hex byte sequences for surgical edits. Verify icons survive with `od -A x -t x1z <file> | grep 'ee 8'` before committing.
+
 # Writing Style
 
 When editing prose, match the existing voice of the document rather than imposing a generic style. Write in a direct, technical, human voice. Avoid these LLM tells:
