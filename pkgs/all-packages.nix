@@ -5,4 +5,5 @@ final: prev: {
   gitlab-mcp = prev.callPackage ./gitlab-mcp.nix { };
   iommu-groups = prev.callPackage ./iommu-groups.nix { };
   lightpanda = prev.callPackage ./lightpanda { };
+  walmart-grocy-import = prev.callPackage ./walmart-grocy-import { };
 }
