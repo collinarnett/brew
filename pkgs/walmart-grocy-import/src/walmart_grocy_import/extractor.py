@@ -9,8 +9,7 @@ import re
 import requests
 
 from .browser import LightpandaBrowser
-
-WALMART_BASE = "https://www.walmart.com"
+from .config import REQUEST_TIMEOUT, WALMART_BASE
 
 OPERATIONS: dict[str, str] = {
     "PurchaseHistoryV2": "/orchestra/cph/graphql/PurchaseHistoryV2/",
@@ -20,8 +19,6 @@ HASH_PATTERN = re.compile(r'name:"(\w+)",hash:"([0-9a-f]{64})"')
 SCRIPT_PATTERN = re.compile(
     r'src="(https://i5\.walmartimages\.com[^"]+\.js)"',
 )
-
-REQUEST_TIMEOUT = 15
 
 
 def resolve_endpoints(browser: LightpandaBrowser) -> dict[str, str]:

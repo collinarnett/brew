@@ -1,6 +1,9 @@
-"""Application configuration."""
+"""Application configuration and shared constants."""
 
 from pydantic import BaseModel
+
+WALMART_BASE = "https://www.walmart.com"
+REQUEST_TIMEOUT = 15
 
 
 class GrocyConfig(BaseModel):

@@ -2,15 +2,38 @@
 
 import subprocess
 import time
+import urllib.request
 from typing import Self
 
 from playwright.sync_api import sync_playwright
 
+from .config import REQUEST_TIMEOUT
+
 CDP_HOST = "127.0.0.1"
 CDP_PORT = 9222
-CDP_STARTUP_DELAY = 2
+CDP_POLL_INTERVAL = 0.1
+CDP_POLL_ATTEMPTS = 30
 RENDER_TIMEOUT = 30000
-FETCH_TIMEOUT = 30
+
+
+def _cdp_is_ready(url: str) -> bool:
+    """Check if the CDP server is accepting connections."""
+    try:
+        urllib.request.urlopen(url, timeout=1)  # noqa: S310
+    except OSError:
+        return False
+    return True
+
+
+def _wait_for_cdp(host: str, port: int) -> None:
+    """Poll the CDP HTTP endpoint until the server is accepting connections."""
+    url = f"http://{host}:{port}/json/version"
+    for _ in range(CDP_POLL_ATTEMPTS):
+        if _cdp_is_ready(url):
+            return
+        time.sleep(CDP_POLL_INTERVAL)
+    msg = f"Lightpanda CDP server failed to start on {host}:{port}"
+    raise RuntimeError(msg)
 
 
 class LightpandaBrowser:
@@ -41,7 +64,7 @@ class LightpandaBrowser:
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
         )
-        time.sleep(CDP_STARTUP_DELAY)
+        _wait_for_cdp(CDP_HOST, CDP_PORT)
 
     def _stop(self) -> None:
         if self._proc:
@@ -58,7 +81,11 @@ class LightpandaBrowser:
             context = browser.new_context()
             context.add_cookies(self._pw_cookies)  # type: ignore[arg-type]
             page = context.new_page()
-            page.goto(url, wait_until="networkidle", timeout=RENDER_TIMEOUT)
+            page.goto(
+                url,
+                wait_until="networkidle",
+                timeout=RENDER_TIMEOUT,
+            )
             html = page.content()
             browser.close()
         return html
@@ -70,7 +97,7 @@ class LightpandaBrowser:
             cmd,
             capture_output=True,
             text=True,
-            timeout=FETCH_TIMEOUT,
+            timeout=REQUEST_TIMEOUT,
             check=False,
         )
         if result.returncode != 0:

@@ -2,9 +2,8 @@
 
 import requests
 
+from .config import REQUEST_TIMEOUT
 from .models import GrocyProduct
-
-REQUEST_TIMEOUT = 10
 
 
 class GrocyClient:
@@ -29,7 +28,9 @@ class GrocyClient:
             timeout=REQUEST_TIMEOUT,
         )
         resp.raise_for_status()
-        return [GrocyProduct(id=p["id"], name=p["name"]) for p in resp.json()]
+        return [
+            GrocyProduct.model_validate(p) for p in resp.json()
+        ]
 
     def add_product_to_stock(
         self,

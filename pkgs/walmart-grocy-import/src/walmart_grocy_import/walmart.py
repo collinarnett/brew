@@ -11,9 +11,13 @@ import time
 import requests
 
 from .browser import LightpandaBrowser
-from .models import SSROrder, WalmartItem, WalmartOrder, WalmartOrderSummary
-
-WALMART_BASE = "https://www.walmart.com"
+from .config import REQUEST_TIMEOUT, WALMART_BASE
+from .models import (
+    GQLDataEnvelope,
+    NextDataEnvelope,
+    WalmartOrder,
+    WalmartOrderSummary,
+)
 
 BASE_HEADERS: dict[str, str] = {
     "accept": "application/json",
@@ -38,34 +42,12 @@ BASE_HEADERS: dict[str, str] = {
 }
 
 RATE_LIMIT_SECONDS = 2
-REQUEST_TIMEOUT = 15
 HTTP_RATE_LIMITED = 429
 HTTP_FORBIDDEN = 403
 HTTP_TEAPOT = 418
 NEXT_DATA_PATTERN = re.compile(
     r'<script id="__NEXT_DATA__"[^>]*>(.*?)</script>',
 )
-
-
-def _parse_order_summary(raw: dict) -> WalmartOrderSummary:
-    status_parts: list[str] = []
-    status = raw.get("status")
-    if status:
-        message = status.get("message")
-        if message:
-            status_parts = [p["text"] for p in message["parts"]]
-
-    return WalmartOrderSummary(
-        order_id=raw["orderId"],
-        order_type=raw.get("derivedFulfillmentType", raw["type"]),
-        item_count=raw["itemCount"],
-        is_in_store=raw["type"] == "IN_STORE",
-        status=" ".join(status_parts).strip(),
-        items=[
-            WalmartItem(name=item["name"], quantity=item["quantity"])
-            for item in raw["items"]
-        ],
-    )
 
 
 class WalmartGraphQLClient:
@@ -76,7 +58,7 @@ class WalmartGraphQLClient:
         session: requests.Session,
         endpoints: dict[str, str],
     ) -> None:
-        """Initialize with an authenticated session and discovered endpoints."""
+        """Initialize with an authenticated session and endpoints."""
         self._session = session
         self._endpoints = endpoints
         self._last_request: float = 0
@@ -110,10 +92,10 @@ class WalmartGraphQLClient:
         )
 
         if resp.status_code == HTTP_RATE_LIMITED:
-            msg = "Rate limited — cookies may be stale, log into walmart.com again"
+            msg = "Rate limited — log into walmart.com again"
             raise RuntimeError(msg)
         if resp.status_code in (HTTP_FORBIDDEN, HTTP_TEAPOT):
-            msg = "Access denied — cookies expired, log into walmart.com in Firefox"
+            msg = "Access denied — cookies expired, log into walmart.com"
             raise RuntimeError(msg)
         resp.raise_for_status()
         return resp.json()
@@ -125,7 +107,7 @@ class WalmartGraphQLClient:
         min_timestamp: int | None = None,
         max_timestamp: int | None = None,
     ) -> list[WalmartOrderSummary]:
-        """Fetch recent order summaries from Walmart's purchase history."""
+        """Fetch recent order summaries from Walmart."""
         variables = {
             "input": {
                 "cursor": "",
@@ -138,19 +120,20 @@ class WalmartGraphQLClient:
             },
             "platform": "WEB",
         }
-        data = self._request(
+        raw = self._request(
             self._endpoints["PurchaseHistoryV2"],
             "PurchaseHistoryV2",
             variables,
         )
+        envelope = GQLDataEnvelope.model_validate(raw)
         return [
-            _parse_order_summary(o)
-            for o in data["data"]["orderHistoryV2"]["orderGroups"]
+            g.to_summary()
+            for g in envelope.data.order_history_v2.order_groups
         ]
 
 
 class WalmartPageScraper:
-    """Extracts order details with per-item prices from Walmart's SSR pages."""
+    """Extracts order details with prices from Walmart's SSR pages."""
 
     def __init__(self, browser: LightpandaBrowser) -> None:
         """Initialize with a running LightpandaBrowser instance."""
@@ -158,13 +141,19 @@ class WalmartPageScraper:
 
     def get_order(self, order_id: str) -> WalmartOrder:
         """Fetch order details by rendering the authenticated order page."""
-        html = self._browser.render(f"{WALMART_BASE}/orders/{order_id}")
+        html = self._browser.render(
+            f"{WALMART_BASE}/orders/{order_id}",
+        )
 
         match = NEXT_DATA_PATTERN.search(html)
         if not match:
             msg = f"No __NEXT_DATA__ found for order {order_id}"
             raise RuntimeError(msg)
 
-        next_data = json.loads(match.group(1))
-        raw_order = next_data["props"]["pageProps"]["initialData"]["data"]["order"]
-        return SSROrder.model_validate(raw_order).to_walmart_order()
+        envelope = NextDataEnvelope.model_validate(
+            json.loads(match.group(1)),
+        )
+        return (
+            envelope.props.page_props.initial_data.data.order
+            .to_walmart_order()
+        )

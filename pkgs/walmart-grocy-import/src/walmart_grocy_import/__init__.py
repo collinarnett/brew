@@ -40,7 +40,7 @@ def parse_config(args: argparse.Namespace) -> Config:
     grocy_url = args.grocy_url or os.environ.get("GROCY_URL")
     grocy_api_key = args.grocy_api_key or os.environ.get("GROCY_API_KEY")
 
-    if args.command == "import" and (not grocy_url or not grocy_api_key):
+    if not grocy_url or not grocy_api_key:
         sys.stderr.write(
             "Error: --grocy-url and --grocy-api-key "
             "(or GROCY_URL/GROCY_API_KEY) required\n",
@@ -48,7 +48,7 @@ def parse_config(args: argparse.Namespace) -> Config:
         sys.exit(1)
 
     return Config(
-        grocy=GrocyConfig(url=grocy_url or "", api_key=grocy_api_key or ""),
+        grocy=GrocyConfig(url=grocy_url, api_key=grocy_api_key),
         state_file=args.state_file,
     )
 

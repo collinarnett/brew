@@ -4,6 +4,8 @@ from typing import Any
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
+# -- Canonical domain models --
+
 
 class WalmartItem(BaseModel):
     """A grocery item from a Walmart order."""
@@ -33,7 +35,120 @@ class WalmartOrder(BaseModel):
     total: float | None = None
 
 
-# -- __NEXT_DATA__ parsing models --
+class GrocyProduct(BaseModel):
+    """A product from the Grocy inventory."""
+
+    id: int
+    name: str
+
+
+class ProductMatch(BaseModel):
+    """A Walmart item matched to a Grocy product by fuzzy name matching."""
+
+    walmart_item: WalmartItem
+    grocy_product: GrocyProduct
+    score: int
+
+
+class ImportResult(BaseModel):
+    """Result of importing a single Walmart order into Grocy."""
+
+    order_id: str
+    matched: list[ProductMatch]
+    unmatched: list[WalmartItem]
+
+
+# -- GraphQL PurchaseHistoryV2 response models --
+
+
+class GQLStatusPart(BaseModel):
+    """A text fragment in a status message."""
+
+    text: str
+
+
+class GQLStatusMessage(BaseModel):
+    """A status message composed of text parts."""
+
+    parts: list[GQLStatusPart]
+
+
+class GQLStatus(BaseModel):
+    """Order group delivery status."""
+
+    message: GQLStatusMessage | None = None
+
+
+class GQLItemSummary(BaseModel):
+    """Item preview in the purchase history listing."""
+
+    name: str
+    quantity: int
+
+
+class GQLOrderGroup(BaseModel):
+    """A fulfillment group from PurchaseHistoryV2.
+
+    Maps to one row in the orders list. Multiple groups can share an
+    order ID when an order has multiple fulfillment types.
+    """
+
+    model_config = ConfigDict(populate_by_name=True)
+
+    order_id: str = Field(alias="orderId")
+    type: str
+    derived_fulfillment_type: str | None = Field(
+        default=None,
+        alias="derivedFulfillmentType",
+    )
+    item_count: int = Field(alias="itemCount")
+    status: GQLStatus | None = None
+    items: list[GQLItemSummary]
+
+    def to_summary(self) -> WalmartOrderSummary:
+        """Convert to canonical WalmartOrderSummary."""
+        status_text = ""
+        if self.status and self.status.message:
+            status_text = " ".join(
+                p.text for p in self.status.message.parts
+            ).strip()
+
+        return WalmartOrderSummary(
+            order_id=self.order_id,
+            order_type=self.derived_fulfillment_type or self.type,
+            item_count=self.item_count,
+            is_in_store=self.type == "IN_STORE",
+            status=status_text,
+            items=[
+                WalmartItem(name=i.name, quantity=i.quantity)
+                for i in self.items
+            ],
+        )
+
+
+class GQLPurchaseHistoryV2(BaseModel):
+    """Top-level PurchaseHistoryV2 GraphQL response."""
+
+    model_config = ConfigDict(populate_by_name=True)
+
+    order_groups: list[GQLOrderGroup] = Field(alias="orderGroups")
+
+
+class GQLPurchaseHistoryResponse(BaseModel):
+    """Wrapper for the GraphQL data envelope."""
+
+    model_config = ConfigDict(populate_by_name=True)
+
+    order_history_v2: GQLPurchaseHistoryV2 = Field(alias="orderHistoryV2")
+
+
+class GQLDataEnvelope(BaseModel):
+    """GraphQL response { data: { ... } } envelope."""
+
+    data: GQLPurchaseHistoryResponse
+
+
+# -- __NEXT_DATA__ SSR parsing models --
 # Field names match Walmart's JSON keys via aliases.
 
 
@@ -54,7 +169,10 @@ class SSRPriceInfo(BaseModel):
 
     model_config = ConfigDict(populate_by_name=True)
 
-    line_price: SSRLinePrice | None = Field(default=None, alias="linePrice")
+    line_price: SSRLinePrice | None = Field(
+        default=None,
+        alias="linePrice",
+    )
 
 
 class SSROrderItem(BaseModel):
@@ -64,7 +182,10 @@ class SSROrderItem(BaseModel):
 
     quantity: int
     product_info: SSRProductInfo = Field(alias="productInfo")
-    price_info: SSRPriceInfo | None = Field(default=None, alias="priceInfo")
+    price_info: SSRPriceInfo | None = Field(
+        default=None,
+        alias="priceInfo",
+    )
 
 
 class SSROrderGroup(BaseModel):
@@ -84,12 +205,18 @@ class SSRPriceDetails(BaseModel):
 
     model_config = ConfigDict(populate_by_name=True)
 
-    sub_total: SSRPriceLineItem | None = Field(default=None, alias="subTotal")
-    grand_total: SSRPriceLineItem | None = Field(default=None, alias="grandTotal")
+    sub_total: SSRPriceLineItem | None = Field(
+        default=None,
+        alias="subTotal",
+    )
+    grand_total: SSRPriceLineItem | None = Field(
+        default=None,
+        alias="grandTotal",
+    )
 
 
 class SSROrder(BaseModel):
-    """Order data from __NEXT_DATA__.props.pageProps.initialData.data.order.
+    """Order from __NEXT_DATA__.
 
     The groups key is a GraphQL alias that changes with schema versions
     (e.g. groups_2101). We find it dynamically: the first list-valued key
@@ -99,12 +226,18 @@ class SSROrder(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
     id: str
-    price_details: SSRPriceDetails | None = Field(default=None, alias="priceDetails")
+    price_details: SSRPriceDetails | None = Field(
+        default=None,
+        alias="priceDetails",
+    )
     groups: list[SSROrderGroup]
 
     @model_validator(mode="before")
     @classmethod
-    def find_groups_key(cls, data: dict[str, Any]) -> dict[str, Any]:
+    def find_groups_key(
+        cls,
+        data: dict[str, Any],
+    ) -> dict[str, Any]:
         """Locate the aliased groups key and normalize it to 'groups'."""
         if isinstance(data, dict) and "groups" not in data:
             for value in data.values():
@@ -151,24 +284,35 @@ class SSROrder(BaseModel):
         )
 
 
-class GrocyProduct(BaseModel):
-    """A product from the Grocy inventory."""
+class SSROrderData(BaseModel):
+    """The order object inside __NEXT_DATA__ initial data."""
 
-    id: int
-    name: str
-
-
-class ProductMatch(BaseModel):
-    """A Walmart item matched to a Grocy product by fuzzy name matching."""
-
-    walmart_item: WalmartItem
-    grocy_product: GrocyProduct
-    score: int
+    order: SSROrder
 
 
-class ImportResult(BaseModel):
-    """Result of importing a single Walmart order into Grocy."""
+class SSRInitialData(BaseModel):
+    """The initialData wrapper in __NEXT_DATA__."""
 
-    order_id: str
-    matched: list[ProductMatch]
-    unmatched: list[WalmartItem]
+    data: SSROrderData
+
+
+class SSRPageProps(BaseModel):
+    """Page props from __NEXT_DATA__."""
+
+    model_config = ConfigDict(populate_by_name=True)
+
+    initial_data: SSRInitialData = Field(alias="initialData")
+
+
+class SSRProps(BaseModel):
+    """Props wrapper from __NEXT_DATA__."""
+
+    model_config = ConfigDict(populate_by_name=True)
+
+    page_props: SSRPageProps = Field(alias="pageProps")
+
+
+class NextDataEnvelope(BaseModel):
+    """Top-level __NEXT_DATA__ JSON structure."""
+
+    props: SSRProps
