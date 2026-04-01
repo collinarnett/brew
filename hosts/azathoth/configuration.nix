@@ -226,7 +226,6 @@
       crawl
       dconf
       drawio
-      electron_38
       fastfetch
       fd
       freetube
