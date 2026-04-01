@@ -15,7 +15,7 @@ from .models import SSROrder, WalmartItem, WalmartOrder, WalmartOrderSummary
 
 WALMART_BASE = "https://www.walmart.com"
 
-BASE_HEADERS = {
+BASE_HEADERS: dict[str, str] = {
     "accept": "application/json",
     "accept-language": "en-US",
     "content-type": "application/json",
@@ -38,13 +38,22 @@ BASE_HEADERS = {
 }
 
 RATE_LIMIT_SECONDS = 2
-NEXT_DATA_PATTERN = re.compile(r'<script id="__NEXT_DATA__"[^>]*>(.*?)</script>')
+REQUEST_TIMEOUT = 15
+HTTP_RATE_LIMITED = 429
+HTTP_FORBIDDEN = 403
+HTTP_TEAPOT = 418
+NEXT_DATA_PATTERN = re.compile(
+    r'<script id="__NEXT_DATA__"[^>]*>(.*?)</script>',
+)
 
 
 def _parse_order_summary(raw: dict) -> WalmartOrderSummary:
-    status_parts = []
-    if raw.get("status") and raw["status"].get("message"):
-        status_parts = [p["text"] for p in raw["status"]["message"]["parts"]]
+    status_parts: list[str] = []
+    status = raw.get("status")
+    if status:
+        message = status.get("message")
+        if message:
+            status_parts = [p["text"] for p in message["parts"]]
 
     return WalmartOrderSummary(
         order_id=raw["orderId"],
@@ -62,7 +71,12 @@ def _parse_order_summary(raw: dict) -> WalmartOrderSummary:
 class WalmartGraphQLClient:
     """Client for Walmart's consumer GraphQL API (order listing)."""
 
-    def __init__(self, session: requests.Session, endpoints: dict[str, str]):
+    def __init__(
+        self,
+        session: requests.Session,
+        endpoints: dict[str, str],
+    ) -> None:
+        """Initialize with an authenticated session and discovered endpoints."""
         self._session = session
         self._endpoints = endpoints
         self._last_request: float = 0
@@ -73,22 +87,34 @@ class WalmartGraphQLClient:
             time.sleep(RATE_LIMIT_SECONDS - elapsed)
         self._last_request = time.monotonic()
 
-    def _request(self, url: str, operation_name: str, variables: dict) -> dict:
+    def _request(
+        self,
+        url: str,
+        operation_name: str,
+        variables: dict,
+    ) -> dict:
         self._rate_limit()
+        correlation_id = f"wgi-{int(time.time())}"
         self._session.headers.update(
             {
                 "x-apollo-operation-name": operation_name,
                 "x-o-gql-query": f"query {operation_name}",
-                "x-o-correlation-id": f"wgi-{int(time.time())}",
-                "wm_qos.correlation_id": f"wgi-{int(time.time())}",
-            }
+                "x-o-correlation-id": correlation_id,
+                "wm_qos.correlation_id": correlation_id,
+            },
         )
-        resp = self._session.get(url, params={"variables": json.dumps(variables)}, timeout=15)
+        resp = self._session.get(
+            url,
+            params={"variables": json.dumps(variables)},
+            timeout=REQUEST_TIMEOUT,
+        )
 
-        if resp.status_code == 429:
-            raise RuntimeError("Rate limited — cookies may be stale, log into walmart.com again")
-        if resp.status_code in (403, 418):
-            raise RuntimeError("Access denied — cookies expired, log into walmart.com in Firefox")
+        if resp.status_code == HTTP_RATE_LIMITED:
+            msg = "Rate limited — cookies may be stale, log into walmart.com again"
+            raise RuntimeError(msg)
+        if resp.status_code in (HTTP_FORBIDDEN, HTTP_TEAPOT):
+            msg = "Access denied — cookies expired, log into walmart.com in Firefox"
+            raise RuntimeError(msg)
         resp.raise_for_status()
         return resp.json()
 
@@ -99,6 +125,7 @@ class WalmartGraphQLClient:
         min_timestamp: int | None = None,
         max_timestamp: int | None = None,
     ) -> list[WalmartOrderSummary]:
+        """Fetch recent order summaries from Walmart's purchase history."""
         variables = {
             "input": {
                 "cursor": "",
@@ -112,7 +139,9 @@ class WalmartGraphQLClient:
             "platform": "WEB",
         }
         data = self._request(
-            self._endpoints["PurchaseHistoryV2"], "PurchaseHistoryV2", variables
+            self._endpoints["PurchaseHistoryV2"],
+            "PurchaseHistoryV2",
+            variables,
         )
         return [
             _parse_order_summary(o)
@@ -123,15 +152,18 @@ class WalmartGraphQLClient:
 class WalmartPageScraper:
     """Extracts order details with per-item prices from Walmart's SSR pages."""
 
-    def __init__(self, browser: LightpandaBrowser):
+    def __init__(self, browser: LightpandaBrowser) -> None:
+        """Initialize with a running LightpandaBrowser instance."""
         self._browser = browser
 
     def get_order(self, order_id: str) -> WalmartOrder:
+        """Fetch order details by rendering the authenticated order page."""
         html = self._browser.render(f"{WALMART_BASE}/orders/{order_id}")
 
         match = NEXT_DATA_PATTERN.search(html)
         if not match:
-            raise RuntimeError(f"No __NEXT_DATA__ found for order {order_id}")
+            msg = f"No __NEXT_DATA__ found for order {order_id}"
+            raise RuntimeError(msg)
 
         next_data = json.loads(match.group(1))
         raw_order = next_data["props"]["pageProps"]["initialData"]["data"]["order"]
