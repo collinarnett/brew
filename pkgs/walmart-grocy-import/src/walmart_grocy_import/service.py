@@ -3,8 +3,12 @@
 import json
 from pathlib import Path
 
+import browser_cookie3
+import requests
 from thefuzz import fuzz
 
+from .browser import LightpandaBrowser
+from .extractor import resolve_endpoints
 from .grocy import GrocyClient
 from .models import (
     GrocyProduct,
@@ -13,13 +17,40 @@ from .models import (
     WalmartItem,
     WalmartOrder,
 )
-from .walmart import WalmartClient
+from .walmart import BASE_HEADERS, WalmartGraphQLClient, WalmartPageScraper
 
 FUZZY_MATCH_THRESHOLD = 75
 
 
+def get_walmart_cookies() -> tuple[requests.cookies.RequestsCookieJar, list[dict]]:
+    """Extract Walmart cookies from Firefox, returning both requests and Playwright formats."""
+    cookies = browser_cookie3.firefox(domain_name=".walmart.com")
+
+    pw_cookies = []
+    for c in cookies:
+        cookie: dict = {
+            "name": c.name,
+            "value": c.value,
+            "domain": c.domain,
+            "path": c.path or "/",
+            "secure": bool(c.secure),
+            "httpOnly": False,
+        }
+        if c.expires and 0 < c.expires < 2**31:
+            cookie["expires"] = int(c.expires)
+        pw_cookies.append(cookie)
+
+    return cookies, pw_cookies
+
+
+def make_session(cookies: requests.cookies.RequestsCookieJar) -> requests.Session:
+    session = requests.Session()
+    session.cookies = cookies
+    session.headers.update(BASE_HEADERS)
+    return session
+
+
 def match_item(item: WalmartItem, products: list[GrocyProduct]) -> ProductMatch | None:
-    """Fuzzy-match a Walmart item to a Grocy product."""
     best_match = None
     best_score = 0
     for product in products:
@@ -39,7 +70,6 @@ def import_order(
     *,
     dry_run: bool = False,
 ) -> ImportResult:
-    """Match items from a Walmart order to Grocy products and add to stock."""
     matched = []
     unmatched = []
     for item in order.items:
@@ -58,8 +88,6 @@ def import_order(
 
 
 class ImportState:
-    """Tracks which orders have been imported."""
-
     def __init__(self, path: Path):
         self.path = path
         self._data = self._load()
@@ -82,34 +110,53 @@ class ImportState:
 
 
 def run_import(
-    walmart: WalmartClient,
     grocy: GrocyClient,
     state: ImportState,
+    req_cookies: requests.cookies.RequestsCookieJar,
+    pw_cookies: list[dict],
     *,
     since: int | None = None,
     limit: int = 10,
     dry_run: bool = False,
     force: bool = False,
 ) -> list[ImportResult]:
-    """Fetch Walmart orders and import into Grocy."""
     products = grocy.get_products()
-    summaries = walmart.get_purchase_history(limit=limit, min_timestamp=since)
-    results = []
-    seen_order_ids: set[str] = set()
 
-    for summary in summaries:
-        if summary.order_id in seen_order_ids:
-            continue
-        seen_order_ids.add(summary.order_id)
+    with LightpandaBrowser(pw_cookies) as browser:
+        endpoints = resolve_endpoints(browser)
+        graphql = WalmartGraphQLClient(make_session(req_cookies), endpoints)
+        scraper = WalmartPageScraper(browser)
 
-        if state.is_imported(summary.order_id) and not force:
-            continue
+        summaries = graphql.get_purchase_history(limit=limit, min_timestamp=since)
+        results = []
+        seen: set[str] = set()
 
-        order = walmart.get_order(summary.order_id)
-        result = import_order(order, products, grocy, dry_run=dry_run)
-        results.append(result)
+        for summary in summaries:
+            if summary.order_id in seen:
+                continue
+            seen.add(summary.order_id)
 
-        if not dry_run:
-            state.mark_imported(summary.order_id)
+            if state.is_imported(summary.order_id) and not force:
+                continue
+
+            order = scraper.get_order(summary.order_id)
+            result = import_order(order, products, grocy, dry_run=dry_run)
+            results.append(result)
+
+            if not dry_run:
+                state.mark_imported(summary.order_id)
 
     return results
+
+
+def run_list(
+    req_cookies: requests.cookies.RequestsCookieJar,
+    pw_cookies: list[dict],
+    *,
+    since: int | None = None,
+    limit: int = 10,
+) -> list:
+    with LightpandaBrowser(pw_cookies) as browser:
+        endpoints = resolve_endpoints(browser)
+        graphql = WalmartGraphQLClient(make_session(req_cookies), endpoints)
+        return graphql.get_purchase_history(limit=limit, min_timestamp=since)

@@ -7,10 +7,8 @@ from datetime import datetime, timedelta
 from pathlib import Path
 
 from .config import Config, GrocyConfig
-from .extractor import resolve_endpoints
 from .grocy import GrocyClient
-from .service import ImportState, run_import
-from .walmart import WalmartClient, get_cookies
+from .service import ImportState, get_walmart_cookies, run_import, run_list
 
 
 def parse_since(since_str: str) -> int:
@@ -29,7 +27,6 @@ def parse_since(since_str: str) -> int:
 
 
 def parse_config(args: argparse.Namespace) -> Config:
-    """Build Config from CLI args + environment, failing if required values are missing."""
     grocy_url = args.grocy_url or os.environ.get("GROCY_URL")
     grocy_api_key = args.grocy_api_key or os.environ.get("GROCY_API_KEY")
 
@@ -44,12 +41,10 @@ def parse_config(args: argparse.Namespace) -> Config:
 
 
 def cmd_list(args: argparse.Namespace) -> None:
-    cookies = get_cookies()
-    endpoints = resolve_endpoints()
-    client = WalmartClient(cookies, endpoints)
-
+    req_cookies, pw_cookies = get_walmart_cookies()
     since = parse_since(args.since) if args.since else None
-    summaries = client.get_purchase_history(limit=args.limit, min_timestamp=since)
+
+    summaries = run_list(req_cookies, pw_cookies, since=since, limit=args.limit)
 
     for order in summaries:
         item_names = [i.name for i in order.items]
@@ -65,17 +60,16 @@ def cmd_list(args: argparse.Namespace) -> None:
 
 def cmd_import(args: argparse.Namespace) -> None:
     config = parse_config(args)
-    cookies = get_cookies()
-    endpoints = resolve_endpoints()
-    walmart = WalmartClient(cookies, endpoints)
+    req_cookies, pw_cookies = get_walmart_cookies()
     grocy = GrocyClient(config.grocy.url, config.grocy.api_key)
     state = ImportState(Path(config.state_file))
     since = parse_since(args.since) if args.since else None
 
     results = run_import(
-        walmart,
         grocy,
         state,
+        req_cookies,
+        pw_cookies,
         since=since,
         limit=args.limit,
         dry_run=args.dry_run,

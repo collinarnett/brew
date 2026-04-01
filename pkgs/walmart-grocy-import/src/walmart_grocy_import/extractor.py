@@ -5,9 +5,10 @@ the webpack JS chunks from Walmart's CDN to find the current hashes.
 """
 
 import re
-import subprocess
 
 import requests
+
+from .browser import LightpandaBrowser
 
 WALMART_BASE = "https://www.walmart.com"
 
@@ -19,21 +20,13 @@ HASH_PATTERN = re.compile(r'name:"(\w+)",hash:"([0-9a-f]{64})"')
 SCRIPT_PATTERN = re.compile(r'src="(https://i5\.walmartimages\.com[^"]+\.js)"')
 
 
-def resolve_endpoints() -> dict[str, str]:
+def resolve_endpoints(browser: LightpandaBrowser) -> dict[str, str]:
     """Discover current Walmart GraphQL endpoint URLs.
 
     Returns a dict mapping operation name -> full URL.
     """
-    result = subprocess.run(
-        ["lightpanda", "fetch", "--dump", "html", f"{WALMART_BASE}/orders"],
-        capture_output=True,
-        text=True,
-        timeout=30,
-    )
-    if result.returncode != 0:
-        raise RuntimeError(f"Lightpanda failed: {result.stderr}")
-
-    script_urls = SCRIPT_PATTERN.findall(result.stdout)
+    html = browser.render_unauthenticated(f"{WALMART_BASE}/orders")
+    script_urls = SCRIPT_PATTERN.findall(html)
 
     resolved: dict[str, str] = {}
     remaining = set(OPERATIONS.keys())
