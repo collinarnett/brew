@@ -4,4 +4,5 @@ final: prev: {
   cackey = prev.callPackage ./cackey.nix { };
   gitlab-mcp = prev.callPackage ./gitlab-mcp.nix { };
   iommu-groups = prev.callPackage ./iommu-groups.nix { };
+  lightpanda = prev.callPackage ./lightpanda { };
 }
