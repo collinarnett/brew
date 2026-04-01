@@ -36,6 +36,12 @@
         group = "authelia-main";
         mode = "0700";
       }
+      {
+        directory = "/var/lib/grocy";
+        user = "grocy";
+        group = "nginx";
+        mode = "0700";
+      }
     ];
     files = [
       "/etc/nix/netrc"

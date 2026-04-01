@@ -90,6 +90,17 @@ in
           { url = "http://127.0.0.1:8083"; }
         ];
 
+        http.routers.grocy = mkIf cfg.grocy.enable {
+          rule = "Host(`grocy.trexd.dev`)";
+          entryPoints = [ "websecure" ];
+          tls.certResolver = "letsencrypt";
+          service = "grocy";
+          middlewares = "authelia";
+        };
+        http.services.grocy.loadBalancer.servers = mkIf cfg.grocy.enable [
+          { url = "http://127.0.0.1:8099"; }
+        ];
+
         http.routers.jellyfin = mkIf cfg.jellyfin.enable {
           rule = "Host(`media.trexd.dev`)";
           entryPoints = [ "websecure" ];
@@ -106,7 +117,8 @@ in
     systemd.services.traefik.environment = {
       AWS_PROFILE = "default";
       AWS_REGION = "us-east-1";
-      AWS_SHARED_CREDENTIALS_FILE = config.clan.core.vars.generators.awscli2-credentials.files.awscli2-credentials.path;
+      AWS_SHARED_CREDENTIALS_FILE =
+        config.clan.core.vars.generators.awscli2-credentials.files.awscli2-credentials.path;
     };
 
     networking.firewall.allowedTCPPorts = [

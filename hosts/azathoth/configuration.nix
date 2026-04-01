@@ -36,6 +36,7 @@
       authelia.enable = true;
       jellyfin.enable = true;
       calibre-web.enable = true;
+      grocy.enable = true;
     };
 
     keychain = {

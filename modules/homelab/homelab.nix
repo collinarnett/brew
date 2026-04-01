@@ -18,10 +18,11 @@
     {
       imports = [
         ./_authelia.nix
+        ./_calibre-web.nix
+        ./_grocy.nix
         ./_jellyfin.nix
         ./_searx.nix
         ./_traefik.nix
-        ./_calibre-web.nix
       ];
 
       options.brew.homelab = {
@@ -31,6 +32,14 @@
           type = types.submodule {
             options = {
               enable = mkEnableOption "authelia";
+            };
+          };
+        };
+        grocy = mkOption {
+          default = { };
+          type = types.submodule {
+            options = {
+              enable = mkEnableOption "grocy";
             };
           };
         };
