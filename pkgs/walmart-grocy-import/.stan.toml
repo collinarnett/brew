@@ -1,0 +1,16 @@
+# length/sum operate on finite result lists from API calls
+[[check]]
+type = "Exclude"
+id = "STAN-0103"
+scope = "all"
+
+[[check]]
+type = "Exclude"
+id = "STAN-0105"
+scope = "all"
+
+# reverse is used in accumulator pattern on finite traversal
+[[check]]
+type = "Exclude"
+id = "STAN-0101"
+scope = "all"

@@ -1,0 +1,11 @@
+# BS.Char8.pack is correct here — cookie names/values/domains are ASCII per HTTP spec
+[[check]]
+type = "Exclude"
+id = "STAN-0203"
+scope = "all"
+
+# length is used on finite SQLite result sets
+[[check]]
+type = "Exclude"
+id = "STAN-0103"
+scope = "all"
