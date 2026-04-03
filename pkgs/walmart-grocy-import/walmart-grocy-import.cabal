@@ -1,0 +1,68 @@
+cabal-version:   3.0
+name:            walmart-grocy-import
+version:         0.1.0
+synopsis:        Import Walmart order history into Grocy inventory
+license:         MIT
+build-type:      Simple
+
+common shared
+  default-language: GHC2021
+  default-extensions: DerivingStrategies
+  ghc-options:      -Wall -Wcompat -Werror
+  build-depends:    base >= 4.17 && < 5
+                  , aeson
+                  , attoparsec
+                  , case-insensitive
+                  , bytestring
+                  , containers
+                  , directory
+                  , filepath
+                  , fuzzy
+                  , http-client
+                  , http-client-tls
+                  , http-types
+                  , optparse-applicative
+                  , process
+                  , safe-money
+                  , scientific
+                  , sqlite-simple
+                  , text
+                  , time
+                  , unordered-containers
+                  , vector
+
+library
+  import:           shared
+  hs-source-dirs:   src
+  exposed-modules:  WalmartGrocy.Types
+                  , WalmartGrocy.JSON
+                  , WalmartGrocy.Walmart
+                  , WalmartGrocy.Grocy
+                  , WalmartGrocy.Extractor
+                  , WalmartGrocy.Cookies
+                  , WalmartGrocy.Reconcile
+                  , WalmartGrocy.App
+
+executable walmart-grocy-import
+  import:           shared
+  main-is:          Main.hs
+  hs-source-dirs:   app
+  build-depends:    walmart-grocy-import
+
+test-suite tests
+  type:             exitcode-stdio-1.0
+  main-is:          Main.hs
+  hs-source-dirs:   test
+  default-language: GHC2021
+  default-extensions: DerivingStrategies
+  ghc-options:      -Wall -Wcompat
+  build-depends:    base >= 4.17 && < 5
+                  , walmart-grocy-import
+                  , aeson
+                  , scientific
+                  , text
+                  , time
+                  , tasty
+                  , tasty-hunit
+                  , tasty-quickcheck
+                  , QuickCheck
