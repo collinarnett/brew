@@ -1,0 +1,8 @@
+module GrocyClient.Types.ProductDetailsResponse where
+import qualified Data.Aeson
+import qualified GrocyClient.Common
+data ProductDetailsResponse
+instance Show ProductDetailsResponse
+instance Eq ProductDetailsResponse
+instance Data.Aeson.FromJSON ProductDetailsResponse
+instance Data.Aeson.ToJSON ProductDetailsResponse

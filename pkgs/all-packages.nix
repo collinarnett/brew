@@ -6,6 +6,7 @@ let
     "walmart"
     "walmart-extractor"
     "grocy"
+    "grocy-client"
     "walmart-grocy-import"
   ];
 in

@@ -1,0 +1,8 @@
+module GrocyClient.Types.BatteryChargeCycleEntry where
+import qualified Data.Aeson
+import qualified GrocyClient.Common
+data BatteryChargeCycleEntry
+instance Show BatteryChargeCycleEntry
+instance Eq BatteryChargeCycleEntry
+instance Data.Aeson.FromJSON BatteryChargeCycleEntry
+instance Data.Aeson.ToJSON BatteryChargeCycleEntry

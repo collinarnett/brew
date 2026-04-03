@@ -1,0 +1,13 @@
+module GrocyClient.Types.CurrentVolatilStockResponse where
+import qualified Data.Aeson
+import qualified GrocyClient.Common
+data CurrentVolatilStockResponse
+instance Show CurrentVolatilStockResponse
+instance Eq CurrentVolatilStockResponse
+instance Data.Aeson.FromJSON CurrentVolatilStockResponse
+instance Data.Aeson.ToJSON CurrentVolatilStockResponse
+data CurrentVolatilStockResponseMissing_products
+instance Show CurrentVolatilStockResponseMissing_products
+instance Eq CurrentVolatilStockResponseMissing_products
+instance Data.Aeson.FromJSON CurrentVolatilStockResponseMissing_products
+instance Data.Aeson.ToJSON CurrentVolatilStockResponseMissing_products
