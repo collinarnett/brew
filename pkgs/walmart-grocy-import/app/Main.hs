@@ -5,14 +5,18 @@ module Main (main) where
 import Data.Text (Text)
 import Data.Text qualified as T
 import Data.Time (UTCTime, addUTCTime, getCurrentTime, nominalDay)
-import Network.HTTP.Client (newManager)
-import Network.HTTP.Client.TLS (tlsManagerSettings)
 import Options.Applicative
 import System.Directory (createDirectoryIfMissing, getHomeDirectory)
+import System.Exit (die)
 import System.FilePath ((</>))
+import Text.Read (readMaybe)
 
+import BrowserCookies (CookieConfig (..), CookieError (..), getFirefoxCookies)
+import Grocy qualified
+import Grocy.Types (GrocyError (..), GrocyProduct (..), SetupConfig (..))
+import Walmart qualified
+import Walmart.Types (OrderId (..), OrderSummary (..), WalmartError (..), WalmartItem (..))
 import WalmartGrocy.App (runImport, runList)
-import WalmartGrocy.Cookies (getFirefoxCookies)
 import WalmartGrocy.Types
 
 data Command
@@ -33,20 +37,25 @@ data ImportOpts = ImportOpts
   , imGrocyKey :: Text
   }
 
-parseSince :: Text -> IO UTCTime
+data CliError
+  = UnknownTimeUnit Text
+  | InvalidSinceFormat Text
+
+parseSince :: Text -> IO (Either CliError UTCTime)
 parseSince input = do
   now <- getCurrentTime
-  case T.words (T.toLower input) of
+  pure $ case T.words (T.toLower input) of
     [nStr, unitStr, _] ->
-      let n = read (T.unpack nStr) :: Int
-          unit = T.dropWhileEnd (== 's') unitStr
-          seconds = case unit of
-            "day"  -> fromIntegral n * nominalDay
-            "hour" -> fromIntegral n * 3600
-            "week" -> fromIntegral n * 7 * nominalDay
-            _      -> error ("Unknown time unit: " <> T.unpack unitStr)
-      in pure (addUTCTime (negate seconds) now)
-    _ -> error ("Cannot parse since: " <> T.unpack input)
+      case readMaybe (T.unpack nStr) :: Maybe Int of
+        Nothing -> Left (InvalidSinceFormat input)
+        Just n ->
+          let unit = T.dropWhileEnd (== 's') unitStr
+          in case unit of
+            "day"  -> Right (addUTCTime (negate (fromIntegral n * nominalDay)) now)
+            "hour" -> Right (addUTCTime (negate (fromIntegral n * 3600)) now)
+            "week" -> Right (addUTCTime (negate (fromIntegral n * 7 * nominalDay)) now)
+            _      -> Left (UnknownTimeUnit unitStr)
+    _otherWordCount -> Left (InvalidSinceFormat input)
 
 globalParser :: Parser (Bool, Command)
 globalParser = (,)
@@ -78,35 +87,40 @@ main = do
     (info (globalParser <**> helper)
       (fullDesc <> progDesc "Import Walmart order history into Grocy"))
 
-  let verbosity = if verbose then Verbose else Quiet
+  let cookieCfg = CookieConfig { ccVerbose = verbose }
+  cookieResult <- getFirefoxCookies cookieCfg ".walmart.com"
+  cookies <- either (die . renderAppError . AppCookieError) pure cookieResult
 
-  mgr <- newManager tlsManagerSettings
-  cookies <- getFirefoxCookies ".walmart.com"
+  walmartEnv <- Walmart.newEnv cookies
   home <- getHomeDirectory
   let dataDir = home </> ".local" </> "share" </> "walmart-grocy-import"
   createDirectoryIfMissing True dataDir
 
   case cmd of
     List lo -> do
-      mSince <- traverse parseSince (loSince lo)
-      summaries <- runList mgr cookies dataDir mSince (loLimit lo)
+      mSince <- traverse requireParseSince (loSince lo)
+      result <- runList walmartEnv mSince (loLimit lo)
+      summaries <- either (die . renderAppError) pure result
       mapM_ printSummary summaries
 
     Import io -> do
-      mSince <- traverse parseSince (imSince io)
-      let grocyEnv = GrocyEnv
-            { geBaseUrl = imGrocyUrl io
-            , geApiKey  = imGrocyKey io
-            , geManager = mgr
+      mSince <- traverse requireParseSince (imSince io)
+      grocyEnv <- Grocy.newEnv (imGrocyUrl io) (imGrocyKey io)
+      let stateFile = dataDir </> "state.json"
+          setupCfg = SetupConfig
+            { scLocationName         = "Pantry"
+            , scShoppingLocationName = "Walmart"
+            , scQuantityUnitName     = "Piece"
             }
-          stateFile = dataDir </> "state.json"
           opts = ImportOptions
             { ioSince  = mSince
             , ioLimit  = imLimit io
             , ioDryRun = imDryRun io
             , ioForce  = imForce io
             }
-      results <- runImport mgr cookies grocyEnv dataDir stateFile verbosity opts
+          verbosity = if verbose then Verbose else Quiet
+      result <- runImport walmartEnv grocyEnv setupCfg stateFile verbosity opts
+      results <- either (die . renderAppError) pure result
       mapM_ printResult results
       let totalMatched = sum (map (length . irMatched) results)
           totalCreated = sum (map (length . irCreated) results)
@@ -114,6 +128,11 @@ main = do
       putStrLn (prefix <> "Import complete: "
         <> show totalMatched <> " matched, "
         <> show totalCreated <> " created")
+
+requireParseSince :: Text -> IO UTCTime
+requireParseSince input = do
+  result <- parseSince input
+  either (die . renderCliError) pure result
 
 printSummary :: OrderSummary -> IO ()
 printSummary s =
@@ -138,5 +157,50 @@ printCreated (item, _) =
 
 priceStr :: WalmartItem -> String
 priceStr item = case wiLinePrice item of
-  Just p  -> " $" <> show p
+  Just cents ->
+    let total = abs (toInteger cents)
+        dollars = total `div` 100
+        remainder = total `mod` 100
+    in " $" <> show dollars <> "." <> (if remainder < 10 then "0" else "") <> show remainder
   Nothing -> ""
+
+renderCliError :: CliError -> String
+renderCliError (UnknownTimeUnit unit) =
+  "Unknown time unit: " <> T.unpack unit <> ". Use day(s), hour(s), or week(s)."
+renderCliError (InvalidSinceFormat input) =
+  "Cannot parse --since value: " <> T.unpack input <> ". Expected format: '7 days ago'"
+
+renderAppError :: AppError -> String
+renderAppError (AppCookieError (NoCookiesFound d p)) =
+  "No cookies found for " <> T.unpack d <> " in " <> p
+  <> ". Log into walmart.com in Firefox first."
+renderAppError (AppCookieError (NoDefaultProfile p)) =
+  "Could not find default Firefox profile in " <> p
+renderAppError (AppWalmartError WalmartHashRotated) =
+  "Walmart returned 400 -- hash may have rotated. Run walmart-extractor to update endpoints."
+renderAppError (AppWalmartError WalmartRateLimited) =
+  "Rate limited -- log into walmart.com in Firefox to refresh cookies."
+renderAppError (AppWalmartError (WalmartAccessDenied code)) =
+  "Access denied (HTTP " <> show code <> ") -- cookies expired. Log into walmart.com."
+renderAppError (AppWalmartError (WalmartHttpError code)) =
+  "Walmart API returned HTTP " <> show code
+renderAppError (AppWalmartError (WalmartParseError op err)) =
+  "Failed to parse " <> T.unpack op <> ": " <> err
+renderAppError (AppWalmartError (WalmartJsonDecodeError err preview)) =
+  "JSON decode failed: " <> err <> "\nResponse: " <> preview
+renderAppError (AppGrocyError (GrocyDecodeError err)) =
+  "Failed to decode Grocy response: " <> err
+renderAppError (AppGrocyError (GrocyParseError err)) =
+  "Failed to parse Grocy products: " <> err
+renderAppError (AppGrocyError (GrocyProductNotFound name)) =
+  "Product not found and could not be created: " <> T.unpack name
+renderAppError (AppGrocyError (GrocyEntityNotFound typ name)) =
+  "Required Grocy entity not found: " <> T.unpack typ <> "/" <> T.unpack name
+renderAppError (AppGrocyError (GrocyCreateError typ err)) =
+  "Failed to create " <> T.unpack typ <> ": " <> err
+renderAppError (AppGrocyError (GrocyMissingId typ)) =
+  "No created_object_id in " <> T.unpack typ <> " response"
+renderAppError (AppGrocyError (GrocyHttpError path code)) =
+  "Grocy GET " <> T.unpack path <> " returned HTTP " <> show code
+renderAppError (AppGrocyError (GrocyIdParseError raw)) =
+  "Could not parse Grocy ID: " <> raw

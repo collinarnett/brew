@@ -121,11 +121,23 @@
           { pkgs, ... }:
           {
             formatter = pkgs.nixfmt;
-            devShells.default = pkgs.mkShell {
-              buildInputs = [
+            devShells.default =
+              let
+                localHsPkg = hprev: name: hprev.callCabal2nix name ./pkgs/${name} { };
+                localPkgs = [ "browser-cookies" "walmart" "walmart-extractor" "grocy" "walmart-grocy-import" ];
+                hsPkgs = pkgs.haskellPackages.override {
+                  overrides = hfinal: hprev: pkgs.lib.genAttrs localPkgs (localHsPkg hprev);
+                };
+              in
+              hsPkgs.shellFor {
+              packages = ps: map (name: ps.${name}) localPkgs;
+              nativeBuildInputs = with pkgs; [
                 inputs.clan-core.packages.${pkgs.system}.default
-                pkgs.sops
-                pkgs.nixfmt
+                sops
+                nixfmt
+                cabal-install
+                haskellPackages.haskell-language-server
+                haskellPackages.stan
               ];
             };
           };

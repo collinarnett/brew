@@ -1,0 +1,22 @@
+cabal-version:   3.0
+name:            browser-cookies
+version:         0.1.0
+synopsis:        Extract cookies from Firefox's SQLite cookie database
+license:         MIT
+build-type:      Simple
+
+library
+  default-language: GHC2021
+  default-extensions: DerivingStrategies StrictData
+  ghc-options:      -Wall -Wcompat -Wextra -Wunused-packages -Werror
+                    -fwrite-ide-info -hiedir=.hie
+  hs-source-dirs:   src
+  exposed-modules:  BrowserCookies
+  build-depends:    base >= 4.17 && < 5
+                  , bytestring
+                  , directory
+                  , filepath
+                  , http-client
+                  , sqlite-simple
+                  , text
+                  , time

@@ -1,0 +1,6 @@
+packages:
+  pkgs/browser-cookies
+  pkgs/walmart
+  pkgs/walmart-extractor
+  pkgs/grocy
+  pkgs/walmart-grocy-import

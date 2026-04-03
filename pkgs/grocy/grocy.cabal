@@ -1,0 +1,30 @@
+cabal-version:   3.0
+name:            grocy
+version:         0.1.0
+synopsis:        Grocy REST API client
+license:         MIT
+build-type:      Simple
+
+library
+  default-language: GHC2021
+  default-extensions: DataKinds DerivingStrategies StrictData
+  ghc-options:      -Wall -Wcompat -Wextra -Wunused-packages -Werror
+                    -fwrite-ide-info -hiedir=.hie
+  hs-source-dirs:   src
+  exposed-modules:  Grocy
+                  , Grocy.Env
+                  , Grocy.Types
+  other-modules:    Grocy.Internal.JSON
+                  , Grocy.Internal.HTTP
+  build-depends:    base >= 4.17 && < 5
+                  , aeson
+                  , bytestring
+                  , http-client
+                  , http-client-tls
+                  , http-types
+                  , safe-money
+                  , scientific
+                  , text
+                  , time
+                  , transformers
+                  , vector

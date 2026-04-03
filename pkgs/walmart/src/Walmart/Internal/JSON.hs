@@ -1,13 +1,8 @@
 {-# LANGUAGE OverloadedStrings #-}
 
--- | JSON codecs for Walmart API responses.
---
--- All parsing happens at the boundary via FromJSON instances.
--- Inner modules work only with typed domain values.
-module WalmartGrocy.JSON
+module Walmart.Internal.JSON
   ( parseOrderSummaries
   , parseWalmartOrder
-  , parseGrocyProducts
   ) where
 
 import Data.Aeson
@@ -17,12 +12,9 @@ import Data.Monoid (First (..))
 import Data.Scientific (Scientific)
 import Data.Text (Text)
 import Data.Vector qualified as V
+import Money (Discrete, discrete)
 
-import WalmartGrocy.Types
-
--- ---------------------------------------------------------------------
--- PurchaseHistoryV2 response
--- ---------------------------------------------------------------------
+import Walmart.Types
 
 parseOrderSummaries :: Value -> Either String [OrderSummary]
 parseOrderSummaries = parseEither $ withObject "response" $ \obj -> do
@@ -58,10 +50,6 @@ parseStatusText obj = do
           texts <- traverse (\p -> p .: "text") parts
           pure (mconcat texts)
 
--- ---------------------------------------------------------------------
--- getOrder response
--- ---------------------------------------------------------------------
-
 parseWalmartOrder :: Value -> Either String WalmartOrder
 parseWalmartOrder = parseEither $ withObject "response" $ \obj -> do
   d <- obj .: "data"
@@ -80,10 +68,6 @@ parseOrderDetail = withObject "order" $ \obj -> do
     , woItems     = items
     }
 
--- | Find the groups array by structure, not by key name.
--- The key is a GraphQL alias (e.g. groups_2101) that changes
--- with schema versions. We match the first Array value whose
--- elements are Objects containing an "items" key.
 findGroups :: Object -> Parser (V.Vector Value)
 findGroups obj =
   case getFirst (foldMap asItemGroups (KM.elems obj)) of
@@ -124,7 +108,7 @@ parseSalesUnitType "EACH_WEIGHT" = pure EachWeight
 parseSalesUnitType "PACK_WEIGHT" = pure PackWeight
 parseSalesUnitType other         = fail ("unknown salesUnitType: " <> show other)
 
-parseMaybeLinePrice :: Object -> Parser (Maybe Scientific)
+parseMaybeLinePrice :: Object -> Parser (Maybe (Discrete "USD" "cent"))
 parseMaybeLinePrice obj = do
   mPriceInfo <- obj .:? "priceInfo"
   case mPriceInfo of
@@ -133,18 +117,7 @@ parseMaybeLinePrice obj = do
       mLinePrice <- priceInfo .:? "linePrice"
       case mLinePrice of
         Nothing -> pure Nothing
-        Just lp -> Just <$> lp .: "value"
+        Just lp -> Just . dollarsToCents <$> lp .: "value"
 
--- ---------------------------------------------------------------------
--- Grocy product list
--- ---------------------------------------------------------------------
-
-parseGrocyProducts :: Value -> Either String [GrocyProduct]
-parseGrocyProducts = parseEither $ withArray "products" $ \arr ->
-  traverse parseGrocyProduct (V.toList arr)
-
-parseGrocyProduct :: Value -> Parser GrocyProduct
-parseGrocyProduct = withObject "product" $ \obj -> do
-  pid  <- ProductId <$> obj .: "id"
-  name <- obj .: "name"
-  pure GrocyProduct { gpId = pid, gpName = name }
+dollarsToCents :: Scientific -> Discrete "USD" "cent"
+dollarsToCents s = discrete (round (s * 100))

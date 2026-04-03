@@ -50,3 +50,5 @@ flycheck_*.el
 /network-security.data
 .direnv/
 .claude/
+.hie/
+dist-newstyle/

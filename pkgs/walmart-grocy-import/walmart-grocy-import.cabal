@@ -5,63 +5,62 @@ synopsis:        Import Walmart order history into Grocy inventory
 license:         MIT
 build-type:      Simple
 
-common shared
+common opts
   default-language: GHC2021
-  default-extensions: DerivingStrategies
-  ghc-options:      -Wall -Wcompat -Werror
+  default-extensions: DataKinds DerivingStrategies StrictData
+  ghc-options:      -Wall -Wcompat -Wextra -Wunused-packages
+                    -fwrite-ide-info -hiedir=.hie
+
+library
+  import:           opts
+  ghc-options:      -Werror
+  hs-source-dirs:   src
+  exposed-modules:  WalmartGrocy.Types
+                  , WalmartGrocy.Reconcile
+                  , WalmartGrocy.App
   build-depends:    base >= 4.17 && < 5
                   , aeson
-                  , attoparsec
-                  , case-insensitive
+                  , browser-cookies
                   , bytestring
                   , containers
                   , directory
-                  , filepath
                   , fuzzy
-                  , http-client
-                  , http-client-tls
-                  , http-types
-                  , optparse-applicative
-                  , process
-                  , safe-money
-                  , scientific
-                  , sqlite-simple
+                  , grocy
                   , text
                   , time
-                  , unordered-containers
-                  , vector
-
-library
-  import:           shared
-  hs-source-dirs:   src
-  exposed-modules:  WalmartGrocy.Types
-                  , WalmartGrocy.JSON
-                  , WalmartGrocy.Walmart
-                  , WalmartGrocy.Grocy
-                  , WalmartGrocy.Extractor
-                  , WalmartGrocy.Cookies
-                  , WalmartGrocy.Reconcile
-                  , WalmartGrocy.App
+                  , transformers
+                  , walmart
 
 executable walmart-grocy-import
-  import:           shared
+  import:           opts
+  ghc-options:      -Werror
   main-is:          Main.hs
   hs-source-dirs:   app
-  build-depends:    walmart-grocy-import
+  build-depends:    base >= 4.17 && < 5
+                  , walmart-grocy-import
+                  , browser-cookies
+                  , directory
+                  , filepath
+                  , grocy
+                  , optparse-applicative
+                  , text
+                  , time
+                  , walmart
 
 test-suite tests
+  import:           opts
   type:             exitcode-stdio-1.0
   main-is:          Main.hs
   hs-source-dirs:   test
-  default-language: GHC2021
-  default-extensions: DerivingStrategies
-  ghc-options:      -Wall -Wcompat
   build-depends:    base >= 4.17 && < 5
                   , walmart-grocy-import
                   , aeson
+                  , grocy
+                  , safe-money
                   , scientific
                   , text
                   , time
+                  , walmart
                   , tasty
                   , tasty-hunit
                   , tasty-quickcheck

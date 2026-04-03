@@ -1,0 +1,49 @@
+cabal-version:   3.0
+name:            walmart-extractor
+version:         0.1.0
+synopsis:        Discover Walmart GraphQL endpoint hashes and generate Haskell source
+license:         MIT
+build-type:      Simple
+
+common opts
+  default-language: GHC2021
+  default-extensions: DerivingStrategies StrictData
+  ghc-options:      -Wall -Wcompat -Wextra -Wunused-packages
+                    -fwrite-ide-info -hiedir=.hie
+
+library
+  import:           opts
+  ghc-options:      -Werror
+  hs-source-dirs:   src
+  exposed-modules:  WalmartExtractor
+  build-depends:    base >= 4.17 && < 5
+                  , attoparsec
+                  , bytestring
+                  , containers
+                  , http-client
+                  , process
+                  , text
+
+executable walmart-extractor
+  import:           opts
+  ghc-options:      -Werror
+  main-is:          Main.hs
+  hs-source-dirs:   app
+  build-depends:    base >= 4.17 && < 5
+                  , walmart-extractor
+                  , http-client
+                  , http-client-tls
+                  , text
+
+test-suite tests
+  import:           opts
+  type:             exitcode-stdio-1.0
+  main-is:          Main.hs
+  hs-source-dirs:   test
+  build-depends:    base >= 4.17 && < 5
+                  , walmart-extractor
+                  , text
+                  , tasty
+                  , tasty-hunit
+                  , tasty-quickcheck
+                  , QuickCheck

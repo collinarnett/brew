@@ -1,6 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
 
--- | Application pipeline — composes IO adapters with pure reconciliation.
 module WalmartGrocy.App
   ( runImport
   , runList
@@ -8,24 +7,26 @@ module WalmartGrocy.App
   , saveImportedOrders
   ) where
 
-import Control.Exception (SomeException, try)
 import Control.Monad (when)
+import Control.Monad.Trans.Class (lift)
+import Control.Monad.Trans.Except (ExceptT (..), runExceptT)
 import Data.Aeson qualified as Aeson
+import Data.Bifunctor (first)
 import Data.ByteString.Lazy qualified as LBS
 import Data.Set (Set)
 import Data.Set qualified as Set
 import Data.Time (UTCTime)
-import Network.HTTP.Client (CookieJar, Manager)
 import System.Directory (doesFileExist)
 import System.IO (hPutStrLn, stderr)
 
-import WalmartGrocy.Extractor (resolveEndpoints)
-import WalmartGrocy.Grocy
+import Grocy qualified
+import Grocy.Types (GrocyError, GrocyProduct (..), GrocySetup, SetupConfig)
+import Grocy.Types qualified
+import Walmart qualified
+import Walmart.Types (OrderId (..), OrderSummary (..), WalmartItem (..))
 import WalmartGrocy.Reconcile (deduplicateBy, reconcile)
 import WalmartGrocy.Types
-import WalmartGrocy.Walmart (walmartGetHistory, walmartGetOrder)
 
--- | Load previously imported order IDs from disk.
 loadImportedOrders :: FilePath -> IO (Set OrderId)
 loadImportedOrders path = do
   exists <- doesFileExist path
@@ -37,15 +38,17 @@ loadImportedOrders path = do
         Left _    -> pure Set.empty
         Right ids -> pure (Set.fromList (map OrderId ids))
 
--- | Save imported order IDs to disk.
 saveImportedOrders :: FilePath -> Set OrderId -> IO ()
 saveImportedOrders path ids =
   LBS.writeFile path (Aeson.encode (map unOrderId (Set.toList ids)))
 
--- | Execute a reconciliation plan against Grocy.
-executePlan :: GrocyEnv -> GrocySetup -> UTCTime -> Bool -> ImportPlan -> IO ImportResult
-executePlan env setup orderDate dryRun plan = do
-  results <- traverse (executeAction env setup dryRun orderDate) (ipActions plan)
+executePlan
+  :: Grocy.Types.Env -> GrocySetup -> UTCTime -> Bool -> ImportPlan
+  -> IO (Either AppError ImportResult)
+executePlan env setup orderDate dryRun plan = runExceptT $ do
+  results <- traverse
+    (\a -> ExceptT $ first AppGrocyError <$> executeAction env setup dryRun orderDate a)
+    (ipActions plan)
   pure ImportResult
     { irOrderId = ipOrderId plan
     , irMatched = [(i, p) | (StockExisting i p, _) <- results]
@@ -53,66 +56,63 @@ executePlan env setup orderDate dryRun plan = do
     }
 
 executeAction
-  :: GrocyEnv -> GrocySetup -> Bool -> UTCTime -> Action
-  -> IO (Action, Maybe GrocyProduct)
+  :: Grocy.Types.Env -> GrocySetup -> Bool -> UTCTime -> Action
+  -> IO (Either GrocyError (Action, Maybe GrocyProduct))
 executeAction env setup dryRun orderDate action = case action of
   CreateAndStock item
-    | dryRun    -> pure (action, Nothing)
-    | otherwise -> do
-        gp <- grocyCreateProduct env setup (wiName item)
-        grocyAddStock env gp (wiQuantity item) (wiLinePrice item) orderDate
+    | dryRun    -> pure (Right (action, Nothing))
+    | otherwise -> runExceptT $ do
+        gp <- ExceptT $ Grocy.createProduct env setup (wiName item)
+        ExceptT $ Grocy.addStock env gp (wiQuantity item) (wiLinePrice item) orderDate
         pure (action, Just gp)
   StockExisting item gp
-    | dryRun    -> pure (action, Nothing)
-    | otherwise -> do
-        grocyAddStock env gp (wiQuantity item) (wiLinePrice item) orderDate
+    | dryRun    -> pure (Right (action, Nothing))
+    | otherwise -> runExceptT $ do
+        ExceptT $ Grocy.addStock env gp (wiQuantity item) (wiLinePrice item) orderDate
         pure (action, Nothing)
 
--- | Full import pipeline.
 runImport
-  :: Manager -> CookieJar -> GrocyEnv -> FilePath -> FilePath
+  :: Walmart.Env -> Grocy.Types.Env -> SetupConfig -> FilePath
   -> Verbosity -> ImportOptions
-  -> IO [ImportResult]
-runImport mgr cookies grocyEnv cacheDir stateFile verbosity opts = do
-  endpoints  <- resolveEndpoints mgr cacheDir
-  setup      <- grocyEnsureSetup grocyEnv
-  products   <- grocyGetProducts grocyEnv
-  imported   <- loadImportedOrders stateFile
-  summaries  <- walmartGetHistory mgr cookies endpoints (ioSince opts) (ioLimit opts)
+  -> IO (Either AppError [ImportResult])
+runImport walmartEnv grocyEnv setupCfg stateFile verbosity opts = runExceptT $ do
+  setup      <- ExceptT $ first AppGrocyError <$> Grocy.ensureSetup grocyEnv setupCfg
+  products   <- ExceptT $ first AppGrocyError <$> Grocy.getProducts grocyEnv
+  imported   <- lift $ loadImportedOrders stateFile
+  summaries  <- ExceptT $ first AppWalmartError <$>
+    Walmart.getOrders walmartEnv (ioSince opts) (ioLimit opts)
 
   let unique = deduplicateBy osOrderId summaries
       unimported
         | ioForce opts = unique
         | otherwise    = filter (\s -> not (Set.member (osOrderId s) imported)) unique
 
-  orders <- traverseWithErrors verbosity
-    (\s -> walmartGetOrder mgr cookies endpoints s) unimported
+  orders <- lift $ traverseWithErrors verbosity
+    (\s -> first AppWalmartError <$> Walmart.getOrder walmartEnv s) unimported
 
   let plans = map (reconcile products) orders
   results <- traverse
-    (\p -> executePlan grocyEnv setup (ipOrderDate p) (ioDryRun opts) p)
+    (\p -> ExceptT $ executePlan grocyEnv setup (ipOrderDate p) (ioDryRun opts) p)
     plans
 
-  -- Mark successfully imported orders
-  when (not (ioDryRun opts)) $ do
+  when (not (ioDryRun opts)) $ lift $ do
     let newIds = Set.fromList (map irOrderId results)
     saveImportedOrders stateFile (Set.union imported newIds)
 
   pure results
 
--- | List recent orders.
-runList :: Manager -> CookieJar -> FilePath -> Maybe UTCTime -> Int -> IO [OrderSummary]
-runList mgr cookies cacheDir mSince limit = do
-  endpoints <- resolveEndpoints mgr cacheDir
-  walmartGetHistory mgr cookies endpoints mSince limit
+runList
+  :: Walmart.Env -> Maybe UTCTime -> Int
+  -> IO (Either AppError [OrderSummary])
+runList walmartEnv mSince limit =
+  first AppWalmartError <$> Walmart.getOrders walmartEnv mSince limit
 
--- | Traverse that logs and skips failures instead of aborting.
-traverseWithErrors :: Verbosity -> (a -> IO b) -> [a] -> IO [b]
+traverseWithErrors :: Verbosity -> (a -> IO (Either AppError b)) -> [a] -> IO [b]
 traverseWithErrors verbosity f = go []
   where
     go acc [] = pure (reverse acc)
     go acc (x : xs) = do
-      result <- try @SomeException (f x)
+      result <- f x
       case result of
         Right val -> go (val : acc) xs
         Left err  -> do
