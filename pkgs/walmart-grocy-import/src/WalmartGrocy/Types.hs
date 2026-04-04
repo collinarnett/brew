@@ -1,7 +1,11 @@
 {-# LANGUAGE OverloadedStrings #-}
 
 module WalmartGrocy.Types
-  ( Action (..)
+  ( ProductId
+  , ProductName
+  , GrocyProduct
+  , GrocyError (..)
+  , Action (..)
   , ImportPlan (..)
   , ImportResult (..)
   , ImportOptions (..)
@@ -14,11 +18,22 @@ import Data.Time (UTCTime)
 
 import BrowserCookies (CookieError)
 import Walmart.Types (OrderId, WalmartError, WalmartItem)
-import WalmartGrocy.Grocy (GrocyError)
+
+type ProductId = Int
+type ProductName = Text
+type GrocyProduct = (ProductId, ProductName)
+
+data GrocyError
+  = GrocyHttpError Text Int
+  | GrocyParseError Text
+  | GrocyEntityNotFound Text Text
+  | GrocyProductNotFound Text
+  | GrocyCreateError Text String
+  deriving stock (Show, Eq)
 
 data Action
   = CreateAndStock WalmartItem
-  | StockExisting  WalmartItem (Int, Text)
+  | StockExisting  WalmartItem GrocyProduct
   deriving stock (Show, Eq)
 
 data ImportPlan = ImportPlan
@@ -29,8 +44,8 @@ data ImportPlan = ImportPlan
 
 data ImportResult = ImportResult
   { irOrderId :: OrderId
-  , irMatched :: [(WalmartItem, (Int, Text))]
-  , irCreated :: [(WalmartItem, (Int, Text))]
+  , irMatched :: [(WalmartItem, GrocyProduct)]
+  , irCreated :: [(WalmartItem, GrocyProduct)]
   } deriving stock (Show)
 
 data ImportOptions = ImportOptions

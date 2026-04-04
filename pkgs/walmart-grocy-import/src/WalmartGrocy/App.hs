@@ -15,7 +15,6 @@ import Data.Bifunctor (first)
 import Data.ByteString.Lazy qualified as LBS
 import Data.Set (Set)
 import Data.Set qualified as Set
-import Data.Text (Text)
 import Data.Time (UTCTime)
 import System.Directory (doesFileExist)
 import System.IO (hPutStrLn, stderr)
@@ -57,7 +56,7 @@ executePlan gc setup orderDate dryRun plan = runExceptT $ do
 
 executeAction
   :: GrocyConfig -> GrocySetup -> Bool -> UTCTime -> Action
-  -> IO (Either Grocy.GrocyError (Action, Maybe (Int, Text)))
+  -> IO (Either GrocyError (Action, Maybe GrocyProduct))
 executeAction gc setup dryRun orderDate action = case action of
   CreateAndStock item
     | dryRun    -> pure (Right (action, Nothing))

@@ -15,20 +15,20 @@ import Text.Fuzzy qualified as Fuzzy
 import Walmart.Types (WalmartItem (..), WalmartOrder (..))
 import WalmartGrocy.Types
 
-reconcile :: [(Int, Text)] -> WalmartOrder -> ImportPlan
+reconcile :: [GrocyProduct] -> WalmartOrder -> ImportPlan
 reconcile products order = ImportPlan
   { ipOrderId   = woOrderId order
   , ipOrderDate = woOrderDate order
   , ipActions   = map (matchOrCreate products) (woItems order)
   }
 
-matchOrCreate :: [(Int, Text)] -> WalmartItem -> Action
+matchOrCreate :: [GrocyProduct] -> WalmartItem -> Action
 matchOrCreate products item =
   case bestMatch (wiName item) products of
     Just p  -> StockExisting item p
     Nothing -> CreateAndStock item
 
-bestMatch :: Text -> [(Int, Text)] -> Maybe (Int, Text)
+bestMatch :: Text -> [GrocyProduct] -> Maybe GrocyProduct
 bestMatch name products =
   let threshold = 75
       scored = [(fuzzyScore name (snd p), p) | p <- products]

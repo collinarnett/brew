@@ -15,7 +15,7 @@ import BrowserCookies (CookieConfig (..), CookieError (..), getFirefoxCookies)
 import Walmart qualified
 import Walmart.Types (OrderId (..), OrderSummary (..), WalmartError (..), WalmartItem (..))
 import WalmartGrocy.App (runImport, runList)
-import WalmartGrocy.Grocy (GrocyConfig (..), GrocyError (..), SetupConfig (..))
+import WalmartGrocy.Grocy (GrocyConfig (..), SetupConfig (..))
 import WalmartGrocy.Types
 
 data Command
@@ -148,12 +148,12 @@ printResult r = do
   mapM_ printMatched (irMatched r)
   mapM_ printCreated (irCreated r)
 
-printMatched :: (WalmartItem, (Int, Text)) -> IO ()
+printMatched :: (WalmartItem, GrocyProduct) -> IO ()
 printMatched (item, (_, name)) =
   putStrLn ("    = " <> T.unpack (wiName item) <> priceStr item
     <> " -> " <> T.unpack name)
 
-printCreated :: (WalmartItem, (Int, Text)) -> IO ()
+printCreated :: (WalmartItem, GrocyProduct) -> IO ()
 printCreated (item, _) =
   putStrLn ("    + " <> T.unpack (wiName item) <> priceStr item)
 

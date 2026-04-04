@@ -28,7 +28,7 @@ mkItem name = WalmartItem
   , wiSalesUnitType = Each
   }
 
-mkProduct :: Int -> Text -> (Int, Text)
+mkProduct :: Int -> Text -> GrocyProduct
 mkProduct pid name = (pid, name)
 
 mkOrder :: [WalmartItem] -> WalmartOrder

@@ -5,7 +5,6 @@ module WalmartGrocy.Grocy
   ( GrocyConfig (..)
   , GrocySetup (..)
   , SetupConfig (..)
-  , GrocyError (..)
   , getProducts
   , createProduct
   , addStock
@@ -28,6 +27,8 @@ import Network.HTTP.Client (Response (..))
 import Network.HTTP.Types.Status (statusCode)
 import Text.Read (readMaybe)
 
+import WalmartGrocy.Types (GrocyError (..), GrocyProduct)
+
 data GrocyConfig = GrocyConfig
   { gcBaseUrl :: Text
   , gcApiKey  :: Text
@@ -45,14 +46,6 @@ data SetupConfig = SetupConfig
   , scQuantityUnitName     :: Text
   } deriving stock (Show)
 
-data GrocyError
-  = GrocyHttpError Text Int
-  | GrocyParseError Text
-  | GrocyEntityNotFound Text Text
-  | GrocyProductNotFound Text
-  | GrocyCreateError Text String
-  deriving stock (Show, Eq)
-
 toConfig :: GrocyConfig -> GC.Configuration
 toConfig gc = defaultConfiguration
   { GC.configBaseURL = gcBaseUrl gc
@@ -65,7 +58,7 @@ grocyGet gc path = GC.doCallWithConfiguration (toConfig gc) "GET" path []
 grocyPost :: GrocyConfig -> Text -> Aeson.Value -> IO (Response BS.ByteString)
 grocyPost gc path body = GC.doBodyCallWithConfiguration (toConfig gc) "POST" path [] (Just body) GC.RequestBodyEncodingJSON
 
-getProducts :: GrocyConfig -> IO (Either GrocyError [(Int, Text)])
+getProducts :: GrocyConfig -> IO (Either GrocyError [GrocyProduct])
 getProducts gc = do
   resp <- grocyGet gc "/api/objects/products"
   let code = statusCode (responseStatus resp)
@@ -75,7 +68,7 @@ getProducts gc = do
       Right vals -> pure (Right (parseProducts vals))
     else pure (Left (GrocyHttpError "/api/objects/products" code))
 
-parseProducts :: [Aeson.Value] -> [(Int, Text)]
+parseProducts :: [Aeson.Value] -> [GrocyProduct]
 parseProducts = concatMap extract
   where
     extract (Aeson.Object obj) =
@@ -84,7 +77,7 @@ parseProducts = concatMap extract
         Nothing   -> []
     extract _ = []
 
-createProduct :: GrocyConfig -> GrocySetup -> Text -> IO (Either GrocyError (Int, Text))
+createProduct :: GrocyConfig -> GrocySetup -> Text -> IO (Either GrocyError GrocyProduct)
 createProduct gc setup name = do
   let payload = Aeson.object
         [ "name"            Aeson..= name
@@ -101,7 +94,7 @@ createProduct gc setup name = do
         Nothing  -> findProductByName gc name
     _ -> findProductByName gc name
 
-findProductByName :: GrocyConfig -> Text -> IO (Either GrocyError (Int, Text))
+findProductByName :: GrocyConfig -> Text -> IO (Either GrocyError GrocyProduct)
 findProductByName gc name = do
   result <- getProducts gc
   case result of
