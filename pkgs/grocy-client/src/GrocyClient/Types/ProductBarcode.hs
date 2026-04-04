@@ -8,7 +8,9 @@ module GrocyClient.Types.ProductBarcode where
 
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
+import qualified Prelude as GHC.Internal.Maybe
 import qualified Control.Monad.Fail
+import qualified Control.Monad.Fail as GHC.Internal.Control.Monad.Fail
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
@@ -18,17 +20,23 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.ByteString
 import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
+import qualified Data.Foldable as GHC.Internal.Data.Foldable
 import qualified Data.Functor
+import qualified Data.Functor as GHC.Internal.Data.Functor
 import qualified Data.Maybe
+import qualified Data.Maybe as GHC.Internal.Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text as Data.Text.Internal
 import qualified Data.Time.Calendar as Data.Time.Calendar.Days
 import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified GHC.Base
+import qualified GHC.Base as GHC.Internal.Base
 import qualified GHC.Classes
 import qualified GHC.Int
+import qualified GHC.Int as GHC.Internal.Int
 import qualified GHC.Show
+import qualified GHC.Show as GHC.Internal.Show
 import qualified GHC.Types
 import qualified GrocyClient.Common
 import GrocyClient.TypeAlias
@@ -38,32 +46,32 @@ import GrocyClient.TypeAlias
 -- 
 data ProductBarcode = ProductBarcode {
   -- | amount
-  productBarcodeAmount :: (Maybe.Maybe GHC.Types.Double)
+  productBarcodeAmount :: (GHC.Internal.Maybe.Maybe GHC.Types.Double)
   -- | barcode
-  , productBarcodeBarcode :: (Maybe.Maybe Data.Text.Internal.Text)
+  , productBarcodeBarcode :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
   -- | last_price
-  , productBarcodeLast_price :: (Maybe.Maybe GHC.Types.Double)
+  , productBarcodeLast_price :: (GHC.Internal.Maybe.Maybe GHC.Types.Double)
   -- | note
-  , productBarcodeNote :: (Maybe.Maybe Data.Text.Internal.Text)
+  , productBarcodeNote :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
   -- | product_id
-  , productBarcodeProduct_id :: (Maybe.Maybe GHC.Types.Int)
+  , productBarcodeProduct_id :: (GHC.Internal.Maybe.Maybe GHC.Types.Int)
   -- | qu_id
-  , productBarcodeQu_id :: (Maybe.Maybe GHC.Types.Int)
+  , productBarcodeQu_id :: (GHC.Internal.Maybe.Maybe GHC.Types.Int)
   -- | shopping_location_id
-  , productBarcodeShopping_location_id :: (Maybe.Maybe GHC.Types.Int)
-  } deriving (Show.Show
+  , productBarcodeShopping_location_id :: (GHC.Internal.Maybe.Maybe GHC.Types.Int)
+  } deriving (GHC.Internal.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.Types.ToJSON.ToJSON ProductBarcode
-    where {toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe Base.mempty (Base.pure Base.. ("amount" Data.Aeson.Types.ToJSON..=)) (productBarcodeAmount obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("barcode" Data.Aeson.Types.ToJSON..=)) (productBarcodeBarcode obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("last_price" Data.Aeson.Types.ToJSON..=)) (productBarcodeLast_price obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("note" Data.Aeson.Types.ToJSON..=)) (productBarcodeNote obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("product_id" Data.Aeson.Types.ToJSON..=)) (productBarcodeProduct_id obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("qu_id" Data.Aeson.Types.ToJSON..=)) (productBarcodeQu_id obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("shopping_location_id" Data.Aeson.Types.ToJSON..=)) (productBarcodeShopping_location_id obj) : Base.mempty));
-           toEncoding obj = Data.Aeson.Encoding.Internal.pairs (Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe Base.mempty (Base.pure Base.. ("amount" Data.Aeson.Types.ToJSON..=)) (productBarcodeAmount obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("barcode" Data.Aeson.Types.ToJSON..=)) (productBarcodeBarcode obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("last_price" Data.Aeson.Types.ToJSON..=)) (productBarcodeLast_price obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("note" Data.Aeson.Types.ToJSON..=)) (productBarcodeNote obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("product_id" Data.Aeson.Types.ToJSON..=)) (productBarcodeProduct_id obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("qu_id" Data.Aeson.Types.ToJSON..=)) (productBarcodeQu_id obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("shopping_location_id" Data.Aeson.Types.ToJSON..=)) (productBarcodeShopping_location_id obj) : Base.mempty)))}
+    where {toJSON obj = Data.Aeson.Types.Internal.object (GHC.Internal.Data.Foldable.concat (GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("amount" Data.Aeson.Types.ToJSON..=)) (productBarcodeAmount obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("barcode" Data.Aeson.Types.ToJSON..=)) (productBarcodeBarcode obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("last_price" Data.Aeson.Types.ToJSON..=)) (productBarcodeLast_price obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("note" Data.Aeson.Types.ToJSON..=)) (productBarcodeNote obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("product_id" Data.Aeson.Types.ToJSON..=)) (productBarcodeProduct_id obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("qu_id" Data.Aeson.Types.ToJSON..=)) (productBarcodeQu_id obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("shopping_location_id" Data.Aeson.Types.ToJSON..=)) (productBarcodeShopping_location_id obj) : GHC.Internal.Base.mempty));
+           toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Internal.Base.mconcat (GHC.Internal.Data.Foldable.concat (GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("amount" Data.Aeson.Types.ToJSON..=)) (productBarcodeAmount obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("barcode" Data.Aeson.Types.ToJSON..=)) (productBarcodeBarcode obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("last_price" Data.Aeson.Types.ToJSON..=)) (productBarcodeLast_price obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("note" Data.Aeson.Types.ToJSON..=)) (productBarcodeNote obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("product_id" Data.Aeson.Types.ToJSON..=)) (productBarcodeProduct_id obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("qu_id" Data.Aeson.Types.ToJSON..=)) (productBarcodeQu_id obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("shopping_location_id" Data.Aeson.Types.ToJSON..=)) (productBarcodeShopping_location_id obj) : GHC.Internal.Base.mempty)))}
 instance Data.Aeson.Types.FromJSON.FromJSON ProductBarcode
-    where {parseJSON = Data.Aeson.Types.FromJSON.withObject "ProductBarcode" (\obj -> ((((((Base.pure ProductBarcode Base.<*> (obj Data.Aeson.Types.FromJSON..:! "amount")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "barcode")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "last_price")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "note")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "product_id")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "qu_id")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "shopping_location_id"))}
+    where {parseJSON = Data.Aeson.Types.FromJSON.withObject "ProductBarcode" (\obj -> ((((((GHC.Internal.Base.pure ProductBarcode GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "amount")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "barcode")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "last_price")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "note")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "product_id")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "qu_id")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "shopping_location_id"))}
 -- | Create a new 'ProductBarcode' with all required fields.
 mkProductBarcode :: ProductBarcode
-mkProductBarcode = ProductBarcode{productBarcodeAmount = Maybe.Nothing,
-                                  productBarcodeBarcode = Maybe.Nothing,
-                                  productBarcodeLast_price = Maybe.Nothing,
-                                  productBarcodeNote = Maybe.Nothing,
-                                  productBarcodeProduct_id = Maybe.Nothing,
-                                  productBarcodeQu_id = Maybe.Nothing,
-                                  productBarcodeShopping_location_id = Maybe.Nothing}
+mkProductBarcode = ProductBarcode{productBarcodeAmount = GHC.Internal.Maybe.Nothing,
+                                  productBarcodeBarcode = GHC.Internal.Maybe.Nothing,
+                                  productBarcodeLast_price = GHC.Internal.Maybe.Nothing,
+                                  productBarcodeNote = GHC.Internal.Maybe.Nothing,
+                                  productBarcodeProduct_id = GHC.Internal.Maybe.Nothing,
+                                  productBarcodeQu_id = GHC.Internal.Maybe.Nothing,
+                                  productBarcodeShopping_location_id = GHC.Internal.Maybe.Nothing}

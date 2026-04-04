@@ -8,7 +8,9 @@ module GrocyClient.Types.BatteryDetailsResponse where
 
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
+import qualified Prelude as GHC.Internal.Maybe
 import qualified Control.Monad.Fail
+import qualified Control.Monad.Fail as GHC.Internal.Control.Monad.Fail
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
@@ -18,17 +20,23 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.ByteString
 import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
+import qualified Data.Foldable as GHC.Internal.Data.Foldable
 import qualified Data.Functor
+import qualified Data.Functor as GHC.Internal.Data.Functor
 import qualified Data.Maybe
+import qualified Data.Maybe as GHC.Internal.Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text as Data.Text.Internal
 import qualified Data.Time.Calendar as Data.Time.Calendar.Days
 import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified GHC.Base
+import qualified GHC.Base as GHC.Internal.Base
 import qualified GHC.Classes
 import qualified GHC.Int
+import qualified GHC.Int as GHC.Internal.Int
 import qualified GHC.Show
+import qualified GHC.Show as GHC.Internal.Show
 import qualified GHC.Types
 import qualified GrocyClient.Common
 import GrocyClient.TypeAlias
@@ -39,23 +47,23 @@ import {-# SOURCE #-} GrocyClient.Types.Battery
 -- 
 data BatteryDetailsResponse = BatteryDetailsResponse {
   -- | charge_cycles_count: How often this battery was charged so far
-  batteryDetailsResponseCharge_cycles_count :: (Maybe.Maybe GHC.Types.Int)
+  batteryDetailsResponseCharge_cycles_count :: (GHC.Internal.Maybe.Maybe GHC.Types.Int)
   -- | chore
-  , batteryDetailsResponseChore :: (Maybe.Maybe Battery)
+  , batteryDetailsResponseChore :: (GHC.Internal.Maybe.Maybe Battery)
   -- | last_charged: When this battery was last charged
-  , batteryDetailsResponseLast_charged :: (Maybe.Maybe Data.Text.Internal.Text)
+  , batteryDetailsResponseLast_charged :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
   -- | next_estimated_charge_time
-  , batteryDetailsResponseNext_estimated_charge_time :: (Maybe.Maybe Data.Text.Internal.Text)
-  } deriving (Show.Show
+  , batteryDetailsResponseNext_estimated_charge_time :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
+  } deriving (GHC.Internal.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.Types.ToJSON.ToJSON BatteryDetailsResponse
-    where {toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe Base.mempty (Base.pure Base.. ("charge_cycles_count" Data.Aeson.Types.ToJSON..=)) (batteryDetailsResponseCharge_cycles_count obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("chore" Data.Aeson.Types.ToJSON..=)) (batteryDetailsResponseChore obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("last_charged" Data.Aeson.Types.ToJSON..=)) (batteryDetailsResponseLast_charged obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("next_estimated_charge_time" Data.Aeson.Types.ToJSON..=)) (batteryDetailsResponseNext_estimated_charge_time obj) : Base.mempty));
-           toEncoding obj = Data.Aeson.Encoding.Internal.pairs (Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe Base.mempty (Base.pure Base.. ("charge_cycles_count" Data.Aeson.Types.ToJSON..=)) (batteryDetailsResponseCharge_cycles_count obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("chore" Data.Aeson.Types.ToJSON..=)) (batteryDetailsResponseChore obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("last_charged" Data.Aeson.Types.ToJSON..=)) (batteryDetailsResponseLast_charged obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("next_estimated_charge_time" Data.Aeson.Types.ToJSON..=)) (batteryDetailsResponseNext_estimated_charge_time obj) : Base.mempty)))}
+    where {toJSON obj = Data.Aeson.Types.Internal.object (GHC.Internal.Data.Foldable.concat (GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("charge_cycles_count" Data.Aeson.Types.ToJSON..=)) (batteryDetailsResponseCharge_cycles_count obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("chore" Data.Aeson.Types.ToJSON..=)) (batteryDetailsResponseChore obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("last_charged" Data.Aeson.Types.ToJSON..=)) (batteryDetailsResponseLast_charged obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("next_estimated_charge_time" Data.Aeson.Types.ToJSON..=)) (batteryDetailsResponseNext_estimated_charge_time obj) : GHC.Internal.Base.mempty));
+           toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Internal.Base.mconcat (GHC.Internal.Data.Foldable.concat (GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("charge_cycles_count" Data.Aeson.Types.ToJSON..=)) (batteryDetailsResponseCharge_cycles_count obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("chore" Data.Aeson.Types.ToJSON..=)) (batteryDetailsResponseChore obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("last_charged" Data.Aeson.Types.ToJSON..=)) (batteryDetailsResponseLast_charged obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("next_estimated_charge_time" Data.Aeson.Types.ToJSON..=)) (batteryDetailsResponseNext_estimated_charge_time obj) : GHC.Internal.Base.mempty)))}
 instance Data.Aeson.Types.FromJSON.FromJSON BatteryDetailsResponse
-    where {parseJSON = Data.Aeson.Types.FromJSON.withObject "BatteryDetailsResponse" (\obj -> (((Base.pure BatteryDetailsResponse Base.<*> (obj Data.Aeson.Types.FromJSON..:! "charge_cycles_count")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "chore")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "last_charged")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "next_estimated_charge_time"))}
+    where {parseJSON = Data.Aeson.Types.FromJSON.withObject "BatteryDetailsResponse" (\obj -> (((GHC.Internal.Base.pure BatteryDetailsResponse GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "charge_cycles_count")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "chore")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "last_charged")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "next_estimated_charge_time"))}
 -- | Create a new 'BatteryDetailsResponse' with all required fields.
 mkBatteryDetailsResponse :: BatteryDetailsResponse
-mkBatteryDetailsResponse = BatteryDetailsResponse{batteryDetailsResponseCharge_cycles_count = Maybe.Nothing,
-                                                  batteryDetailsResponseChore = Maybe.Nothing,
-                                                  batteryDetailsResponseLast_charged = Maybe.Nothing,
-                                                  batteryDetailsResponseNext_estimated_charge_time = Maybe.Nothing}
+mkBatteryDetailsResponse = BatteryDetailsResponse{batteryDetailsResponseCharge_cycles_count = GHC.Internal.Maybe.Nothing,
+                                                  batteryDetailsResponseChore = GHC.Internal.Maybe.Nothing,
+                                                  batteryDetailsResponseLast_charged = GHC.Internal.Maybe.Nothing,
+                                                  batteryDetailsResponseNext_estimated_charge_time = GHC.Internal.Maybe.Nothing}

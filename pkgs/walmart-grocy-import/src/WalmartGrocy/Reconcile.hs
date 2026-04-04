@@ -1,7 +1,4 @@
 -- | Pure reconciliation logic.
---
--- No IO. Takes Walmart orders and Grocy products, produces a plan
--- describing what actions to take. Trivially testable.
 module WalmartGrocy.Reconcile
   ( reconcile
   , bestMatch
@@ -15,27 +12,26 @@ import Data.Text (Text)
 import Data.Text qualified as T
 import Text.Fuzzy qualified as Fuzzy
 
-import Grocy.Types (GrocyProduct (..))
 import Walmart.Types (WalmartItem (..), WalmartOrder (..))
 import WalmartGrocy.Types
 
-reconcile :: [GrocyProduct] -> WalmartOrder -> ImportPlan
+reconcile :: [(Int, Text)] -> WalmartOrder -> ImportPlan
 reconcile products order = ImportPlan
   { ipOrderId   = woOrderId order
   , ipOrderDate = woOrderDate order
   , ipActions   = map (matchOrCreate products) (woItems order)
   }
 
-matchOrCreate :: [GrocyProduct] -> WalmartItem -> Action
+matchOrCreate :: [(Int, Text)] -> WalmartItem -> Action
 matchOrCreate products item =
   case bestMatch (wiName item) products of
-    Just gp -> StockExisting item gp
-    Nothing      -> CreateAndStock item
+    Just p  -> StockExisting item p
+    Nothing -> CreateAndStock item
 
-bestMatch :: Text -> [GrocyProduct] -> Maybe GrocyProduct
+bestMatch :: Text -> [(Int, Text)] -> Maybe (Int, Text)
 bestMatch name products =
   let threshold = 75
-      scored = [(fuzzyScore name (gpName p), p) | p <- products]
+      scored = [(fuzzyScore name (snd p), p) | p <- products]
       above  = filter ((>= threshold) . fst) scored
       sorted = sortOn (Down . fst) above
   in case sorted of

@@ -124,7 +124,7 @@
             devShells.default =
               let
                 localHsPkg = hprev: name: hprev.callCabal2nix name ./pkgs/${name} { };
-                localPkgs = [ "browser-cookies" "walmart" "walmart-extractor" "grocy" "grocy-client" "walmart-grocy-import" ];
+                localPkgs = [ "browser-cookies" "walmart" "walmart-extractor" "grocy-client" "walmart-grocy-import" ];
                 hsPkgs = pkgs.haskellPackages.override {
                   overrides = hfinal: hprev: pkgs.lib.genAttrs localPkgs (localHsPkg hprev);
                 };

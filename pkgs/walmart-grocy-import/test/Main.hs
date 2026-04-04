@@ -13,7 +13,6 @@ import Test.Tasty
 import Test.Tasty.HUnit
 import Test.Tasty.QuickCheck (testProperty)
 
-import Grocy.Types (GrocyProduct (..), ProductId (..))
 import Walmart.Types
 import WalmartGrocy.Reconcile (bestMatch, deduplicateBy, reconcile)
 import WalmartGrocy.Types
@@ -29,8 +28,8 @@ mkItem name = WalmartItem
   , wiSalesUnitType = Each
   }
 
-mkProduct :: Int -> Text -> GrocyProduct
-mkProduct pid name = GrocyProduct (ProductId pid) name
+mkProduct :: Int -> Text -> (Int, Text)
+mkProduct pid name = (pid, name)
 
 mkOrder :: [WalmartItem] -> WalmartOrder
 mkOrder items = WalmartOrder

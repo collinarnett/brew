@@ -9,15 +9,16 @@ module WalmartGrocy.Types
   , AppError (..)
   ) where
 
+import Data.Text (Text)
 import Data.Time (UTCTime)
 
 import BrowserCookies (CookieError)
-import Grocy.Types (GrocyError, GrocyProduct)
 import Walmart.Types (OrderId, WalmartError, WalmartItem)
+import WalmartGrocy.Grocy (GrocyError)
 
 data Action
   = CreateAndStock WalmartItem
-  | StockExisting  WalmartItem GrocyProduct
+  | StockExisting  WalmartItem (Int, Text)
   deriving stock (Show, Eq)
 
 data ImportPlan = ImportPlan
@@ -28,8 +29,8 @@ data ImportPlan = ImportPlan
 
 data ImportResult = ImportResult
   { irOrderId :: OrderId
-  , irMatched :: [(WalmartItem, GrocyProduct)]
-  , irCreated :: [(WalmartItem, GrocyProduct)]
+  , irMatched :: [(WalmartItem, (Int, Text))]
+  , irCreated :: [(WalmartItem, (Int, Text))]
   } deriving stock (Show)
 
 data ImportOptions = ImportOptions

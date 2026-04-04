@@ -8,7 +8,9 @@ module GrocyClient.Types.Chore where
 
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
+import qualified Prelude as GHC.Internal.Maybe
 import qualified Control.Monad.Fail
+import qualified Control.Monad.Fail as GHC.Internal.Control.Monad.Fail
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
@@ -18,17 +20,23 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.ByteString
 import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
+import qualified Data.Foldable as GHC.Internal.Data.Foldable
 import qualified Data.Functor
+import qualified Data.Functor as GHC.Internal.Data.Functor
 import qualified Data.Maybe
+import qualified Data.Maybe as GHC.Internal.Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text as Data.Text.Internal
 import qualified Data.Time.Calendar as Data.Time.Calendar.Days
 import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified GHC.Base
+import qualified GHC.Base as GHC.Internal.Base
 import qualified GHC.Classes
 import qualified GHC.Int
+import qualified GHC.Int as GHC.Internal.Int
 import qualified GHC.Show
+import qualified GHC.Show as GHC.Internal.Show
 import qualified GHC.Types
 import qualified GrocyClient.Common
 import GrocyClient.TypeAlias
@@ -38,62 +46,62 @@ import GrocyClient.TypeAlias
 -- 
 data Chore = Chore {
   -- | assignment_config
-  choreAssignment_config :: (Maybe.Maybe Data.Text.Internal.Text)
+  choreAssignment_config :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
   -- | assignment_type
-  , choreAssignment_type :: (Maybe.Maybe ChoreAssignment_type)
+  , choreAssignment_type :: (GHC.Internal.Maybe.Maybe ChoreAssignment_type)
   -- | description
-  , choreDescription :: (Maybe.Maybe Data.Text.Internal.Text)
+  , choreDescription :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
   -- | id
-  , choreId :: (Maybe.Maybe GHC.Types.Int)
+  , choreId :: (GHC.Internal.Maybe.Maybe GHC.Types.Int)
   -- | name
-  , choreName :: (Maybe.Maybe Data.Text.Internal.Text)
+  , choreName :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
   -- | next_execution_assigned_to_user_id
-  , choreNext_execution_assigned_to_user_id :: (Maybe.Maybe GHC.Types.Int)
+  , choreNext_execution_assigned_to_user_id :: (GHC.Internal.Maybe.Maybe GHC.Types.Int)
   -- | period_config
-  , chorePeriod_config :: (Maybe.Maybe Data.Text.Internal.Text)
+  , chorePeriod_config :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
   -- | period_days
-  , chorePeriod_days :: (Maybe.Maybe GHC.Types.Int)
+  , chorePeriod_days :: (GHC.Internal.Maybe.Maybe GHC.Types.Int)
   -- | period_type
-  , chorePeriod_type :: (Maybe.Maybe ChorePeriod_type)
+  , chorePeriod_type :: (GHC.Internal.Maybe.Maybe ChorePeriod_type)
   -- | rescheduled_date
-  , choreRescheduled_date :: (Maybe.Maybe Data.Text.Internal.Text)
+  , choreRescheduled_date :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
   -- | rescheduled_next_execution_assigned_to_user_id
-  , choreRescheduled_next_execution_assigned_to_user_id :: (Maybe.Maybe GHC.Types.Int)
+  , choreRescheduled_next_execution_assigned_to_user_id :: (GHC.Internal.Maybe.Maybe GHC.Types.Int)
   -- | rollover
-  , choreRollover :: (Maybe.Maybe GHC.Types.Bool)
+  , choreRollover :: (GHC.Internal.Maybe.Maybe GHC.Types.Bool)
   -- | row_created_timestamp
-  , choreRow_created_timestamp :: (Maybe.Maybe Data.Text.Internal.Text)
+  , choreRow_created_timestamp :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
   -- | start_date
-  , choreStart_date :: (Maybe.Maybe Data.Text.Internal.Text)
+  , choreStart_date :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
   -- | track_date_only
-  , choreTrack_date_only :: (Maybe.Maybe GHC.Types.Bool)
+  , choreTrack_date_only :: (GHC.Internal.Maybe.Maybe GHC.Types.Bool)
   -- | userfields: Key\/value pairs of userfields
-  , choreUserfields :: (Maybe.Maybe Data.Aeson.Types.Internal.Object)
-  } deriving (Show.Show
+  , choreUserfields :: (GHC.Internal.Maybe.Maybe Data.Aeson.Types.Internal.Object)
+  } deriving (GHC.Internal.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.Types.ToJSON.ToJSON Chore
-    where {toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe Base.mempty (Base.pure Base.. ("assignment_config" Data.Aeson.Types.ToJSON..=)) (choreAssignment_config obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("assignment_type" Data.Aeson.Types.ToJSON..=)) (choreAssignment_type obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("description" Data.Aeson.Types.ToJSON..=)) (choreDescription obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("id" Data.Aeson.Types.ToJSON..=)) (choreId obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("name" Data.Aeson.Types.ToJSON..=)) (choreName obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("next_execution_assigned_to_user_id" Data.Aeson.Types.ToJSON..=)) (choreNext_execution_assigned_to_user_id obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("period_config" Data.Aeson.Types.ToJSON..=)) (chorePeriod_config obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("period_days" Data.Aeson.Types.ToJSON..=)) (chorePeriod_days obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("period_type" Data.Aeson.Types.ToJSON..=)) (chorePeriod_type obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("rescheduled_date" Data.Aeson.Types.ToJSON..=)) (choreRescheduled_date obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("rescheduled_next_execution_assigned_to_user_id" Data.Aeson.Types.ToJSON..=)) (choreRescheduled_next_execution_assigned_to_user_id obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("rollover" Data.Aeson.Types.ToJSON..=)) (choreRollover obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("row_created_timestamp" Data.Aeson.Types.ToJSON..=)) (choreRow_created_timestamp obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("start_date" Data.Aeson.Types.ToJSON..=)) (choreStart_date obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("track_date_only" Data.Aeson.Types.ToJSON..=)) (choreTrack_date_only obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("userfields" Data.Aeson.Types.ToJSON..=)) (choreUserfields obj) : Base.mempty));
-           toEncoding obj = Data.Aeson.Encoding.Internal.pairs (Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe Base.mempty (Base.pure Base.. ("assignment_config" Data.Aeson.Types.ToJSON..=)) (choreAssignment_config obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("assignment_type" Data.Aeson.Types.ToJSON..=)) (choreAssignment_type obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("description" Data.Aeson.Types.ToJSON..=)) (choreDescription obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("id" Data.Aeson.Types.ToJSON..=)) (choreId obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("name" Data.Aeson.Types.ToJSON..=)) (choreName obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("next_execution_assigned_to_user_id" Data.Aeson.Types.ToJSON..=)) (choreNext_execution_assigned_to_user_id obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("period_config" Data.Aeson.Types.ToJSON..=)) (chorePeriod_config obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("period_days" Data.Aeson.Types.ToJSON..=)) (chorePeriod_days obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("period_type" Data.Aeson.Types.ToJSON..=)) (chorePeriod_type obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("rescheduled_date" Data.Aeson.Types.ToJSON..=)) (choreRescheduled_date obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("rescheduled_next_execution_assigned_to_user_id" Data.Aeson.Types.ToJSON..=)) (choreRescheduled_next_execution_assigned_to_user_id obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("rollover" Data.Aeson.Types.ToJSON..=)) (choreRollover obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("row_created_timestamp" Data.Aeson.Types.ToJSON..=)) (choreRow_created_timestamp obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("start_date" Data.Aeson.Types.ToJSON..=)) (choreStart_date obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("track_date_only" Data.Aeson.Types.ToJSON..=)) (choreTrack_date_only obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("userfields" Data.Aeson.Types.ToJSON..=)) (choreUserfields obj) : Base.mempty)))}
+    where {toJSON obj = Data.Aeson.Types.Internal.object (GHC.Internal.Data.Foldable.concat (GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("assignment_config" Data.Aeson.Types.ToJSON..=)) (choreAssignment_config obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("assignment_type" Data.Aeson.Types.ToJSON..=)) (choreAssignment_type obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (choreDescription obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("id" Data.Aeson.Types.ToJSON..=)) (choreId obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("name" Data.Aeson.Types.ToJSON..=)) (choreName obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("next_execution_assigned_to_user_id" Data.Aeson.Types.ToJSON..=)) (choreNext_execution_assigned_to_user_id obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("period_config" Data.Aeson.Types.ToJSON..=)) (chorePeriod_config obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("period_days" Data.Aeson.Types.ToJSON..=)) (chorePeriod_days obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("period_type" Data.Aeson.Types.ToJSON..=)) (chorePeriod_type obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("rescheduled_date" Data.Aeson.Types.ToJSON..=)) (choreRescheduled_date obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("rescheduled_next_execution_assigned_to_user_id" Data.Aeson.Types.ToJSON..=)) (choreRescheduled_next_execution_assigned_to_user_id obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("rollover" Data.Aeson.Types.ToJSON..=)) (choreRollover obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("row_created_timestamp" Data.Aeson.Types.ToJSON..=)) (choreRow_created_timestamp obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("start_date" Data.Aeson.Types.ToJSON..=)) (choreStart_date obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("track_date_only" Data.Aeson.Types.ToJSON..=)) (choreTrack_date_only obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("userfields" Data.Aeson.Types.ToJSON..=)) (choreUserfields obj) : GHC.Internal.Base.mempty));
+           toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Internal.Base.mconcat (GHC.Internal.Data.Foldable.concat (GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("assignment_config" Data.Aeson.Types.ToJSON..=)) (choreAssignment_config obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("assignment_type" Data.Aeson.Types.ToJSON..=)) (choreAssignment_type obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (choreDescription obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("id" Data.Aeson.Types.ToJSON..=)) (choreId obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("name" Data.Aeson.Types.ToJSON..=)) (choreName obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("next_execution_assigned_to_user_id" Data.Aeson.Types.ToJSON..=)) (choreNext_execution_assigned_to_user_id obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("period_config" Data.Aeson.Types.ToJSON..=)) (chorePeriod_config obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("period_days" Data.Aeson.Types.ToJSON..=)) (chorePeriod_days obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("period_type" Data.Aeson.Types.ToJSON..=)) (chorePeriod_type obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("rescheduled_date" Data.Aeson.Types.ToJSON..=)) (choreRescheduled_date obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("rescheduled_next_execution_assigned_to_user_id" Data.Aeson.Types.ToJSON..=)) (choreRescheduled_next_execution_assigned_to_user_id obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("rollover" Data.Aeson.Types.ToJSON..=)) (choreRollover obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("row_created_timestamp" Data.Aeson.Types.ToJSON..=)) (choreRow_created_timestamp obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("start_date" Data.Aeson.Types.ToJSON..=)) (choreStart_date obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("track_date_only" Data.Aeson.Types.ToJSON..=)) (choreTrack_date_only obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("userfields" Data.Aeson.Types.ToJSON..=)) (choreUserfields obj) : GHC.Internal.Base.mempty)))}
 instance Data.Aeson.Types.FromJSON.FromJSON Chore
-    where {parseJSON = Data.Aeson.Types.FromJSON.withObject "Chore" (\obj -> (((((((((((((((Base.pure Chore Base.<*> (obj Data.Aeson.Types.FromJSON..:! "assignment_config")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "assignment_type")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "description")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "id")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "name")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "next_execution_assigned_to_user_id")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "period_config")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "period_days")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "period_type")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "rescheduled_date")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "rescheduled_next_execution_assigned_to_user_id")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "rollover")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "row_created_timestamp")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "start_date")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "track_date_only")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "userfields"))}
+    where {parseJSON = Data.Aeson.Types.FromJSON.withObject "Chore" (\obj -> (((((((((((((((GHC.Internal.Base.pure Chore GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "assignment_config")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "assignment_type")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "description")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "id")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "name")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "next_execution_assigned_to_user_id")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "period_config")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "period_days")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "period_type")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "rescheduled_date")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "rescheduled_next_execution_assigned_to_user_id")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "rollover")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "row_created_timestamp")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "start_date")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "track_date_only")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "userfields"))}
 -- | Create a new 'Chore' with all required fields.
 mkChore :: Chore
-mkChore = Chore{choreAssignment_config = Maybe.Nothing,
-                choreAssignment_type = Maybe.Nothing,
-                choreDescription = Maybe.Nothing,
-                choreId = Maybe.Nothing,
-                choreName = Maybe.Nothing,
-                choreNext_execution_assigned_to_user_id = Maybe.Nothing,
-                chorePeriod_config = Maybe.Nothing,
-                chorePeriod_days = Maybe.Nothing,
-                chorePeriod_type = Maybe.Nothing,
-                choreRescheduled_date = Maybe.Nothing,
-                choreRescheduled_next_execution_assigned_to_user_id = Maybe.Nothing,
-                choreRollover = Maybe.Nothing,
-                choreRow_created_timestamp = Maybe.Nothing,
-                choreStart_date = Maybe.Nothing,
-                choreTrack_date_only = Maybe.Nothing,
-                choreUserfields = Maybe.Nothing}
+mkChore = Chore{choreAssignment_config = GHC.Internal.Maybe.Nothing,
+                choreAssignment_type = GHC.Internal.Maybe.Nothing,
+                choreDescription = GHC.Internal.Maybe.Nothing,
+                choreId = GHC.Internal.Maybe.Nothing,
+                choreName = GHC.Internal.Maybe.Nothing,
+                choreNext_execution_assigned_to_user_id = GHC.Internal.Maybe.Nothing,
+                chorePeriod_config = GHC.Internal.Maybe.Nothing,
+                chorePeriod_days = GHC.Internal.Maybe.Nothing,
+                chorePeriod_type = GHC.Internal.Maybe.Nothing,
+                choreRescheduled_date = GHC.Internal.Maybe.Nothing,
+                choreRescheduled_next_execution_assigned_to_user_id = GHC.Internal.Maybe.Nothing,
+                choreRollover = GHC.Internal.Maybe.Nothing,
+                choreRow_created_timestamp = GHC.Internal.Maybe.Nothing,
+                choreStart_date = GHC.Internal.Maybe.Nothing,
+                choreTrack_date_only = GHC.Internal.Maybe.Nothing,
+                choreUserfields = GHC.Internal.Maybe.Nothing}
 -- | Defines the enum schema located at @components.schemas.Chore.properties.assignment_type@ in the specification.
 -- 
 -- 
@@ -104,7 +112,7 @@ data ChoreAssignment_type =
   | ChoreAssignment_typeEnumWho_least_did_first -- ^ Represents the JSON value @"who-least-did-first"@
   | ChoreAssignment_typeEnumRandom -- ^ Represents the JSON value @"random"@
   | ChoreAssignment_typeEnumIn_alphabetical_order -- ^ Represents the JSON value @"in-alphabetical-order"@
-  deriving (Show.Show, GHC.Classes.Eq)
+  deriving (GHC.Internal.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.Types.ToJSON.ToJSON ChoreAssignment_type
     where {toJSON (ChoreAssignment_typeOther val) = val;
            toJSON (ChoreAssignment_typeTyped val) = Data.Aeson.Types.ToJSON.toJSON val;
@@ -113,11 +121,11 @@ instance Data.Aeson.Types.ToJSON.ToJSON ChoreAssignment_type
            toJSON (ChoreAssignment_typeEnumRandom) = "random";
            toJSON (ChoreAssignment_typeEnumIn_alphabetical_order) = "in-alphabetical-order"}
 instance Data.Aeson.Types.FromJSON.FromJSON ChoreAssignment_type
-    where {parseJSON val = Base.pure (if | val GHC.Classes.== "no-assignment" -> ChoreAssignment_typeEnumNo_assignment
+    where {parseJSON val = GHC.Internal.Base.pure (if | val GHC.Classes.== "no-assignment" -> ChoreAssignment_typeEnumNo_assignment
                                                       | val GHC.Classes.== "who-least-did-first" -> ChoreAssignment_typeEnumWho_least_did_first
                                                       | val GHC.Classes.== "random" -> ChoreAssignment_typeEnumRandom
                                                       | val GHC.Classes.== "in-alphabetical-order" -> ChoreAssignment_typeEnumIn_alphabetical_order
-                                                      | Base.otherwise -> ChoreAssignment_typeOther val)}
+                                                      | GHC.Internal.Base.otherwise -> ChoreAssignment_typeOther val)}
 -- | Defines the enum schema located at @components.schemas.Chore.properties.period_type@ in the specification.
 -- 
 -- 
@@ -129,7 +137,7 @@ data ChorePeriod_type =
   | ChorePeriod_typeEnumDaily -- ^ Represents the JSON value @"daily"@
   | ChorePeriod_typeEnumWeekly -- ^ Represents the JSON value @"weekly"@
   | ChorePeriod_typeEnumMonthly -- ^ Represents the JSON value @"monthly"@
-  deriving (Show.Show, GHC.Classes.Eq)
+  deriving (GHC.Internal.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.Types.ToJSON.ToJSON ChorePeriod_type
     where {toJSON (ChorePeriod_typeOther val) = val;
            toJSON (ChorePeriod_typeTyped val) = Data.Aeson.Types.ToJSON.toJSON val;
@@ -139,9 +147,9 @@ instance Data.Aeson.Types.ToJSON.ToJSON ChorePeriod_type
            toJSON (ChorePeriod_typeEnumWeekly) = "weekly";
            toJSON (ChorePeriod_typeEnumMonthly) = "monthly"}
 instance Data.Aeson.Types.FromJSON.FromJSON ChorePeriod_type
-    where {parseJSON val = Base.pure (if | val GHC.Classes.== "manually" -> ChorePeriod_typeEnumManually
+    where {parseJSON val = GHC.Internal.Base.pure (if | val GHC.Classes.== "manually" -> ChorePeriod_typeEnumManually
                                                       | val GHC.Classes.== "hourly" -> ChorePeriod_typeEnumHourly
                                                       | val GHC.Classes.== "daily" -> ChorePeriod_typeEnumDaily
                                                       | val GHC.Classes.== "weekly" -> ChorePeriod_typeEnumWeekly
                                                       | val GHC.Classes.== "monthly" -> ChorePeriod_typeEnumMonthly
-                                                      | Base.otherwise -> ChorePeriod_typeOther val)}
+                                                      | GHC.Internal.Base.otherwise -> ChorePeriod_typeOther val)}

@@ -8,7 +8,9 @@ module GrocyClient.Types.CurrentStockResponse where
 
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
+import qualified Prelude as GHC.Internal.Maybe
 import qualified Control.Monad.Fail
+import qualified Control.Monad.Fail as GHC.Internal.Control.Monad.Fail
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
@@ -18,17 +20,23 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.ByteString
 import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
+import qualified Data.Foldable as GHC.Internal.Data.Foldable
 import qualified Data.Functor
+import qualified Data.Functor as GHC.Internal.Data.Functor
 import qualified Data.Maybe
+import qualified Data.Maybe as GHC.Internal.Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text as Data.Text.Internal
 import qualified Data.Time.Calendar as Data.Time.Calendar.Days
 import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified GHC.Base
+import qualified GHC.Base as GHC.Internal.Base
 import qualified GHC.Classes
 import qualified GHC.Int
+import qualified GHC.Int as GHC.Internal.Int
 import qualified GHC.Show
+import qualified GHC.Show as GHC.Internal.Show
 import qualified GHC.Types
 import qualified GrocyClient.Common
 import GrocyClient.TypeAlias
@@ -39,35 +47,35 @@ import {-# SOURCE #-} GrocyClient.Types.ProductWithoutUserfields
 -- 
 data CurrentStockResponse = CurrentStockResponse {
   -- | amount
-  currentStockResponseAmount :: (Maybe.Maybe GHC.Types.Double)
+  currentStockResponseAmount :: (GHC.Internal.Maybe.Maybe GHC.Types.Double)
   -- | amount_aggregated
-  , currentStockResponseAmount_aggregated :: (Maybe.Maybe GHC.Types.Double)
+  , currentStockResponseAmount_aggregated :: (GHC.Internal.Maybe.Maybe GHC.Types.Double)
   -- | amount_opened
-  , currentStockResponseAmount_opened :: (Maybe.Maybe GHC.Types.Double)
+  , currentStockResponseAmount_opened :: (GHC.Internal.Maybe.Maybe GHC.Types.Double)
   -- | amount_opened_aggregated
-  , currentStockResponseAmount_opened_aggregated :: (Maybe.Maybe GHC.Types.Double)
+  , currentStockResponseAmount_opened_aggregated :: (GHC.Internal.Maybe.Maybe GHC.Types.Double)
   -- | best_before_date: The next due date for this product
-  , currentStockResponseBest_before_date :: (Maybe.Maybe Data.Text.Internal.Text)
+  , currentStockResponseBest_before_date :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
   -- | is_aggregated_amount: Indicates wheter this product has sub-products or not \/ if the fields \`amount_aggregated\` and \`amount_opened_aggregated\` are filled
-  , currentStockResponseIs_aggregated_amount :: (Maybe.Maybe GHC.Types.Bool)
+  , currentStockResponseIs_aggregated_amount :: (GHC.Internal.Maybe.Maybe GHC.Types.Bool)
   -- | product
-  , currentStockResponseProduct :: (Maybe.Maybe ProductWithoutUserfields)
+  , currentStockResponseProduct :: (GHC.Internal.Maybe.Maybe ProductWithoutUserfields)
   -- | product_id
-  , currentStockResponseProduct_id :: (Maybe.Maybe GHC.Types.Int)
-  } deriving (Show.Show
+  , currentStockResponseProduct_id :: (GHC.Internal.Maybe.Maybe GHC.Types.Int)
+  } deriving (GHC.Internal.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.Types.ToJSON.ToJSON CurrentStockResponse
-    where {toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe Base.mempty (Base.pure Base.. ("amount" Data.Aeson.Types.ToJSON..=)) (currentStockResponseAmount obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("amount_aggregated" Data.Aeson.Types.ToJSON..=)) (currentStockResponseAmount_aggregated obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("amount_opened" Data.Aeson.Types.ToJSON..=)) (currentStockResponseAmount_opened obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("amount_opened_aggregated" Data.Aeson.Types.ToJSON..=)) (currentStockResponseAmount_opened_aggregated obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("best_before_date" Data.Aeson.Types.ToJSON..=)) (currentStockResponseBest_before_date obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("is_aggregated_amount" Data.Aeson.Types.ToJSON..=)) (currentStockResponseIs_aggregated_amount obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("product" Data.Aeson.Types.ToJSON..=)) (currentStockResponseProduct obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("product_id" Data.Aeson.Types.ToJSON..=)) (currentStockResponseProduct_id obj) : Base.mempty));
-           toEncoding obj = Data.Aeson.Encoding.Internal.pairs (Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe Base.mempty (Base.pure Base.. ("amount" Data.Aeson.Types.ToJSON..=)) (currentStockResponseAmount obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("amount_aggregated" Data.Aeson.Types.ToJSON..=)) (currentStockResponseAmount_aggregated obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("amount_opened" Data.Aeson.Types.ToJSON..=)) (currentStockResponseAmount_opened obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("amount_opened_aggregated" Data.Aeson.Types.ToJSON..=)) (currentStockResponseAmount_opened_aggregated obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("best_before_date" Data.Aeson.Types.ToJSON..=)) (currentStockResponseBest_before_date obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("is_aggregated_amount" Data.Aeson.Types.ToJSON..=)) (currentStockResponseIs_aggregated_amount obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("product" Data.Aeson.Types.ToJSON..=)) (currentStockResponseProduct obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("product_id" Data.Aeson.Types.ToJSON..=)) (currentStockResponseProduct_id obj) : Base.mempty)))}
+    where {toJSON obj = Data.Aeson.Types.Internal.object (GHC.Internal.Data.Foldable.concat (GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("amount" Data.Aeson.Types.ToJSON..=)) (currentStockResponseAmount obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("amount_aggregated" Data.Aeson.Types.ToJSON..=)) (currentStockResponseAmount_aggregated obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("amount_opened" Data.Aeson.Types.ToJSON..=)) (currentStockResponseAmount_opened obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("amount_opened_aggregated" Data.Aeson.Types.ToJSON..=)) (currentStockResponseAmount_opened_aggregated obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("best_before_date" Data.Aeson.Types.ToJSON..=)) (currentStockResponseBest_before_date obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("is_aggregated_amount" Data.Aeson.Types.ToJSON..=)) (currentStockResponseIs_aggregated_amount obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("product" Data.Aeson.Types.ToJSON..=)) (currentStockResponseProduct obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("product_id" Data.Aeson.Types.ToJSON..=)) (currentStockResponseProduct_id obj) : GHC.Internal.Base.mempty));
+           toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Internal.Base.mconcat (GHC.Internal.Data.Foldable.concat (GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("amount" Data.Aeson.Types.ToJSON..=)) (currentStockResponseAmount obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("amount_aggregated" Data.Aeson.Types.ToJSON..=)) (currentStockResponseAmount_aggregated obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("amount_opened" Data.Aeson.Types.ToJSON..=)) (currentStockResponseAmount_opened obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("amount_opened_aggregated" Data.Aeson.Types.ToJSON..=)) (currentStockResponseAmount_opened_aggregated obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("best_before_date" Data.Aeson.Types.ToJSON..=)) (currentStockResponseBest_before_date obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("is_aggregated_amount" Data.Aeson.Types.ToJSON..=)) (currentStockResponseIs_aggregated_amount obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("product" Data.Aeson.Types.ToJSON..=)) (currentStockResponseProduct obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("product_id" Data.Aeson.Types.ToJSON..=)) (currentStockResponseProduct_id obj) : GHC.Internal.Base.mempty)))}
 instance Data.Aeson.Types.FromJSON.FromJSON CurrentStockResponse
-    where {parseJSON = Data.Aeson.Types.FromJSON.withObject "CurrentStockResponse" (\obj -> (((((((Base.pure CurrentStockResponse Base.<*> (obj Data.Aeson.Types.FromJSON..:! "amount")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "amount_aggregated")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "amount_opened")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "amount_opened_aggregated")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "best_before_date")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "is_aggregated_amount")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "product")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "product_id"))}
+    where {parseJSON = Data.Aeson.Types.FromJSON.withObject "CurrentStockResponse" (\obj -> (((((((GHC.Internal.Base.pure CurrentStockResponse GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "amount")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "amount_aggregated")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "amount_opened")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "amount_opened_aggregated")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "best_before_date")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "is_aggregated_amount")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "product")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "product_id"))}
 -- | Create a new 'CurrentStockResponse' with all required fields.
 mkCurrentStockResponse :: CurrentStockResponse
-mkCurrentStockResponse = CurrentStockResponse{currentStockResponseAmount = Maybe.Nothing,
-                                              currentStockResponseAmount_aggregated = Maybe.Nothing,
-                                              currentStockResponseAmount_opened = Maybe.Nothing,
-                                              currentStockResponseAmount_opened_aggregated = Maybe.Nothing,
-                                              currentStockResponseBest_before_date = Maybe.Nothing,
-                                              currentStockResponseIs_aggregated_amount = Maybe.Nothing,
-                                              currentStockResponseProduct = Maybe.Nothing,
-                                              currentStockResponseProduct_id = Maybe.Nothing}
+mkCurrentStockResponse = CurrentStockResponse{currentStockResponseAmount = GHC.Internal.Maybe.Nothing,
+                                              currentStockResponseAmount_aggregated = GHC.Internal.Maybe.Nothing,
+                                              currentStockResponseAmount_opened = GHC.Internal.Maybe.Nothing,
+                                              currentStockResponseAmount_opened_aggregated = GHC.Internal.Maybe.Nothing,
+                                              currentStockResponseBest_before_date = GHC.Internal.Maybe.Nothing,
+                                              currentStockResponseIs_aggregated_amount = GHC.Internal.Maybe.Nothing,
+                                              currentStockResponseProduct = GHC.Internal.Maybe.Nothing,
+                                              currentStockResponseProduct_id = GHC.Internal.Maybe.Nothing}

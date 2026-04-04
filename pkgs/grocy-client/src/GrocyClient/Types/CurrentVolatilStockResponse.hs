@@ -8,7 +8,9 @@ module GrocyClient.Types.CurrentVolatilStockResponse where
 
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
+import qualified Prelude as GHC.Internal.Maybe
 import qualified Control.Monad.Fail
+import qualified Control.Monad.Fail as GHC.Internal.Control.Monad.Fail
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
@@ -18,17 +20,23 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.ByteString
 import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
+import qualified Data.Foldable as GHC.Internal.Data.Foldable
 import qualified Data.Functor
+import qualified Data.Functor as GHC.Internal.Data.Functor
 import qualified Data.Maybe
+import qualified Data.Maybe as GHC.Internal.Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text as Data.Text.Internal
 import qualified Data.Time.Calendar as Data.Time.Calendar.Days
 import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified GHC.Base
+import qualified GHC.Base as GHC.Internal.Base
 import qualified GHC.Classes
 import qualified GHC.Int
+import qualified GHC.Int as GHC.Internal.Int
 import qualified GHC.Show
+import qualified GHC.Show as GHC.Internal.Show
 import qualified GHC.Types
 import qualified GrocyClient.Common
 import GrocyClient.TypeAlias
@@ -39,48 +47,48 @@ import {-# SOURCE #-} GrocyClient.Types.CurrentStockResponse
 -- 
 data CurrentVolatilStockResponse = CurrentVolatilStockResponse {
   -- | due_products
-  currentVolatilStockResponseDue_products :: (Maybe.Maybe [CurrentStockResponse])
+  currentVolatilStockResponseDue_products :: (GHC.Internal.Maybe.Maybe [CurrentStockResponse])
   -- | expired_products
-  , currentVolatilStockResponseExpired_products :: (Maybe.Maybe [CurrentStockResponse])
+  , currentVolatilStockResponseExpired_products :: (GHC.Internal.Maybe.Maybe [CurrentStockResponse])
   -- | missing_products
-  , currentVolatilStockResponseMissing_products :: (Maybe.Maybe [CurrentVolatilStockResponseMissing_products])
+  , currentVolatilStockResponseMissing_products :: (GHC.Internal.Maybe.Maybe [CurrentVolatilStockResponseMissing_products])
   -- | overdue_products
-  , currentVolatilStockResponseOverdue_products :: (Maybe.Maybe [CurrentStockResponse])
-  } deriving (Show.Show
+  , currentVolatilStockResponseOverdue_products :: (GHC.Internal.Maybe.Maybe [CurrentStockResponse])
+  } deriving (GHC.Internal.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.Types.ToJSON.ToJSON CurrentVolatilStockResponse
-    where {toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe Base.mempty (Base.pure Base.. ("due_products" Data.Aeson.Types.ToJSON..=)) (currentVolatilStockResponseDue_products obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("expired_products" Data.Aeson.Types.ToJSON..=)) (currentVolatilStockResponseExpired_products obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("missing_products" Data.Aeson.Types.ToJSON..=)) (currentVolatilStockResponseMissing_products obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("overdue_products" Data.Aeson.Types.ToJSON..=)) (currentVolatilStockResponseOverdue_products obj) : Base.mempty));
-           toEncoding obj = Data.Aeson.Encoding.Internal.pairs (Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe Base.mempty (Base.pure Base.. ("due_products" Data.Aeson.Types.ToJSON..=)) (currentVolatilStockResponseDue_products obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("expired_products" Data.Aeson.Types.ToJSON..=)) (currentVolatilStockResponseExpired_products obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("missing_products" Data.Aeson.Types.ToJSON..=)) (currentVolatilStockResponseMissing_products obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("overdue_products" Data.Aeson.Types.ToJSON..=)) (currentVolatilStockResponseOverdue_products obj) : Base.mempty)))}
+    where {toJSON obj = Data.Aeson.Types.Internal.object (GHC.Internal.Data.Foldable.concat (GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("due_products" Data.Aeson.Types.ToJSON..=)) (currentVolatilStockResponseDue_products obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("expired_products" Data.Aeson.Types.ToJSON..=)) (currentVolatilStockResponseExpired_products obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("missing_products" Data.Aeson.Types.ToJSON..=)) (currentVolatilStockResponseMissing_products obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("overdue_products" Data.Aeson.Types.ToJSON..=)) (currentVolatilStockResponseOverdue_products obj) : GHC.Internal.Base.mempty));
+           toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Internal.Base.mconcat (GHC.Internal.Data.Foldable.concat (GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("due_products" Data.Aeson.Types.ToJSON..=)) (currentVolatilStockResponseDue_products obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("expired_products" Data.Aeson.Types.ToJSON..=)) (currentVolatilStockResponseExpired_products obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("missing_products" Data.Aeson.Types.ToJSON..=)) (currentVolatilStockResponseMissing_products obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("overdue_products" Data.Aeson.Types.ToJSON..=)) (currentVolatilStockResponseOverdue_products obj) : GHC.Internal.Base.mempty)))}
 instance Data.Aeson.Types.FromJSON.FromJSON CurrentVolatilStockResponse
-    where {parseJSON = Data.Aeson.Types.FromJSON.withObject "CurrentVolatilStockResponse" (\obj -> (((Base.pure CurrentVolatilStockResponse Base.<*> (obj Data.Aeson.Types.FromJSON..:! "due_products")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expired_products")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "missing_products")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "overdue_products"))}
+    where {parseJSON = Data.Aeson.Types.FromJSON.withObject "CurrentVolatilStockResponse" (\obj -> (((GHC.Internal.Base.pure CurrentVolatilStockResponse GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "due_products")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "expired_products")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "missing_products")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "overdue_products"))}
 -- | Create a new 'CurrentVolatilStockResponse' with all required fields.
 mkCurrentVolatilStockResponse :: CurrentVolatilStockResponse
-mkCurrentVolatilStockResponse = CurrentVolatilStockResponse{currentVolatilStockResponseDue_products = Maybe.Nothing,
-                                                            currentVolatilStockResponseExpired_products = Maybe.Nothing,
-                                                            currentVolatilStockResponseMissing_products = Maybe.Nothing,
-                                                            currentVolatilStockResponseOverdue_products = Maybe.Nothing}
+mkCurrentVolatilStockResponse = CurrentVolatilStockResponse{currentVolatilStockResponseDue_products = GHC.Internal.Maybe.Nothing,
+                                                            currentVolatilStockResponseExpired_products = GHC.Internal.Maybe.Nothing,
+                                                            currentVolatilStockResponseMissing_products = GHC.Internal.Maybe.Nothing,
+                                                            currentVolatilStockResponseOverdue_products = GHC.Internal.Maybe.Nothing}
 -- | Defines the object schema located at @components.schemas.CurrentVolatilStockResponse.properties.missing_products.items@ in the specification.
 -- 
 -- 
 data CurrentVolatilStockResponseMissing_products = CurrentVolatilStockResponseMissing_products {
   -- | amount_missing
-  currentVolatilStockResponseMissing_productsAmount_missing :: (Maybe.Maybe GHC.Types.Double)
+  currentVolatilStockResponseMissing_productsAmount_missing :: (GHC.Internal.Maybe.Maybe GHC.Types.Double)
   -- | id
-  , currentVolatilStockResponseMissing_productsId :: (Maybe.Maybe GHC.Types.Int)
+  , currentVolatilStockResponseMissing_productsId :: (GHC.Internal.Maybe.Maybe GHC.Types.Int)
   -- | is_partly_in_stock
-  , currentVolatilStockResponseMissing_productsIs_partly_in_stock :: (Maybe.Maybe GHC.Types.Int)
+  , currentVolatilStockResponseMissing_productsIs_partly_in_stock :: (GHC.Internal.Maybe.Maybe GHC.Types.Int)
   -- | name
-  , currentVolatilStockResponseMissing_productsName :: (Maybe.Maybe Data.Text.Internal.Text)
-  } deriving (Show.Show
+  , currentVolatilStockResponseMissing_productsName :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
+  } deriving (GHC.Internal.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.Types.ToJSON.ToJSON CurrentVolatilStockResponseMissing_products
-    where {toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe Base.mempty (Base.pure Base.. ("amount_missing" Data.Aeson.Types.ToJSON..=)) (currentVolatilStockResponseMissing_productsAmount_missing obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("id" Data.Aeson.Types.ToJSON..=)) (currentVolatilStockResponseMissing_productsId obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("is_partly_in_stock" Data.Aeson.Types.ToJSON..=)) (currentVolatilStockResponseMissing_productsIs_partly_in_stock obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("name" Data.Aeson.Types.ToJSON..=)) (currentVolatilStockResponseMissing_productsName obj) : Base.mempty));
-           toEncoding obj = Data.Aeson.Encoding.Internal.pairs (Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe Base.mempty (Base.pure Base.. ("amount_missing" Data.Aeson.Types.ToJSON..=)) (currentVolatilStockResponseMissing_productsAmount_missing obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("id" Data.Aeson.Types.ToJSON..=)) (currentVolatilStockResponseMissing_productsId obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("is_partly_in_stock" Data.Aeson.Types.ToJSON..=)) (currentVolatilStockResponseMissing_productsIs_partly_in_stock obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("name" Data.Aeson.Types.ToJSON..=)) (currentVolatilStockResponseMissing_productsName obj) : Base.mempty)))}
+    where {toJSON obj = Data.Aeson.Types.Internal.object (GHC.Internal.Data.Foldable.concat (GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("amount_missing" Data.Aeson.Types.ToJSON..=)) (currentVolatilStockResponseMissing_productsAmount_missing obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("id" Data.Aeson.Types.ToJSON..=)) (currentVolatilStockResponseMissing_productsId obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("is_partly_in_stock" Data.Aeson.Types.ToJSON..=)) (currentVolatilStockResponseMissing_productsIs_partly_in_stock obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("name" Data.Aeson.Types.ToJSON..=)) (currentVolatilStockResponseMissing_productsName obj) : GHC.Internal.Base.mempty));
+           toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Internal.Base.mconcat (GHC.Internal.Data.Foldable.concat (GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("amount_missing" Data.Aeson.Types.ToJSON..=)) (currentVolatilStockResponseMissing_productsAmount_missing obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("id" Data.Aeson.Types.ToJSON..=)) (currentVolatilStockResponseMissing_productsId obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("is_partly_in_stock" Data.Aeson.Types.ToJSON..=)) (currentVolatilStockResponseMissing_productsIs_partly_in_stock obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("name" Data.Aeson.Types.ToJSON..=)) (currentVolatilStockResponseMissing_productsName obj) : GHC.Internal.Base.mempty)))}
 instance Data.Aeson.Types.FromJSON.FromJSON CurrentVolatilStockResponseMissing_products
-    where {parseJSON = Data.Aeson.Types.FromJSON.withObject "CurrentVolatilStockResponseMissing_products" (\obj -> (((Base.pure CurrentVolatilStockResponseMissing_products Base.<*> (obj Data.Aeson.Types.FromJSON..:! "amount_missing")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "id")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "is_partly_in_stock")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "name"))}
+    where {parseJSON = Data.Aeson.Types.FromJSON.withObject "CurrentVolatilStockResponseMissing_products" (\obj -> (((GHC.Internal.Base.pure CurrentVolatilStockResponseMissing_products GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "amount_missing")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "id")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "is_partly_in_stock")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "name"))}
 -- | Create a new 'CurrentVolatilStockResponseMissing_products' with all required fields.
 mkCurrentVolatilStockResponseMissing_products :: CurrentVolatilStockResponseMissing_products
-mkCurrentVolatilStockResponseMissing_products = CurrentVolatilStockResponseMissing_products{currentVolatilStockResponseMissing_productsAmount_missing = Maybe.Nothing,
-                                                                                            currentVolatilStockResponseMissing_productsId = Maybe.Nothing,
-                                                                                            currentVolatilStockResponseMissing_productsIs_partly_in_stock = Maybe.Nothing,
-                                                                                            currentVolatilStockResponseMissing_productsName = Maybe.Nothing}
+mkCurrentVolatilStockResponseMissing_products = CurrentVolatilStockResponseMissing_products{currentVolatilStockResponseMissing_productsAmount_missing = GHC.Internal.Maybe.Nothing,
+                                                                                            currentVolatilStockResponseMissing_productsId = GHC.Internal.Maybe.Nothing,
+                                                                                            currentVolatilStockResponseMissing_productsIs_partly_in_stock = GHC.Internal.Maybe.Nothing,
+                                                                                            currentVolatilStockResponseMissing_productsName = GHC.Internal.Maybe.Nothing}

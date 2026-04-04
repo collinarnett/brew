@@ -8,7 +8,9 @@ module GrocyClient.Types.ExternalBarcodeLookupResponse where
 
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
+import qualified Prelude as GHC.Internal.Maybe
 import qualified Control.Monad.Fail
+import qualified Control.Monad.Fail as GHC.Internal.Control.Monad.Fail
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
@@ -18,17 +20,23 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.ByteString
 import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
+import qualified Data.Foldable as GHC.Internal.Data.Foldable
 import qualified Data.Functor
+import qualified Data.Functor as GHC.Internal.Data.Functor
 import qualified Data.Maybe
+import qualified Data.Maybe as GHC.Internal.Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text as Data.Text.Internal
 import qualified Data.Time.Calendar as Data.Time.Calendar.Days
 import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified GHC.Base
+import qualified GHC.Base as GHC.Internal.Base
 import qualified GHC.Classes
 import qualified GHC.Int
+import qualified GHC.Int as GHC.Internal.Int
 import qualified GHC.Show
+import qualified GHC.Show as GHC.Internal.Show
 import qualified GHC.Types
 import qualified GrocyClient.Common
 import GrocyClient.TypeAlias
@@ -38,32 +46,32 @@ import GrocyClient.TypeAlias
 -- 
 data ExternalBarcodeLookupResponse = ExternalBarcodeLookupResponse {
   -- | barcode: Can contain multiple barcodes separated by comma
-  externalBarcodeLookupResponseBarcode :: (Maybe.Maybe Data.Text.Internal.Text)
+  externalBarcodeLookupResponseBarcode :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
   -- | id: The id of the added product, only included when the producted was added to the database
-  , externalBarcodeLookupResponseId :: (Maybe.Maybe GHC.Types.Int)
+  , externalBarcodeLookupResponseId :: (GHC.Internal.Maybe.Maybe GHC.Types.Int)
   -- | location_id
-  , externalBarcodeLookupResponseLocation_id :: (Maybe.Maybe GHC.Types.Int)
+  , externalBarcodeLookupResponseLocation_id :: (GHC.Internal.Maybe.Maybe GHC.Types.Int)
   -- | name
-  , externalBarcodeLookupResponseName :: (Maybe.Maybe Data.Text.Internal.Text)
+  , externalBarcodeLookupResponseName :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
   -- | qu_factor_purchase_to_stock
-  , externalBarcodeLookupResponseQu_factor_purchase_to_stock :: (Maybe.Maybe GHC.Types.Double)
+  , externalBarcodeLookupResponseQu_factor_purchase_to_stock :: (GHC.Internal.Maybe.Maybe GHC.Types.Double)
   -- | qu_id_purchase
-  , externalBarcodeLookupResponseQu_id_purchase :: (Maybe.Maybe GHC.Types.Int)
+  , externalBarcodeLookupResponseQu_id_purchase :: (GHC.Internal.Maybe.Maybe GHC.Types.Int)
   -- | qu_id_stock
-  , externalBarcodeLookupResponseQu_id_stock :: (Maybe.Maybe GHC.Types.Int)
-  } deriving (Show.Show
+  , externalBarcodeLookupResponseQu_id_stock :: (GHC.Internal.Maybe.Maybe GHC.Types.Int)
+  } deriving (GHC.Internal.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.Types.ToJSON.ToJSON ExternalBarcodeLookupResponse
-    where {toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe Base.mempty (Base.pure Base.. ("barcode" Data.Aeson.Types.ToJSON..=)) (externalBarcodeLookupResponseBarcode obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("id" Data.Aeson.Types.ToJSON..=)) (externalBarcodeLookupResponseId obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("location_id" Data.Aeson.Types.ToJSON..=)) (externalBarcodeLookupResponseLocation_id obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("name" Data.Aeson.Types.ToJSON..=)) (externalBarcodeLookupResponseName obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("qu_factor_purchase_to_stock" Data.Aeson.Types.ToJSON..=)) (externalBarcodeLookupResponseQu_factor_purchase_to_stock obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("qu_id_purchase" Data.Aeson.Types.ToJSON..=)) (externalBarcodeLookupResponseQu_id_purchase obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("qu_id_stock" Data.Aeson.Types.ToJSON..=)) (externalBarcodeLookupResponseQu_id_stock obj) : Base.mempty));
-           toEncoding obj = Data.Aeson.Encoding.Internal.pairs (Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe Base.mempty (Base.pure Base.. ("barcode" Data.Aeson.Types.ToJSON..=)) (externalBarcodeLookupResponseBarcode obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("id" Data.Aeson.Types.ToJSON..=)) (externalBarcodeLookupResponseId obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("location_id" Data.Aeson.Types.ToJSON..=)) (externalBarcodeLookupResponseLocation_id obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("name" Data.Aeson.Types.ToJSON..=)) (externalBarcodeLookupResponseName obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("qu_factor_purchase_to_stock" Data.Aeson.Types.ToJSON..=)) (externalBarcodeLookupResponseQu_factor_purchase_to_stock obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("qu_id_purchase" Data.Aeson.Types.ToJSON..=)) (externalBarcodeLookupResponseQu_id_purchase obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("qu_id_stock" Data.Aeson.Types.ToJSON..=)) (externalBarcodeLookupResponseQu_id_stock obj) : Base.mempty)))}
+    where {toJSON obj = Data.Aeson.Types.Internal.object (GHC.Internal.Data.Foldable.concat (GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("barcode" Data.Aeson.Types.ToJSON..=)) (externalBarcodeLookupResponseBarcode obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("id" Data.Aeson.Types.ToJSON..=)) (externalBarcodeLookupResponseId obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("location_id" Data.Aeson.Types.ToJSON..=)) (externalBarcodeLookupResponseLocation_id obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("name" Data.Aeson.Types.ToJSON..=)) (externalBarcodeLookupResponseName obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("qu_factor_purchase_to_stock" Data.Aeson.Types.ToJSON..=)) (externalBarcodeLookupResponseQu_factor_purchase_to_stock obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("qu_id_purchase" Data.Aeson.Types.ToJSON..=)) (externalBarcodeLookupResponseQu_id_purchase obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("qu_id_stock" Data.Aeson.Types.ToJSON..=)) (externalBarcodeLookupResponseQu_id_stock obj) : GHC.Internal.Base.mempty));
+           toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Internal.Base.mconcat (GHC.Internal.Data.Foldable.concat (GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("barcode" Data.Aeson.Types.ToJSON..=)) (externalBarcodeLookupResponseBarcode obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("id" Data.Aeson.Types.ToJSON..=)) (externalBarcodeLookupResponseId obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("location_id" Data.Aeson.Types.ToJSON..=)) (externalBarcodeLookupResponseLocation_id obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("name" Data.Aeson.Types.ToJSON..=)) (externalBarcodeLookupResponseName obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("qu_factor_purchase_to_stock" Data.Aeson.Types.ToJSON..=)) (externalBarcodeLookupResponseQu_factor_purchase_to_stock obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("qu_id_purchase" Data.Aeson.Types.ToJSON..=)) (externalBarcodeLookupResponseQu_id_purchase obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("qu_id_stock" Data.Aeson.Types.ToJSON..=)) (externalBarcodeLookupResponseQu_id_stock obj) : GHC.Internal.Base.mempty)))}
 instance Data.Aeson.Types.FromJSON.FromJSON ExternalBarcodeLookupResponse
-    where {parseJSON = Data.Aeson.Types.FromJSON.withObject "ExternalBarcodeLookupResponse" (\obj -> ((((((Base.pure ExternalBarcodeLookupResponse Base.<*> (obj Data.Aeson.Types.FromJSON..:! "barcode")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "id")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "location_id")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "name")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "qu_factor_purchase_to_stock")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "qu_id_purchase")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "qu_id_stock"))}
+    where {parseJSON = Data.Aeson.Types.FromJSON.withObject "ExternalBarcodeLookupResponse" (\obj -> ((((((GHC.Internal.Base.pure ExternalBarcodeLookupResponse GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "barcode")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "id")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "location_id")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "name")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "qu_factor_purchase_to_stock")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "qu_id_purchase")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "qu_id_stock"))}
 -- | Create a new 'ExternalBarcodeLookupResponse' with all required fields.
 mkExternalBarcodeLookupResponse :: ExternalBarcodeLookupResponse
-mkExternalBarcodeLookupResponse = ExternalBarcodeLookupResponse{externalBarcodeLookupResponseBarcode = Maybe.Nothing,
-                                                                externalBarcodeLookupResponseId = Maybe.Nothing,
-                                                                externalBarcodeLookupResponseLocation_id = Maybe.Nothing,
-                                                                externalBarcodeLookupResponseName = Maybe.Nothing,
-                                                                externalBarcodeLookupResponseQu_factor_purchase_to_stock = Maybe.Nothing,
-                                                                externalBarcodeLookupResponseQu_id_purchase = Maybe.Nothing,
-                                                                externalBarcodeLookupResponseQu_id_stock = Maybe.Nothing}
+mkExternalBarcodeLookupResponse = ExternalBarcodeLookupResponse{externalBarcodeLookupResponseBarcode = GHC.Internal.Maybe.Nothing,
+                                                                externalBarcodeLookupResponseId = GHC.Internal.Maybe.Nothing,
+                                                                externalBarcodeLookupResponseLocation_id = GHC.Internal.Maybe.Nothing,
+                                                                externalBarcodeLookupResponseName = GHC.Internal.Maybe.Nothing,
+                                                                externalBarcodeLookupResponseQu_factor_purchase_to_stock = GHC.Internal.Maybe.Nothing,
+                                                                externalBarcodeLookupResponseQu_id_purchase = GHC.Internal.Maybe.Nothing,
+                                                                externalBarcodeLookupResponseQu_id_stock = GHC.Internal.Maybe.Nothing}

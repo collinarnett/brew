@@ -8,7 +8,9 @@ module GrocyClient.Types.User where
 
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
+import qualified Prelude as GHC.Internal.Maybe
 import qualified Control.Monad.Fail
+import qualified Control.Monad.Fail as GHC.Internal.Control.Monad.Fail
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
@@ -18,17 +20,23 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.ByteString
 import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
+import qualified Data.Foldable as GHC.Internal.Data.Foldable
 import qualified Data.Functor
+import qualified Data.Functor as GHC.Internal.Data.Functor
 import qualified Data.Maybe
+import qualified Data.Maybe as GHC.Internal.Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text as Data.Text.Internal
 import qualified Data.Time.Calendar as Data.Time.Calendar.Days
 import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified GHC.Base
+import qualified GHC.Base as GHC.Internal.Base
 import qualified GHC.Classes
 import qualified GHC.Int
+import qualified GHC.Int as GHC.Internal.Int
 import qualified GHC.Show
+import qualified GHC.Show as GHC.Internal.Show
 import qualified GHC.Types
 import qualified GrocyClient.Common
 import GrocyClient.TypeAlias
@@ -38,32 +46,32 @@ import GrocyClient.TypeAlias
 -- 
 data User = User {
   -- | first_name
-  userFirst_name :: (Maybe.Maybe Data.Text.Internal.Text)
+  userFirst_name :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
   -- | id
-  , userId :: (Maybe.Maybe GHC.Types.Int)
+  , userId :: (GHC.Internal.Maybe.Maybe GHC.Types.Int)
   -- | last_name
-  , userLast_name :: (Maybe.Maybe Data.Text.Internal.Text)
+  , userLast_name :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
   -- | password
-  , userPassword :: (Maybe.Maybe Data.Text.Internal.Text)
+  , userPassword :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
   -- | picture_file_name
-  , userPicture_file_name :: (Maybe.Maybe Data.Text.Internal.Text)
+  , userPicture_file_name :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
   -- | row_created_timestamp
-  , userRow_created_timestamp :: (Maybe.Maybe Data.Text.Internal.Text)
+  , userRow_created_timestamp :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
   -- | username
-  , userUsername :: (Maybe.Maybe Data.Text.Internal.Text)
-  } deriving (Show.Show
+  , userUsername :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
+  } deriving (GHC.Internal.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.Types.ToJSON.ToJSON User
-    where {toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe Base.mempty (Base.pure Base.. ("first_name" Data.Aeson.Types.ToJSON..=)) (userFirst_name obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("id" Data.Aeson.Types.ToJSON..=)) (userId obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("last_name" Data.Aeson.Types.ToJSON..=)) (userLast_name obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("password" Data.Aeson.Types.ToJSON..=)) (userPassword obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("picture_file_name" Data.Aeson.Types.ToJSON..=)) (userPicture_file_name obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("row_created_timestamp" Data.Aeson.Types.ToJSON..=)) (userRow_created_timestamp obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("username" Data.Aeson.Types.ToJSON..=)) (userUsername obj) : Base.mempty));
-           toEncoding obj = Data.Aeson.Encoding.Internal.pairs (Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe Base.mempty (Base.pure Base.. ("first_name" Data.Aeson.Types.ToJSON..=)) (userFirst_name obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("id" Data.Aeson.Types.ToJSON..=)) (userId obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("last_name" Data.Aeson.Types.ToJSON..=)) (userLast_name obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("password" Data.Aeson.Types.ToJSON..=)) (userPassword obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("picture_file_name" Data.Aeson.Types.ToJSON..=)) (userPicture_file_name obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("row_created_timestamp" Data.Aeson.Types.ToJSON..=)) (userRow_created_timestamp obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("username" Data.Aeson.Types.ToJSON..=)) (userUsername obj) : Base.mempty)))}
+    where {toJSON obj = Data.Aeson.Types.Internal.object (GHC.Internal.Data.Foldable.concat (GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("first_name" Data.Aeson.Types.ToJSON..=)) (userFirst_name obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("id" Data.Aeson.Types.ToJSON..=)) (userId obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("last_name" Data.Aeson.Types.ToJSON..=)) (userLast_name obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("password" Data.Aeson.Types.ToJSON..=)) (userPassword obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("picture_file_name" Data.Aeson.Types.ToJSON..=)) (userPicture_file_name obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("row_created_timestamp" Data.Aeson.Types.ToJSON..=)) (userRow_created_timestamp obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("username" Data.Aeson.Types.ToJSON..=)) (userUsername obj) : GHC.Internal.Base.mempty));
+           toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Internal.Base.mconcat (GHC.Internal.Data.Foldable.concat (GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("first_name" Data.Aeson.Types.ToJSON..=)) (userFirst_name obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("id" Data.Aeson.Types.ToJSON..=)) (userId obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("last_name" Data.Aeson.Types.ToJSON..=)) (userLast_name obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("password" Data.Aeson.Types.ToJSON..=)) (userPassword obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("picture_file_name" Data.Aeson.Types.ToJSON..=)) (userPicture_file_name obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("row_created_timestamp" Data.Aeson.Types.ToJSON..=)) (userRow_created_timestamp obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("username" Data.Aeson.Types.ToJSON..=)) (userUsername obj) : GHC.Internal.Base.mempty)))}
 instance Data.Aeson.Types.FromJSON.FromJSON User
-    where {parseJSON = Data.Aeson.Types.FromJSON.withObject "User" (\obj -> ((((((Base.pure User Base.<*> (obj Data.Aeson.Types.FromJSON..:! "first_name")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "id")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "last_name")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "password")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "picture_file_name")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "row_created_timestamp")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "username"))}
+    where {parseJSON = Data.Aeson.Types.FromJSON.withObject "User" (\obj -> ((((((GHC.Internal.Base.pure User GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "first_name")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "id")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "last_name")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "password")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "picture_file_name")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "row_created_timestamp")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "username"))}
 -- | Create a new 'User' with all required fields.
 mkUser :: User
-mkUser = User{userFirst_name = Maybe.Nothing,
-              userId = Maybe.Nothing,
-              userLast_name = Maybe.Nothing,
-              userPassword = Maybe.Nothing,
-              userPicture_file_name = Maybe.Nothing,
-              userRow_created_timestamp = Maybe.Nothing,
-              userUsername = Maybe.Nothing}
+mkUser = User{userFirst_name = GHC.Internal.Maybe.Nothing,
+              userId = GHC.Internal.Maybe.Nothing,
+              userLast_name = GHC.Internal.Maybe.Nothing,
+              userPassword = GHC.Internal.Maybe.Nothing,
+              userPicture_file_name = GHC.Internal.Maybe.Nothing,
+              userRow_created_timestamp = GHC.Internal.Maybe.Nothing,
+              userUsername = GHC.Internal.Maybe.Nothing}

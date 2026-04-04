@@ -9,21 +9,28 @@ module GrocyClient.Operations.Post_tasks__taskId__complete where
 
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
+import qualified Prelude as GHC.Internal.Maybe
 import qualified Control.Monad.Fail
+import qualified Control.Monad.Fail as GHC.Internal.Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Decoding
 import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
-import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString
 import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.ByteString as Data.ByteString.Internal.Type
 import qualified Data.Either
+import qualified Data.Either as GHC.Internal.Data.Either
 import qualified Data.Foldable
+import qualified Data.Foldable as GHC.Internal.Data.Foldable
 import qualified Data.Functor
+import qualified Data.Functor as GHC.Internal.Data.Functor
 import qualified Data.Maybe
+import qualified Data.Maybe as GHC.Internal.Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text as Data.Text.Internal
@@ -31,9 +38,12 @@ import qualified Data.Time.Calendar as Data.Time.Calendar.Days
 import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
+import qualified GHC.Base as GHC.Internal.Base
 import qualified GHC.Classes
 import qualified GHC.Int
+import qualified GHC.Int as GHC.Internal.Int
 import qualified GHC.Show
+import qualified GHC.Show as GHC.Internal.Show
 import qualified GHC.Types
 import qualified Network.HTTP.Client
 import qualified Network.HTTP.Client as Network.HTTP.Client.Request
@@ -52,34 +62,34 @@ post_tasks__taskId__complete :: forall m . GrocyClient.Common.MonadHTTP m => GHC
   -> Post_tasks__taskId__completeRequestBody -- ^ The request body to send
   -> GrocyClient.Common.ClientT m (Network.HTTP.Client.Types.Response Post_tasks__taskId__completeResponse) -- ^ Monadic computation which returns the result of the operation
 post_tasks__taskId__complete taskId
-                             body = Base.fmap (\response_0 -> Base.fmap (Data.Either.either Post_tasks__taskId__completeResponseError Base.id Base.. (\response body -> if | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 204) (Network.HTTP.Client.Types.responseStatus response) -> Data.Either.Right Post_tasks__taskId__completeResponse204
-                                                                                                                                                                                                                                            | (\status_2 -> Network.HTTP.Types.Status.statusCode status_2 GHC.Classes.== 400) (Network.HTTP.Client.Types.responseStatus response) -> Post_tasks__taskId__completeResponse400 Data.Functor.<$> (Data.Aeson.Decoding.eitherDecodeStrict body :: Data.Either.Either Base.String
+                             body = GHC.Internal.Base.fmap (\response_0 -> GHC.Internal.Base.fmap (GHC.Internal.Data.Either.either Post_tasks__taskId__completeResponseError GHC.Internal.Base.id GHC.Internal.Base.. (\response body -> if | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 204) (Network.HTTP.Client.Types.responseStatus response) -> GHC.Internal.Data.Either.Right Post_tasks__taskId__completeResponse204
+                                                                                                                                                                                                                                            | (\status_2 -> Network.HTTP.Types.Status.statusCode status_2 GHC.Classes.== 400) (Network.HTTP.Client.Types.responseStatus response) -> Post_tasks__taskId__completeResponse400 GHC.Internal.Data.Functor.<$> (Data.Aeson.Decoding.eitherDecodeStrict body :: GHC.Internal.Data.Either.Either GHC.Internal.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            Error400)
-                                                                                                                                                                                                                                            | Base.otherwise -> Data.Either.Left "Missing default response type") response_0) response_0) (GrocyClient.Common.doBodyCallWithConfigurationM (Data.Text.toUpper Base.$ Data.Text.Internal.pack "POST") ("/tasks/" Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True Base.$ (GrocyClient.Common.textToByte Base.$ GrocyClient.Common.stringifyModel taskId)) Base.<> "/complete")) Base.mempty (Maybe.Just body) GrocyClient.Common.RequestBodyEncodingJSON)
+                                                                                                                                                                                                                                            | GHC.Internal.Base.otherwise -> GHC.Internal.Data.Either.Left "Missing default response type") response_0) response_0) (GrocyClient.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Internal.Base.$ Data.Text.Internal.pack "POST") ("/tasks/" GHC.Internal.Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Internal.Base.$ (GrocyClient.Common.textToByte GHC.Internal.Base.$ GrocyClient.Common.stringifyModel taskId)) GHC.Internal.Base.<> "/complete")) GHC.Internal.Base.mempty (GHC.Internal.Maybe.Just body) GrocyClient.Common.RequestBodyEncodingJSON)
 -- | Defines the object schema located at @paths.\/tasks\/{taskId}\/complete.POST.requestBody.content.application\/json.schema@ in the specification.
 -- 
 -- 
 data Post_tasks__taskId__completeRequestBody = Post_tasks__taskId__completeRequestBody {
   -- | done_time: The time of when the task was completed, when omitted, the current time is used
-  post_tasks__taskId__completeRequestBodyDone_time :: (Maybe.Maybe Data.Text.Internal.Text)
-  } deriving (Show.Show
+  post_tasks__taskId__completeRequestBodyDone_time :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
+  } deriving (GHC.Internal.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.Types.ToJSON.ToJSON Post_tasks__taskId__completeRequestBody
-    where {toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe Base.mempty (Base.pure Base.. ("done_time" Data.Aeson.Types.ToJSON..=)) (post_tasks__taskId__completeRequestBodyDone_time obj) : Base.mempty));
-           toEncoding obj = Data.Aeson.Encoding.Internal.pairs (Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe Base.mempty (Base.pure Base.. ("done_time" Data.Aeson.Types.ToJSON..=)) (post_tasks__taskId__completeRequestBodyDone_time obj) : Base.mempty)))}
+    where {toJSON obj = Data.Aeson.Types.Internal.object (GHC.Internal.Data.Foldable.concat (GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("done_time" Data.Aeson.Types.ToJSON..=)) (post_tasks__taskId__completeRequestBodyDone_time obj) : GHC.Internal.Base.mempty));
+           toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Internal.Base.mconcat (GHC.Internal.Data.Foldable.concat (GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("done_time" Data.Aeson.Types.ToJSON..=)) (post_tasks__taskId__completeRequestBodyDone_time obj) : GHC.Internal.Base.mempty)))}
 instance Data.Aeson.Types.FromJSON.FromJSON Post_tasks__taskId__completeRequestBody
-    where {parseJSON = Data.Aeson.Types.FromJSON.withObject "Post_tasks__taskId__completeRequestBody" (\obj -> Base.pure Post_tasks__taskId__completeRequestBody Base.<*> (obj Data.Aeson.Types.FromJSON..:! "done_time"))}
+    where {parseJSON = Data.Aeson.Types.FromJSON.withObject "Post_tasks__taskId__completeRequestBody" (\obj -> GHC.Internal.Base.pure Post_tasks__taskId__completeRequestBody GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "done_time"))}
 -- | Create a new 'Post_tasks__taskId__completeRequestBody' with all required fields.
 mkPost_tasks__taskId__completeRequestBody :: Post_tasks__taskId__completeRequestBody
-mkPost_tasks__taskId__completeRequestBody = Post_tasks__taskId__completeRequestBody{post_tasks__taskId__completeRequestBodyDone_time = Maybe.Nothing}
+mkPost_tasks__taskId__completeRequestBody = Post_tasks__taskId__completeRequestBody{post_tasks__taskId__completeRequestBodyDone_time = GHC.Internal.Maybe.Nothing}
 -- | Represents a response of the operation 'post_tasks__taskId__complete'.
 -- 
 -- The response constructor is chosen by the status code of the response. If no case matches (no specific case for the response code, no range case, no default case), 'Post_tasks__taskId__completeResponseError' is used.
 data Post_tasks__taskId__completeResponse =
-   Post_tasks__taskId__completeResponseError Base.String -- ^ Means either no matching case available or a parse error
+   Post_tasks__taskId__completeResponseError GHC.Internal.Base.String -- ^ Means either no matching case available or a parse error
   | Post_tasks__taskId__completeResponse204 -- ^ The operation was successful
   | Post_tasks__taskId__completeResponse400 Error400 -- ^ The operation was not successful (possible errors are: Not existing task)
-  deriving (Show.Show, GHC.Classes.Eq)
+  deriving (GHC.Internal.Show.Show, GHC.Classes.Eq)
 -- | > POST /tasks/{taskId}/complete
 -- 
 -- The same as 'post_tasks__taskId__complete' but accepts an explicit configuration.
@@ -89,10 +99,10 @@ post_tasks__taskId__completeWithConfiguration :: forall m . GrocyClient.Common.M
   -> m (Network.HTTP.Client.Types.Response Post_tasks__taskId__completeResponse) -- ^ Monadic computation which returns the result of the operation
 post_tasks__taskId__completeWithConfiguration config
                                               taskId
-                                              body = Base.fmap (\response_3 -> Base.fmap (Data.Either.either Post_tasks__taskId__completeResponseError Base.id Base.. (\response body -> if | (\status_4 -> Network.HTTP.Types.Status.statusCode status_4 GHC.Classes.== 204) (Network.HTTP.Client.Types.responseStatus response) -> Data.Either.Right Post_tasks__taskId__completeResponse204
-                                                                                                                                                                                                                                                             | (\status_5 -> Network.HTTP.Types.Status.statusCode status_5 GHC.Classes.== 400) (Network.HTTP.Client.Types.responseStatus response) -> Post_tasks__taskId__completeResponse400 Data.Functor.<$> (Data.Aeson.Decoding.eitherDecodeStrict body :: Data.Either.Either Base.String
+                                              body = GHC.Internal.Base.fmap (\response_3 -> GHC.Internal.Base.fmap (GHC.Internal.Data.Either.either Post_tasks__taskId__completeResponseError GHC.Internal.Base.id GHC.Internal.Base.. (\response body -> if | (\status_4 -> Network.HTTP.Types.Status.statusCode status_4 GHC.Classes.== 204) (Network.HTTP.Client.Types.responseStatus response) -> GHC.Internal.Data.Either.Right Post_tasks__taskId__completeResponse204
+                                                                                                                                                                                                                                                             | (\status_5 -> Network.HTTP.Types.Status.statusCode status_5 GHC.Classes.== 400) (Network.HTTP.Client.Types.responseStatus response) -> Post_tasks__taskId__completeResponse400 GHC.Internal.Data.Functor.<$> (Data.Aeson.Decoding.eitherDecodeStrict body :: GHC.Internal.Data.Either.Either GHC.Internal.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             Error400)
-                                                                                                                                                                                                                                                             | Base.otherwise -> Data.Either.Left "Missing default response type") response_3) response_3) (GrocyClient.Common.doBodyCallWithConfiguration config (Data.Text.toUpper Base.$ Data.Text.Internal.pack "POST") ("/tasks/" Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True Base.$ (GrocyClient.Common.textToByte Base.$ GrocyClient.Common.stringifyModel taskId)) Base.<> "/complete")) Base.mempty (Maybe.Just body) GrocyClient.Common.RequestBodyEncodingJSON)
+                                                                                                                                                                                                                                                             | GHC.Internal.Base.otherwise -> GHC.Internal.Data.Either.Left "Missing default response type") response_3) response_3) (GrocyClient.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Internal.Base.$ Data.Text.Internal.pack "POST") ("/tasks/" GHC.Internal.Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Internal.Base.$ (GrocyClient.Common.textToByte GHC.Internal.Base.$ GrocyClient.Common.stringifyModel taskId)) GHC.Internal.Base.<> "/complete")) GHC.Internal.Base.mempty (GHC.Internal.Maybe.Just body) GrocyClient.Common.RequestBodyEncodingJSON)
 -- | > POST /tasks/{taskId}/complete
 -- 
 -- The same as 'post_tasks__taskId__complete' but returns the raw 'Data.ByteString.ByteString'.
@@ -100,7 +110,7 @@ post_tasks__taskId__completeRaw :: forall m . GrocyClient.Common.MonadHTTP m => 
   -> Post_tasks__taskId__completeRequestBody -- ^ The request body to send
   -> GrocyClient.Common.ClientT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.Type.ByteString) -- ^ Monadic computation which returns the result of the operation
 post_tasks__taskId__completeRaw taskId
-                                body = Base.id (GrocyClient.Common.doBodyCallWithConfigurationM (Data.Text.toUpper Base.$ Data.Text.Internal.pack "POST") ("/tasks/" Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True Base.$ (GrocyClient.Common.textToByte Base.$ GrocyClient.Common.stringifyModel taskId)) Base.<> "/complete")) Base.mempty (Maybe.Just body) GrocyClient.Common.RequestBodyEncodingJSON)
+                                body = GHC.Internal.Base.id (GrocyClient.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Internal.Base.$ Data.Text.Internal.pack "POST") ("/tasks/" GHC.Internal.Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Internal.Base.$ (GrocyClient.Common.textToByte GHC.Internal.Base.$ GrocyClient.Common.stringifyModel taskId)) GHC.Internal.Base.<> "/complete")) GHC.Internal.Base.mempty (GHC.Internal.Maybe.Just body) GrocyClient.Common.RequestBodyEncodingJSON)
 -- | > POST /tasks/{taskId}/complete
 -- 
 -- The same as 'post_tasks__taskId__complete' but accepts an explicit configuration and returns the raw 'Data.ByteString.ByteString'.
@@ -110,4 +120,4 @@ post_tasks__taskId__completeWithConfigurationRaw :: forall m . GrocyClient.Commo
   -> m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.Type.ByteString) -- ^ Monadic computation which returns the result of the operation
 post_tasks__taskId__completeWithConfigurationRaw config
                                                  taskId
-                                                 body = Base.id (GrocyClient.Common.doBodyCallWithConfiguration config (Data.Text.toUpper Base.$ Data.Text.Internal.pack "POST") ("/tasks/" Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True Base.$ (GrocyClient.Common.textToByte Base.$ GrocyClient.Common.stringifyModel taskId)) Base.<> "/complete")) Base.mempty (Maybe.Just body) GrocyClient.Common.RequestBodyEncodingJSON)
+                                                 body = GHC.Internal.Base.id (GrocyClient.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Internal.Base.$ Data.Text.Internal.pack "POST") ("/tasks/" GHC.Internal.Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Internal.Base.$ (GrocyClient.Common.textToByte GHC.Internal.Base.$ GrocyClient.Common.stringifyModel taskId)) GHC.Internal.Base.<> "/complete")) GHC.Internal.Base.mempty (GHC.Internal.Maybe.Just body) GrocyClient.Common.RequestBodyEncodingJSON)

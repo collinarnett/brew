@@ -8,7 +8,9 @@ module GrocyClient.Types.TimeResponse where
 
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
+import qualified Prelude as GHC.Internal.Maybe
 import qualified Control.Monad.Fail
+import qualified Control.Monad.Fail as GHC.Internal.Control.Monad.Fail
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
@@ -18,17 +20,23 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.ByteString
 import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
+import qualified Data.Foldable as GHC.Internal.Data.Foldable
 import qualified Data.Functor
+import qualified Data.Functor as GHC.Internal.Data.Functor
 import qualified Data.Maybe
+import qualified Data.Maybe as GHC.Internal.Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text as Data.Text.Internal
 import qualified Data.Time.Calendar as Data.Time.Calendar.Days
 import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified GHC.Base
+import qualified GHC.Base as GHC.Internal.Base
 import qualified GHC.Classes
 import qualified GHC.Int
+import qualified GHC.Int as GHC.Internal.Int
 import qualified GHC.Show
+import qualified GHC.Show as GHC.Internal.Show
 import qualified GHC.Types
 import qualified GrocyClient.Common
 import GrocyClient.TypeAlias
@@ -38,29 +46,29 @@ import GrocyClient.TypeAlias
 -- 
 data TimeResponse = TimeResponse {
   -- | offset
-  timeResponseOffset :: (Maybe.Maybe GHC.Types.Int)
+  timeResponseOffset :: (GHC.Internal.Maybe.Maybe GHC.Types.Int)
   -- | time_local
-  , timeResponseTime_local :: (Maybe.Maybe Data.Text.Internal.Text)
+  , timeResponseTime_local :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
   -- | time_local_sqlite3
-  , timeResponseTime_local_sqlite3 :: (Maybe.Maybe Data.Text.Internal.Text)
+  , timeResponseTime_local_sqlite3 :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
   -- | time_utc
-  , timeResponseTime_utc :: (Maybe.Maybe Data.Text.Internal.Text)
+  , timeResponseTime_utc :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
   -- | timestamp
-  , timeResponseTimestamp :: (Maybe.Maybe GHC.Types.Int)
+  , timeResponseTimestamp :: (GHC.Internal.Maybe.Maybe GHC.Types.Int)
   -- | timezone
-  , timeResponseTimezone :: (Maybe.Maybe Data.Text.Internal.Text)
-  } deriving (Show.Show
+  , timeResponseTimezone :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
+  } deriving (GHC.Internal.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.Types.ToJSON.ToJSON TimeResponse
-    where {toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe Base.mempty (Base.pure Base.. ("offset" Data.Aeson.Types.ToJSON..=)) (timeResponseOffset obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("time_local" Data.Aeson.Types.ToJSON..=)) (timeResponseTime_local obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("time_local_sqlite3" Data.Aeson.Types.ToJSON..=)) (timeResponseTime_local_sqlite3 obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("time_utc" Data.Aeson.Types.ToJSON..=)) (timeResponseTime_utc obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("timestamp" Data.Aeson.Types.ToJSON..=)) (timeResponseTimestamp obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("timezone" Data.Aeson.Types.ToJSON..=)) (timeResponseTimezone obj) : Base.mempty));
-           toEncoding obj = Data.Aeson.Encoding.Internal.pairs (Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe Base.mempty (Base.pure Base.. ("offset" Data.Aeson.Types.ToJSON..=)) (timeResponseOffset obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("time_local" Data.Aeson.Types.ToJSON..=)) (timeResponseTime_local obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("time_local_sqlite3" Data.Aeson.Types.ToJSON..=)) (timeResponseTime_local_sqlite3 obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("time_utc" Data.Aeson.Types.ToJSON..=)) (timeResponseTime_utc obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("timestamp" Data.Aeson.Types.ToJSON..=)) (timeResponseTimestamp obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("timezone" Data.Aeson.Types.ToJSON..=)) (timeResponseTimezone obj) : Base.mempty)))}
+    where {toJSON obj = Data.Aeson.Types.Internal.object (GHC.Internal.Data.Foldable.concat (GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("offset" Data.Aeson.Types.ToJSON..=)) (timeResponseOffset obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("time_local" Data.Aeson.Types.ToJSON..=)) (timeResponseTime_local obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("time_local_sqlite3" Data.Aeson.Types.ToJSON..=)) (timeResponseTime_local_sqlite3 obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("time_utc" Data.Aeson.Types.ToJSON..=)) (timeResponseTime_utc obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("timestamp" Data.Aeson.Types.ToJSON..=)) (timeResponseTimestamp obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("timezone" Data.Aeson.Types.ToJSON..=)) (timeResponseTimezone obj) : GHC.Internal.Base.mempty));
+           toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Internal.Base.mconcat (GHC.Internal.Data.Foldable.concat (GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("offset" Data.Aeson.Types.ToJSON..=)) (timeResponseOffset obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("time_local" Data.Aeson.Types.ToJSON..=)) (timeResponseTime_local obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("time_local_sqlite3" Data.Aeson.Types.ToJSON..=)) (timeResponseTime_local_sqlite3 obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("time_utc" Data.Aeson.Types.ToJSON..=)) (timeResponseTime_utc obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("timestamp" Data.Aeson.Types.ToJSON..=)) (timeResponseTimestamp obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("timezone" Data.Aeson.Types.ToJSON..=)) (timeResponseTimezone obj) : GHC.Internal.Base.mempty)))}
 instance Data.Aeson.Types.FromJSON.FromJSON TimeResponse
-    where {parseJSON = Data.Aeson.Types.FromJSON.withObject "TimeResponse" (\obj -> (((((Base.pure TimeResponse Base.<*> (obj Data.Aeson.Types.FromJSON..:! "offset")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "time_local")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "time_local_sqlite3")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "time_utc")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "timestamp")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "timezone"))}
+    where {parseJSON = Data.Aeson.Types.FromJSON.withObject "TimeResponse" (\obj -> (((((GHC.Internal.Base.pure TimeResponse GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "offset")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "time_local")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "time_local_sqlite3")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "time_utc")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "timestamp")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "timezone"))}
 -- | Create a new 'TimeResponse' with all required fields.
 mkTimeResponse :: TimeResponse
-mkTimeResponse = TimeResponse{timeResponseOffset = Maybe.Nothing,
-                              timeResponseTime_local = Maybe.Nothing,
-                              timeResponseTime_local_sqlite3 = Maybe.Nothing,
-                              timeResponseTime_utc = Maybe.Nothing,
-                              timeResponseTimestamp = Maybe.Nothing,
-                              timeResponseTimezone = Maybe.Nothing}
+mkTimeResponse = TimeResponse{timeResponseOffset = GHC.Internal.Maybe.Nothing,
+                              timeResponseTime_local = GHC.Internal.Maybe.Nothing,
+                              timeResponseTime_local_sqlite3 = GHC.Internal.Maybe.Nothing,
+                              timeResponseTime_utc = GHC.Internal.Maybe.Nothing,
+                              timeResponseTimestamp = GHC.Internal.Maybe.Nothing,
+                              timeResponseTimezone = GHC.Internal.Maybe.Nothing}

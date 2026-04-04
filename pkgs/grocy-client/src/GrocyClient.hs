@@ -19,11 +19,6 @@ module GrocyClient (
   module GrocyClient.Operations.Get_files__group___fileName_,
   module GrocyClient.Operations.Put_files__group___fileName_,
   module GrocyClient.Operations.Delete_files__group___fileName_,
-  module GrocyClient.Operations.Get_objects__entity_,
-  module GrocyClient.Operations.Post_objects__entity_,
-  module GrocyClient.Operations.Get_objects__entity___objectId_,
-  module GrocyClient.Operations.Put_objects__entity___objectId_,
-  module GrocyClient.Operations.Delete_objects__entity___objectId_,
   module GrocyClient.Operations.Get_print_shoppinglist_thermal,
   module GrocyClient.Operations.Get_recipes_fulfillment,
   module GrocyClient.Operations.Post_recipes__recipeId__add_not_fulfilled_products_to_shoppinglist,
@@ -79,8 +74,6 @@ module GrocyClient (
   module GrocyClient.Operations.Get_user_settings__settingKey_,
   module GrocyClient.Operations.Put_user_settings__settingKey_,
   module GrocyClient.Operations.Delete_user_settings__settingKey_,
-  module GrocyClient.Operations.Get_userfields__entity___objectId_,
-  module GrocyClient.Operations.Put_userfields__entity___objectId_,
   module GrocyClient.Operations.Get_users,
   module GrocyClient.Operations.Post_users,
   module GrocyClient.Operations.Put_users__userId_,
@@ -148,11 +141,6 @@ import GrocyClient.Operations.Get_chores__choreId__printlabel
 import GrocyClient.Operations.Get_files__group___fileName_
 import GrocyClient.Operations.Put_files__group___fileName_
 import GrocyClient.Operations.Delete_files__group___fileName_
-import GrocyClient.Operations.Get_objects__entity_
-import GrocyClient.Operations.Post_objects__entity_
-import GrocyClient.Operations.Get_objects__entity___objectId_
-import GrocyClient.Operations.Put_objects__entity___objectId_
-import GrocyClient.Operations.Delete_objects__entity___objectId_
 import GrocyClient.Operations.Get_print_shoppinglist_thermal
 import GrocyClient.Operations.Get_recipes_fulfillment
 import GrocyClient.Operations.Post_recipes__recipeId__add_not_fulfilled_products_to_shoppinglist
@@ -208,8 +196,6 @@ import GrocyClient.Operations.Get_user_settings
 import GrocyClient.Operations.Get_user_settings__settingKey_
 import GrocyClient.Operations.Put_user_settings__settingKey_
 import GrocyClient.Operations.Delete_user_settings__settingKey_
-import GrocyClient.Operations.Get_userfields__entity___objectId_
-import GrocyClient.Operations.Put_userfields__entity___objectId_
 import GrocyClient.Operations.Get_users
 import GrocyClient.Operations.Post_users
 import GrocyClient.Operations.Put_users__userId_

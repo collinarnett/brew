@@ -9,21 +9,28 @@ module GrocyClient.Operations.Put_users__userId__permissions where
 
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
+import qualified Prelude as GHC.Internal.Maybe
 import qualified Control.Monad.Fail
+import qualified Control.Monad.Fail as GHC.Internal.Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Decoding
 import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
-import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString
 import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.ByteString as Data.ByteString.Internal.Type
 import qualified Data.Either
+import qualified Data.Either as GHC.Internal.Data.Either
 import qualified Data.Foldable
+import qualified Data.Foldable as GHC.Internal.Data.Foldable
 import qualified Data.Functor
+import qualified Data.Functor as GHC.Internal.Data.Functor
 import qualified Data.Maybe
+import qualified Data.Maybe as GHC.Internal.Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text as Data.Text.Internal
@@ -31,9 +38,12 @@ import qualified Data.Time.Calendar as Data.Time.Calendar.Days
 import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
+import qualified GHC.Base as GHC.Internal.Base
 import qualified GHC.Classes
 import qualified GHC.Int
+import qualified GHC.Int as GHC.Internal.Int
 import qualified GHC.Show
+import qualified GHC.Show as GHC.Internal.Show
 import qualified GHC.Types
 import qualified Network.HTTP.Client
 import qualified Network.HTTP.Client as Network.HTTP.Client.Request
@@ -52,34 +62,34 @@ put_users__userId__permissions :: forall m . GrocyClient.Common.MonadHTTP m => G
   -> Put_users__userId__permissionsRequestBody -- ^ The request body to send
   -> GrocyClient.Common.ClientT m (Network.HTTP.Client.Types.Response Put_users__userId__permissionsResponse) -- ^ Monadic computation which returns the result of the operation
 put_users__userId__permissions userId
-                               body = Base.fmap (\response_0 -> Base.fmap (Data.Either.either Put_users__userId__permissionsResponseError Base.id Base.. (\response body -> if | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 204) (Network.HTTP.Client.Types.responseStatus response) -> Data.Either.Right Put_users__userId__permissionsResponse204
-                                                                                                                                                                                                                                                | (\status_2 -> Network.HTTP.Types.Status.statusCode status_2 GHC.Classes.== 400) (Network.HTTP.Client.Types.responseStatus response) -> Put_users__userId__permissionsResponse400 Data.Functor.<$> (Data.Aeson.Decoding.eitherDecodeStrict body :: Data.Either.Either Base.String
+                               body = GHC.Internal.Base.fmap (\response_0 -> GHC.Internal.Base.fmap (GHC.Internal.Data.Either.either Put_users__userId__permissionsResponseError GHC.Internal.Base.id GHC.Internal.Base.. (\response body -> if | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 204) (Network.HTTP.Client.Types.responseStatus response) -> GHC.Internal.Data.Either.Right Put_users__userId__permissionsResponse204
+                                                                                                                                                                                                                                                | (\status_2 -> Network.HTTP.Types.Status.statusCode status_2 GHC.Classes.== 400) (Network.HTTP.Client.Types.responseStatus response) -> Put_users__userId__permissionsResponse400 GHC.Internal.Data.Functor.<$> (Data.Aeson.Decoding.eitherDecodeStrict body :: GHC.Internal.Data.Either.Either GHC.Internal.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  Error400)
-                                                                                                                                                                                                                                                | Base.otherwise -> Data.Either.Left "Missing default response type") response_0) response_0) (GrocyClient.Common.doBodyCallWithConfigurationM (Data.Text.toUpper Base.$ Data.Text.Internal.pack "PUT") ("/users/" Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True Base.$ (GrocyClient.Common.textToByte Base.$ GrocyClient.Common.stringifyModel userId)) Base.<> "/permissions")) Base.mempty (Maybe.Just body) GrocyClient.Common.RequestBodyEncodingJSON)
+                                                                                                                                                                                                                                                | GHC.Internal.Base.otherwise -> GHC.Internal.Data.Either.Left "Missing default response type") response_0) response_0) (GrocyClient.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Internal.Base.$ Data.Text.Internal.pack "PUT") ("/users/" GHC.Internal.Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Internal.Base.$ (GrocyClient.Common.textToByte GHC.Internal.Base.$ GrocyClient.Common.stringifyModel userId)) GHC.Internal.Base.<> "/permissions")) GHC.Internal.Base.mempty (GHC.Internal.Maybe.Just body) GrocyClient.Common.RequestBodyEncodingJSON)
 -- | Defines the object schema located at @paths.\/users\/{userId}\/permissions.PUT.requestBody.content.application\/json.schema@ in the specification.
 -- 
 -- 
 data Put_users__userId__permissionsRequestBody = Put_users__userId__permissionsRequestBody {
   -- | permissions: A list of permission ids
-  put_users__userId__permissionsRequestBodyPermissions :: (Maybe.Maybe [GHC.Types.Int])
-  } deriving (Show.Show
+  put_users__userId__permissionsRequestBodyPermissions :: (GHC.Internal.Maybe.Maybe [GHC.Types.Int])
+  } deriving (GHC.Internal.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.Types.ToJSON.ToJSON Put_users__userId__permissionsRequestBody
-    where {toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe Base.mempty (Base.pure Base.. ("permissions" Data.Aeson.Types.ToJSON..=)) (put_users__userId__permissionsRequestBodyPermissions obj) : Base.mempty));
-           toEncoding obj = Data.Aeson.Encoding.Internal.pairs (Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe Base.mempty (Base.pure Base.. ("permissions" Data.Aeson.Types.ToJSON..=)) (put_users__userId__permissionsRequestBodyPermissions obj) : Base.mempty)))}
+    where {toJSON obj = Data.Aeson.Types.Internal.object (GHC.Internal.Data.Foldable.concat (GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("permissions" Data.Aeson.Types.ToJSON..=)) (put_users__userId__permissionsRequestBodyPermissions obj) : GHC.Internal.Base.mempty));
+           toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Internal.Base.mconcat (GHC.Internal.Data.Foldable.concat (GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("permissions" Data.Aeson.Types.ToJSON..=)) (put_users__userId__permissionsRequestBodyPermissions obj) : GHC.Internal.Base.mempty)))}
 instance Data.Aeson.Types.FromJSON.FromJSON Put_users__userId__permissionsRequestBody
-    where {parseJSON = Data.Aeson.Types.FromJSON.withObject "Put_users__userId__permissionsRequestBody" (\obj -> Base.pure Put_users__userId__permissionsRequestBody Base.<*> (obj Data.Aeson.Types.FromJSON..:! "permissions"))}
+    where {parseJSON = Data.Aeson.Types.FromJSON.withObject "Put_users__userId__permissionsRequestBody" (\obj -> GHC.Internal.Base.pure Put_users__userId__permissionsRequestBody GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "permissions"))}
 -- | Create a new 'Put_users__userId__permissionsRequestBody' with all required fields.
 mkPut_users__userId__permissionsRequestBody :: Put_users__userId__permissionsRequestBody
-mkPut_users__userId__permissionsRequestBody = Put_users__userId__permissionsRequestBody{put_users__userId__permissionsRequestBodyPermissions = Maybe.Nothing}
+mkPut_users__userId__permissionsRequestBody = Put_users__userId__permissionsRequestBody{put_users__userId__permissionsRequestBodyPermissions = GHC.Internal.Maybe.Nothing}
 -- | Represents a response of the operation 'put_users__userId__permissions'.
 -- 
 -- The response constructor is chosen by the status code of the response. If no case matches (no specific case for the response code, no range case, no default case), 'Put_users__userId__permissionsResponseError' is used.
 data Put_users__userId__permissionsResponse =
-   Put_users__userId__permissionsResponseError Base.String -- ^ Means either no matching case available or a parse error
+   Put_users__userId__permissionsResponseError GHC.Internal.Base.String -- ^ Means either no matching case available or a parse error
   | Put_users__userId__permissionsResponse204 -- ^ The operation was successful
   | Put_users__userId__permissionsResponse400 Error400 -- ^ The operation was not successful
-  deriving (Show.Show, GHC.Classes.Eq)
+  deriving (GHC.Internal.Show.Show, GHC.Classes.Eq)
 -- | > PUT /users/{userId}/permissions
 -- 
 -- The same as 'put_users__userId__permissions' but accepts an explicit configuration.
@@ -89,10 +99,10 @@ put_users__userId__permissionsWithConfiguration :: forall m . GrocyClient.Common
   -> m (Network.HTTP.Client.Types.Response Put_users__userId__permissionsResponse) -- ^ Monadic computation which returns the result of the operation
 put_users__userId__permissionsWithConfiguration config
                                                 userId
-                                                body = Base.fmap (\response_3 -> Base.fmap (Data.Either.either Put_users__userId__permissionsResponseError Base.id Base.. (\response body -> if | (\status_4 -> Network.HTTP.Types.Status.statusCode status_4 GHC.Classes.== 204) (Network.HTTP.Client.Types.responseStatus response) -> Data.Either.Right Put_users__userId__permissionsResponse204
-                                                                                                                                                                                                                                                                 | (\status_5 -> Network.HTTP.Types.Status.statusCode status_5 GHC.Classes.== 400) (Network.HTTP.Client.Types.responseStatus response) -> Put_users__userId__permissionsResponse400 Data.Functor.<$> (Data.Aeson.Decoding.eitherDecodeStrict body :: Data.Either.Either Base.String
+                                                body = GHC.Internal.Base.fmap (\response_3 -> GHC.Internal.Base.fmap (GHC.Internal.Data.Either.either Put_users__userId__permissionsResponseError GHC.Internal.Base.id GHC.Internal.Base.. (\response body -> if | (\status_4 -> Network.HTTP.Types.Status.statusCode status_4 GHC.Classes.== 204) (Network.HTTP.Client.Types.responseStatus response) -> GHC.Internal.Data.Either.Right Put_users__userId__permissionsResponse204
+                                                                                                                                                                                                                                                                 | (\status_5 -> Network.HTTP.Types.Status.statusCode status_5 GHC.Classes.== 400) (Network.HTTP.Client.Types.responseStatus response) -> Put_users__userId__permissionsResponse400 GHC.Internal.Data.Functor.<$> (Data.Aeson.Decoding.eitherDecodeStrict body :: GHC.Internal.Data.Either.Either GHC.Internal.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   Error400)
-                                                                                                                                                                                                                                                                 | Base.otherwise -> Data.Either.Left "Missing default response type") response_3) response_3) (GrocyClient.Common.doBodyCallWithConfiguration config (Data.Text.toUpper Base.$ Data.Text.Internal.pack "PUT") ("/users/" Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True Base.$ (GrocyClient.Common.textToByte Base.$ GrocyClient.Common.stringifyModel userId)) Base.<> "/permissions")) Base.mempty (Maybe.Just body) GrocyClient.Common.RequestBodyEncodingJSON)
+                                                                                                                                                                                                                                                                 | GHC.Internal.Base.otherwise -> GHC.Internal.Data.Either.Left "Missing default response type") response_3) response_3) (GrocyClient.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Internal.Base.$ Data.Text.Internal.pack "PUT") ("/users/" GHC.Internal.Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Internal.Base.$ (GrocyClient.Common.textToByte GHC.Internal.Base.$ GrocyClient.Common.stringifyModel userId)) GHC.Internal.Base.<> "/permissions")) GHC.Internal.Base.mempty (GHC.Internal.Maybe.Just body) GrocyClient.Common.RequestBodyEncodingJSON)
 -- | > PUT /users/{userId}/permissions
 -- 
 -- The same as 'put_users__userId__permissions' but returns the raw 'Data.ByteString.ByteString'.
@@ -100,7 +110,7 @@ put_users__userId__permissionsRaw :: forall m . GrocyClient.Common.MonadHTTP m =
   -> Put_users__userId__permissionsRequestBody -- ^ The request body to send
   -> GrocyClient.Common.ClientT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.Type.ByteString) -- ^ Monadic computation which returns the result of the operation
 put_users__userId__permissionsRaw userId
-                                  body = Base.id (GrocyClient.Common.doBodyCallWithConfigurationM (Data.Text.toUpper Base.$ Data.Text.Internal.pack "PUT") ("/users/" Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True Base.$ (GrocyClient.Common.textToByte Base.$ GrocyClient.Common.stringifyModel userId)) Base.<> "/permissions")) Base.mempty (Maybe.Just body) GrocyClient.Common.RequestBodyEncodingJSON)
+                                  body = GHC.Internal.Base.id (GrocyClient.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Internal.Base.$ Data.Text.Internal.pack "PUT") ("/users/" GHC.Internal.Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Internal.Base.$ (GrocyClient.Common.textToByte GHC.Internal.Base.$ GrocyClient.Common.stringifyModel userId)) GHC.Internal.Base.<> "/permissions")) GHC.Internal.Base.mempty (GHC.Internal.Maybe.Just body) GrocyClient.Common.RequestBodyEncodingJSON)
 -- | > PUT /users/{userId}/permissions
 -- 
 -- The same as 'put_users__userId__permissions' but accepts an explicit configuration and returns the raw 'Data.ByteString.ByteString'.
@@ -110,4 +120,4 @@ put_users__userId__permissionsWithConfigurationRaw :: forall m . GrocyClient.Com
   -> m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.Type.ByteString) -- ^ Monadic computation which returns the result of the operation
 put_users__userId__permissionsWithConfigurationRaw config
                                                    userId
-                                                   body = Base.id (GrocyClient.Common.doBodyCallWithConfiguration config (Data.Text.toUpper Base.$ Data.Text.Internal.pack "PUT") ("/users/" Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True Base.$ (GrocyClient.Common.textToByte Base.$ GrocyClient.Common.stringifyModel userId)) Base.<> "/permissions")) Base.mempty (Maybe.Just body) GrocyClient.Common.RequestBodyEncodingJSON)
+                                                   body = GHC.Internal.Base.id (GrocyClient.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Internal.Base.$ Data.Text.Internal.pack "PUT") ("/users/" GHC.Internal.Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Internal.Base.$ (GrocyClient.Common.textToByte GHC.Internal.Base.$ GrocyClient.Common.stringifyModel userId)) GHC.Internal.Base.<> "/permissions")) GHC.Internal.Base.mempty (GHC.Internal.Maybe.Just body) GrocyClient.Common.RequestBodyEncodingJSON)

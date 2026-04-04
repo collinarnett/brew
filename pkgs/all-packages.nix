@@ -5,7 +5,6 @@ let
     "browser-cookies"
     "walmart"
     "walmart-extractor"
-    "grocy"
     "grocy-client"
     "walmart-grocy-import"
   ];

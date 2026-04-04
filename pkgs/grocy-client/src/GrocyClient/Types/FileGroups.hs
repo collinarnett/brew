@@ -8,7 +8,9 @@ module GrocyClient.Types.FileGroups where
 
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
+import qualified Prelude as GHC.Internal.Maybe
 import qualified Control.Monad.Fail
+import qualified Control.Monad.Fail as GHC.Internal.Control.Monad.Fail
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
@@ -18,17 +20,23 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.ByteString
 import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
+import qualified Data.Foldable as GHC.Internal.Data.Foldable
 import qualified Data.Functor
+import qualified Data.Functor as GHC.Internal.Data.Functor
 import qualified Data.Maybe
+import qualified Data.Maybe as GHC.Internal.Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text as Data.Text.Internal
 import qualified Data.Time.Calendar as Data.Time.Calendar.Days
 import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified GHC.Base
+import qualified GHC.Base as GHC.Internal.Base
 import qualified GHC.Classes
 import qualified GHC.Int
+import qualified GHC.Int as GHC.Internal.Int
 import qualified GHC.Show
+import qualified GHC.Show as GHC.Internal.Show
 import qualified GHC.Types
 import qualified GrocyClient.Common
 import GrocyClient.TypeAlias
@@ -44,7 +52,7 @@ data FileGroups =
   | FileGroupsEnumProductpictures -- ^ Represents the JSON value @"productpictures"@
   | FileGroupsEnumUserfiles -- ^ Represents the JSON value @"userfiles"@
   | FileGroupsEnumUserpictures -- ^ Represents the JSON value @"userpictures"@
-  deriving (Show.Show, GHC.Classes.Eq)
+  deriving (GHC.Internal.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.Types.ToJSON.ToJSON FileGroups
     where {toJSON (FileGroupsOther val) = val;
            toJSON (FileGroupsTyped val) = Data.Aeson.Types.ToJSON.toJSON val;
@@ -54,9 +62,9 @@ instance Data.Aeson.Types.ToJSON.ToJSON FileGroups
            toJSON (FileGroupsEnumUserfiles) = "userfiles";
            toJSON (FileGroupsEnumUserpictures) = "userpictures"}
 instance Data.Aeson.Types.FromJSON.FromJSON FileGroups
-    where {parseJSON val = Base.pure (if | val GHC.Classes.== "equipmentmanuals" -> FileGroupsEnumEquipmentmanuals
+    where {parseJSON val = GHC.Internal.Base.pure (if | val GHC.Classes.== "equipmentmanuals" -> FileGroupsEnumEquipmentmanuals
                                                       | val GHC.Classes.== "recipepictures" -> FileGroupsEnumRecipepictures
                                                       | val GHC.Classes.== "productpictures" -> FileGroupsEnumProductpictures
                                                       | val GHC.Classes.== "userfiles" -> FileGroupsEnumUserfiles
                                                       | val GHC.Classes.== "userpictures" -> FileGroupsEnumUserpictures
-                                                      | Base.otherwise -> FileGroupsOther val)}
+                                                      | GHC.Internal.Base.otherwise -> FileGroupsOther val)}

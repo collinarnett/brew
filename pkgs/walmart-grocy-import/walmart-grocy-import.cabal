@@ -16,6 +16,7 @@ library
   ghc-options:      -Werror
   hs-source-dirs:   src
   exposed-modules:  WalmartGrocy.Types
+                  , WalmartGrocy.Grocy
                   , WalmartGrocy.Reconcile
                   , WalmartGrocy.App
   build-depends:    base >= 4.17 && < 5
@@ -25,7 +26,11 @@ library
                   , containers
                   , directory
                   , fuzzy
-                  , grocy
+                  , grocy-client
+                  , http-client
+                  , http-types
+                  , safe-money
+                  , scientific
                   , text
                   , time
                   , transformers
@@ -41,7 +46,6 @@ executable walmart-grocy-import
                   , browser-cookies
                   , directory
                   , filepath
-                  , grocy
                   , optparse-applicative
                   , text
                   , time
@@ -54,8 +58,6 @@ test-suite tests
   hs-source-dirs:   test
   build-depends:    base >= 4.17 && < 5
                   , walmart-grocy-import
-                  , aeson
-                  , grocy
                   , safe-money
                   , scientific
                   , text

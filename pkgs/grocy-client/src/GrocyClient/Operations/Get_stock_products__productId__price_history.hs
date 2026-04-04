@@ -9,21 +9,28 @@ module GrocyClient.Operations.Get_stock_products__productId__price_history where
 
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
+import qualified Prelude as GHC.Internal.Maybe
 import qualified Control.Monad.Fail
+import qualified Control.Monad.Fail as GHC.Internal.Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Decoding
 import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
-import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString
 import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.ByteString as Data.ByteString.Internal.Type
 import qualified Data.Either
+import qualified Data.Either as GHC.Internal.Data.Either
 import qualified Data.Foldable
+import qualified Data.Foldable as GHC.Internal.Data.Foldable
 import qualified Data.Functor
+import qualified Data.Functor as GHC.Internal.Data.Functor
 import qualified Data.Maybe
+import qualified Data.Maybe as GHC.Internal.Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text as Data.Text.Internal
@@ -31,9 +38,12 @@ import qualified Data.Time.Calendar as Data.Time.Calendar.Days
 import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
+import qualified GHC.Base as GHC.Internal.Base
 import qualified GHC.Classes
 import qualified GHC.Int
+import qualified GHC.Int as GHC.Internal.Int
 import qualified GHC.Show
+import qualified GHC.Show as GHC.Internal.Show
 import qualified GHC.Types
 import qualified Network.HTTP.Client
 import qualified Network.HTTP.Client as Network.HTTP.Client.Request
@@ -50,19 +60,19 @@ import GrocyClient.Types
 -- Returns the price history of the given product
 get_stock_products__productId__price_history :: forall m . GrocyClient.Common.MonadHTTP m => GHC.Types.Int -- ^ productId: A valid product id
   -> GrocyClient.Common.ClientT m (Network.HTTP.Client.Types.Response Get_stock_products__productId__price_historyResponse) -- ^ Monadic computation which returns the result of the operation
-get_stock_products__productId__price_history productId = Base.fmap (\response_0 -> Base.fmap (Data.Either.either Get_stock_products__productId__price_historyResponseError Base.id Base.. (\response body -> if | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) -> Get_stock_products__productId__price_historyResponse200 Data.Functor.<$> (Data.Aeson.Decoding.eitherDecodeStrict body :: Data.Either.Either Base.String
+get_stock_products__productId__price_history productId = GHC.Internal.Base.fmap (\response_0 -> GHC.Internal.Base.fmap (GHC.Internal.Data.Either.either Get_stock_products__productId__price_historyResponseError GHC.Internal.Base.id GHC.Internal.Base.. (\response body -> if | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) -> Get_stock_products__productId__price_historyResponse200 GHC.Internal.Data.Functor.<$> (Data.Aeson.Decoding.eitherDecodeStrict body :: GHC.Internal.Data.Either.Either GHC.Internal.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 [ProductPriceHistory])
-                                                                                                                                                                                                                                                                                 | (\status_2 -> Network.HTTP.Types.Status.statusCode status_2 GHC.Classes.== 400) (Network.HTTP.Client.Types.responseStatus response) -> Get_stock_products__productId__price_historyResponse400 Data.Functor.<$> (Data.Aeson.Decoding.eitherDecodeStrict body :: Data.Either.Either Base.String
+                                                                                                                                                                                                                                                                                 | (\status_2 -> Network.HTTP.Types.Status.statusCode status_2 GHC.Classes.== 400) (Network.HTTP.Client.Types.responseStatus response) -> Get_stock_products__productId__price_historyResponse400 GHC.Internal.Data.Functor.<$> (Data.Aeson.Decoding.eitherDecodeStrict body :: GHC.Internal.Data.Either.Either GHC.Internal.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 Error400)
-                                                                                                                                                                                                                                                                                 | Base.otherwise -> Data.Either.Left "Missing default response type") response_0) response_0) (GrocyClient.Common.doCallWithConfigurationM (Data.Text.toUpper Base.$ Data.Text.Internal.pack "GET") ("/stock/products/" Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True Base.$ (GrocyClient.Common.textToByte Base.$ GrocyClient.Common.stringifyModel productId)) Base.<> "/price-history")) Base.mempty)
+                                                                                                                                                                                                                                                                                 | GHC.Internal.Base.otherwise -> GHC.Internal.Data.Either.Left "Missing default response type") response_0) response_0) (GrocyClient.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Internal.Base.$ Data.Text.Internal.pack "GET") ("/stock/products/" GHC.Internal.Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Internal.Base.$ (GrocyClient.Common.textToByte GHC.Internal.Base.$ GrocyClient.Common.stringifyModel productId)) GHC.Internal.Base.<> "/price-history")) GHC.Internal.Base.mempty)
 -- | Represents a response of the operation 'get_stock_products__productId__price_history'.
 -- 
 -- The response constructor is chosen by the status code of the response. If no case matches (no specific case for the response code, no range case, no default case), 'Get_stock_products__productId__price_historyResponseError' is used.
 data Get_stock_products__productId__price_historyResponse =
-   Get_stock_products__productId__price_historyResponseError Base.String -- ^ Means either no matching case available or a parse error
+   Get_stock_products__productId__price_historyResponseError GHC.Internal.Base.String -- ^ Means either no matching case available or a parse error
   | Get_stock_products__productId__price_historyResponse200 [ProductPriceHistory] -- ^ An array of ProductPriceHistory objects
   | Get_stock_products__productId__price_historyResponse400 Error400 -- ^ The operation was not successful (possible errors are: Not existing product)
-  deriving (Show.Show, GHC.Classes.Eq)
+  deriving (GHC.Internal.Show.Show, GHC.Classes.Eq)
 -- | > GET /stock/products/{productId}/price-history
 -- 
 -- The same as 'get_stock_products__productId__price_history' but accepts an explicit configuration.
@@ -70,17 +80,17 @@ get_stock_products__productId__price_historyWithConfiguration :: forall m . Groc
   -> GHC.Types.Int -- ^ productId: A valid product id
   -> m (Network.HTTP.Client.Types.Response Get_stock_products__productId__price_historyResponse) -- ^ Monadic computation which returns the result of the operation
 get_stock_products__productId__price_historyWithConfiguration config
-                                                              productId = Base.fmap (\response_3 -> Base.fmap (Data.Either.either Get_stock_products__productId__price_historyResponseError Base.id Base.. (\response body -> if | (\status_4 -> Network.HTTP.Types.Status.statusCode status_4 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) -> Get_stock_products__productId__price_historyResponse200 Data.Functor.<$> (Data.Aeson.Decoding.eitherDecodeStrict body :: Data.Either.Either Base.String
+                                                              productId = GHC.Internal.Base.fmap (\response_3 -> GHC.Internal.Base.fmap (GHC.Internal.Data.Either.either Get_stock_products__productId__price_historyResponseError GHC.Internal.Base.id GHC.Internal.Base.. (\response body -> if | (\status_4 -> Network.HTTP.Types.Status.statusCode status_4 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) -> Get_stock_products__productId__price_historyResponse200 GHC.Internal.Data.Functor.<$> (Data.Aeson.Decoding.eitherDecodeStrict body :: GHC.Internal.Data.Either.Either GHC.Internal.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  [ProductPriceHistory])
-                                                                                                                                                                                                                                                                                                  | (\status_5 -> Network.HTTP.Types.Status.statusCode status_5 GHC.Classes.== 400) (Network.HTTP.Client.Types.responseStatus response) -> Get_stock_products__productId__price_historyResponse400 Data.Functor.<$> (Data.Aeson.Decoding.eitherDecodeStrict body :: Data.Either.Either Base.String
+                                                                                                                                                                                                                                                                                                  | (\status_5 -> Network.HTTP.Types.Status.statusCode status_5 GHC.Classes.== 400) (Network.HTTP.Client.Types.responseStatus response) -> Get_stock_products__productId__price_historyResponse400 GHC.Internal.Data.Functor.<$> (Data.Aeson.Decoding.eitherDecodeStrict body :: GHC.Internal.Data.Either.Either GHC.Internal.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  Error400)
-                                                                                                                                                                                                                                                                                                  | Base.otherwise -> Data.Either.Left "Missing default response type") response_3) response_3) (GrocyClient.Common.doCallWithConfiguration config (Data.Text.toUpper Base.$ Data.Text.Internal.pack "GET") ("/stock/products/" Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True Base.$ (GrocyClient.Common.textToByte Base.$ GrocyClient.Common.stringifyModel productId)) Base.<> "/price-history")) Base.mempty)
+                                                                                                                                                                                                                                                                                                  | GHC.Internal.Base.otherwise -> GHC.Internal.Data.Either.Left "Missing default response type") response_3) response_3) (GrocyClient.Common.doCallWithConfiguration config (Data.Text.toUpper GHC.Internal.Base.$ Data.Text.Internal.pack "GET") ("/stock/products/" GHC.Internal.Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Internal.Base.$ (GrocyClient.Common.textToByte GHC.Internal.Base.$ GrocyClient.Common.stringifyModel productId)) GHC.Internal.Base.<> "/price-history")) GHC.Internal.Base.mempty)
 -- | > GET /stock/products/{productId}/price-history
 -- 
 -- The same as 'get_stock_products__productId__price_history' but returns the raw 'Data.ByteString.ByteString'.
 get_stock_products__productId__price_historyRaw :: forall m . GrocyClient.Common.MonadHTTP m => GHC.Types.Int -- ^ productId: A valid product id
   -> GrocyClient.Common.ClientT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.Type.ByteString) -- ^ Monadic computation which returns the result of the operation
-get_stock_products__productId__price_historyRaw productId = Base.id (GrocyClient.Common.doCallWithConfigurationM (Data.Text.toUpper Base.$ Data.Text.Internal.pack "GET") ("/stock/products/" Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True Base.$ (GrocyClient.Common.textToByte Base.$ GrocyClient.Common.stringifyModel productId)) Base.<> "/price-history")) Base.mempty)
+get_stock_products__productId__price_historyRaw productId = GHC.Internal.Base.id (GrocyClient.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Internal.Base.$ Data.Text.Internal.pack "GET") ("/stock/products/" GHC.Internal.Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Internal.Base.$ (GrocyClient.Common.textToByte GHC.Internal.Base.$ GrocyClient.Common.stringifyModel productId)) GHC.Internal.Base.<> "/price-history")) GHC.Internal.Base.mempty)
 -- | > GET /stock/products/{productId}/price-history
 -- 
 -- The same as 'get_stock_products__productId__price_history' but accepts an explicit configuration and returns the raw 'Data.ByteString.ByteString'.
@@ -88,4 +98,4 @@ get_stock_products__productId__price_historyWithConfigurationRaw :: forall m . G
   -> GHC.Types.Int -- ^ productId: A valid product id
   -> m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.Type.ByteString) -- ^ Monadic computation which returns the result of the operation
 get_stock_products__productId__price_historyWithConfigurationRaw config
-                                                                 productId = Base.id (GrocyClient.Common.doCallWithConfiguration config (Data.Text.toUpper Base.$ Data.Text.Internal.pack "GET") ("/stock/products/" Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True Base.$ (GrocyClient.Common.textToByte Base.$ GrocyClient.Common.stringifyModel productId)) Base.<> "/price-history")) Base.mempty)
+                                                                 productId = GHC.Internal.Base.id (GrocyClient.Common.doCallWithConfiguration config (Data.Text.toUpper GHC.Internal.Base.$ Data.Text.Internal.pack "GET") ("/stock/products/" GHC.Internal.Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Internal.Base.$ (GrocyClient.Common.textToByte GHC.Internal.Base.$ GrocyClient.Common.stringifyModel productId)) GHC.Internal.Base.<> "/price-history")) GHC.Internal.Base.mempty)

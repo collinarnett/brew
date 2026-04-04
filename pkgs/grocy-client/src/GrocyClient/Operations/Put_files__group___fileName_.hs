@@ -9,21 +9,28 @@ module GrocyClient.Operations.Put_files__group___fileName_ where
 
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
+import qualified Prelude as GHC.Internal.Maybe
 import qualified Control.Monad.Fail
+import qualified Control.Monad.Fail as GHC.Internal.Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Decoding
 import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
-import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString
 import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.ByteString as Data.ByteString.Internal.Type
 import qualified Data.Either
+import qualified Data.Either as GHC.Internal.Data.Either
 import qualified Data.Foldable
+import qualified Data.Foldable as GHC.Internal.Data.Foldable
 import qualified Data.Functor
+import qualified Data.Functor as GHC.Internal.Data.Functor
 import qualified Data.Maybe
+import qualified Data.Maybe as GHC.Internal.Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text as Data.Text.Internal
@@ -31,9 +38,12 @@ import qualified Data.Time.Calendar as Data.Time.Calendar.Days
 import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
+import qualified GHC.Base as GHC.Internal.Base
 import qualified GHC.Classes
 import qualified GHC.Int
+import qualified GHC.Int as GHC.Internal.Int
 import qualified GHC.Show
+import qualified GHC.Show as GHC.Internal.Show
 import qualified GHC.Types
 import qualified Network.HTTP.Client
 import qualified Network.HTTP.Client as Network.HTTP.Client.Request
@@ -50,10 +60,10 @@ import GrocyClient.Types
 -- The file will be stored at \/data\/storage\/{group}\/{file_name} (you need to remember the group and file name to get or delete it again)
 put_files__group___fileName_ :: forall m . GrocyClient.Common.MonadHTTP m => Put_files__group___fileName_Parameters -- ^ Contains all available parameters of this operation (query and path parameters)
   -> GrocyClient.Common.ClientT m (Network.HTTP.Client.Types.Response Put_files__group___fileName_Response) -- ^ Monadic computation which returns the result of the operation
-put_files__group___fileName_ parameters = Base.fmap (\response_0 -> Base.fmap (Data.Either.either Put_files__group___fileName_ResponseError Base.id Base.. (\response body -> if | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 204) (Network.HTTP.Client.Types.responseStatus response) -> Data.Either.Right Put_files__group___fileName_Response204
-                                                                                                                                                                                                                                                  | (\status_2 -> Network.HTTP.Types.Status.statusCode status_2 GHC.Classes.== 400) (Network.HTTP.Client.Types.responseStatus response) -> Put_files__group___fileName_Response400 Data.Functor.<$> (Data.Aeson.Decoding.eitherDecodeStrict body :: Data.Either.Either Base.String
+put_files__group___fileName_ parameters = GHC.Internal.Base.fmap (\response_0 -> GHC.Internal.Base.fmap (GHC.Internal.Data.Either.either Put_files__group___fileName_ResponseError GHC.Internal.Base.id GHC.Internal.Base.. (\response body -> if | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 204) (Network.HTTP.Client.Types.responseStatus response) -> GHC.Internal.Data.Either.Right Put_files__group___fileName_Response204
+                                                                                                                                                                                                                                                  | (\status_2 -> Network.HTTP.Types.Status.statusCode status_2 GHC.Classes.== 400) (Network.HTTP.Client.Types.responseStatus response) -> Put_files__group___fileName_Response400 GHC.Internal.Data.Functor.<$> (Data.Aeson.Decoding.eitherDecodeStrict body :: GHC.Internal.Data.Either.Either GHC.Internal.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  Error400)
-                                                                                                                                                                                                                                                  | Base.otherwise -> Data.Either.Left "Missing default response type") response_0) response_0) (GrocyClient.Common.doCallWithConfigurationM (Data.Text.toUpper Base.$ Data.Text.Internal.pack "PUT") ("/files/" Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True Base.$ (GrocyClient.Common.textToByte Base.$ GrocyClient.Common.stringifyModel (put_files__group___fileName_ParametersPathGroup parameters))) Base.<> ("/" Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True Base.$ (GrocyClient.Common.textToByte Base.$ GrocyClient.Common.stringifyModel (put_files__group___fileName_ParametersPathFileName parameters))) Base.<> "")))) Base.mempty)
+                                                                                                                                                                                                                                                  | GHC.Internal.Base.otherwise -> GHC.Internal.Data.Either.Left "Missing default response type") response_0) response_0) (GrocyClient.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Internal.Base.$ Data.Text.Internal.pack "PUT") ("/files/" GHC.Internal.Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Internal.Base.$ (GrocyClient.Common.textToByte GHC.Internal.Base.$ GrocyClient.Common.stringifyModel (put_files__group___fileName_ParametersPathGroup parameters))) GHC.Internal.Base.<> ("/" GHC.Internal.Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Internal.Base.$ (GrocyClient.Common.textToByte GHC.Internal.Base.$ GrocyClient.Common.stringifyModel (put_files__group___fileName_ParametersPathFileName parameters))) GHC.Internal.Base.<> "")))) GHC.Internal.Base.mempty)
 -- | Defines the object schema located at @paths.\/files\/{group}\/{fileName}.PUT.parameters@ in the specification.
 -- 
 -- 
@@ -64,13 +74,13 @@ data Put_files__group___fileName_Parameters = Put_files__group___fileName_Parame
   put_files__group___fileName_ParametersPathFileName :: Data.Text.Internal.Text
   -- | pathGroup
   , put_files__group___fileName_ParametersPathGroup :: FileGroups
-  } deriving (Show.Show
+  } deriving (GHC.Internal.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.Types.ToJSON.ToJSON Put_files__group___fileName_Parameters
-    where {toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["pathFileName" Data.Aeson.Types.ToJSON..= put_files__group___fileName_ParametersPathFileName obj] : ["pathGroup" Data.Aeson.Types.ToJSON..= put_files__group___fileName_ParametersPathGroup obj] : Base.mempty));
-           toEncoding obj = Data.Aeson.Encoding.Internal.pairs (Base.mconcat (Data.Foldable.concat (["pathFileName" Data.Aeson.Types.ToJSON..= put_files__group___fileName_ParametersPathFileName obj] : ["pathGroup" Data.Aeson.Types.ToJSON..= put_files__group___fileName_ParametersPathGroup obj] : Base.mempty)))}
+    where {toJSON obj = Data.Aeson.Types.Internal.object (GHC.Internal.Data.Foldable.concat (["pathFileName" Data.Aeson.Types.ToJSON..= put_files__group___fileName_ParametersPathFileName obj] : ["pathGroup" Data.Aeson.Types.ToJSON..= put_files__group___fileName_ParametersPathGroup obj] : GHC.Internal.Base.mempty));
+           toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Internal.Base.mconcat (GHC.Internal.Data.Foldable.concat (["pathFileName" Data.Aeson.Types.ToJSON..= put_files__group___fileName_ParametersPathFileName obj] : ["pathGroup" Data.Aeson.Types.ToJSON..= put_files__group___fileName_ParametersPathGroup obj] : GHC.Internal.Base.mempty)))}
 instance Data.Aeson.Types.FromJSON.FromJSON Put_files__group___fileName_Parameters
-    where {parseJSON = Data.Aeson.Types.FromJSON.withObject "Put_files__group___fileName_Parameters" (\obj -> (Base.pure Put_files__group___fileName_Parameters Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathFileName")) Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathGroup"))}
+    where {parseJSON = Data.Aeson.Types.FromJSON.withObject "Put_files__group___fileName_Parameters" (\obj -> (GHC.Internal.Base.pure Put_files__group___fileName_Parameters GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathFileName")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathGroup"))}
 -- | Create a new 'Put_files__group___fileName_Parameters' with all required fields.
 mkPut_files__group___fileName_Parameters :: Data.Text.Internal.Text -- ^ 'put_files__group___fileName_ParametersPathFileName'
   -> FileGroups -- ^ 'put_files__group___fileName_ParametersPathGroup'
@@ -81,10 +91,10 @@ mkPut_files__group___fileName_Parameters put_files__group___fileName_ParametersP
 -- 
 -- The response constructor is chosen by the status code of the response. If no case matches (no specific case for the response code, no range case, no default case), 'Put_files__group___fileName_ResponseError' is used.
 data Put_files__group___fileName_Response =
-   Put_files__group___fileName_ResponseError Base.String -- ^ Means either no matching case available or a parse error
+   Put_files__group___fileName_ResponseError GHC.Internal.Base.String -- ^ Means either no matching case available or a parse error
   | Put_files__group___fileName_Response204 -- ^ The operation was successful
   | Put_files__group___fileName_Response400 Error400 -- ^ The operation was not successful
-  deriving (Show.Show, GHC.Classes.Eq)
+  deriving (GHC.Internal.Show.Show, GHC.Classes.Eq)
 -- | > PUT /files/{group}/{fileName}
 -- 
 -- The same as 'put_files__group___fileName_' but accepts an explicit configuration.
@@ -92,16 +102,16 @@ put_files__group___fileName_WithConfiguration :: forall m . GrocyClient.Common.M
   -> Put_files__group___fileName_Parameters -- ^ Contains all available parameters of this operation (query and path parameters)
   -> m (Network.HTTP.Client.Types.Response Put_files__group___fileName_Response) -- ^ Monadic computation which returns the result of the operation
 put_files__group___fileName_WithConfiguration config
-                                              parameters = Base.fmap (\response_3 -> Base.fmap (Data.Either.either Put_files__group___fileName_ResponseError Base.id Base.. (\response body -> if | (\status_4 -> Network.HTTP.Types.Status.statusCode status_4 GHC.Classes.== 204) (Network.HTTP.Client.Types.responseStatus response) -> Data.Either.Right Put_files__group___fileName_Response204
-                                                                                                                                                                                                                                                                   | (\status_5 -> Network.HTTP.Types.Status.statusCode status_5 GHC.Classes.== 400) (Network.HTTP.Client.Types.responseStatus response) -> Put_files__group___fileName_Response400 Data.Functor.<$> (Data.Aeson.Decoding.eitherDecodeStrict body :: Data.Either.Either Base.String
+                                              parameters = GHC.Internal.Base.fmap (\response_3 -> GHC.Internal.Base.fmap (GHC.Internal.Data.Either.either Put_files__group___fileName_ResponseError GHC.Internal.Base.id GHC.Internal.Base.. (\response body -> if | (\status_4 -> Network.HTTP.Types.Status.statusCode status_4 GHC.Classes.== 204) (Network.HTTP.Client.Types.responseStatus response) -> GHC.Internal.Data.Either.Right Put_files__group___fileName_Response204
+                                                                                                                                                                                                                                                                   | (\status_5 -> Network.HTTP.Types.Status.statusCode status_5 GHC.Classes.== 400) (Network.HTTP.Client.Types.responseStatus response) -> Put_files__group___fileName_Response400 GHC.Internal.Data.Functor.<$> (Data.Aeson.Decoding.eitherDecodeStrict body :: GHC.Internal.Data.Either.Either GHC.Internal.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   Error400)
-                                                                                                                                                                                                                                                                   | Base.otherwise -> Data.Either.Left "Missing default response type") response_3) response_3) (GrocyClient.Common.doCallWithConfiguration config (Data.Text.toUpper Base.$ Data.Text.Internal.pack "PUT") ("/files/" Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True Base.$ (GrocyClient.Common.textToByte Base.$ GrocyClient.Common.stringifyModel (put_files__group___fileName_ParametersPathGroup parameters))) Base.<> ("/" Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True Base.$ (GrocyClient.Common.textToByte Base.$ GrocyClient.Common.stringifyModel (put_files__group___fileName_ParametersPathFileName parameters))) Base.<> "")))) Base.mempty)
+                                                                                                                                                                                                                                                                   | GHC.Internal.Base.otherwise -> GHC.Internal.Data.Either.Left "Missing default response type") response_3) response_3) (GrocyClient.Common.doCallWithConfiguration config (Data.Text.toUpper GHC.Internal.Base.$ Data.Text.Internal.pack "PUT") ("/files/" GHC.Internal.Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Internal.Base.$ (GrocyClient.Common.textToByte GHC.Internal.Base.$ GrocyClient.Common.stringifyModel (put_files__group___fileName_ParametersPathGroup parameters))) GHC.Internal.Base.<> ("/" GHC.Internal.Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Internal.Base.$ (GrocyClient.Common.textToByte GHC.Internal.Base.$ GrocyClient.Common.stringifyModel (put_files__group___fileName_ParametersPathFileName parameters))) GHC.Internal.Base.<> "")))) GHC.Internal.Base.mempty)
 -- | > PUT /files/{group}/{fileName}
 -- 
 -- The same as 'put_files__group___fileName_' but returns the raw 'Data.ByteString.ByteString'.
 put_files__group___fileName_Raw :: forall m . GrocyClient.Common.MonadHTTP m => Put_files__group___fileName_Parameters -- ^ Contains all available parameters of this operation (query and path parameters)
   -> GrocyClient.Common.ClientT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.Type.ByteString) -- ^ Monadic computation which returns the result of the operation
-put_files__group___fileName_Raw parameters = Base.id (GrocyClient.Common.doCallWithConfigurationM (Data.Text.toUpper Base.$ Data.Text.Internal.pack "PUT") ("/files/" Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True Base.$ (GrocyClient.Common.textToByte Base.$ GrocyClient.Common.stringifyModel (put_files__group___fileName_ParametersPathGroup parameters))) Base.<> ("/" Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True Base.$ (GrocyClient.Common.textToByte Base.$ GrocyClient.Common.stringifyModel (put_files__group___fileName_ParametersPathFileName parameters))) Base.<> "")))) Base.mempty)
+put_files__group___fileName_Raw parameters = GHC.Internal.Base.id (GrocyClient.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Internal.Base.$ Data.Text.Internal.pack "PUT") ("/files/" GHC.Internal.Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Internal.Base.$ (GrocyClient.Common.textToByte GHC.Internal.Base.$ GrocyClient.Common.stringifyModel (put_files__group___fileName_ParametersPathGroup parameters))) GHC.Internal.Base.<> ("/" GHC.Internal.Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Internal.Base.$ (GrocyClient.Common.textToByte GHC.Internal.Base.$ GrocyClient.Common.stringifyModel (put_files__group___fileName_ParametersPathFileName parameters))) GHC.Internal.Base.<> "")))) GHC.Internal.Base.mempty)
 -- | > PUT /files/{group}/{fileName}
 -- 
 -- The same as 'put_files__group___fileName_' but accepts an explicit configuration and returns the raw 'Data.ByteString.ByteString'.
@@ -109,4 +119,4 @@ put_files__group___fileName_WithConfigurationRaw :: forall m . GrocyClient.Commo
   -> Put_files__group___fileName_Parameters -- ^ Contains all available parameters of this operation (query and path parameters)
   -> m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.Type.ByteString) -- ^ Monadic computation which returns the result of the operation
 put_files__group___fileName_WithConfigurationRaw config
-                                                 parameters = Base.id (GrocyClient.Common.doCallWithConfiguration config (Data.Text.toUpper Base.$ Data.Text.Internal.pack "PUT") ("/files/" Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True Base.$ (GrocyClient.Common.textToByte Base.$ GrocyClient.Common.stringifyModel (put_files__group___fileName_ParametersPathGroup parameters))) Base.<> ("/" Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True Base.$ (GrocyClient.Common.textToByte Base.$ GrocyClient.Common.stringifyModel (put_files__group___fileName_ParametersPathFileName parameters))) Base.<> "")))) Base.mempty)
+                                                 parameters = GHC.Internal.Base.id (GrocyClient.Common.doCallWithConfiguration config (Data.Text.toUpper GHC.Internal.Base.$ Data.Text.Internal.pack "PUT") ("/files/" GHC.Internal.Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Internal.Base.$ (GrocyClient.Common.textToByte GHC.Internal.Base.$ GrocyClient.Common.stringifyModel (put_files__group___fileName_ParametersPathGroup parameters))) GHC.Internal.Base.<> ("/" GHC.Internal.Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Internal.Base.$ (GrocyClient.Common.textToByte GHC.Internal.Base.$ GrocyClient.Common.stringifyModel (put_files__group___fileName_ParametersPathFileName parameters))) GHC.Internal.Base.<> "")))) GHC.Internal.Base.mempty)

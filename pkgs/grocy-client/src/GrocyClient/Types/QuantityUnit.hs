@@ -8,7 +8,9 @@ module GrocyClient.Types.QuantityUnit where
 
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
+import qualified Prelude as GHC.Internal.Maybe
 import qualified Control.Monad.Fail
+import qualified Control.Monad.Fail as GHC.Internal.Control.Monad.Fail
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
@@ -18,17 +20,23 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.ByteString
 import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
+import qualified Data.Foldable as GHC.Internal.Data.Foldable
 import qualified Data.Functor
+import qualified Data.Functor as GHC.Internal.Data.Functor
 import qualified Data.Maybe
+import qualified Data.Maybe as GHC.Internal.Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text as Data.Text.Internal
 import qualified Data.Time.Calendar as Data.Time.Calendar.Days
 import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified GHC.Base
+import qualified GHC.Base as GHC.Internal.Base
 import qualified GHC.Classes
 import qualified GHC.Int
+import qualified GHC.Int as GHC.Internal.Int
 import qualified GHC.Show
+import qualified GHC.Show as GHC.Internal.Show
 import qualified GHC.Types
 import qualified GrocyClient.Common
 import GrocyClient.TypeAlias
@@ -38,32 +46,32 @@ import GrocyClient.TypeAlias
 -- 
 data QuantityUnit = QuantityUnit {
   -- | description
-  quantityUnitDescription :: (Maybe.Maybe Data.Text.Internal.Text)
+  quantityUnitDescription :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
   -- | id
-  , quantityUnitId :: (Maybe.Maybe GHC.Types.Int)
+  , quantityUnitId :: (GHC.Internal.Maybe.Maybe GHC.Types.Int)
   -- | name
-  , quantityUnitName :: (Maybe.Maybe Data.Text.Internal.Text)
+  , quantityUnitName :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
   -- | name_plural
-  , quantityUnitName_plural :: (Maybe.Maybe Data.Text.Internal.Text)
+  , quantityUnitName_plural :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
   -- | plural_forms
-  , quantityUnitPlural_forms :: (Maybe.Maybe Data.Text.Internal.Text)
+  , quantityUnitPlural_forms :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
   -- | row_created_timestamp
-  , quantityUnitRow_created_timestamp :: (Maybe.Maybe Data.Text.Internal.Text)
+  , quantityUnitRow_created_timestamp :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
   -- | userfields: Key\/value pairs of userfields
-  , quantityUnitUserfields :: (Maybe.Maybe Data.Aeson.Types.Internal.Object)
-  } deriving (Show.Show
+  , quantityUnitUserfields :: (GHC.Internal.Maybe.Maybe Data.Aeson.Types.Internal.Object)
+  } deriving (GHC.Internal.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.Types.ToJSON.ToJSON QuantityUnit
-    where {toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe Base.mempty (Base.pure Base.. ("description" Data.Aeson.Types.ToJSON..=)) (quantityUnitDescription obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("id" Data.Aeson.Types.ToJSON..=)) (quantityUnitId obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("name" Data.Aeson.Types.ToJSON..=)) (quantityUnitName obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("name_plural" Data.Aeson.Types.ToJSON..=)) (quantityUnitName_plural obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("plural_forms" Data.Aeson.Types.ToJSON..=)) (quantityUnitPlural_forms obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("row_created_timestamp" Data.Aeson.Types.ToJSON..=)) (quantityUnitRow_created_timestamp obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("userfields" Data.Aeson.Types.ToJSON..=)) (quantityUnitUserfields obj) : Base.mempty));
-           toEncoding obj = Data.Aeson.Encoding.Internal.pairs (Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe Base.mempty (Base.pure Base.. ("description" Data.Aeson.Types.ToJSON..=)) (quantityUnitDescription obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("id" Data.Aeson.Types.ToJSON..=)) (quantityUnitId obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("name" Data.Aeson.Types.ToJSON..=)) (quantityUnitName obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("name_plural" Data.Aeson.Types.ToJSON..=)) (quantityUnitName_plural obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("plural_forms" Data.Aeson.Types.ToJSON..=)) (quantityUnitPlural_forms obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("row_created_timestamp" Data.Aeson.Types.ToJSON..=)) (quantityUnitRow_created_timestamp obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("userfields" Data.Aeson.Types.ToJSON..=)) (quantityUnitUserfields obj) : Base.mempty)))}
+    where {toJSON obj = Data.Aeson.Types.Internal.object (GHC.Internal.Data.Foldable.concat (GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (quantityUnitDescription obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("id" Data.Aeson.Types.ToJSON..=)) (quantityUnitId obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("name" Data.Aeson.Types.ToJSON..=)) (quantityUnitName obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("name_plural" Data.Aeson.Types.ToJSON..=)) (quantityUnitName_plural obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("plural_forms" Data.Aeson.Types.ToJSON..=)) (quantityUnitPlural_forms obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("row_created_timestamp" Data.Aeson.Types.ToJSON..=)) (quantityUnitRow_created_timestamp obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("userfields" Data.Aeson.Types.ToJSON..=)) (quantityUnitUserfields obj) : GHC.Internal.Base.mempty));
+           toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Internal.Base.mconcat (GHC.Internal.Data.Foldable.concat (GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (quantityUnitDescription obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("id" Data.Aeson.Types.ToJSON..=)) (quantityUnitId obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("name" Data.Aeson.Types.ToJSON..=)) (quantityUnitName obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("name_plural" Data.Aeson.Types.ToJSON..=)) (quantityUnitName_plural obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("plural_forms" Data.Aeson.Types.ToJSON..=)) (quantityUnitPlural_forms obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("row_created_timestamp" Data.Aeson.Types.ToJSON..=)) (quantityUnitRow_created_timestamp obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("userfields" Data.Aeson.Types.ToJSON..=)) (quantityUnitUserfields obj) : GHC.Internal.Base.mempty)))}
 instance Data.Aeson.Types.FromJSON.FromJSON QuantityUnit
-    where {parseJSON = Data.Aeson.Types.FromJSON.withObject "QuantityUnit" (\obj -> ((((((Base.pure QuantityUnit Base.<*> (obj Data.Aeson.Types.FromJSON..:! "description")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "id")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "name")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "name_plural")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "plural_forms")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "row_created_timestamp")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "userfields"))}
+    where {parseJSON = Data.Aeson.Types.FromJSON.withObject "QuantityUnit" (\obj -> ((((((GHC.Internal.Base.pure QuantityUnit GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "description")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "id")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "name")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "name_plural")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "plural_forms")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "row_created_timestamp")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "userfields"))}
 -- | Create a new 'QuantityUnit' with all required fields.
 mkQuantityUnit :: QuantityUnit
-mkQuantityUnit = QuantityUnit{quantityUnitDescription = Maybe.Nothing,
-                              quantityUnitId = Maybe.Nothing,
-                              quantityUnitName = Maybe.Nothing,
-                              quantityUnitName_plural = Maybe.Nothing,
-                              quantityUnitPlural_forms = Maybe.Nothing,
-                              quantityUnitRow_created_timestamp = Maybe.Nothing,
-                              quantityUnitUserfields = Maybe.Nothing}
+mkQuantityUnit = QuantityUnit{quantityUnitDescription = GHC.Internal.Maybe.Nothing,
+                              quantityUnitId = GHC.Internal.Maybe.Nothing,
+                              quantityUnitName = GHC.Internal.Maybe.Nothing,
+                              quantityUnitName_plural = GHC.Internal.Maybe.Nothing,
+                              quantityUnitPlural_forms = GHC.Internal.Maybe.Nothing,
+                              quantityUnitRow_created_timestamp = GHC.Internal.Maybe.Nothing,
+                              quantityUnitUserfields = GHC.Internal.Maybe.Nothing}

@@ -8,7 +8,9 @@ module GrocyClient.Types.Error400 where
 
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
+import qualified Prelude as GHC.Internal.Maybe
 import qualified Control.Monad.Fail
+import qualified Control.Monad.Fail as GHC.Internal.Control.Monad.Fail
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
@@ -18,17 +20,23 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.ByteString
 import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
+import qualified Data.Foldable as GHC.Internal.Data.Foldable
 import qualified Data.Functor
+import qualified Data.Functor as GHC.Internal.Data.Functor
 import qualified Data.Maybe
+import qualified Data.Maybe as GHC.Internal.Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text as Data.Text.Internal
 import qualified Data.Time.Calendar as Data.Time.Calendar.Days
 import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified GHC.Base
+import qualified GHC.Base as GHC.Internal.Base
 import qualified GHC.Classes
 import qualified GHC.Int
+import qualified GHC.Int as GHC.Internal.Int
 import qualified GHC.Show
+import qualified GHC.Show as GHC.Internal.Show
 import qualified GHC.Types
 import qualified GrocyClient.Common
 import GrocyClient.TypeAlias
@@ -38,14 +46,14 @@ import GrocyClient.TypeAlias
 -- 
 data Error400 = Error400 {
   -- | error_message
-  error400Error_message :: (Maybe.Maybe Data.Text.Internal.Text)
-  } deriving (Show.Show
+  error400Error_message :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
+  } deriving (GHC.Internal.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.Types.ToJSON.ToJSON Error400
-    where {toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe Base.mempty (Base.pure Base.. ("error_message" Data.Aeson.Types.ToJSON..=)) (error400Error_message obj) : Base.mempty));
-           toEncoding obj = Data.Aeson.Encoding.Internal.pairs (Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe Base.mempty (Base.pure Base.. ("error_message" Data.Aeson.Types.ToJSON..=)) (error400Error_message obj) : Base.mempty)))}
+    where {toJSON obj = Data.Aeson.Types.Internal.object (GHC.Internal.Data.Foldable.concat (GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("error_message" Data.Aeson.Types.ToJSON..=)) (error400Error_message obj) : GHC.Internal.Base.mempty));
+           toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Internal.Base.mconcat (GHC.Internal.Data.Foldable.concat (GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("error_message" Data.Aeson.Types.ToJSON..=)) (error400Error_message obj) : GHC.Internal.Base.mempty)))}
 instance Data.Aeson.Types.FromJSON.FromJSON Error400
-    where {parseJSON = Data.Aeson.Types.FromJSON.withObject "Error400" (\obj -> Base.pure Error400 Base.<*> (obj Data.Aeson.Types.FromJSON..:! "error_message"))}
+    where {parseJSON = Data.Aeson.Types.FromJSON.withObject "Error400" (\obj -> GHC.Internal.Base.pure Error400 GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "error_message"))}
 -- | Create a new 'Error400' with all required fields.
 mkError400 :: Error400
-mkError400 = Error400{error400Error_message = Maybe.Nothing}
+mkError400 = Error400{error400Error_message = GHC.Internal.Maybe.Nothing}

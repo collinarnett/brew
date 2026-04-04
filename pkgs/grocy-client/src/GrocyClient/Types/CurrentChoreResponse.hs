@@ -8,7 +8,9 @@ module GrocyClient.Types.CurrentChoreResponse where
 
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
+import qualified Prelude as GHC.Internal.Maybe
 import qualified Control.Monad.Fail
+import qualified Control.Monad.Fail as GHC.Internal.Control.Monad.Fail
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
@@ -18,17 +20,23 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.ByteString
 import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
+import qualified Data.Foldable as GHC.Internal.Data.Foldable
 import qualified Data.Functor
+import qualified Data.Functor as GHC.Internal.Data.Functor
 import qualified Data.Maybe
+import qualified Data.Maybe as GHC.Internal.Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text as Data.Text.Internal
 import qualified Data.Time.Calendar as Data.Time.Calendar.Days
 import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified GHC.Base
+import qualified GHC.Base as GHC.Internal.Base
 import qualified GHC.Classes
 import qualified GHC.Int
+import qualified GHC.Int as GHC.Internal.Int
 import qualified GHC.Show
+import qualified GHC.Show as GHC.Internal.Show
 import qualified GHC.Types
 import qualified GrocyClient.Common
 import GrocyClient.TypeAlias
@@ -39,38 +47,38 @@ import {-# SOURCE #-} GrocyClient.Types.UserDto
 -- 
 data CurrentChoreResponse = CurrentChoreResponse {
   -- | chore_id
-  currentChoreResponseChore_id :: (Maybe.Maybe GHC.Types.Int)
+  currentChoreResponseChore_id :: (GHC.Internal.Maybe.Maybe GHC.Types.Int)
   -- | chore_name
-  , currentChoreResponseChore_name :: (Maybe.Maybe Data.Text.Internal.Text)
+  , currentChoreResponseChore_name :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
   -- | is_reassigned
-  , currentChoreResponseIs_reassigned :: (Maybe.Maybe GHC.Types.Bool)
+  , currentChoreResponseIs_reassigned :: (GHC.Internal.Maybe.Maybe GHC.Types.Bool)
   -- | is_rescheduled
-  , currentChoreResponseIs_rescheduled :: (Maybe.Maybe GHC.Types.Bool)
+  , currentChoreResponseIs_rescheduled :: (GHC.Internal.Maybe.Maybe GHC.Types.Bool)
   -- | last_tracked_time
-  , currentChoreResponseLast_tracked_time :: (Maybe.Maybe Data.Text.Internal.Text)
+  , currentChoreResponseLast_tracked_time :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
   -- | next_estimated_execution_time: The next estimated execution time of this chore, 2999-12-31 23:59:59 when the given chore has a period_type of manually
-  , currentChoreResponseNext_estimated_execution_time :: (Maybe.Maybe Data.Text.Internal.Text)
+  , currentChoreResponseNext_estimated_execution_time :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
   -- | next_execution_assigned_to_user_id
-  , currentChoreResponseNext_execution_assigned_to_user_id :: (Maybe.Maybe GHC.Types.Int)
+  , currentChoreResponseNext_execution_assigned_to_user_id :: (GHC.Internal.Maybe.Maybe GHC.Types.Int)
   -- | next_execution_assigned_user: A user object without the *password* and with an additional *display_name* property
-  , currentChoreResponseNext_execution_assigned_user :: (Maybe.Maybe UserDto)
+  , currentChoreResponseNext_execution_assigned_user :: (GHC.Internal.Maybe.Maybe UserDto)
   -- | track_date_only
-  , currentChoreResponseTrack_date_only :: (Maybe.Maybe GHC.Types.Bool)
-  } deriving (Show.Show
+  , currentChoreResponseTrack_date_only :: (GHC.Internal.Maybe.Maybe GHC.Types.Bool)
+  } deriving (GHC.Internal.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.Types.ToJSON.ToJSON CurrentChoreResponse
-    where {toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe Base.mempty (Base.pure Base.. ("chore_id" Data.Aeson.Types.ToJSON..=)) (currentChoreResponseChore_id obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("chore_name" Data.Aeson.Types.ToJSON..=)) (currentChoreResponseChore_name obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("is_reassigned" Data.Aeson.Types.ToJSON..=)) (currentChoreResponseIs_reassigned obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("is_rescheduled" Data.Aeson.Types.ToJSON..=)) (currentChoreResponseIs_rescheduled obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("last_tracked_time" Data.Aeson.Types.ToJSON..=)) (currentChoreResponseLast_tracked_time obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("next_estimated_execution_time" Data.Aeson.Types.ToJSON..=)) (currentChoreResponseNext_estimated_execution_time obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("next_execution_assigned_to_user_id" Data.Aeson.Types.ToJSON..=)) (currentChoreResponseNext_execution_assigned_to_user_id obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("next_execution_assigned_user" Data.Aeson.Types.ToJSON..=)) (currentChoreResponseNext_execution_assigned_user obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("track_date_only" Data.Aeson.Types.ToJSON..=)) (currentChoreResponseTrack_date_only obj) : Base.mempty));
-           toEncoding obj = Data.Aeson.Encoding.Internal.pairs (Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe Base.mempty (Base.pure Base.. ("chore_id" Data.Aeson.Types.ToJSON..=)) (currentChoreResponseChore_id obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("chore_name" Data.Aeson.Types.ToJSON..=)) (currentChoreResponseChore_name obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("is_reassigned" Data.Aeson.Types.ToJSON..=)) (currentChoreResponseIs_reassigned obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("is_rescheduled" Data.Aeson.Types.ToJSON..=)) (currentChoreResponseIs_rescheduled obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("last_tracked_time" Data.Aeson.Types.ToJSON..=)) (currentChoreResponseLast_tracked_time obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("next_estimated_execution_time" Data.Aeson.Types.ToJSON..=)) (currentChoreResponseNext_estimated_execution_time obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("next_execution_assigned_to_user_id" Data.Aeson.Types.ToJSON..=)) (currentChoreResponseNext_execution_assigned_to_user_id obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("next_execution_assigned_user" Data.Aeson.Types.ToJSON..=)) (currentChoreResponseNext_execution_assigned_user obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("track_date_only" Data.Aeson.Types.ToJSON..=)) (currentChoreResponseTrack_date_only obj) : Base.mempty)))}
+    where {toJSON obj = Data.Aeson.Types.Internal.object (GHC.Internal.Data.Foldable.concat (GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("chore_id" Data.Aeson.Types.ToJSON..=)) (currentChoreResponseChore_id obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("chore_name" Data.Aeson.Types.ToJSON..=)) (currentChoreResponseChore_name obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("is_reassigned" Data.Aeson.Types.ToJSON..=)) (currentChoreResponseIs_reassigned obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("is_rescheduled" Data.Aeson.Types.ToJSON..=)) (currentChoreResponseIs_rescheduled obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("last_tracked_time" Data.Aeson.Types.ToJSON..=)) (currentChoreResponseLast_tracked_time obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("next_estimated_execution_time" Data.Aeson.Types.ToJSON..=)) (currentChoreResponseNext_estimated_execution_time obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("next_execution_assigned_to_user_id" Data.Aeson.Types.ToJSON..=)) (currentChoreResponseNext_execution_assigned_to_user_id obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("next_execution_assigned_user" Data.Aeson.Types.ToJSON..=)) (currentChoreResponseNext_execution_assigned_user obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("track_date_only" Data.Aeson.Types.ToJSON..=)) (currentChoreResponseTrack_date_only obj) : GHC.Internal.Base.mempty));
+           toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Internal.Base.mconcat (GHC.Internal.Data.Foldable.concat (GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("chore_id" Data.Aeson.Types.ToJSON..=)) (currentChoreResponseChore_id obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("chore_name" Data.Aeson.Types.ToJSON..=)) (currentChoreResponseChore_name obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("is_reassigned" Data.Aeson.Types.ToJSON..=)) (currentChoreResponseIs_reassigned obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("is_rescheduled" Data.Aeson.Types.ToJSON..=)) (currentChoreResponseIs_rescheduled obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("last_tracked_time" Data.Aeson.Types.ToJSON..=)) (currentChoreResponseLast_tracked_time obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("next_estimated_execution_time" Data.Aeson.Types.ToJSON..=)) (currentChoreResponseNext_estimated_execution_time obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("next_execution_assigned_to_user_id" Data.Aeson.Types.ToJSON..=)) (currentChoreResponseNext_execution_assigned_to_user_id obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("next_execution_assigned_user" Data.Aeson.Types.ToJSON..=)) (currentChoreResponseNext_execution_assigned_user obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("track_date_only" Data.Aeson.Types.ToJSON..=)) (currentChoreResponseTrack_date_only obj) : GHC.Internal.Base.mempty)))}
 instance Data.Aeson.Types.FromJSON.FromJSON CurrentChoreResponse
-    where {parseJSON = Data.Aeson.Types.FromJSON.withObject "CurrentChoreResponse" (\obj -> ((((((((Base.pure CurrentChoreResponse Base.<*> (obj Data.Aeson.Types.FromJSON..:! "chore_id")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "chore_name")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "is_reassigned")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "is_rescheduled")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "last_tracked_time")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "next_estimated_execution_time")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "next_execution_assigned_to_user_id")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "next_execution_assigned_user")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "track_date_only"))}
+    where {parseJSON = Data.Aeson.Types.FromJSON.withObject "CurrentChoreResponse" (\obj -> ((((((((GHC.Internal.Base.pure CurrentChoreResponse GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "chore_id")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "chore_name")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "is_reassigned")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "is_rescheduled")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "last_tracked_time")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "next_estimated_execution_time")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "next_execution_assigned_to_user_id")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "next_execution_assigned_user")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "track_date_only"))}
 -- | Create a new 'CurrentChoreResponse' with all required fields.
 mkCurrentChoreResponse :: CurrentChoreResponse
-mkCurrentChoreResponse = CurrentChoreResponse{currentChoreResponseChore_id = Maybe.Nothing,
-                                              currentChoreResponseChore_name = Maybe.Nothing,
-                                              currentChoreResponseIs_reassigned = Maybe.Nothing,
-                                              currentChoreResponseIs_rescheduled = Maybe.Nothing,
-                                              currentChoreResponseLast_tracked_time = Maybe.Nothing,
-                                              currentChoreResponseNext_estimated_execution_time = Maybe.Nothing,
-                                              currentChoreResponseNext_execution_assigned_to_user_id = Maybe.Nothing,
-                                              currentChoreResponseNext_execution_assigned_user = Maybe.Nothing,
-                                              currentChoreResponseTrack_date_only = Maybe.Nothing}
+mkCurrentChoreResponse = CurrentChoreResponse{currentChoreResponseChore_id = GHC.Internal.Maybe.Nothing,
+                                              currentChoreResponseChore_name = GHC.Internal.Maybe.Nothing,
+                                              currentChoreResponseIs_reassigned = GHC.Internal.Maybe.Nothing,
+                                              currentChoreResponseIs_rescheduled = GHC.Internal.Maybe.Nothing,
+                                              currentChoreResponseLast_tracked_time = GHC.Internal.Maybe.Nothing,
+                                              currentChoreResponseNext_estimated_execution_time = GHC.Internal.Maybe.Nothing,
+                                              currentChoreResponseNext_execution_assigned_to_user_id = GHC.Internal.Maybe.Nothing,
+                                              currentChoreResponseNext_execution_assigned_user = GHC.Internal.Maybe.Nothing,
+                                              currentChoreResponseTrack_date_only = GHC.Internal.Maybe.Nothing}

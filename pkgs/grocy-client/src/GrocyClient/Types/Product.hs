@@ -8,7 +8,9 @@ module GrocyClient.Types.Product where
 
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
+import qualified Prelude as GHC.Internal.Maybe
 import qualified Control.Monad.Fail
+import qualified Control.Monad.Fail as GHC.Internal.Control.Monad.Fail
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
@@ -18,17 +20,23 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.ByteString
 import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
+import qualified Data.Foldable as GHC.Internal.Data.Foldable
 import qualified Data.Functor
+import qualified Data.Functor as GHC.Internal.Data.Functor
 import qualified Data.Maybe
+import qualified Data.Maybe as GHC.Internal.Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text as Data.Text.Internal
 import qualified Data.Time.Calendar as Data.Time.Calendar.Days
 import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified GHC.Base
+import qualified GHC.Base as GHC.Internal.Base
 import qualified GHC.Classes
 import qualified GHC.Int
+import qualified GHC.Int as GHC.Internal.Int
 import qualified GHC.Show
+import qualified GHC.Show as GHC.Internal.Show
 import qualified GHC.Types
 import qualified GrocyClient.Common
 import GrocyClient.TypeAlias
@@ -38,92 +46,92 @@ import GrocyClient.TypeAlias
 -- 
 data Product = Product {
   -- | auto_reprint_stock_label
-  productAuto_reprint_stock_label :: (Maybe.Maybe GHC.Types.Int)
+  productAuto_reprint_stock_label :: (GHC.Internal.Maybe.Maybe GHC.Types.Int)
   -- | default_best_before_days
   -- 
   -- Constraints:
   -- 
   -- * Minimum  of 0.0
-  , productDefault_best_before_days :: (Maybe.Maybe GHC.Types.Int)
+  , productDefault_best_before_days :: (GHC.Internal.Maybe.Maybe GHC.Types.Int)
   -- | default_best_before_days_after_open
   -- 
   -- Constraints:
   -- 
   -- * Minimum  of 0.0
-  , productDefault_best_before_days_after_open :: (Maybe.Maybe GHC.Types.Int)
+  , productDefault_best_before_days_after_open :: (GHC.Internal.Maybe.Maybe GHC.Types.Int)
   -- | default_consume_location_id
-  , productDefault_consume_location_id :: (Maybe.Maybe GHC.Types.Int)
+  , productDefault_consume_location_id :: (GHC.Internal.Maybe.Maybe GHC.Types.Int)
   -- | description
-  , productDescription :: (Maybe.Maybe Data.Text.Internal.Text)
+  , productDescription :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
   -- | enable_tare_weight_handling
-  , productEnable_tare_weight_handling :: (Maybe.Maybe GHC.Types.Int)
+  , productEnable_tare_weight_handling :: (GHC.Internal.Maybe.Maybe GHC.Types.Int)
   -- | id
-  , productId :: (Maybe.Maybe GHC.Types.Int)
+  , productId :: (GHC.Internal.Maybe.Maybe GHC.Types.Int)
   -- | location_id
-  , productLocation_id :: (Maybe.Maybe GHC.Types.Int)
+  , productLocation_id :: (GHC.Internal.Maybe.Maybe GHC.Types.Int)
   -- | min_stock_amount
   -- 
   -- Constraints:
   -- 
   -- * Minimum  of 0.0
-  , productMin_stock_amount :: (Maybe.Maybe GHC.Types.Double)
+  , productMin_stock_amount :: (GHC.Internal.Maybe.Maybe GHC.Types.Double)
   -- | move_on_open
-  , productMove_on_open :: (Maybe.Maybe GHC.Types.Int)
+  , productMove_on_open :: (GHC.Internal.Maybe.Maybe GHC.Types.Int)
   -- | name
-  , productName :: (Maybe.Maybe Data.Text.Internal.Text)
+  , productName :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
   -- | no_own_stock
-  , productNo_own_stock :: (Maybe.Maybe GHC.Types.Int)
+  , productNo_own_stock :: (GHC.Internal.Maybe.Maybe GHC.Types.Int)
   -- | not_check_stock_fulfillment_for_recipes
-  , productNot_check_stock_fulfillment_for_recipes :: (Maybe.Maybe GHC.Types.Int)
+  , productNot_check_stock_fulfillment_for_recipes :: (GHC.Internal.Maybe.Maybe GHC.Types.Int)
   -- | picture_file_name
-  , productPicture_file_name :: (Maybe.Maybe Data.Text.Internal.Text)
+  , productPicture_file_name :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
   -- | product_group_id
-  , productProduct_group_id :: (Maybe.Maybe GHC.Types.Int)
+  , productProduct_group_id :: (GHC.Internal.Maybe.Maybe GHC.Types.Int)
   -- | qu_id_purchase
-  , productQu_id_purchase :: (Maybe.Maybe GHC.Types.Int)
+  , productQu_id_purchase :: (GHC.Internal.Maybe.Maybe GHC.Types.Int)
   -- | qu_id_stock
-  , productQu_id_stock :: (Maybe.Maybe GHC.Types.Int)
+  , productQu_id_stock :: (GHC.Internal.Maybe.Maybe GHC.Types.Int)
   -- | row_created_timestamp
-  , productRow_created_timestamp :: (Maybe.Maybe Data.Text.Internal.Text)
+  , productRow_created_timestamp :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
   -- | shopping_location_id
-  , productShopping_location_id :: (Maybe.Maybe GHC.Types.Int)
+  , productShopping_location_id :: (GHC.Internal.Maybe.Maybe GHC.Types.Int)
   -- | should_not_be_frozen
-  , productShould_not_be_frozen :: (Maybe.Maybe GHC.Types.Int)
+  , productShould_not_be_frozen :: (GHC.Internal.Maybe.Maybe GHC.Types.Int)
   -- | tare_weight
-  , productTare_weight :: (Maybe.Maybe GHC.Types.Double)
+  , productTare_weight :: (GHC.Internal.Maybe.Maybe GHC.Types.Double)
   -- | treat_opened_as_out_of_stock
-  , productTreat_opened_as_out_of_stock :: (Maybe.Maybe GHC.Types.Int)
+  , productTreat_opened_as_out_of_stock :: (GHC.Internal.Maybe.Maybe GHC.Types.Int)
   -- | userfields: Key\/value pairs of userfields
-  , productUserfields :: (Maybe.Maybe Data.Aeson.Types.Internal.Object)
-  } deriving (Show.Show
+  , productUserfields :: (GHC.Internal.Maybe.Maybe Data.Aeson.Types.Internal.Object)
+  } deriving (GHC.Internal.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.Types.ToJSON.ToJSON Product
-    where {toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe Base.mempty (Base.pure Base.. ("auto_reprint_stock_label" Data.Aeson.Types.ToJSON..=)) (productAuto_reprint_stock_label obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("default_best_before_days" Data.Aeson.Types.ToJSON..=)) (productDefault_best_before_days obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("default_best_before_days_after_open" Data.Aeson.Types.ToJSON..=)) (productDefault_best_before_days_after_open obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("default_consume_location_id" Data.Aeson.Types.ToJSON..=)) (productDefault_consume_location_id obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("description" Data.Aeson.Types.ToJSON..=)) (productDescription obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("enable_tare_weight_handling" Data.Aeson.Types.ToJSON..=)) (productEnable_tare_weight_handling obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("id" Data.Aeson.Types.ToJSON..=)) (productId obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("location_id" Data.Aeson.Types.ToJSON..=)) (productLocation_id obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("min_stock_amount" Data.Aeson.Types.ToJSON..=)) (productMin_stock_amount obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("move_on_open" Data.Aeson.Types.ToJSON..=)) (productMove_on_open obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("name" Data.Aeson.Types.ToJSON..=)) (productName obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("no_own_stock" Data.Aeson.Types.ToJSON..=)) (productNo_own_stock obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("not_check_stock_fulfillment_for_recipes" Data.Aeson.Types.ToJSON..=)) (productNot_check_stock_fulfillment_for_recipes obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("picture_file_name" Data.Aeson.Types.ToJSON..=)) (productPicture_file_name obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("product_group_id" Data.Aeson.Types.ToJSON..=)) (productProduct_group_id obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("qu_id_purchase" Data.Aeson.Types.ToJSON..=)) (productQu_id_purchase obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("qu_id_stock" Data.Aeson.Types.ToJSON..=)) (productQu_id_stock obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("row_created_timestamp" Data.Aeson.Types.ToJSON..=)) (productRow_created_timestamp obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("shopping_location_id" Data.Aeson.Types.ToJSON..=)) (productShopping_location_id obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("should_not_be_frozen" Data.Aeson.Types.ToJSON..=)) (productShould_not_be_frozen obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("tare_weight" Data.Aeson.Types.ToJSON..=)) (productTare_weight obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("treat_opened_as_out_of_stock" Data.Aeson.Types.ToJSON..=)) (productTreat_opened_as_out_of_stock obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("userfields" Data.Aeson.Types.ToJSON..=)) (productUserfields obj) : Base.mempty));
-           toEncoding obj = Data.Aeson.Encoding.Internal.pairs (Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe Base.mempty (Base.pure Base.. ("auto_reprint_stock_label" Data.Aeson.Types.ToJSON..=)) (productAuto_reprint_stock_label obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("default_best_before_days" Data.Aeson.Types.ToJSON..=)) (productDefault_best_before_days obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("default_best_before_days_after_open" Data.Aeson.Types.ToJSON..=)) (productDefault_best_before_days_after_open obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("default_consume_location_id" Data.Aeson.Types.ToJSON..=)) (productDefault_consume_location_id obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("description" Data.Aeson.Types.ToJSON..=)) (productDescription obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("enable_tare_weight_handling" Data.Aeson.Types.ToJSON..=)) (productEnable_tare_weight_handling obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("id" Data.Aeson.Types.ToJSON..=)) (productId obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("location_id" Data.Aeson.Types.ToJSON..=)) (productLocation_id obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("min_stock_amount" Data.Aeson.Types.ToJSON..=)) (productMin_stock_amount obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("move_on_open" Data.Aeson.Types.ToJSON..=)) (productMove_on_open obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("name" Data.Aeson.Types.ToJSON..=)) (productName obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("no_own_stock" Data.Aeson.Types.ToJSON..=)) (productNo_own_stock obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("not_check_stock_fulfillment_for_recipes" Data.Aeson.Types.ToJSON..=)) (productNot_check_stock_fulfillment_for_recipes obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("picture_file_name" Data.Aeson.Types.ToJSON..=)) (productPicture_file_name obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("product_group_id" Data.Aeson.Types.ToJSON..=)) (productProduct_group_id obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("qu_id_purchase" Data.Aeson.Types.ToJSON..=)) (productQu_id_purchase obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("qu_id_stock" Data.Aeson.Types.ToJSON..=)) (productQu_id_stock obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("row_created_timestamp" Data.Aeson.Types.ToJSON..=)) (productRow_created_timestamp obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("shopping_location_id" Data.Aeson.Types.ToJSON..=)) (productShopping_location_id obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("should_not_be_frozen" Data.Aeson.Types.ToJSON..=)) (productShould_not_be_frozen obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("tare_weight" Data.Aeson.Types.ToJSON..=)) (productTare_weight obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("treat_opened_as_out_of_stock" Data.Aeson.Types.ToJSON..=)) (productTreat_opened_as_out_of_stock obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("userfields" Data.Aeson.Types.ToJSON..=)) (productUserfields obj) : Base.mempty)))}
+    where {toJSON obj = Data.Aeson.Types.Internal.object (GHC.Internal.Data.Foldable.concat (GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("auto_reprint_stock_label" Data.Aeson.Types.ToJSON..=)) (productAuto_reprint_stock_label obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("default_best_before_days" Data.Aeson.Types.ToJSON..=)) (productDefault_best_before_days obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("default_best_before_days_after_open" Data.Aeson.Types.ToJSON..=)) (productDefault_best_before_days_after_open obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("default_consume_location_id" Data.Aeson.Types.ToJSON..=)) (productDefault_consume_location_id obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (productDescription obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("enable_tare_weight_handling" Data.Aeson.Types.ToJSON..=)) (productEnable_tare_weight_handling obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("id" Data.Aeson.Types.ToJSON..=)) (productId obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("location_id" Data.Aeson.Types.ToJSON..=)) (productLocation_id obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("min_stock_amount" Data.Aeson.Types.ToJSON..=)) (productMin_stock_amount obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("move_on_open" Data.Aeson.Types.ToJSON..=)) (productMove_on_open obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("name" Data.Aeson.Types.ToJSON..=)) (productName obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("no_own_stock" Data.Aeson.Types.ToJSON..=)) (productNo_own_stock obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("not_check_stock_fulfillment_for_recipes" Data.Aeson.Types.ToJSON..=)) (productNot_check_stock_fulfillment_for_recipes obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("picture_file_name" Data.Aeson.Types.ToJSON..=)) (productPicture_file_name obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("product_group_id" Data.Aeson.Types.ToJSON..=)) (productProduct_group_id obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("qu_id_purchase" Data.Aeson.Types.ToJSON..=)) (productQu_id_purchase obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("qu_id_stock" Data.Aeson.Types.ToJSON..=)) (productQu_id_stock obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("row_created_timestamp" Data.Aeson.Types.ToJSON..=)) (productRow_created_timestamp obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("shopping_location_id" Data.Aeson.Types.ToJSON..=)) (productShopping_location_id obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("should_not_be_frozen" Data.Aeson.Types.ToJSON..=)) (productShould_not_be_frozen obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("tare_weight" Data.Aeson.Types.ToJSON..=)) (productTare_weight obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("treat_opened_as_out_of_stock" Data.Aeson.Types.ToJSON..=)) (productTreat_opened_as_out_of_stock obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("userfields" Data.Aeson.Types.ToJSON..=)) (productUserfields obj) : GHC.Internal.Base.mempty));
+           toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Internal.Base.mconcat (GHC.Internal.Data.Foldable.concat (GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("auto_reprint_stock_label" Data.Aeson.Types.ToJSON..=)) (productAuto_reprint_stock_label obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("default_best_before_days" Data.Aeson.Types.ToJSON..=)) (productDefault_best_before_days obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("default_best_before_days_after_open" Data.Aeson.Types.ToJSON..=)) (productDefault_best_before_days_after_open obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("default_consume_location_id" Data.Aeson.Types.ToJSON..=)) (productDefault_consume_location_id obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (productDescription obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("enable_tare_weight_handling" Data.Aeson.Types.ToJSON..=)) (productEnable_tare_weight_handling obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("id" Data.Aeson.Types.ToJSON..=)) (productId obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("location_id" Data.Aeson.Types.ToJSON..=)) (productLocation_id obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("min_stock_amount" Data.Aeson.Types.ToJSON..=)) (productMin_stock_amount obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("move_on_open" Data.Aeson.Types.ToJSON..=)) (productMove_on_open obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("name" Data.Aeson.Types.ToJSON..=)) (productName obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("no_own_stock" Data.Aeson.Types.ToJSON..=)) (productNo_own_stock obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("not_check_stock_fulfillment_for_recipes" Data.Aeson.Types.ToJSON..=)) (productNot_check_stock_fulfillment_for_recipes obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("picture_file_name" Data.Aeson.Types.ToJSON..=)) (productPicture_file_name obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("product_group_id" Data.Aeson.Types.ToJSON..=)) (productProduct_group_id obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("qu_id_purchase" Data.Aeson.Types.ToJSON..=)) (productQu_id_purchase obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("qu_id_stock" Data.Aeson.Types.ToJSON..=)) (productQu_id_stock obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("row_created_timestamp" Data.Aeson.Types.ToJSON..=)) (productRow_created_timestamp obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("shopping_location_id" Data.Aeson.Types.ToJSON..=)) (productShopping_location_id obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("should_not_be_frozen" Data.Aeson.Types.ToJSON..=)) (productShould_not_be_frozen obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("tare_weight" Data.Aeson.Types.ToJSON..=)) (productTare_weight obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("treat_opened_as_out_of_stock" Data.Aeson.Types.ToJSON..=)) (productTreat_opened_as_out_of_stock obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("userfields" Data.Aeson.Types.ToJSON..=)) (productUserfields obj) : GHC.Internal.Base.mempty)))}
 instance Data.Aeson.Types.FromJSON.FromJSON Product
-    where {parseJSON = Data.Aeson.Types.FromJSON.withObject "Product" (\obj -> ((((((((((((((((((((((Base.pure Product Base.<*> (obj Data.Aeson.Types.FromJSON..:! "auto_reprint_stock_label")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "default_best_before_days")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "default_best_before_days_after_open")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "default_consume_location_id")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "description")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "enable_tare_weight_handling")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "id")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "location_id")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "min_stock_amount")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "move_on_open")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "name")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "no_own_stock")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "not_check_stock_fulfillment_for_recipes")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "picture_file_name")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "product_group_id")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "qu_id_purchase")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "qu_id_stock")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "row_created_timestamp")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "shopping_location_id")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "should_not_be_frozen")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tare_weight")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "treat_opened_as_out_of_stock")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "userfields"))}
+    where {parseJSON = Data.Aeson.Types.FromJSON.withObject "Product" (\obj -> ((((((((((((((((((((((GHC.Internal.Base.pure Product GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "auto_reprint_stock_label")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "default_best_before_days")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "default_best_before_days_after_open")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "default_consume_location_id")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "description")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "enable_tare_weight_handling")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "id")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "location_id")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "min_stock_amount")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "move_on_open")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "name")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "no_own_stock")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "not_check_stock_fulfillment_for_recipes")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "picture_file_name")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "product_group_id")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "qu_id_purchase")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "qu_id_stock")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "row_created_timestamp")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "shopping_location_id")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "should_not_be_frozen")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tare_weight")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "treat_opened_as_out_of_stock")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "userfields"))}
 -- | Create a new 'Product' with all required fields.
 mkProduct :: Product
-mkProduct = Product{productAuto_reprint_stock_label = Maybe.Nothing,
-                    productDefault_best_before_days = Maybe.Nothing,
-                    productDefault_best_before_days_after_open = Maybe.Nothing,
-                    productDefault_consume_location_id = Maybe.Nothing,
-                    productDescription = Maybe.Nothing,
-                    productEnable_tare_weight_handling = Maybe.Nothing,
-                    productId = Maybe.Nothing,
-                    productLocation_id = Maybe.Nothing,
-                    productMin_stock_amount = Maybe.Nothing,
-                    productMove_on_open = Maybe.Nothing,
-                    productName = Maybe.Nothing,
-                    productNo_own_stock = Maybe.Nothing,
-                    productNot_check_stock_fulfillment_for_recipes = Maybe.Nothing,
-                    productPicture_file_name = Maybe.Nothing,
-                    productProduct_group_id = Maybe.Nothing,
-                    productQu_id_purchase = Maybe.Nothing,
-                    productQu_id_stock = Maybe.Nothing,
-                    productRow_created_timestamp = Maybe.Nothing,
-                    productShopping_location_id = Maybe.Nothing,
-                    productShould_not_be_frozen = Maybe.Nothing,
-                    productTare_weight = Maybe.Nothing,
-                    productTreat_opened_as_out_of_stock = Maybe.Nothing,
-                    productUserfields = Maybe.Nothing}
+mkProduct = Product{productAuto_reprint_stock_label = GHC.Internal.Maybe.Nothing,
+                    productDefault_best_before_days = GHC.Internal.Maybe.Nothing,
+                    productDefault_best_before_days_after_open = GHC.Internal.Maybe.Nothing,
+                    productDefault_consume_location_id = GHC.Internal.Maybe.Nothing,
+                    productDescription = GHC.Internal.Maybe.Nothing,
+                    productEnable_tare_weight_handling = GHC.Internal.Maybe.Nothing,
+                    productId = GHC.Internal.Maybe.Nothing,
+                    productLocation_id = GHC.Internal.Maybe.Nothing,
+                    productMin_stock_amount = GHC.Internal.Maybe.Nothing,
+                    productMove_on_open = GHC.Internal.Maybe.Nothing,
+                    productName = GHC.Internal.Maybe.Nothing,
+                    productNo_own_stock = GHC.Internal.Maybe.Nothing,
+                    productNot_check_stock_fulfillment_for_recipes = GHC.Internal.Maybe.Nothing,
+                    productPicture_file_name = GHC.Internal.Maybe.Nothing,
+                    productProduct_group_id = GHC.Internal.Maybe.Nothing,
+                    productQu_id_purchase = GHC.Internal.Maybe.Nothing,
+                    productQu_id_stock = GHC.Internal.Maybe.Nothing,
+                    productRow_created_timestamp = GHC.Internal.Maybe.Nothing,
+                    productShopping_location_id = GHC.Internal.Maybe.Nothing,
+                    productShould_not_be_frozen = GHC.Internal.Maybe.Nothing,
+                    productTare_weight = GHC.Internal.Maybe.Nothing,
+                    productTreat_opened_as_out_of_stock = GHC.Internal.Maybe.Nothing,
+                    productUserfields = GHC.Internal.Maybe.Nothing}

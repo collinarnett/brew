@@ -8,7 +8,9 @@ module GrocyClient.Types.Error500 where
 
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
+import qualified Prelude as GHC.Internal.Maybe
 import qualified Control.Monad.Fail
+import qualified Control.Monad.Fail as GHC.Internal.Control.Monad.Fail
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
@@ -18,17 +20,23 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.ByteString
 import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
+import qualified Data.Foldable as GHC.Internal.Data.Foldable
 import qualified Data.Functor
+import qualified Data.Functor as GHC.Internal.Data.Functor
 import qualified Data.Maybe
+import qualified Data.Maybe as GHC.Internal.Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text as Data.Text.Internal
 import qualified Data.Time.Calendar as Data.Time.Calendar.Days
 import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified GHC.Base
+import qualified GHC.Base as GHC.Internal.Base
 import qualified GHC.Classes
 import qualified GHC.Int
+import qualified GHC.Int as GHC.Internal.Int
 import qualified GHC.Show
+import qualified GHC.Show as GHC.Internal.Show
 import qualified GHC.Types
 import qualified GrocyClient.Common
 import GrocyClient.TypeAlias
@@ -38,39 +46,39 @@ import GrocyClient.TypeAlias
 -- 
 data Error500 = Error500 {
   -- | error_details
-  error500Error_details :: (Maybe.Maybe Error500Error_details)
+  error500Error_details :: (GHC.Internal.Maybe.Maybe Error500Error_details)
   -- | error_message
-  , error500Error_message :: (Maybe.Maybe Data.Text.Internal.Text)
-  } deriving (Show.Show
+  , error500Error_message :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
+  } deriving (GHC.Internal.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.Types.ToJSON.ToJSON Error500
-    where {toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe Base.mempty (Base.pure Base.. ("error_details" Data.Aeson.Types.ToJSON..=)) (error500Error_details obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("error_message" Data.Aeson.Types.ToJSON..=)) (error500Error_message obj) : Base.mempty));
-           toEncoding obj = Data.Aeson.Encoding.Internal.pairs (Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe Base.mempty (Base.pure Base.. ("error_details" Data.Aeson.Types.ToJSON..=)) (error500Error_details obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("error_message" Data.Aeson.Types.ToJSON..=)) (error500Error_message obj) : Base.mempty)))}
+    where {toJSON obj = Data.Aeson.Types.Internal.object (GHC.Internal.Data.Foldable.concat (GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("error_details" Data.Aeson.Types.ToJSON..=)) (error500Error_details obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("error_message" Data.Aeson.Types.ToJSON..=)) (error500Error_message obj) : GHC.Internal.Base.mempty));
+           toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Internal.Base.mconcat (GHC.Internal.Data.Foldable.concat (GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("error_details" Data.Aeson.Types.ToJSON..=)) (error500Error_details obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("error_message" Data.Aeson.Types.ToJSON..=)) (error500Error_message obj) : GHC.Internal.Base.mempty)))}
 instance Data.Aeson.Types.FromJSON.FromJSON Error500
-    where {parseJSON = Data.Aeson.Types.FromJSON.withObject "Error500" (\obj -> (Base.pure Error500 Base.<*> (obj Data.Aeson.Types.FromJSON..:! "error_details")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "error_message"))}
+    where {parseJSON = Data.Aeson.Types.FromJSON.withObject "Error500" (\obj -> (GHC.Internal.Base.pure Error500 GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "error_details")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "error_message"))}
 -- | Create a new 'Error500' with all required fields.
 mkError500 :: Error500
-mkError500 = Error500{error500Error_details = Maybe.Nothing,
-                      error500Error_message = Maybe.Nothing}
+mkError500 = Error500{error500Error_details = GHC.Internal.Maybe.Nothing,
+                      error500Error_message = GHC.Internal.Maybe.Nothing}
 -- | Defines the object schema located at @components.schemas.Error500.properties.error_details@ in the specification.
 -- 
 -- 
 data Error500Error_details = Error500Error_details {
   -- | file
-  error500Error_detailsFile :: (Maybe.Maybe Data.Text.Internal.Text)
+  error500Error_detailsFile :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
   -- | line
-  , error500Error_detailsLine :: (Maybe.Maybe GHC.Types.Int)
+  , error500Error_detailsLine :: (GHC.Internal.Maybe.Maybe GHC.Types.Int)
   -- | stack_trace
-  , error500Error_detailsStack_trace :: (Maybe.Maybe Data.Text.Internal.Text)
-  } deriving (Show.Show
+  , error500Error_detailsStack_trace :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
+  } deriving (GHC.Internal.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.Types.ToJSON.ToJSON Error500Error_details
-    where {toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe Base.mempty (Base.pure Base.. ("file" Data.Aeson.Types.ToJSON..=)) (error500Error_detailsFile obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("line" Data.Aeson.Types.ToJSON..=)) (error500Error_detailsLine obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("stack_trace" Data.Aeson.Types.ToJSON..=)) (error500Error_detailsStack_trace obj) : Base.mempty));
-           toEncoding obj = Data.Aeson.Encoding.Internal.pairs (Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe Base.mempty (Base.pure Base.. ("file" Data.Aeson.Types.ToJSON..=)) (error500Error_detailsFile obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("line" Data.Aeson.Types.ToJSON..=)) (error500Error_detailsLine obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("stack_trace" Data.Aeson.Types.ToJSON..=)) (error500Error_detailsStack_trace obj) : Base.mempty)))}
+    where {toJSON obj = Data.Aeson.Types.Internal.object (GHC.Internal.Data.Foldable.concat (GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("file" Data.Aeson.Types.ToJSON..=)) (error500Error_detailsFile obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("line" Data.Aeson.Types.ToJSON..=)) (error500Error_detailsLine obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("stack_trace" Data.Aeson.Types.ToJSON..=)) (error500Error_detailsStack_trace obj) : GHC.Internal.Base.mempty));
+           toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Internal.Base.mconcat (GHC.Internal.Data.Foldable.concat (GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("file" Data.Aeson.Types.ToJSON..=)) (error500Error_detailsFile obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("line" Data.Aeson.Types.ToJSON..=)) (error500Error_detailsLine obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("stack_trace" Data.Aeson.Types.ToJSON..=)) (error500Error_detailsStack_trace obj) : GHC.Internal.Base.mempty)))}
 instance Data.Aeson.Types.FromJSON.FromJSON Error500Error_details
-    where {parseJSON = Data.Aeson.Types.FromJSON.withObject "Error500Error_details" (\obj -> ((Base.pure Error500Error_details Base.<*> (obj Data.Aeson.Types.FromJSON..:! "file")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "line")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "stack_trace"))}
+    where {parseJSON = Data.Aeson.Types.FromJSON.withObject "Error500Error_details" (\obj -> ((GHC.Internal.Base.pure Error500Error_details GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "file")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "line")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "stack_trace"))}
 -- | Create a new 'Error500Error_details' with all required fields.
 mkError500Error_details :: Error500Error_details
-mkError500Error_details = Error500Error_details{error500Error_detailsFile = Maybe.Nothing,
-                                                error500Error_detailsLine = Maybe.Nothing,
-                                                error500Error_detailsStack_trace = Maybe.Nothing}
+mkError500Error_details = Error500Error_details{error500Error_detailsFile = GHC.Internal.Maybe.Nothing,
+                                                error500Error_detailsLine = GHC.Internal.Maybe.Nothing,
+                                                error500Error_detailsStack_trace = GHC.Internal.Maybe.Nothing}

@@ -15,15 +15,15 @@ import Data.Bifunctor (first)
 import Data.ByteString.Lazy qualified as LBS
 import Data.Set (Set)
 import Data.Set qualified as Set
+import Data.Text (Text)
 import Data.Time (UTCTime)
 import System.Directory (doesFileExist)
 import System.IO (hPutStrLn, stderr)
 
-import Grocy qualified
-import Grocy.Types (GrocyError, GrocyProduct (..), GrocySetup, SetupConfig)
-import Grocy.Types qualified
 import Walmart qualified
 import Walmart.Types (OrderId (..), OrderSummary (..), WalmartItem (..))
+import WalmartGrocy.Grocy qualified as Grocy
+import WalmartGrocy.Grocy (GrocyConfig, GrocySetup, SetupConfig)
 import WalmartGrocy.Reconcile (deduplicateBy, reconcile)
 import WalmartGrocy.Types
 
@@ -43,41 +43,48 @@ saveImportedOrders path ids =
   LBS.writeFile path (Aeson.encode (map unOrderId (Set.toList ids)))
 
 executePlan
-  :: Grocy.Types.Env -> GrocySetup -> UTCTime -> Bool -> ImportPlan
+  :: GrocyConfig -> GrocySetup -> UTCTime -> Bool -> ImportPlan
   -> IO (Either AppError ImportResult)
-executePlan env setup orderDate dryRun plan = runExceptT $ do
+executePlan gc setup orderDate dryRun plan = runExceptT $ do
   results <- traverse
-    (\a -> ExceptT $ first AppGrocyError <$> executeAction env setup dryRun orderDate a)
+    (\a -> ExceptT $ first AppGrocyError <$> executeAction gc setup dryRun orderDate a)
     (ipActions plan)
   pure ImportResult
     { irOrderId = ipOrderId plan
-    , irMatched = [(i, p) | (StockExisting i p, _) <- results]
-    , irCreated = [(i, p) | (CreateAndStock i, Just p) <- results]
+    , irMatched = [(i, (pid, n)) | (StockExisting i (pid, n), _) <- results]
+    , irCreated = [(i, (pid, n)) | (CreateAndStock i, Just (pid, n)) <- results]
     }
 
 executeAction
-  :: Grocy.Types.Env -> GrocySetup -> Bool -> UTCTime -> Action
-  -> IO (Either GrocyError (Action, Maybe GrocyProduct))
-executeAction env setup dryRun orderDate action = case action of
+  :: GrocyConfig -> GrocySetup -> Bool -> UTCTime -> Action
+  -> IO (Either Grocy.GrocyError (Action, Maybe (Int, Text)))
+executeAction gc setup dryRun orderDate action = case action of
   CreateAndStock item
     | dryRun    -> pure (Right (action, Nothing))
-    | otherwise -> runExceptT $ do
-        gp <- ExceptT $ Grocy.createProduct env setup (wiName item)
-        ExceptT $ Grocy.addStock env gp (wiQuantity item) (wiLinePrice item) orderDate
-        pure (action, Just gp)
-  StockExisting item gp
+    | otherwise -> do
+        result <- Grocy.createProduct gc setup (wiName item)
+        case result of
+          Left err -> pure (Left err)
+          Right (pid, name) -> do
+            stockResult <- Grocy.addStock gc pid (wiQuantity item) (wiLinePrice item) orderDate
+            case stockResult of
+              Left err -> pure (Left err)
+              Right () -> pure (Right (action, Just (pid, name)))
+  StockExisting item (pid, _)
     | dryRun    -> pure (Right (action, Nothing))
-    | otherwise -> runExceptT $ do
-        ExceptT $ Grocy.addStock env gp (wiQuantity item) (wiLinePrice item) orderDate
-        pure (action, Nothing)
+    | otherwise -> do
+        result <- Grocy.addStock gc pid (wiQuantity item) (wiLinePrice item) orderDate
+        case result of
+          Left err -> pure (Left err)
+          Right () -> pure (Right (action, Nothing))
 
 runImport
-  :: Walmart.Env -> Grocy.Types.Env -> SetupConfig -> FilePath
+  :: Walmart.Env -> GrocyConfig -> SetupConfig -> FilePath
   -> Verbosity -> ImportOptions
   -> IO (Either AppError [ImportResult])
-runImport walmartEnv grocyEnv setupCfg stateFile verbosity opts = runExceptT $ do
-  setup      <- ExceptT $ first AppGrocyError <$> Grocy.ensureSetup grocyEnv setupCfg
-  products   <- ExceptT $ first AppGrocyError <$> Grocy.getProducts grocyEnv
+runImport walmartEnv gc setupCfg stateFile verbosity opts = runExceptT $ do
+  setup      <- ExceptT $ first AppGrocyError <$> Grocy.ensureSetup gc setupCfg
+  products   <- ExceptT $ first AppGrocyError <$> Grocy.getProducts gc
   imported   <- lift $ loadImportedOrders stateFile
   summaries  <- ExceptT $ first AppWalmartError <$>
     Walmart.getOrders walmartEnv (ioSince opts) (ioLimit opts)
@@ -92,7 +99,7 @@ runImport walmartEnv grocyEnv setupCfg stateFile verbosity opts = runExceptT $ d
 
   let plans = map (reconcile products) orders
   results <- traverse
-    (\p -> ExceptT $ executePlan grocyEnv setup (ipOrderDate p) (ioDryRun opts) p)
+    (\p -> ExceptT $ executePlan gc setup (ipOrderDate p) (ioDryRun opts) p)
     plans
 
   when (not (ioDryRun opts)) $ lift $ do

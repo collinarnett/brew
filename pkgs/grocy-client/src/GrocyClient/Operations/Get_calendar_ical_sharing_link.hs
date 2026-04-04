@@ -9,21 +9,28 @@ module GrocyClient.Operations.Get_calendar_ical_sharing_link where
 
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
+import qualified Prelude as GHC.Internal.Maybe
 import qualified Control.Monad.Fail
+import qualified Control.Monad.Fail as GHC.Internal.Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Decoding
 import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
-import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString
 import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.ByteString as Data.ByteString.Internal.Type
 import qualified Data.Either
+import qualified Data.Either as GHC.Internal.Data.Either
 import qualified Data.Foldable
+import qualified Data.Foldable as GHC.Internal.Data.Foldable
 import qualified Data.Functor
+import qualified Data.Functor as GHC.Internal.Data.Functor
 import qualified Data.Maybe
+import qualified Data.Maybe as GHC.Internal.Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text as Data.Text.Internal
@@ -31,9 +38,12 @@ import qualified Data.Time.Calendar as Data.Time.Calendar.Days
 import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
+import qualified GHC.Base as GHC.Internal.Base
 import qualified GHC.Classes
 import qualified GHC.Int
+import qualified GHC.Int as GHC.Internal.Int
 import qualified GHC.Show
+import qualified GHC.Show as GHC.Internal.Show
 import qualified GHC.Types
 import qualified Network.HTTP.Client
 import qualified Network.HTTP.Client as Network.HTTP.Client.Request
@@ -49,48 +59,48 @@ import GrocyClient.Types
 -- 
 -- Returns a (public) sharing link for the calendar in iCal format
 get_calendar_ical_sharing_link :: forall m . GrocyClient.Common.MonadHTTP m => GrocyClient.Common.ClientT m (Network.HTTP.Client.Types.Response Get_calendar_ical_sharing_linkResponse) -- ^ Monadic computation which returns the result of the operation
-get_calendar_ical_sharing_link = Base.fmap (\response_0 -> Base.fmap (Data.Either.either Get_calendar_ical_sharing_linkResponseError Base.id Base.. (\response body -> if | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) -> Get_calendar_ical_sharing_linkResponse200 Data.Functor.<$> (Data.Aeson.Decoding.eitherDecodeStrict body :: Data.Either.Either Base.String
+get_calendar_ical_sharing_link = GHC.Internal.Base.fmap (\response_0 -> GHC.Internal.Base.fmap (GHC.Internal.Data.Either.either Get_calendar_ical_sharing_linkResponseError GHC.Internal.Base.id GHC.Internal.Base.. (\response body -> if | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) -> Get_calendar_ical_sharing_linkResponse200 GHC.Internal.Data.Functor.<$> (Data.Aeson.Decoding.eitherDecodeStrict body :: GHC.Internal.Data.Either.Either GHC.Internal.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             Get_calendar_ical_sharing_linkResponseBody200)
-                                                                                                                                                                                                                                           | Base.otherwise -> Data.Either.Left "Missing default response type") response_0) response_0) (GrocyClient.Common.doCallWithConfigurationM (Data.Text.toUpper Base.$ Data.Text.Internal.pack "GET") "/calendar/ical/sharing-link" Base.mempty)
+                                                                                                                                                                                                                                           | GHC.Internal.Base.otherwise -> GHC.Internal.Data.Either.Left "Missing default response type") response_0) response_0) (GrocyClient.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Internal.Base.$ Data.Text.Internal.pack "GET") "/calendar/ical/sharing-link" GHC.Internal.Base.mempty)
 -- | Represents a response of the operation 'get_calendar_ical_sharing_link'.
 -- 
 -- The response constructor is chosen by the status code of the response. If no case matches (no specific case for the response code, no range case, no default case), 'Get_calendar_ical_sharing_linkResponseError' is used.
 data Get_calendar_ical_sharing_linkResponse =
-   Get_calendar_ical_sharing_linkResponseError Base.String -- ^ Means either no matching case available or a parse error
+   Get_calendar_ical_sharing_linkResponseError GHC.Internal.Base.String -- ^ Means either no matching case available or a parse error
   | Get_calendar_ical_sharing_linkResponse200 Get_calendar_ical_sharing_linkResponseBody200 -- ^ The (public) sharing link for the calendar in iCal format
-  deriving (Show.Show, GHC.Classes.Eq)
+  deriving (GHC.Internal.Show.Show, GHC.Classes.Eq)
 -- | Defines the object schema located at @paths.\/calendar\/ical\/sharing-link.GET.responses.200.content.application\/json.schema@ in the specification.
 -- 
 -- 
 data Get_calendar_ical_sharing_linkResponseBody200 = Get_calendar_ical_sharing_linkResponseBody200 {
   -- | url
-  get_calendar_ical_sharing_linkResponseBody200Url :: (Maybe.Maybe Data.Text.Internal.Text)
-  } deriving (Show.Show
+  get_calendar_ical_sharing_linkResponseBody200Url :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
+  } deriving (GHC.Internal.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.Types.ToJSON.ToJSON Get_calendar_ical_sharing_linkResponseBody200
-    where {toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe Base.mempty (Base.pure Base.. ("url" Data.Aeson.Types.ToJSON..=)) (get_calendar_ical_sharing_linkResponseBody200Url obj) : Base.mempty));
-           toEncoding obj = Data.Aeson.Encoding.Internal.pairs (Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe Base.mempty (Base.pure Base.. ("url" Data.Aeson.Types.ToJSON..=)) (get_calendar_ical_sharing_linkResponseBody200Url obj) : Base.mempty)))}
+    where {toJSON obj = Data.Aeson.Types.Internal.object (GHC.Internal.Data.Foldable.concat (GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("url" Data.Aeson.Types.ToJSON..=)) (get_calendar_ical_sharing_linkResponseBody200Url obj) : GHC.Internal.Base.mempty));
+           toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Internal.Base.mconcat (GHC.Internal.Data.Foldable.concat (GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("url" Data.Aeson.Types.ToJSON..=)) (get_calendar_ical_sharing_linkResponseBody200Url obj) : GHC.Internal.Base.mempty)))}
 instance Data.Aeson.Types.FromJSON.FromJSON Get_calendar_ical_sharing_linkResponseBody200
-    where {parseJSON = Data.Aeson.Types.FromJSON.withObject "Get_calendar_ical_sharing_linkResponseBody200" (\obj -> Base.pure Get_calendar_ical_sharing_linkResponseBody200 Base.<*> (obj Data.Aeson.Types.FromJSON..:! "url"))}
+    where {parseJSON = Data.Aeson.Types.FromJSON.withObject "Get_calendar_ical_sharing_linkResponseBody200" (\obj -> GHC.Internal.Base.pure Get_calendar_ical_sharing_linkResponseBody200 GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "url"))}
 -- | Create a new 'Get_calendar_ical_sharing_linkResponseBody200' with all required fields.
 mkGet_calendar_ical_sharing_linkResponseBody200 :: Get_calendar_ical_sharing_linkResponseBody200
-mkGet_calendar_ical_sharing_linkResponseBody200 = Get_calendar_ical_sharing_linkResponseBody200{get_calendar_ical_sharing_linkResponseBody200Url = Maybe.Nothing}
+mkGet_calendar_ical_sharing_linkResponseBody200 = Get_calendar_ical_sharing_linkResponseBody200{get_calendar_ical_sharing_linkResponseBody200Url = GHC.Internal.Maybe.Nothing}
 -- | > GET /calendar/ical/sharing-link
 -- 
 -- The same as 'get_calendar_ical_sharing_link' but accepts an explicit configuration.
 get_calendar_ical_sharing_linkWithConfiguration :: forall m . GrocyClient.Common.MonadHTTP m => GrocyClient.Common.Configuration -- ^ The configuration to use in the request
   -> m (Network.HTTP.Client.Types.Response Get_calendar_ical_sharing_linkResponse) -- ^ Monadic computation which returns the result of the operation
-get_calendar_ical_sharing_linkWithConfiguration config = Base.fmap (\response_2 -> Base.fmap (Data.Either.either Get_calendar_ical_sharing_linkResponseError Base.id Base.. (\response body -> if | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) -> Get_calendar_ical_sharing_linkResponse200 Data.Functor.<$> (Data.Aeson.Decoding.eitherDecodeStrict body :: Data.Either.Either Base.String
+get_calendar_ical_sharing_linkWithConfiguration config = GHC.Internal.Base.fmap (\response_2 -> GHC.Internal.Base.fmap (GHC.Internal.Data.Either.either Get_calendar_ical_sharing_linkResponseError GHC.Internal.Base.id GHC.Internal.Base.. (\response body -> if | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) -> Get_calendar_ical_sharing_linkResponse200 GHC.Internal.Data.Functor.<$> (Data.Aeson.Decoding.eitherDecodeStrict body :: GHC.Internal.Data.Either.Either GHC.Internal.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     Get_calendar_ical_sharing_linkResponseBody200)
-                                                                                                                                                                                                                                                                   | Base.otherwise -> Data.Either.Left "Missing default response type") response_2) response_2) (GrocyClient.Common.doCallWithConfiguration config (Data.Text.toUpper Base.$ Data.Text.Internal.pack "GET") "/calendar/ical/sharing-link" Base.mempty)
+                                                                                                                                                                                                                                                                   | GHC.Internal.Base.otherwise -> GHC.Internal.Data.Either.Left "Missing default response type") response_2) response_2) (GrocyClient.Common.doCallWithConfiguration config (Data.Text.toUpper GHC.Internal.Base.$ Data.Text.Internal.pack "GET") "/calendar/ical/sharing-link" GHC.Internal.Base.mempty)
 -- | > GET /calendar/ical/sharing-link
 -- 
 -- The same as 'get_calendar_ical_sharing_link' but returns the raw 'Data.ByteString.ByteString'.
 get_calendar_ical_sharing_linkRaw :: forall m . GrocyClient.Common.MonadHTTP m => GrocyClient.Common.ClientT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.Type.ByteString) -- ^ Monadic computation which returns the result of the operation
-get_calendar_ical_sharing_linkRaw = Base.id (GrocyClient.Common.doCallWithConfigurationM (Data.Text.toUpper Base.$ Data.Text.Internal.pack "GET") "/calendar/ical/sharing-link" Base.mempty)
+get_calendar_ical_sharing_linkRaw = GHC.Internal.Base.id (GrocyClient.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Internal.Base.$ Data.Text.Internal.pack "GET") "/calendar/ical/sharing-link" GHC.Internal.Base.mempty)
 -- | > GET /calendar/ical/sharing-link
 -- 
 -- The same as 'get_calendar_ical_sharing_link' but accepts an explicit configuration and returns the raw 'Data.ByteString.ByteString'.
 get_calendar_ical_sharing_linkWithConfigurationRaw :: forall m . GrocyClient.Common.MonadHTTP m => GrocyClient.Common.Configuration -- ^ The configuration to use in the request
   -> m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.Type.ByteString) -- ^ Monadic computation which returns the result of the operation
-get_calendar_ical_sharing_linkWithConfigurationRaw config = Base.id (GrocyClient.Common.doCallWithConfiguration config (Data.Text.toUpper Base.$ Data.Text.Internal.pack "GET") "/calendar/ical/sharing-link" Base.mempty)
+get_calendar_ical_sharing_linkWithConfigurationRaw config = GHC.Internal.Base.id (GrocyClient.Common.doCallWithConfiguration config (Data.Text.toUpper GHC.Internal.Base.$ Data.Text.Internal.pack "GET") "/calendar/ical/sharing-link" GHC.Internal.Base.mempty)

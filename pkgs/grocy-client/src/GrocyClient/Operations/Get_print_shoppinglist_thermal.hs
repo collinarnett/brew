@@ -9,21 +9,28 @@ module GrocyClient.Operations.Get_print_shoppinglist_thermal where
 
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
+import qualified Prelude as GHC.Internal.Maybe
 import qualified Control.Monad.Fail
+import qualified Control.Monad.Fail as GHC.Internal.Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Decoding
 import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
-import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString
 import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.ByteString as Data.ByteString.Internal.Type
 import qualified Data.Either
+import qualified Data.Either as GHC.Internal.Data.Either
 import qualified Data.Foldable
+import qualified Data.Foldable as GHC.Internal.Data.Foldable
 import qualified Data.Functor
+import qualified Data.Functor as GHC.Internal.Data.Functor
 import qualified Data.Maybe
+import qualified Data.Maybe as GHC.Internal.Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text as Data.Text.Internal
@@ -31,9 +38,12 @@ import qualified Data.Time.Calendar as Data.Time.Calendar.Days
 import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
+import qualified GHC.Base as GHC.Internal.Base
 import qualified GHC.Classes
 import qualified GHC.Int
+import qualified GHC.Int as GHC.Internal.Int
 import qualified GHC.Show
+import qualified GHC.Show as GHC.Internal.Show
 import qualified GHC.Types
 import qualified Network.HTTP.Client
 import qualified Network.HTTP.Client as Network.HTTP.Client.Request
@@ -50,12 +60,12 @@ import GrocyClient.Types
 -- Prints the shoppinglist with a thermal printer
 get_print_shoppinglist_thermal :: forall m . GrocyClient.Common.MonadHTTP m => Get_print_shoppinglist_thermalParameters -- ^ Contains all available parameters of this operation (query and path parameters)
   -> GrocyClient.Common.ClientT m (Network.HTTP.Client.Types.Response Get_print_shoppinglist_thermalResponse) -- ^ Monadic computation which returns the result of the operation
-get_print_shoppinglist_thermal parameters = Base.fmap (\response_0 -> Base.fmap (Data.Either.either Get_print_shoppinglist_thermalResponseError Base.id Base.. (\response body -> if | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) -> Get_print_shoppinglist_thermalResponse200 Data.Functor.<$> (Data.Aeson.Decoding.eitherDecodeStrict body :: Data.Either.Either Base.String
+get_print_shoppinglist_thermal parameters = GHC.Internal.Base.fmap (\response_0 -> GHC.Internal.Base.fmap (GHC.Internal.Data.Either.either Get_print_shoppinglist_thermalResponseError GHC.Internal.Base.id GHC.Internal.Base.. (\response body -> if | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) -> Get_print_shoppinglist_thermalResponse200 GHC.Internal.Data.Functor.<$> (Data.Aeson.Decoding.eitherDecodeStrict body :: GHC.Internal.Data.Either.Either GHC.Internal.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        Get_print_shoppinglist_thermalResponseBody200)
-                                                                                                                                                                                                                                                      | (\status_2 -> Network.HTTP.Types.Status.statusCode status_2 GHC.Classes.== 400) (Network.HTTP.Client.Types.responseStatus response) -> Get_print_shoppinglist_thermalResponse400 Data.Functor.<$> (Data.Aeson.Decoding.eitherDecodeStrict body :: Data.Either.Either Base.String
+                                                                                                                                                                                                                                                      | (\status_2 -> Network.HTTP.Types.Status.statusCode status_2 GHC.Classes.== 400) (Network.HTTP.Client.Types.responseStatus response) -> Get_print_shoppinglist_thermalResponse400 GHC.Internal.Data.Functor.<$> (Data.Aeson.Decoding.eitherDecodeStrict body :: GHC.Internal.Data.Either.Either GHC.Internal.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        Error400)
-                                                                                                                                                                                                                                                      | Base.otherwise -> Data.Either.Left "Missing default response type") response_0) response_0) (GrocyClient.Common.doCallWithConfigurationM (Data.Text.toUpper Base.$ Data.Text.Internal.pack "GET") "/print/shoppinglist/thermal" [GrocyClient.Common.QueryParameter (Data.Text.Internal.pack "list") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> get_print_shoppinglist_thermalParametersQueryList parameters) (Data.Text.Internal.pack "form") GHC.Types.False,
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            GrocyClient.Common.QueryParameter (Data.Text.Internal.pack "printHeader") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> get_print_shoppinglist_thermalParametersQueryPrintHeader parameters) (Data.Text.Internal.pack "form") GHC.Types.False])
+                                                                                                                                                                                                                                                      | GHC.Internal.Base.otherwise -> GHC.Internal.Data.Either.Left "Missing default response type") response_0) response_0) (GrocyClient.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Internal.Base.$ Data.Text.Internal.pack "GET") "/print/shoppinglist/thermal" [GrocyClient.Common.QueryParameter (Data.Text.Internal.pack "list") (Data.Aeson.Types.ToJSON.toJSON GHC.Internal.Data.Functor.<$> get_print_shoppinglist_thermalParametersQueryList parameters) (Data.Text.Internal.pack "form") GHC.Types.False,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            GrocyClient.Common.QueryParameter (Data.Text.Internal.pack "printHeader") (Data.Aeson.Types.ToJSON.toJSON GHC.Internal.Data.Functor.<$> get_print_shoppinglist_thermalParametersQueryPrintHeader parameters) (Data.Text.Internal.pack "form") GHC.Types.False])
 -- | Defines the object schema located at @paths.\/print\/shoppinglist\/thermal.GET.parameters@ in the specification.
 -- 
 -- 
@@ -63,46 +73,46 @@ data Get_print_shoppinglist_thermalParameters = Get_print_shoppinglist_thermalPa
   -- | queryList: Represents the parameter named \'list\'
   -- 
   -- Shopping list id
-  get_print_shoppinglist_thermalParametersQueryList :: (Maybe.Maybe GHC.Types.Int)
+  get_print_shoppinglist_thermalParametersQueryList :: (GHC.Internal.Maybe.Maybe GHC.Types.Int)
   -- | queryPrintHeader: Represents the parameter named \'printHeader\'
   -- 
   -- Prints Grocy logo if true
-  , get_print_shoppinglist_thermalParametersQueryPrintHeader :: (Maybe.Maybe GHC.Types.Bool)
-  } deriving (Show.Show
+  , get_print_shoppinglist_thermalParametersQueryPrintHeader :: (GHC.Internal.Maybe.Maybe GHC.Types.Bool)
+  } deriving (GHC.Internal.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.Types.ToJSON.ToJSON Get_print_shoppinglist_thermalParameters
-    where {toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe Base.mempty (Base.pure Base.. ("queryList" Data.Aeson.Types.ToJSON..=)) (get_print_shoppinglist_thermalParametersQueryList obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("queryPrintHeader" Data.Aeson.Types.ToJSON..=)) (get_print_shoppinglist_thermalParametersQueryPrintHeader obj) : Base.mempty));
-           toEncoding obj = Data.Aeson.Encoding.Internal.pairs (Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe Base.mempty (Base.pure Base.. ("queryList" Data.Aeson.Types.ToJSON..=)) (get_print_shoppinglist_thermalParametersQueryList obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("queryPrintHeader" Data.Aeson.Types.ToJSON..=)) (get_print_shoppinglist_thermalParametersQueryPrintHeader obj) : Base.mempty)))}
+    where {toJSON obj = Data.Aeson.Types.Internal.object (GHC.Internal.Data.Foldable.concat (GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("queryList" Data.Aeson.Types.ToJSON..=)) (get_print_shoppinglist_thermalParametersQueryList obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("queryPrintHeader" Data.Aeson.Types.ToJSON..=)) (get_print_shoppinglist_thermalParametersQueryPrintHeader obj) : GHC.Internal.Base.mempty));
+           toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Internal.Base.mconcat (GHC.Internal.Data.Foldable.concat (GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("queryList" Data.Aeson.Types.ToJSON..=)) (get_print_shoppinglist_thermalParametersQueryList obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("queryPrintHeader" Data.Aeson.Types.ToJSON..=)) (get_print_shoppinglist_thermalParametersQueryPrintHeader obj) : GHC.Internal.Base.mempty)))}
 instance Data.Aeson.Types.FromJSON.FromJSON Get_print_shoppinglist_thermalParameters
-    where {parseJSON = Data.Aeson.Types.FromJSON.withObject "Get_print_shoppinglist_thermalParameters" (\obj -> (Base.pure Get_print_shoppinglist_thermalParameters Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryList")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryPrintHeader"))}
+    where {parseJSON = Data.Aeson.Types.FromJSON.withObject "Get_print_shoppinglist_thermalParameters" (\obj -> (GHC.Internal.Base.pure Get_print_shoppinglist_thermalParameters GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryList")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "queryPrintHeader"))}
 -- | Create a new 'Get_print_shoppinglist_thermalParameters' with all required fields.
 mkGet_print_shoppinglist_thermalParameters :: Get_print_shoppinglist_thermalParameters
-mkGet_print_shoppinglist_thermalParameters = Get_print_shoppinglist_thermalParameters{get_print_shoppinglist_thermalParametersQueryList = Maybe.Nothing,
-                                                                                      get_print_shoppinglist_thermalParametersQueryPrintHeader = Maybe.Nothing}
+mkGet_print_shoppinglist_thermalParameters = Get_print_shoppinglist_thermalParameters{get_print_shoppinglist_thermalParametersQueryList = GHC.Internal.Maybe.Nothing,
+                                                                                      get_print_shoppinglist_thermalParametersQueryPrintHeader = GHC.Internal.Maybe.Nothing}
 -- | Represents a response of the operation 'get_print_shoppinglist_thermal'.
 -- 
 -- The response constructor is chosen by the status code of the response. If no case matches (no specific case for the response code, no range case, no default case), 'Get_print_shoppinglist_thermalResponseError' is used.
 data Get_print_shoppinglist_thermalResponse =
-   Get_print_shoppinglist_thermalResponseError Base.String -- ^ Means either no matching case available or a parse error
+   Get_print_shoppinglist_thermalResponseError GHC.Internal.Base.String -- ^ Means either no matching case available or a parse error
   | Get_print_shoppinglist_thermalResponse200 Get_print_shoppinglist_thermalResponseBody200 -- ^ Returns OK if the printing was successful
   | Get_print_shoppinglist_thermalResponse400 Error400 -- ^ The operation was not successful
-  deriving (Show.Show, GHC.Classes.Eq)
+  deriving (GHC.Internal.Show.Show, GHC.Classes.Eq)
 -- | Defines the object schema located at @paths.\/print\/shoppinglist\/thermal.GET.responses.200.content.application\/json.schema@ in the specification.
 -- 
 -- 
 data Get_print_shoppinglist_thermalResponseBody200 = Get_print_shoppinglist_thermalResponseBody200 {
   -- | result
-  get_print_shoppinglist_thermalResponseBody200Result :: (Maybe.Maybe Data.Text.Internal.Text)
-  } deriving (Show.Show
+  get_print_shoppinglist_thermalResponseBody200Result :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
+  } deriving (GHC.Internal.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.Types.ToJSON.ToJSON Get_print_shoppinglist_thermalResponseBody200
-    where {toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe Base.mempty (Base.pure Base.. ("result" Data.Aeson.Types.ToJSON..=)) (get_print_shoppinglist_thermalResponseBody200Result obj) : Base.mempty));
-           toEncoding obj = Data.Aeson.Encoding.Internal.pairs (Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe Base.mempty (Base.pure Base.. ("result" Data.Aeson.Types.ToJSON..=)) (get_print_shoppinglist_thermalResponseBody200Result obj) : Base.mempty)))}
+    where {toJSON obj = Data.Aeson.Types.Internal.object (GHC.Internal.Data.Foldable.concat (GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("result" Data.Aeson.Types.ToJSON..=)) (get_print_shoppinglist_thermalResponseBody200Result obj) : GHC.Internal.Base.mempty));
+           toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Internal.Base.mconcat (GHC.Internal.Data.Foldable.concat (GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("result" Data.Aeson.Types.ToJSON..=)) (get_print_shoppinglist_thermalResponseBody200Result obj) : GHC.Internal.Base.mempty)))}
 instance Data.Aeson.Types.FromJSON.FromJSON Get_print_shoppinglist_thermalResponseBody200
-    where {parseJSON = Data.Aeson.Types.FromJSON.withObject "Get_print_shoppinglist_thermalResponseBody200" (\obj -> Base.pure Get_print_shoppinglist_thermalResponseBody200 Base.<*> (obj Data.Aeson.Types.FromJSON..:! "result"))}
+    where {parseJSON = Data.Aeson.Types.FromJSON.withObject "Get_print_shoppinglist_thermalResponseBody200" (\obj -> GHC.Internal.Base.pure Get_print_shoppinglist_thermalResponseBody200 GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "result"))}
 -- | Create a new 'Get_print_shoppinglist_thermalResponseBody200' with all required fields.
 mkGet_print_shoppinglist_thermalResponseBody200 :: Get_print_shoppinglist_thermalResponseBody200
-mkGet_print_shoppinglist_thermalResponseBody200 = Get_print_shoppinglist_thermalResponseBody200{get_print_shoppinglist_thermalResponseBody200Result = Maybe.Nothing}
+mkGet_print_shoppinglist_thermalResponseBody200 = Get_print_shoppinglist_thermalResponseBody200{get_print_shoppinglist_thermalResponseBody200Result = GHC.Internal.Maybe.Nothing}
 -- | > GET /print/shoppinglist/thermal
 -- 
 -- The same as 'get_print_shoppinglist_thermal' but accepts an explicit configuration.
@@ -110,19 +120,19 @@ get_print_shoppinglist_thermalWithConfiguration :: forall m . GrocyClient.Common
   -> Get_print_shoppinglist_thermalParameters -- ^ Contains all available parameters of this operation (query and path parameters)
   -> m (Network.HTTP.Client.Types.Response Get_print_shoppinglist_thermalResponse) -- ^ Monadic computation which returns the result of the operation
 get_print_shoppinglist_thermalWithConfiguration config
-                                                parameters = Base.fmap (\response_3 -> Base.fmap (Data.Either.either Get_print_shoppinglist_thermalResponseError Base.id Base.. (\response body -> if | (\status_4 -> Network.HTTP.Types.Status.statusCode status_4 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) -> Get_print_shoppinglist_thermalResponse200 Data.Functor.<$> (Data.Aeson.Decoding.eitherDecodeStrict body :: Data.Either.Either Base.String
+                                                parameters = GHC.Internal.Base.fmap (\response_3 -> GHC.Internal.Base.fmap (GHC.Internal.Data.Either.either Get_print_shoppinglist_thermalResponseError GHC.Internal.Base.id GHC.Internal.Base.. (\response body -> if | (\status_4 -> Network.HTTP.Types.Status.statusCode status_4 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) -> Get_print_shoppinglist_thermalResponse200 GHC.Internal.Data.Functor.<$> (Data.Aeson.Decoding.eitherDecodeStrict body :: GHC.Internal.Data.Either.Either GHC.Internal.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         Get_print_shoppinglist_thermalResponseBody200)
-                                                                                                                                                                                                                                                                       | (\status_5 -> Network.HTTP.Types.Status.statusCode status_5 GHC.Classes.== 400) (Network.HTTP.Client.Types.responseStatus response) -> Get_print_shoppinglist_thermalResponse400 Data.Functor.<$> (Data.Aeson.Decoding.eitherDecodeStrict body :: Data.Either.Either Base.String
+                                                                                                                                                                                                                                                                       | (\status_5 -> Network.HTTP.Types.Status.statusCode status_5 GHC.Classes.== 400) (Network.HTTP.Client.Types.responseStatus response) -> Get_print_shoppinglist_thermalResponse400 GHC.Internal.Data.Functor.<$> (Data.Aeson.Decoding.eitherDecodeStrict body :: GHC.Internal.Data.Either.Either GHC.Internal.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         Error400)
-                                                                                                                                                                                                                                                                       | Base.otherwise -> Data.Either.Left "Missing default response type") response_3) response_3) (GrocyClient.Common.doCallWithConfiguration config (Data.Text.toUpper Base.$ Data.Text.Internal.pack "GET") "/print/shoppinglist/thermal" [GrocyClient.Common.QueryParameter (Data.Text.Internal.pack "list") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> get_print_shoppinglist_thermalParametersQueryList parameters) (Data.Text.Internal.pack "form") GHC.Types.False,
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   GrocyClient.Common.QueryParameter (Data.Text.Internal.pack "printHeader") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> get_print_shoppinglist_thermalParametersQueryPrintHeader parameters) (Data.Text.Internal.pack "form") GHC.Types.False])
+                                                                                                                                                                                                                                                                       | GHC.Internal.Base.otherwise -> GHC.Internal.Data.Either.Left "Missing default response type") response_3) response_3) (GrocyClient.Common.doCallWithConfiguration config (Data.Text.toUpper GHC.Internal.Base.$ Data.Text.Internal.pack "GET") "/print/shoppinglist/thermal" [GrocyClient.Common.QueryParameter (Data.Text.Internal.pack "list") (Data.Aeson.Types.ToJSON.toJSON GHC.Internal.Data.Functor.<$> get_print_shoppinglist_thermalParametersQueryList parameters) (Data.Text.Internal.pack "form") GHC.Types.False,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   GrocyClient.Common.QueryParameter (Data.Text.Internal.pack "printHeader") (Data.Aeson.Types.ToJSON.toJSON GHC.Internal.Data.Functor.<$> get_print_shoppinglist_thermalParametersQueryPrintHeader parameters) (Data.Text.Internal.pack "form") GHC.Types.False])
 -- | > GET /print/shoppinglist/thermal
 -- 
 -- The same as 'get_print_shoppinglist_thermal' but returns the raw 'Data.ByteString.ByteString'.
 get_print_shoppinglist_thermalRaw :: forall m . GrocyClient.Common.MonadHTTP m => Get_print_shoppinglist_thermalParameters -- ^ Contains all available parameters of this operation (query and path parameters)
   -> GrocyClient.Common.ClientT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.Type.ByteString) -- ^ Monadic computation which returns the result of the operation
-get_print_shoppinglist_thermalRaw parameters = Base.id (GrocyClient.Common.doCallWithConfigurationM (Data.Text.toUpper Base.$ Data.Text.Internal.pack "GET") "/print/shoppinglist/thermal" [GrocyClient.Common.QueryParameter (Data.Text.Internal.pack "list") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> get_print_shoppinglist_thermalParametersQueryList parameters) (Data.Text.Internal.pack "form") GHC.Types.False,
-                                                                                                                                                                                                                  GrocyClient.Common.QueryParameter (Data.Text.Internal.pack "printHeader") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> get_print_shoppinglist_thermalParametersQueryPrintHeader parameters) (Data.Text.Internal.pack "form") GHC.Types.False])
+get_print_shoppinglist_thermalRaw parameters = GHC.Internal.Base.id (GrocyClient.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Internal.Base.$ Data.Text.Internal.pack "GET") "/print/shoppinglist/thermal" [GrocyClient.Common.QueryParameter (Data.Text.Internal.pack "list") (Data.Aeson.Types.ToJSON.toJSON GHC.Internal.Data.Functor.<$> get_print_shoppinglist_thermalParametersQueryList parameters) (Data.Text.Internal.pack "form") GHC.Types.False,
+                                                                                                                                                                                                                  GrocyClient.Common.QueryParameter (Data.Text.Internal.pack "printHeader") (Data.Aeson.Types.ToJSON.toJSON GHC.Internal.Data.Functor.<$> get_print_shoppinglist_thermalParametersQueryPrintHeader parameters) (Data.Text.Internal.pack "form") GHC.Types.False])
 -- | > GET /print/shoppinglist/thermal
 -- 
 -- The same as 'get_print_shoppinglist_thermal' but accepts an explicit configuration and returns the raw 'Data.ByteString.ByteString'.
@@ -130,5 +140,5 @@ get_print_shoppinglist_thermalWithConfigurationRaw :: forall m . GrocyClient.Com
   -> Get_print_shoppinglist_thermalParameters -- ^ Contains all available parameters of this operation (query and path parameters)
   -> m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.Type.ByteString) -- ^ Monadic computation which returns the result of the operation
 get_print_shoppinglist_thermalWithConfigurationRaw config
-                                                   parameters = Base.id (GrocyClient.Common.doCallWithConfiguration config (Data.Text.toUpper Base.$ Data.Text.Internal.pack "GET") "/print/shoppinglist/thermal" [GrocyClient.Common.QueryParameter (Data.Text.Internal.pack "list") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> get_print_shoppinglist_thermalParametersQueryList parameters) (Data.Text.Internal.pack "form") GHC.Types.False,
-                                                                                                                                                                                                                                         GrocyClient.Common.QueryParameter (Data.Text.Internal.pack "printHeader") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> get_print_shoppinglist_thermalParametersQueryPrintHeader parameters) (Data.Text.Internal.pack "form") GHC.Types.False])
+                                                   parameters = GHC.Internal.Base.id (GrocyClient.Common.doCallWithConfiguration config (Data.Text.toUpper GHC.Internal.Base.$ Data.Text.Internal.pack "GET") "/print/shoppinglist/thermal" [GrocyClient.Common.QueryParameter (Data.Text.Internal.pack "list") (Data.Aeson.Types.ToJSON.toJSON GHC.Internal.Data.Functor.<$> get_print_shoppinglist_thermalParametersQueryList parameters) (Data.Text.Internal.pack "form") GHC.Types.False,
+                                                                                                                                                                                                                                         GrocyClient.Common.QueryParameter (Data.Text.Internal.pack "printHeader") (Data.Aeson.Types.ToJSON.toJSON GHC.Internal.Data.Functor.<$> get_print_shoppinglist_thermalParametersQueryPrintHeader parameters) (Data.Text.Internal.pack "form") GHC.Types.False])

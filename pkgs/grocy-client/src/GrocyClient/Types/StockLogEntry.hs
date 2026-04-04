@@ -8,7 +8,9 @@ module GrocyClient.Types.StockLogEntry where
 
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
+import qualified Prelude as GHC.Internal.Maybe
 import qualified Control.Monad.Fail
+import qualified Control.Monad.Fail as GHC.Internal.Control.Monad.Fail
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
@@ -18,17 +20,23 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.ByteString
 import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
+import qualified Data.Foldable as GHC.Internal.Data.Foldable
 import qualified Data.Functor
+import qualified Data.Functor as GHC.Internal.Data.Functor
 import qualified Data.Maybe
+import qualified Data.Maybe as GHC.Internal.Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text as Data.Text.Internal
 import qualified Data.Time.Calendar as Data.Time.Calendar.Days
 import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified GHC.Base
+import qualified GHC.Base as GHC.Internal.Base
 import qualified GHC.Classes
 import qualified GHC.Int
+import qualified GHC.Int as GHC.Internal.Int
 import qualified GHC.Show
+import qualified GHC.Show as GHC.Internal.Show
 import qualified GHC.Types
 import qualified GrocyClient.Common
 import GrocyClient.TypeAlias
@@ -39,47 +47,47 @@ import {-# SOURCE #-} GrocyClient.Types.StockTransactionType
 -- 
 data StockLogEntry = StockLogEntry {
   -- | amount
-  stockLogEntryAmount :: (Maybe.Maybe GHC.Types.Double)
+  stockLogEntryAmount :: (GHC.Internal.Maybe.Maybe GHC.Types.Double)
   -- | best_before_date
-  , stockLogEntryBest_before_date :: (Maybe.Maybe Data.Text.Internal.Text)
+  , stockLogEntryBest_before_date :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
   -- | id
-  , stockLogEntryId :: (Maybe.Maybe GHC.Types.Int)
+  , stockLogEntryId :: (GHC.Internal.Maybe.Maybe GHC.Types.Int)
   -- | note
-  , stockLogEntryNote :: (Maybe.Maybe Data.Text.Internal.Text)
+  , stockLogEntryNote :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
   -- | product_id
-  , stockLogEntryProduct_id :: (Maybe.Maybe GHC.Types.Int)
+  , stockLogEntryProduct_id :: (GHC.Internal.Maybe.Maybe GHC.Types.Int)
   -- | purchased_date
-  , stockLogEntryPurchased_date :: (Maybe.Maybe Data.Text.Internal.Text)
+  , stockLogEntryPurchased_date :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
   -- | row_created_timestamp
-  , stockLogEntryRow_created_timestamp :: (Maybe.Maybe Data.Text.Internal.Text)
+  , stockLogEntryRow_created_timestamp :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
   -- | spoiled
-  , stockLogEntrySpoiled :: (Maybe.Maybe GHC.Types.Bool)
+  , stockLogEntrySpoiled :: (GHC.Internal.Maybe.Maybe GHC.Types.Bool)
   -- | stock_id
-  , stockLogEntryStock_id :: (Maybe.Maybe Data.Text.Internal.Text)
+  , stockLogEntryStock_id :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
   -- | transaction_id
-  , stockLogEntryTransaction_id :: (Maybe.Maybe Data.Text.Internal.Text)
+  , stockLogEntryTransaction_id :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
   -- | transaction_type
-  , stockLogEntryTransaction_type :: (Maybe.Maybe StockTransactionType)
+  , stockLogEntryTransaction_type :: (GHC.Internal.Maybe.Maybe StockTransactionType)
   -- | used_date
-  , stockLogEntryUsed_date :: (Maybe.Maybe Data.Text.Internal.Text)
-  } deriving (Show.Show
+  , stockLogEntryUsed_date :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
+  } deriving (GHC.Internal.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.Types.ToJSON.ToJSON StockLogEntry
-    where {toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe Base.mempty (Base.pure Base.. ("amount" Data.Aeson.Types.ToJSON..=)) (stockLogEntryAmount obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("best_before_date" Data.Aeson.Types.ToJSON..=)) (stockLogEntryBest_before_date obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("id" Data.Aeson.Types.ToJSON..=)) (stockLogEntryId obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("note" Data.Aeson.Types.ToJSON..=)) (stockLogEntryNote obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("product_id" Data.Aeson.Types.ToJSON..=)) (stockLogEntryProduct_id obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("purchased_date" Data.Aeson.Types.ToJSON..=)) (stockLogEntryPurchased_date obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("row_created_timestamp" Data.Aeson.Types.ToJSON..=)) (stockLogEntryRow_created_timestamp obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("spoiled" Data.Aeson.Types.ToJSON..=)) (stockLogEntrySpoiled obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("stock_id" Data.Aeson.Types.ToJSON..=)) (stockLogEntryStock_id obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("transaction_id" Data.Aeson.Types.ToJSON..=)) (stockLogEntryTransaction_id obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("transaction_type" Data.Aeson.Types.ToJSON..=)) (stockLogEntryTransaction_type obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("used_date" Data.Aeson.Types.ToJSON..=)) (stockLogEntryUsed_date obj) : Base.mempty));
-           toEncoding obj = Data.Aeson.Encoding.Internal.pairs (Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe Base.mempty (Base.pure Base.. ("amount" Data.Aeson.Types.ToJSON..=)) (stockLogEntryAmount obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("best_before_date" Data.Aeson.Types.ToJSON..=)) (stockLogEntryBest_before_date obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("id" Data.Aeson.Types.ToJSON..=)) (stockLogEntryId obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("note" Data.Aeson.Types.ToJSON..=)) (stockLogEntryNote obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("product_id" Data.Aeson.Types.ToJSON..=)) (stockLogEntryProduct_id obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("purchased_date" Data.Aeson.Types.ToJSON..=)) (stockLogEntryPurchased_date obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("row_created_timestamp" Data.Aeson.Types.ToJSON..=)) (stockLogEntryRow_created_timestamp obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("spoiled" Data.Aeson.Types.ToJSON..=)) (stockLogEntrySpoiled obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("stock_id" Data.Aeson.Types.ToJSON..=)) (stockLogEntryStock_id obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("transaction_id" Data.Aeson.Types.ToJSON..=)) (stockLogEntryTransaction_id obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("transaction_type" Data.Aeson.Types.ToJSON..=)) (stockLogEntryTransaction_type obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("used_date" Data.Aeson.Types.ToJSON..=)) (stockLogEntryUsed_date obj) : Base.mempty)))}
+    where {toJSON obj = Data.Aeson.Types.Internal.object (GHC.Internal.Data.Foldable.concat (GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("amount" Data.Aeson.Types.ToJSON..=)) (stockLogEntryAmount obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("best_before_date" Data.Aeson.Types.ToJSON..=)) (stockLogEntryBest_before_date obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("id" Data.Aeson.Types.ToJSON..=)) (stockLogEntryId obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("note" Data.Aeson.Types.ToJSON..=)) (stockLogEntryNote obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("product_id" Data.Aeson.Types.ToJSON..=)) (stockLogEntryProduct_id obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("purchased_date" Data.Aeson.Types.ToJSON..=)) (stockLogEntryPurchased_date obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("row_created_timestamp" Data.Aeson.Types.ToJSON..=)) (stockLogEntryRow_created_timestamp obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("spoiled" Data.Aeson.Types.ToJSON..=)) (stockLogEntrySpoiled obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("stock_id" Data.Aeson.Types.ToJSON..=)) (stockLogEntryStock_id obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("transaction_id" Data.Aeson.Types.ToJSON..=)) (stockLogEntryTransaction_id obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("transaction_type" Data.Aeson.Types.ToJSON..=)) (stockLogEntryTransaction_type obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("used_date" Data.Aeson.Types.ToJSON..=)) (stockLogEntryUsed_date obj) : GHC.Internal.Base.mempty));
+           toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Internal.Base.mconcat (GHC.Internal.Data.Foldable.concat (GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("amount" Data.Aeson.Types.ToJSON..=)) (stockLogEntryAmount obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("best_before_date" Data.Aeson.Types.ToJSON..=)) (stockLogEntryBest_before_date obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("id" Data.Aeson.Types.ToJSON..=)) (stockLogEntryId obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("note" Data.Aeson.Types.ToJSON..=)) (stockLogEntryNote obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("product_id" Data.Aeson.Types.ToJSON..=)) (stockLogEntryProduct_id obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("purchased_date" Data.Aeson.Types.ToJSON..=)) (stockLogEntryPurchased_date obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("row_created_timestamp" Data.Aeson.Types.ToJSON..=)) (stockLogEntryRow_created_timestamp obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("spoiled" Data.Aeson.Types.ToJSON..=)) (stockLogEntrySpoiled obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("stock_id" Data.Aeson.Types.ToJSON..=)) (stockLogEntryStock_id obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("transaction_id" Data.Aeson.Types.ToJSON..=)) (stockLogEntryTransaction_id obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("transaction_type" Data.Aeson.Types.ToJSON..=)) (stockLogEntryTransaction_type obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("used_date" Data.Aeson.Types.ToJSON..=)) (stockLogEntryUsed_date obj) : GHC.Internal.Base.mempty)))}
 instance Data.Aeson.Types.FromJSON.FromJSON StockLogEntry
-    where {parseJSON = Data.Aeson.Types.FromJSON.withObject "StockLogEntry" (\obj -> (((((((((((Base.pure StockLogEntry Base.<*> (obj Data.Aeson.Types.FromJSON..:! "amount")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "best_before_date")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "id")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "note")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "product_id")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "purchased_date")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "row_created_timestamp")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "spoiled")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "stock_id")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "transaction_id")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "transaction_type")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "used_date"))}
+    where {parseJSON = Data.Aeson.Types.FromJSON.withObject "StockLogEntry" (\obj -> (((((((((((GHC.Internal.Base.pure StockLogEntry GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "amount")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "best_before_date")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "id")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "note")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "product_id")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "purchased_date")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "row_created_timestamp")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "spoiled")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "stock_id")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "transaction_id")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "transaction_type")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "used_date"))}
 -- | Create a new 'StockLogEntry' with all required fields.
 mkStockLogEntry :: StockLogEntry
-mkStockLogEntry = StockLogEntry{stockLogEntryAmount = Maybe.Nothing,
-                                stockLogEntryBest_before_date = Maybe.Nothing,
-                                stockLogEntryId = Maybe.Nothing,
-                                stockLogEntryNote = Maybe.Nothing,
-                                stockLogEntryProduct_id = Maybe.Nothing,
-                                stockLogEntryPurchased_date = Maybe.Nothing,
-                                stockLogEntryRow_created_timestamp = Maybe.Nothing,
-                                stockLogEntrySpoiled = Maybe.Nothing,
-                                stockLogEntryStock_id = Maybe.Nothing,
-                                stockLogEntryTransaction_id = Maybe.Nothing,
-                                stockLogEntryTransaction_type = Maybe.Nothing,
-                                stockLogEntryUsed_date = Maybe.Nothing}
+mkStockLogEntry = StockLogEntry{stockLogEntryAmount = GHC.Internal.Maybe.Nothing,
+                                stockLogEntryBest_before_date = GHC.Internal.Maybe.Nothing,
+                                stockLogEntryId = GHC.Internal.Maybe.Nothing,
+                                stockLogEntryNote = GHC.Internal.Maybe.Nothing,
+                                stockLogEntryProduct_id = GHC.Internal.Maybe.Nothing,
+                                stockLogEntryPurchased_date = GHC.Internal.Maybe.Nothing,
+                                stockLogEntryRow_created_timestamp = GHC.Internal.Maybe.Nothing,
+                                stockLogEntrySpoiled = GHC.Internal.Maybe.Nothing,
+                                stockLogEntryStock_id = GHC.Internal.Maybe.Nothing,
+                                stockLogEntryTransaction_id = GHC.Internal.Maybe.Nothing,
+                                stockLogEntryTransaction_type = GHC.Internal.Maybe.Nothing,
+                                stockLogEntryUsed_date = GHC.Internal.Maybe.Nothing}

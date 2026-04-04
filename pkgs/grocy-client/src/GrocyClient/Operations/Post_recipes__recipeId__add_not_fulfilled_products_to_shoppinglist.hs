@@ -9,21 +9,28 @@ module GrocyClient.Operations.Post_recipes__recipeId__add_not_fulfilled_products
 
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
+import qualified Prelude as GHC.Internal.Maybe
 import qualified Control.Monad.Fail
+import qualified Control.Monad.Fail as GHC.Internal.Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Decoding
 import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
-import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString
 import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.ByteString as Data.ByteString.Internal.Type
 import qualified Data.Either
+import qualified Data.Either as GHC.Internal.Data.Either
 import qualified Data.Foldable
+import qualified Data.Foldable as GHC.Internal.Data.Foldable
 import qualified Data.Functor
+import qualified Data.Functor as GHC.Internal.Data.Functor
 import qualified Data.Maybe
+import qualified Data.Maybe as GHC.Internal.Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text as Data.Text.Internal
@@ -31,9 +38,12 @@ import qualified Data.Time.Calendar as Data.Time.Calendar.Days
 import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
+import qualified GHC.Base as GHC.Internal.Base
 import qualified GHC.Classes
 import qualified GHC.Int
+import qualified GHC.Int as GHC.Internal.Int
 import qualified GHC.Show
+import qualified GHC.Show as GHC.Internal.Show
 import qualified GHC.Types
 import qualified Network.HTTP.Client
 import qualified Network.HTTP.Client as Network.HTTP.Client.Request
@@ -49,60 +59,60 @@ import GrocyClient.Types
 -- 
 -- Adds all missing products for the given recipe to the shopping list
 post_recipes__recipeId__add_not_fulfilled_products_to_shoppinglist :: forall m . GrocyClient.Common.MonadHTTP m => Data.Text.Internal.Text -- ^ recipeId: A valid recipe id
-  -> Maybe.Maybe Post_recipes__recipeId__add_not_fulfilled_products_to_shoppinglistRequestBody -- ^ The request body to send
+  -> GHC.Internal.Maybe.Maybe Post_recipes__recipeId__add_not_fulfilled_products_to_shoppinglistRequestBody -- ^ The request body to send
   -> GrocyClient.Common.ClientT m (Network.HTTP.Client.Types.Response Post_recipes__recipeId__add_not_fulfilled_products_to_shoppinglistResponse) -- ^ Monadic computation which returns the result of the operation
 post_recipes__recipeId__add_not_fulfilled_products_to_shoppinglist recipeId
-                                                                   body = Base.fmap (\response_0 -> Base.fmap (Data.Either.either Post_recipes__recipeId__add_not_fulfilled_products_to_shoppinglistResponseError Base.id Base.. (\response body -> if | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 204) (Network.HTTP.Client.Types.responseStatus response) -> Data.Either.Right Post_recipes__recipeId__add_not_fulfilled_products_to_shoppinglistResponse204
-                                                                                                                                                                                                                                                                                                                        | Base.otherwise -> Data.Either.Left "Missing default response type") response_0) response_0) (GrocyClient.Common.doBodyCallWithConfigurationM (Data.Text.toUpper Base.$ Data.Text.Internal.pack "POST") ("/recipes/" Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True Base.$ (GrocyClient.Common.textToByte Base.$ GrocyClient.Common.stringifyModel recipeId)) Base.<> "/add-not-fulfilled-products-to-shoppinglist")) Base.mempty body GrocyClient.Common.RequestBodyEncodingJSON)
+                                                                   body = GHC.Internal.Base.fmap (\response_0 -> GHC.Internal.Base.fmap (GHC.Internal.Data.Either.either Post_recipes__recipeId__add_not_fulfilled_products_to_shoppinglistResponseError GHC.Internal.Base.id GHC.Internal.Base.. (\response body -> if | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 204) (Network.HTTP.Client.Types.responseStatus response) -> GHC.Internal.Data.Either.Right Post_recipes__recipeId__add_not_fulfilled_products_to_shoppinglistResponse204
+                                                                                                                                                                                                                                                                                                                        | GHC.Internal.Base.otherwise -> GHC.Internal.Data.Either.Left "Missing default response type") response_0) response_0) (GrocyClient.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Internal.Base.$ Data.Text.Internal.pack "POST") ("/recipes/" GHC.Internal.Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Internal.Base.$ (GrocyClient.Common.textToByte GHC.Internal.Base.$ GrocyClient.Common.stringifyModel recipeId)) GHC.Internal.Base.<> "/add-not-fulfilled-products-to-shoppinglist")) GHC.Internal.Base.mempty body GrocyClient.Common.RequestBodyEncodingJSON)
 -- | Defines the object schema located at @paths.\/recipes\/{recipeId}\/add-not-fulfilled-products-to-shoppinglist.POST.requestBody.content.application\/json.schema@ in the specification.
 -- 
 -- 
 data Post_recipes__recipeId__add_not_fulfilled_products_to_shoppinglistRequestBody = Post_recipes__recipeId__add_not_fulfilled_products_to_shoppinglistRequestBody {
   -- | excludedProductIds: An optional array of product ids to exclude them from being put on the shopping list
-  post_recipes__recipeId__add_not_fulfilled_products_to_shoppinglistRequestBodyExcludedProductIds :: (Maybe.Maybe [GHC.Types.Int])
-  } deriving (Show.Show
+  post_recipes__recipeId__add_not_fulfilled_products_to_shoppinglistRequestBodyExcludedProductIds :: (GHC.Internal.Maybe.Maybe [GHC.Types.Int])
+  } deriving (GHC.Internal.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.Types.ToJSON.ToJSON Post_recipes__recipeId__add_not_fulfilled_products_to_shoppinglistRequestBody
-    where {toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe Base.mempty (Base.pure Base.. ("excludedProductIds" Data.Aeson.Types.ToJSON..=)) (post_recipes__recipeId__add_not_fulfilled_products_to_shoppinglistRequestBodyExcludedProductIds obj) : Base.mempty));
-           toEncoding obj = Data.Aeson.Encoding.Internal.pairs (Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe Base.mempty (Base.pure Base.. ("excludedProductIds" Data.Aeson.Types.ToJSON..=)) (post_recipes__recipeId__add_not_fulfilled_products_to_shoppinglistRequestBodyExcludedProductIds obj) : Base.mempty)))}
+    where {toJSON obj = Data.Aeson.Types.Internal.object (GHC.Internal.Data.Foldable.concat (GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("excludedProductIds" Data.Aeson.Types.ToJSON..=)) (post_recipes__recipeId__add_not_fulfilled_products_to_shoppinglistRequestBodyExcludedProductIds obj) : GHC.Internal.Base.mempty));
+           toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Internal.Base.mconcat (GHC.Internal.Data.Foldable.concat (GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("excludedProductIds" Data.Aeson.Types.ToJSON..=)) (post_recipes__recipeId__add_not_fulfilled_products_to_shoppinglistRequestBodyExcludedProductIds obj) : GHC.Internal.Base.mempty)))}
 instance Data.Aeson.Types.FromJSON.FromJSON Post_recipes__recipeId__add_not_fulfilled_products_to_shoppinglistRequestBody
-    where {parseJSON = Data.Aeson.Types.FromJSON.withObject "Post_recipes__recipeId__add_not_fulfilled_products_to_shoppinglistRequestBody" (\obj -> Base.pure Post_recipes__recipeId__add_not_fulfilled_products_to_shoppinglistRequestBody Base.<*> (obj Data.Aeson.Types.FromJSON..:! "excludedProductIds"))}
+    where {parseJSON = Data.Aeson.Types.FromJSON.withObject "Post_recipes__recipeId__add_not_fulfilled_products_to_shoppinglistRequestBody" (\obj -> GHC.Internal.Base.pure Post_recipes__recipeId__add_not_fulfilled_products_to_shoppinglistRequestBody GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "excludedProductIds"))}
 -- | Create a new 'Post_recipes__recipeId__add_not_fulfilled_products_to_shoppinglistRequestBody' with all required fields.
 mkPost_recipes__recipeId__add_not_fulfilled_products_to_shoppinglistRequestBody :: Post_recipes__recipeId__add_not_fulfilled_products_to_shoppinglistRequestBody
-mkPost_recipes__recipeId__add_not_fulfilled_products_to_shoppinglistRequestBody = Post_recipes__recipeId__add_not_fulfilled_products_to_shoppinglistRequestBody{post_recipes__recipeId__add_not_fulfilled_products_to_shoppinglistRequestBodyExcludedProductIds = Maybe.Nothing}
+mkPost_recipes__recipeId__add_not_fulfilled_products_to_shoppinglistRequestBody = Post_recipes__recipeId__add_not_fulfilled_products_to_shoppinglistRequestBody{post_recipes__recipeId__add_not_fulfilled_products_to_shoppinglistRequestBodyExcludedProductIds = GHC.Internal.Maybe.Nothing}
 -- | Represents a response of the operation 'post_recipes__recipeId__add_not_fulfilled_products_to_shoppinglist'.
 -- 
 -- The response constructor is chosen by the status code of the response. If no case matches (no specific case for the response code, no range case, no default case), 'Post_recipes__recipeId__add_not_fulfilled_products_to_shoppinglistResponseError' is used.
 data Post_recipes__recipeId__add_not_fulfilled_products_to_shoppinglistResponse =
-   Post_recipes__recipeId__add_not_fulfilled_products_to_shoppinglistResponseError Base.String -- ^ Means either no matching case available or a parse error
+   Post_recipes__recipeId__add_not_fulfilled_products_to_shoppinglistResponseError GHC.Internal.Base.String -- ^ Means either no matching case available or a parse error
   | Post_recipes__recipeId__add_not_fulfilled_products_to_shoppinglistResponse204 -- ^ The operation was successful
-  deriving (Show.Show, GHC.Classes.Eq)
+  deriving (GHC.Internal.Show.Show, GHC.Classes.Eq)
 -- | > POST /recipes/{recipeId}/add-not-fulfilled-products-to-shoppinglist
 -- 
 -- The same as 'post_recipes__recipeId__add_not_fulfilled_products_to_shoppinglist' but accepts an explicit configuration.
 post_recipes__recipeId__add_not_fulfilled_products_to_shoppinglistWithConfiguration :: forall m . GrocyClient.Common.MonadHTTP m => GrocyClient.Common.Configuration -- ^ The configuration to use in the request
   -> Data.Text.Internal.Text -- ^ recipeId: A valid recipe id
-  -> Maybe.Maybe Post_recipes__recipeId__add_not_fulfilled_products_to_shoppinglistRequestBody -- ^ The request body to send
+  -> GHC.Internal.Maybe.Maybe Post_recipes__recipeId__add_not_fulfilled_products_to_shoppinglistRequestBody -- ^ The request body to send
   -> m (Network.HTTP.Client.Types.Response Post_recipes__recipeId__add_not_fulfilled_products_to_shoppinglistResponse) -- ^ Monadic computation which returns the result of the operation
 post_recipes__recipeId__add_not_fulfilled_products_to_shoppinglistWithConfiguration config
                                                                                     recipeId
-                                                                                    body = Base.fmap (\response_2 -> Base.fmap (Data.Either.either Post_recipes__recipeId__add_not_fulfilled_products_to_shoppinglistResponseError Base.id Base.. (\response body -> if | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 204) (Network.HTTP.Client.Types.responseStatus response) -> Data.Either.Right Post_recipes__recipeId__add_not_fulfilled_products_to_shoppinglistResponse204
-                                                                                                                                                                                                                                                                                                                                         | Base.otherwise -> Data.Either.Left "Missing default response type") response_2) response_2) (GrocyClient.Common.doBodyCallWithConfiguration config (Data.Text.toUpper Base.$ Data.Text.Internal.pack "POST") ("/recipes/" Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True Base.$ (GrocyClient.Common.textToByte Base.$ GrocyClient.Common.stringifyModel recipeId)) Base.<> "/add-not-fulfilled-products-to-shoppinglist")) Base.mempty body GrocyClient.Common.RequestBodyEncodingJSON)
+                                                                                    body = GHC.Internal.Base.fmap (\response_2 -> GHC.Internal.Base.fmap (GHC.Internal.Data.Either.either Post_recipes__recipeId__add_not_fulfilled_products_to_shoppinglistResponseError GHC.Internal.Base.id GHC.Internal.Base.. (\response body -> if | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 204) (Network.HTTP.Client.Types.responseStatus response) -> GHC.Internal.Data.Either.Right Post_recipes__recipeId__add_not_fulfilled_products_to_shoppinglistResponse204
+                                                                                                                                                                                                                                                                                                                                         | GHC.Internal.Base.otherwise -> GHC.Internal.Data.Either.Left "Missing default response type") response_2) response_2) (GrocyClient.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Internal.Base.$ Data.Text.Internal.pack "POST") ("/recipes/" GHC.Internal.Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Internal.Base.$ (GrocyClient.Common.textToByte GHC.Internal.Base.$ GrocyClient.Common.stringifyModel recipeId)) GHC.Internal.Base.<> "/add-not-fulfilled-products-to-shoppinglist")) GHC.Internal.Base.mempty body GrocyClient.Common.RequestBodyEncodingJSON)
 -- | > POST /recipes/{recipeId}/add-not-fulfilled-products-to-shoppinglist
 -- 
 -- The same as 'post_recipes__recipeId__add_not_fulfilled_products_to_shoppinglist' but returns the raw 'Data.ByteString.ByteString'.
 post_recipes__recipeId__add_not_fulfilled_products_to_shoppinglistRaw :: forall m . GrocyClient.Common.MonadHTTP m => Data.Text.Internal.Text -- ^ recipeId: A valid recipe id
-  -> Maybe.Maybe Post_recipes__recipeId__add_not_fulfilled_products_to_shoppinglistRequestBody -- ^ The request body to send
+  -> GHC.Internal.Maybe.Maybe Post_recipes__recipeId__add_not_fulfilled_products_to_shoppinglistRequestBody -- ^ The request body to send
   -> GrocyClient.Common.ClientT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.Type.ByteString) -- ^ Monadic computation which returns the result of the operation
 post_recipes__recipeId__add_not_fulfilled_products_to_shoppinglistRaw recipeId
-                                                                      body = Base.id (GrocyClient.Common.doBodyCallWithConfigurationM (Data.Text.toUpper Base.$ Data.Text.Internal.pack "POST") ("/recipes/" Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True Base.$ (GrocyClient.Common.textToByte Base.$ GrocyClient.Common.stringifyModel recipeId)) Base.<> "/add-not-fulfilled-products-to-shoppinglist")) Base.mempty body GrocyClient.Common.RequestBodyEncodingJSON)
+                                                                      body = GHC.Internal.Base.id (GrocyClient.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Internal.Base.$ Data.Text.Internal.pack "POST") ("/recipes/" GHC.Internal.Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Internal.Base.$ (GrocyClient.Common.textToByte GHC.Internal.Base.$ GrocyClient.Common.stringifyModel recipeId)) GHC.Internal.Base.<> "/add-not-fulfilled-products-to-shoppinglist")) GHC.Internal.Base.mempty body GrocyClient.Common.RequestBodyEncodingJSON)
 -- | > POST /recipes/{recipeId}/add-not-fulfilled-products-to-shoppinglist
 -- 
 -- The same as 'post_recipes__recipeId__add_not_fulfilled_products_to_shoppinglist' but accepts an explicit configuration and returns the raw 'Data.ByteString.ByteString'.
 post_recipes__recipeId__add_not_fulfilled_products_to_shoppinglistWithConfigurationRaw :: forall m . GrocyClient.Common.MonadHTTP m => GrocyClient.Common.Configuration -- ^ The configuration to use in the request
   -> Data.Text.Internal.Text -- ^ recipeId: A valid recipe id
-  -> Maybe.Maybe Post_recipes__recipeId__add_not_fulfilled_products_to_shoppinglistRequestBody -- ^ The request body to send
+  -> GHC.Internal.Maybe.Maybe Post_recipes__recipeId__add_not_fulfilled_products_to_shoppinglistRequestBody -- ^ The request body to send
   -> m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.Type.ByteString) -- ^ Monadic computation which returns the result of the operation
 post_recipes__recipeId__add_not_fulfilled_products_to_shoppinglistWithConfigurationRaw config
                                                                                        recipeId
-                                                                                       body = Base.id (GrocyClient.Common.doBodyCallWithConfiguration config (Data.Text.toUpper Base.$ Data.Text.Internal.pack "POST") ("/recipes/" Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True Base.$ (GrocyClient.Common.textToByte Base.$ GrocyClient.Common.stringifyModel recipeId)) Base.<> "/add-not-fulfilled-products-to-shoppinglist")) Base.mempty body GrocyClient.Common.RequestBodyEncodingJSON)
+                                                                                       body = GHC.Internal.Base.id (GrocyClient.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Internal.Base.$ Data.Text.Internal.pack "POST") ("/recipes/" GHC.Internal.Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Internal.Base.$ (GrocyClient.Common.textToByte GHC.Internal.Base.$ GrocyClient.Common.stringifyModel recipeId)) GHC.Internal.Base.<> "/add-not-fulfilled-products-to-shoppinglist")) GHC.Internal.Base.mempty body GrocyClient.Common.RequestBodyEncodingJSON)

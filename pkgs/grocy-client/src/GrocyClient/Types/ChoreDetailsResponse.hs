@@ -8,7 +8,9 @@ module GrocyClient.Types.ChoreDetailsResponse where
 
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
+import qualified Prelude as GHC.Internal.Maybe
 import qualified Control.Monad.Fail
+import qualified Control.Monad.Fail as GHC.Internal.Control.Monad.Fail
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
@@ -18,17 +20,23 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.ByteString
 import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
+import qualified Data.Foldable as GHC.Internal.Data.Foldable
 import qualified Data.Functor
+import qualified Data.Functor as GHC.Internal.Data.Functor
 import qualified Data.Maybe
+import qualified Data.Maybe as GHC.Internal.Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text as Data.Text.Internal
 import qualified Data.Time.Calendar as Data.Time.Calendar.Days
 import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified GHC.Base
+import qualified GHC.Base as GHC.Internal.Base
 import qualified GHC.Classes
 import qualified GHC.Int
+import qualified GHC.Int as GHC.Internal.Int
 import qualified GHC.Show
+import qualified GHC.Show as GHC.Internal.Show
 import qualified GHC.Types
 import qualified GrocyClient.Common
 import GrocyClient.TypeAlias
@@ -40,32 +48,32 @@ import {-# SOURCE #-} GrocyClient.Types.UserDto
 -- 
 data ChoreDetailsResponse = ChoreDetailsResponse {
   -- | average_execution_frequency_hours: Contains the average past execution frequency in hours or \`null\`, when the chore was never executed before
-  choreDetailsResponseAverage_execution_frequency_hours :: (Maybe.Maybe GHC.Types.Int)
+  choreDetailsResponseAverage_execution_frequency_hours :: (GHC.Internal.Maybe.Maybe GHC.Types.Int)
   -- | chore
-  , choreDetailsResponseChore :: (Maybe.Maybe Chore)
+  , choreDetailsResponseChore :: (GHC.Internal.Maybe.Maybe Chore)
   -- | last_done_by: A user object without the *password* and with an additional *display_name* property
-  , choreDetailsResponseLast_done_by :: (Maybe.Maybe UserDto)
+  , choreDetailsResponseLast_done_by :: (GHC.Internal.Maybe.Maybe UserDto)
   -- | last_tracked: When this chore was last tracked
-  , choreDetailsResponseLast_tracked :: (Maybe.Maybe Data.Text.Internal.Text)
+  , choreDetailsResponseLast_tracked :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
   -- | next_estimated_execution_time
-  , choreDetailsResponseNext_estimated_execution_time :: (Maybe.Maybe Data.Text.Internal.Text)
+  , choreDetailsResponseNext_estimated_execution_time :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
   -- | next_execution_assigned_user: A user object without the *password* and with an additional *display_name* property
-  , choreDetailsResponseNext_execution_assigned_user :: (Maybe.Maybe UserDto)
+  , choreDetailsResponseNext_execution_assigned_user :: (GHC.Internal.Maybe.Maybe UserDto)
   -- | track_count: How often this chore was tracked so far
-  , choreDetailsResponseTrack_count :: (Maybe.Maybe GHC.Types.Int)
-  } deriving (Show.Show
+  , choreDetailsResponseTrack_count :: (GHC.Internal.Maybe.Maybe GHC.Types.Int)
+  } deriving (GHC.Internal.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.Types.ToJSON.ToJSON ChoreDetailsResponse
-    where {toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe Base.mempty (Base.pure Base.. ("average_execution_frequency_hours" Data.Aeson.Types.ToJSON..=)) (choreDetailsResponseAverage_execution_frequency_hours obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("chore" Data.Aeson.Types.ToJSON..=)) (choreDetailsResponseChore obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("last_done_by" Data.Aeson.Types.ToJSON..=)) (choreDetailsResponseLast_done_by obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("last_tracked" Data.Aeson.Types.ToJSON..=)) (choreDetailsResponseLast_tracked obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("next_estimated_execution_time" Data.Aeson.Types.ToJSON..=)) (choreDetailsResponseNext_estimated_execution_time obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("next_execution_assigned_user" Data.Aeson.Types.ToJSON..=)) (choreDetailsResponseNext_execution_assigned_user obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("track_count" Data.Aeson.Types.ToJSON..=)) (choreDetailsResponseTrack_count obj) : Base.mempty));
-           toEncoding obj = Data.Aeson.Encoding.Internal.pairs (Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe Base.mempty (Base.pure Base.. ("average_execution_frequency_hours" Data.Aeson.Types.ToJSON..=)) (choreDetailsResponseAverage_execution_frequency_hours obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("chore" Data.Aeson.Types.ToJSON..=)) (choreDetailsResponseChore obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("last_done_by" Data.Aeson.Types.ToJSON..=)) (choreDetailsResponseLast_done_by obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("last_tracked" Data.Aeson.Types.ToJSON..=)) (choreDetailsResponseLast_tracked obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("next_estimated_execution_time" Data.Aeson.Types.ToJSON..=)) (choreDetailsResponseNext_estimated_execution_time obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("next_execution_assigned_user" Data.Aeson.Types.ToJSON..=)) (choreDetailsResponseNext_execution_assigned_user obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("track_count" Data.Aeson.Types.ToJSON..=)) (choreDetailsResponseTrack_count obj) : Base.mempty)))}
+    where {toJSON obj = Data.Aeson.Types.Internal.object (GHC.Internal.Data.Foldable.concat (GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("average_execution_frequency_hours" Data.Aeson.Types.ToJSON..=)) (choreDetailsResponseAverage_execution_frequency_hours obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("chore" Data.Aeson.Types.ToJSON..=)) (choreDetailsResponseChore obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("last_done_by" Data.Aeson.Types.ToJSON..=)) (choreDetailsResponseLast_done_by obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("last_tracked" Data.Aeson.Types.ToJSON..=)) (choreDetailsResponseLast_tracked obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("next_estimated_execution_time" Data.Aeson.Types.ToJSON..=)) (choreDetailsResponseNext_estimated_execution_time obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("next_execution_assigned_user" Data.Aeson.Types.ToJSON..=)) (choreDetailsResponseNext_execution_assigned_user obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("track_count" Data.Aeson.Types.ToJSON..=)) (choreDetailsResponseTrack_count obj) : GHC.Internal.Base.mempty));
+           toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Internal.Base.mconcat (GHC.Internal.Data.Foldable.concat (GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("average_execution_frequency_hours" Data.Aeson.Types.ToJSON..=)) (choreDetailsResponseAverage_execution_frequency_hours obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("chore" Data.Aeson.Types.ToJSON..=)) (choreDetailsResponseChore obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("last_done_by" Data.Aeson.Types.ToJSON..=)) (choreDetailsResponseLast_done_by obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("last_tracked" Data.Aeson.Types.ToJSON..=)) (choreDetailsResponseLast_tracked obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("next_estimated_execution_time" Data.Aeson.Types.ToJSON..=)) (choreDetailsResponseNext_estimated_execution_time obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("next_execution_assigned_user" Data.Aeson.Types.ToJSON..=)) (choreDetailsResponseNext_execution_assigned_user obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("track_count" Data.Aeson.Types.ToJSON..=)) (choreDetailsResponseTrack_count obj) : GHC.Internal.Base.mempty)))}
 instance Data.Aeson.Types.FromJSON.FromJSON ChoreDetailsResponse
-    where {parseJSON = Data.Aeson.Types.FromJSON.withObject "ChoreDetailsResponse" (\obj -> ((((((Base.pure ChoreDetailsResponse Base.<*> (obj Data.Aeson.Types.FromJSON..:! "average_execution_frequency_hours")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "chore")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "last_done_by")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "last_tracked")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "next_estimated_execution_time")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "next_execution_assigned_user")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "track_count"))}
+    where {parseJSON = Data.Aeson.Types.FromJSON.withObject "ChoreDetailsResponse" (\obj -> ((((((GHC.Internal.Base.pure ChoreDetailsResponse GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "average_execution_frequency_hours")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "chore")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "last_done_by")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "last_tracked")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "next_estimated_execution_time")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "next_execution_assigned_user")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "track_count"))}
 -- | Create a new 'ChoreDetailsResponse' with all required fields.
 mkChoreDetailsResponse :: ChoreDetailsResponse
-mkChoreDetailsResponse = ChoreDetailsResponse{choreDetailsResponseAverage_execution_frequency_hours = Maybe.Nothing,
-                                              choreDetailsResponseChore = Maybe.Nothing,
-                                              choreDetailsResponseLast_done_by = Maybe.Nothing,
-                                              choreDetailsResponseLast_tracked = Maybe.Nothing,
-                                              choreDetailsResponseNext_estimated_execution_time = Maybe.Nothing,
-                                              choreDetailsResponseNext_execution_assigned_user = Maybe.Nothing,
-                                              choreDetailsResponseTrack_count = Maybe.Nothing}
+mkChoreDetailsResponse = ChoreDetailsResponse{choreDetailsResponseAverage_execution_frequency_hours = GHC.Internal.Maybe.Nothing,
+                                              choreDetailsResponseChore = GHC.Internal.Maybe.Nothing,
+                                              choreDetailsResponseLast_done_by = GHC.Internal.Maybe.Nothing,
+                                              choreDetailsResponseLast_tracked = GHC.Internal.Maybe.Nothing,
+                                              choreDetailsResponseNext_estimated_execution_time = GHC.Internal.Maybe.Nothing,
+                                              choreDetailsResponseNext_execution_assigned_user = GHC.Internal.Maybe.Nothing,
+                                              choreDetailsResponseTrack_count = GHC.Internal.Maybe.Nothing}

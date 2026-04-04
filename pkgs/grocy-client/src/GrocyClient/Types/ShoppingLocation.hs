@@ -8,7 +8,9 @@ module GrocyClient.Types.ShoppingLocation where
 
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
+import qualified Prelude as GHC.Internal.Maybe
 import qualified Control.Monad.Fail
+import qualified Control.Monad.Fail as GHC.Internal.Control.Monad.Fail
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
@@ -18,17 +20,23 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.ByteString
 import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
+import qualified Data.Foldable as GHC.Internal.Data.Foldable
 import qualified Data.Functor
+import qualified Data.Functor as GHC.Internal.Data.Functor
 import qualified Data.Maybe
+import qualified Data.Maybe as GHC.Internal.Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text as Data.Text.Internal
 import qualified Data.Time.Calendar as Data.Time.Calendar.Days
 import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified GHC.Base
+import qualified GHC.Base as GHC.Internal.Base
 import qualified GHC.Classes
 import qualified GHC.Int
+import qualified GHC.Int as GHC.Internal.Int
 import qualified GHC.Show
+import qualified GHC.Show as GHC.Internal.Show
 import qualified GHC.Types
 import qualified GrocyClient.Common
 import GrocyClient.TypeAlias
@@ -38,26 +46,26 @@ import GrocyClient.TypeAlias
 -- 
 data ShoppingLocation = ShoppingLocation {
   -- | description
-  shoppingLocationDescription :: (Maybe.Maybe Data.Text.Internal.Text)
+  shoppingLocationDescription :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
   -- | id
-  , shoppingLocationId :: (Maybe.Maybe GHC.Types.Int)
+  , shoppingLocationId :: (GHC.Internal.Maybe.Maybe GHC.Types.Int)
   -- | name
-  , shoppingLocationName :: (Maybe.Maybe Data.Text.Internal.Text)
+  , shoppingLocationName :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
   -- | row_created_timestamp
-  , shoppingLocationRow_created_timestamp :: (Maybe.Maybe Data.Text.Internal.Text)
+  , shoppingLocationRow_created_timestamp :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
   -- | userfields: Key\/value pairs of userfields
-  , shoppingLocationUserfields :: (Maybe.Maybe Data.Aeson.Types.Internal.Object)
-  } deriving (Show.Show
+  , shoppingLocationUserfields :: (GHC.Internal.Maybe.Maybe Data.Aeson.Types.Internal.Object)
+  } deriving (GHC.Internal.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.Types.ToJSON.ToJSON ShoppingLocation
-    where {toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe Base.mempty (Base.pure Base.. ("description" Data.Aeson.Types.ToJSON..=)) (shoppingLocationDescription obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("id" Data.Aeson.Types.ToJSON..=)) (shoppingLocationId obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("name" Data.Aeson.Types.ToJSON..=)) (shoppingLocationName obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("row_created_timestamp" Data.Aeson.Types.ToJSON..=)) (shoppingLocationRow_created_timestamp obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("userfields" Data.Aeson.Types.ToJSON..=)) (shoppingLocationUserfields obj) : Base.mempty));
-           toEncoding obj = Data.Aeson.Encoding.Internal.pairs (Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe Base.mempty (Base.pure Base.. ("description" Data.Aeson.Types.ToJSON..=)) (shoppingLocationDescription obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("id" Data.Aeson.Types.ToJSON..=)) (shoppingLocationId obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("name" Data.Aeson.Types.ToJSON..=)) (shoppingLocationName obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("row_created_timestamp" Data.Aeson.Types.ToJSON..=)) (shoppingLocationRow_created_timestamp obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("userfields" Data.Aeson.Types.ToJSON..=)) (shoppingLocationUserfields obj) : Base.mempty)))}
+    where {toJSON obj = Data.Aeson.Types.Internal.object (GHC.Internal.Data.Foldable.concat (GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (shoppingLocationDescription obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("id" Data.Aeson.Types.ToJSON..=)) (shoppingLocationId obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("name" Data.Aeson.Types.ToJSON..=)) (shoppingLocationName obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("row_created_timestamp" Data.Aeson.Types.ToJSON..=)) (shoppingLocationRow_created_timestamp obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("userfields" Data.Aeson.Types.ToJSON..=)) (shoppingLocationUserfields obj) : GHC.Internal.Base.mempty));
+           toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Internal.Base.mconcat (GHC.Internal.Data.Foldable.concat (GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (shoppingLocationDescription obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("id" Data.Aeson.Types.ToJSON..=)) (shoppingLocationId obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("name" Data.Aeson.Types.ToJSON..=)) (shoppingLocationName obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("row_created_timestamp" Data.Aeson.Types.ToJSON..=)) (shoppingLocationRow_created_timestamp obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("userfields" Data.Aeson.Types.ToJSON..=)) (shoppingLocationUserfields obj) : GHC.Internal.Base.mempty)))}
 instance Data.Aeson.Types.FromJSON.FromJSON ShoppingLocation
-    where {parseJSON = Data.Aeson.Types.FromJSON.withObject "ShoppingLocation" (\obj -> ((((Base.pure ShoppingLocation Base.<*> (obj Data.Aeson.Types.FromJSON..:! "description")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "id")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "name")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "row_created_timestamp")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "userfields"))}
+    where {parseJSON = Data.Aeson.Types.FromJSON.withObject "ShoppingLocation" (\obj -> ((((GHC.Internal.Base.pure ShoppingLocation GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "description")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "id")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "name")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "row_created_timestamp")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "userfields"))}
 -- | Create a new 'ShoppingLocation' with all required fields.
 mkShoppingLocation :: ShoppingLocation
-mkShoppingLocation = ShoppingLocation{shoppingLocationDescription = Maybe.Nothing,
-                                      shoppingLocationId = Maybe.Nothing,
-                                      shoppingLocationName = Maybe.Nothing,
-                                      shoppingLocationRow_created_timestamp = Maybe.Nothing,
-                                      shoppingLocationUserfields = Maybe.Nothing}
+mkShoppingLocation = ShoppingLocation{shoppingLocationDescription = GHC.Internal.Maybe.Nothing,
+                                      shoppingLocationId = GHC.Internal.Maybe.Nothing,
+                                      shoppingLocationName = GHC.Internal.Maybe.Nothing,
+                                      shoppingLocationRow_created_timestamp = GHC.Internal.Maybe.Nothing,
+                                      shoppingLocationUserfields = GHC.Internal.Maybe.Nothing}

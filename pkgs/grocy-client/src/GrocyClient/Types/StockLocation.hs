@@ -8,7 +8,9 @@ module GrocyClient.Types.StockLocation where
 
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
+import qualified Prelude as GHC.Internal.Maybe
 import qualified Control.Monad.Fail
+import qualified Control.Monad.Fail as GHC.Internal.Control.Monad.Fail
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
@@ -18,17 +20,23 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.ByteString
 import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
+import qualified Data.Foldable as GHC.Internal.Data.Foldable
 import qualified Data.Functor
+import qualified Data.Functor as GHC.Internal.Data.Functor
 import qualified Data.Maybe
+import qualified Data.Maybe as GHC.Internal.Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text as Data.Text.Internal
 import qualified Data.Time.Calendar as Data.Time.Calendar.Days
 import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified GHC.Base
+import qualified GHC.Base as GHC.Internal.Base
 import qualified GHC.Classes
 import qualified GHC.Int
+import qualified GHC.Int as GHC.Internal.Int
 import qualified GHC.Show
+import qualified GHC.Show as GHC.Internal.Show
 import qualified GHC.Types
 import qualified GrocyClient.Common
 import GrocyClient.TypeAlias
@@ -38,29 +46,29 @@ import GrocyClient.TypeAlias
 -- 
 data StockLocation = StockLocation {
   -- | amount
-  stockLocationAmount :: (Maybe.Maybe GHC.Types.Double)
+  stockLocationAmount :: (GHC.Internal.Maybe.Maybe GHC.Types.Double)
   -- | id
-  , stockLocationId :: (Maybe.Maybe GHC.Types.Int)
+  , stockLocationId :: (GHC.Internal.Maybe.Maybe GHC.Types.Int)
   -- | location_id
-  , stockLocationLocation_id :: (Maybe.Maybe GHC.Types.Int)
+  , stockLocationLocation_id :: (GHC.Internal.Maybe.Maybe GHC.Types.Int)
   -- | location_is_freezer
-  , stockLocationLocation_is_freezer :: (Maybe.Maybe GHC.Types.Int)
+  , stockLocationLocation_is_freezer :: (GHC.Internal.Maybe.Maybe GHC.Types.Int)
   -- | location_name
-  , stockLocationLocation_name :: (Maybe.Maybe Data.Text.Internal.Text)
+  , stockLocationLocation_name :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
   -- | product_id
-  , stockLocationProduct_id :: (Maybe.Maybe GHC.Types.Int)
-  } deriving (Show.Show
+  , stockLocationProduct_id :: (GHC.Internal.Maybe.Maybe GHC.Types.Int)
+  } deriving (GHC.Internal.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.Types.ToJSON.ToJSON StockLocation
-    where {toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe Base.mempty (Base.pure Base.. ("amount" Data.Aeson.Types.ToJSON..=)) (stockLocationAmount obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("id" Data.Aeson.Types.ToJSON..=)) (stockLocationId obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("location_id" Data.Aeson.Types.ToJSON..=)) (stockLocationLocation_id obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("location_is_freezer" Data.Aeson.Types.ToJSON..=)) (stockLocationLocation_is_freezer obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("location_name" Data.Aeson.Types.ToJSON..=)) (stockLocationLocation_name obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("product_id" Data.Aeson.Types.ToJSON..=)) (stockLocationProduct_id obj) : Base.mempty));
-           toEncoding obj = Data.Aeson.Encoding.Internal.pairs (Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe Base.mempty (Base.pure Base.. ("amount" Data.Aeson.Types.ToJSON..=)) (stockLocationAmount obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("id" Data.Aeson.Types.ToJSON..=)) (stockLocationId obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("location_id" Data.Aeson.Types.ToJSON..=)) (stockLocationLocation_id obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("location_is_freezer" Data.Aeson.Types.ToJSON..=)) (stockLocationLocation_is_freezer obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("location_name" Data.Aeson.Types.ToJSON..=)) (stockLocationLocation_name obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("product_id" Data.Aeson.Types.ToJSON..=)) (stockLocationProduct_id obj) : Base.mempty)))}
+    where {toJSON obj = Data.Aeson.Types.Internal.object (GHC.Internal.Data.Foldable.concat (GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("amount" Data.Aeson.Types.ToJSON..=)) (stockLocationAmount obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("id" Data.Aeson.Types.ToJSON..=)) (stockLocationId obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("location_id" Data.Aeson.Types.ToJSON..=)) (stockLocationLocation_id obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("location_is_freezer" Data.Aeson.Types.ToJSON..=)) (stockLocationLocation_is_freezer obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("location_name" Data.Aeson.Types.ToJSON..=)) (stockLocationLocation_name obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("product_id" Data.Aeson.Types.ToJSON..=)) (stockLocationProduct_id obj) : GHC.Internal.Base.mempty));
+           toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Internal.Base.mconcat (GHC.Internal.Data.Foldable.concat (GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("amount" Data.Aeson.Types.ToJSON..=)) (stockLocationAmount obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("id" Data.Aeson.Types.ToJSON..=)) (stockLocationId obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("location_id" Data.Aeson.Types.ToJSON..=)) (stockLocationLocation_id obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("location_is_freezer" Data.Aeson.Types.ToJSON..=)) (stockLocationLocation_is_freezer obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("location_name" Data.Aeson.Types.ToJSON..=)) (stockLocationLocation_name obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("product_id" Data.Aeson.Types.ToJSON..=)) (stockLocationProduct_id obj) : GHC.Internal.Base.mempty)))}
 instance Data.Aeson.Types.FromJSON.FromJSON StockLocation
-    where {parseJSON = Data.Aeson.Types.FromJSON.withObject "StockLocation" (\obj -> (((((Base.pure StockLocation Base.<*> (obj Data.Aeson.Types.FromJSON..:! "amount")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "id")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "location_id")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "location_is_freezer")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "location_name")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "product_id"))}
+    where {parseJSON = Data.Aeson.Types.FromJSON.withObject "StockLocation" (\obj -> (((((GHC.Internal.Base.pure StockLocation GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "amount")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "id")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "location_id")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "location_is_freezer")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "location_name")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "product_id"))}
 -- | Create a new 'StockLocation' with all required fields.
 mkStockLocation :: StockLocation
-mkStockLocation = StockLocation{stockLocationAmount = Maybe.Nothing,
-                                stockLocationId = Maybe.Nothing,
-                                stockLocationLocation_id = Maybe.Nothing,
-                                stockLocationLocation_is_freezer = Maybe.Nothing,
-                                stockLocationLocation_name = Maybe.Nothing,
-                                stockLocationProduct_id = Maybe.Nothing}
+mkStockLocation = StockLocation{stockLocationAmount = GHC.Internal.Maybe.Nothing,
+                                stockLocationId = GHC.Internal.Maybe.Nothing,
+                                stockLocationLocation_id = GHC.Internal.Maybe.Nothing,
+                                stockLocationLocation_is_freezer = GHC.Internal.Maybe.Nothing,
+                                stockLocationLocation_name = GHC.Internal.Maybe.Nothing,
+                                stockLocationProduct_id = GHC.Internal.Maybe.Nothing}

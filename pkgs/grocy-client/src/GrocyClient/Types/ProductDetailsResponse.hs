@@ -8,7 +8,9 @@ module GrocyClient.Types.ProductDetailsResponse where
 
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
+import qualified Prelude as GHC.Internal.Maybe
 import qualified Control.Monad.Fail
+import qualified Control.Monad.Fail as GHC.Internal.Control.Monad.Fail
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
@@ -18,17 +20,23 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.ByteString
 import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
+import qualified Data.Foldable as GHC.Internal.Data.Foldable
 import qualified Data.Functor
+import qualified Data.Functor as GHC.Internal.Data.Functor
 import qualified Data.Maybe
+import qualified Data.Maybe as GHC.Internal.Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text as Data.Text.Internal
 import qualified Data.Time.Calendar as Data.Time.Calendar.Days
 import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified GHC.Base
+import qualified GHC.Base as GHC.Internal.Base
 import qualified GHC.Classes
 import qualified GHC.Int
+import qualified GHC.Int as GHC.Internal.Int
 import qualified GHC.Show
+import qualified GHC.Show as GHC.Internal.Show
 import qualified GHC.Types
 import qualified GrocyClient.Common
 import GrocyClient.TypeAlias
@@ -42,80 +50,80 @@ import {-# SOURCE #-} GrocyClient.Types.QuantityUnit
 -- 
 data ProductDetailsResponse = ProductDetailsResponse {
   -- | average_shelf_life_days
-  productDetailsResponseAverage_shelf_life_days :: (Maybe.Maybe GHC.Types.Double)
+  productDetailsResponseAverage_shelf_life_days :: (GHC.Internal.Maybe.Maybe GHC.Types.Double)
   -- | avg_price: The average price af all stock entries currently in stock of the corresponding product
-  , productDetailsResponseAvg_price :: (Maybe.Maybe GHC.Types.Double)
+  , productDetailsResponseAvg_price :: (GHC.Internal.Maybe.Maybe GHC.Types.Double)
   -- | current_price: The current price of the corresponding product, based on the stock entry to use next (defined by the default consume rule \"Opened first, then first due first, then first in first out\") or on the last price if the product is currently not in stock
-  , productDetailsResponseCurrent_price :: (Maybe.Maybe GHC.Types.Double)
+  , productDetailsResponseCurrent_price :: (GHC.Internal.Maybe.Maybe GHC.Types.Double)
   -- | default_location
-  , productDetailsResponseDefault_location :: (Maybe.Maybe Location)
+  , productDetailsResponseDefault_location :: (GHC.Internal.Maybe.Maybe Location)
   -- | default_quantity_unit_consume
-  , productDetailsResponseDefault_quantity_unit_consume :: (Maybe.Maybe QuantityUnit)
+  , productDetailsResponseDefault_quantity_unit_consume :: (GHC.Internal.Maybe.Maybe QuantityUnit)
   -- | default_quantity_unit_purchase
-  , productDetailsResponseDefault_quantity_unit_purchase :: (Maybe.Maybe QuantityUnit)
+  , productDetailsResponseDefault_quantity_unit_purchase :: (GHC.Internal.Maybe.Maybe QuantityUnit)
   -- | has_childs: True when the product is a parent product of others
-  , productDetailsResponseHas_childs :: (Maybe.Maybe GHC.Types.Bool)
+  , productDetailsResponseHas_childs :: (GHC.Internal.Maybe.Maybe GHC.Types.Bool)
   -- | last_price: The price of the last purchase of the corresponding product
-  , productDetailsResponseLast_price :: (Maybe.Maybe GHC.Types.Double)
+  , productDetailsResponseLast_price :: (GHC.Internal.Maybe.Maybe GHC.Types.Double)
   -- | last_purchased
-  , productDetailsResponseLast_purchased :: (Maybe.Maybe Data.Text.Internal.Text)
+  , productDetailsResponseLast_purchased :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
   -- | last_shopping_location_id
-  , productDetailsResponseLast_shopping_location_id :: (Maybe.Maybe GHC.Types.Int)
+  , productDetailsResponseLast_shopping_location_id :: (GHC.Internal.Maybe.Maybe GHC.Types.Int)
   -- | last_used
-  , productDetailsResponseLast_used :: (Maybe.Maybe Data.Text.Internal.Text)
+  , productDetailsResponseLast_used :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
   -- | location
-  , productDetailsResponseLocation :: (Maybe.Maybe Location)
+  , productDetailsResponseLocation :: (GHC.Internal.Maybe.Maybe Location)
   -- | next_due_date
-  , productDetailsResponseNext_due_date :: (Maybe.Maybe Data.Text.Internal.Text)
+  , productDetailsResponseNext_due_date :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
   -- | oldest_price: This field is deprecated and will be removed in a future version (currently returns the same as \`current_price\`)
-  , productDetailsResponseOldest_price :: (Maybe.Maybe GHC.Types.Double)
+  , productDetailsResponseOldest_price :: (GHC.Internal.Maybe.Maybe GHC.Types.Double)
   -- | product
-  , productDetailsResponseProduct :: (Maybe.Maybe Product)
+  , productDetailsResponseProduct :: (GHC.Internal.Maybe.Maybe Product)
   -- | product_barcodes
-  , productDetailsResponseProduct_barcodes :: (Maybe.Maybe [ProductBarcode])
+  , productDetailsResponseProduct_barcodes :: (GHC.Internal.Maybe.Maybe [ProductBarcode])
   -- | qu_conversion_factor_price_to_stock: The conversion factor of the corresponding QU conversion from the product\'s qu_id_price to qu_id_stock
-  , productDetailsResponseQu_conversion_factor_price_to_stock :: (Maybe.Maybe GHC.Types.Double)
+  , productDetailsResponseQu_conversion_factor_price_to_stock :: (GHC.Internal.Maybe.Maybe GHC.Types.Double)
   -- | qu_conversion_factor_purchase_to_stock: The conversion factor of the corresponding QU conversion from the product\'s qu_id_purchase to qu_id_stock
-  , productDetailsResponseQu_conversion_factor_purchase_to_stock :: (Maybe.Maybe GHC.Types.Double)
+  , productDetailsResponseQu_conversion_factor_purchase_to_stock :: (GHC.Internal.Maybe.Maybe GHC.Types.Double)
   -- | quantity_unit_price
-  , productDetailsResponseQuantity_unit_price :: (Maybe.Maybe QuantityUnit)
+  , productDetailsResponseQuantity_unit_price :: (GHC.Internal.Maybe.Maybe QuantityUnit)
   -- | quantity_unit_stock
-  , productDetailsResponseQuantity_unit_stock :: (Maybe.Maybe QuantityUnit)
+  , productDetailsResponseQuantity_unit_stock :: (GHC.Internal.Maybe.Maybe QuantityUnit)
   -- | spoil_rate_percent
-  , productDetailsResponseSpoil_rate_percent :: (Maybe.Maybe GHC.Types.Double)
+  , productDetailsResponseSpoil_rate_percent :: (GHC.Internal.Maybe.Maybe GHC.Types.Double)
   -- | stock_amount
-  , productDetailsResponseStock_amount :: (Maybe.Maybe GHC.Types.Double)
+  , productDetailsResponseStock_amount :: (GHC.Internal.Maybe.Maybe GHC.Types.Double)
   -- | stock_amount_opened
-  , productDetailsResponseStock_amount_opened :: (Maybe.Maybe GHC.Types.Double)
-  } deriving (Show.Show
+  , productDetailsResponseStock_amount_opened :: (GHC.Internal.Maybe.Maybe GHC.Types.Double)
+  } deriving (GHC.Internal.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.Types.ToJSON.ToJSON ProductDetailsResponse
-    where {toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe Base.mempty (Base.pure Base.. ("average_shelf_life_days" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseAverage_shelf_life_days obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("avg_price" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseAvg_price obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("current_price" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseCurrent_price obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("default_location" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseDefault_location obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("default_quantity_unit_consume" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseDefault_quantity_unit_consume obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("default_quantity_unit_purchase" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseDefault_quantity_unit_purchase obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("has_childs" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseHas_childs obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("last_price" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseLast_price obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("last_purchased" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseLast_purchased obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("last_shopping_location_id" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseLast_shopping_location_id obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("last_used" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseLast_used obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("location" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseLocation obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("next_due_date" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseNext_due_date obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("oldest_price" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseOldest_price obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("product" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseProduct obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("product_barcodes" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseProduct_barcodes obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("qu_conversion_factor_price_to_stock" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseQu_conversion_factor_price_to_stock obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("qu_conversion_factor_purchase_to_stock" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseQu_conversion_factor_purchase_to_stock obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("quantity_unit_price" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseQuantity_unit_price obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("quantity_unit_stock" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseQuantity_unit_stock obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("spoil_rate_percent" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseSpoil_rate_percent obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("stock_amount" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseStock_amount obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("stock_amount_opened" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseStock_amount_opened obj) : Base.mempty));
-           toEncoding obj = Data.Aeson.Encoding.Internal.pairs (Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe Base.mempty (Base.pure Base.. ("average_shelf_life_days" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseAverage_shelf_life_days obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("avg_price" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseAvg_price obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("current_price" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseCurrent_price obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("default_location" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseDefault_location obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("default_quantity_unit_consume" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseDefault_quantity_unit_consume obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("default_quantity_unit_purchase" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseDefault_quantity_unit_purchase obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("has_childs" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseHas_childs obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("last_price" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseLast_price obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("last_purchased" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseLast_purchased obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("last_shopping_location_id" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseLast_shopping_location_id obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("last_used" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseLast_used obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("location" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseLocation obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("next_due_date" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseNext_due_date obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("oldest_price" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseOldest_price obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("product" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseProduct obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("product_barcodes" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseProduct_barcodes obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("qu_conversion_factor_price_to_stock" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseQu_conversion_factor_price_to_stock obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("qu_conversion_factor_purchase_to_stock" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseQu_conversion_factor_purchase_to_stock obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("quantity_unit_price" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseQuantity_unit_price obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("quantity_unit_stock" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseQuantity_unit_stock obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("spoil_rate_percent" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseSpoil_rate_percent obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("stock_amount" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseStock_amount obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("stock_amount_opened" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseStock_amount_opened obj) : Base.mempty)))}
+    where {toJSON obj = Data.Aeson.Types.Internal.object (GHC.Internal.Data.Foldable.concat (GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("average_shelf_life_days" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseAverage_shelf_life_days obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("avg_price" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseAvg_price obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("current_price" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseCurrent_price obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("default_location" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseDefault_location obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("default_quantity_unit_consume" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseDefault_quantity_unit_consume obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("default_quantity_unit_purchase" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseDefault_quantity_unit_purchase obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("has_childs" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseHas_childs obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("last_price" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseLast_price obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("last_purchased" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseLast_purchased obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("last_shopping_location_id" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseLast_shopping_location_id obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("last_used" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseLast_used obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("location" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseLocation obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("next_due_date" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseNext_due_date obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("oldest_price" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseOldest_price obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("product" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseProduct obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("product_barcodes" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseProduct_barcodes obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("qu_conversion_factor_price_to_stock" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseQu_conversion_factor_price_to_stock obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("qu_conversion_factor_purchase_to_stock" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseQu_conversion_factor_purchase_to_stock obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("quantity_unit_price" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseQuantity_unit_price obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("quantity_unit_stock" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseQuantity_unit_stock obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("spoil_rate_percent" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseSpoil_rate_percent obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("stock_amount" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseStock_amount obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("stock_amount_opened" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseStock_amount_opened obj) : GHC.Internal.Base.mempty));
+           toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Internal.Base.mconcat (GHC.Internal.Data.Foldable.concat (GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("average_shelf_life_days" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseAverage_shelf_life_days obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("avg_price" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseAvg_price obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("current_price" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseCurrent_price obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("default_location" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseDefault_location obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("default_quantity_unit_consume" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseDefault_quantity_unit_consume obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("default_quantity_unit_purchase" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseDefault_quantity_unit_purchase obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("has_childs" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseHas_childs obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("last_price" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseLast_price obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("last_purchased" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseLast_purchased obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("last_shopping_location_id" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseLast_shopping_location_id obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("last_used" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseLast_used obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("location" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseLocation obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("next_due_date" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseNext_due_date obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("oldest_price" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseOldest_price obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("product" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseProduct obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("product_barcodes" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseProduct_barcodes obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("qu_conversion_factor_price_to_stock" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseQu_conversion_factor_price_to_stock obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("qu_conversion_factor_purchase_to_stock" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseQu_conversion_factor_purchase_to_stock obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("quantity_unit_price" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseQuantity_unit_price obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("quantity_unit_stock" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseQuantity_unit_stock obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("spoil_rate_percent" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseSpoil_rate_percent obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("stock_amount" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseStock_amount obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("stock_amount_opened" Data.Aeson.Types.ToJSON..=)) (productDetailsResponseStock_amount_opened obj) : GHC.Internal.Base.mempty)))}
 instance Data.Aeson.Types.FromJSON.FromJSON ProductDetailsResponse
-    where {parseJSON = Data.Aeson.Types.FromJSON.withObject "ProductDetailsResponse" (\obj -> ((((((((((((((((((((((Base.pure ProductDetailsResponse Base.<*> (obj Data.Aeson.Types.FromJSON..:! "average_shelf_life_days")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "avg_price")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "current_price")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "default_location")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "default_quantity_unit_consume")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "default_quantity_unit_purchase")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "has_childs")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "last_price")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "last_purchased")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "last_shopping_location_id")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "last_used")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "location")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "next_due_date")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "oldest_price")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "product")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "product_barcodes")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "qu_conversion_factor_price_to_stock")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "qu_conversion_factor_purchase_to_stock")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "quantity_unit_price")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "quantity_unit_stock")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "spoil_rate_percent")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "stock_amount")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "stock_amount_opened"))}
+    where {parseJSON = Data.Aeson.Types.FromJSON.withObject "ProductDetailsResponse" (\obj -> ((((((((((((((((((((((GHC.Internal.Base.pure ProductDetailsResponse GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "average_shelf_life_days")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "avg_price")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "current_price")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "default_location")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "default_quantity_unit_consume")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "default_quantity_unit_purchase")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "has_childs")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "last_price")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "last_purchased")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "last_shopping_location_id")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "last_used")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "location")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "next_due_date")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "oldest_price")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "product")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "product_barcodes")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "qu_conversion_factor_price_to_stock")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "qu_conversion_factor_purchase_to_stock")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "quantity_unit_price")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "quantity_unit_stock")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "spoil_rate_percent")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "stock_amount")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "stock_amount_opened"))}
 -- | Create a new 'ProductDetailsResponse' with all required fields.
 mkProductDetailsResponse :: ProductDetailsResponse
-mkProductDetailsResponse = ProductDetailsResponse{productDetailsResponseAverage_shelf_life_days = Maybe.Nothing,
-                                                  productDetailsResponseAvg_price = Maybe.Nothing,
-                                                  productDetailsResponseCurrent_price = Maybe.Nothing,
-                                                  productDetailsResponseDefault_location = Maybe.Nothing,
-                                                  productDetailsResponseDefault_quantity_unit_consume = Maybe.Nothing,
-                                                  productDetailsResponseDefault_quantity_unit_purchase = Maybe.Nothing,
-                                                  productDetailsResponseHas_childs = Maybe.Nothing,
-                                                  productDetailsResponseLast_price = Maybe.Nothing,
-                                                  productDetailsResponseLast_purchased = Maybe.Nothing,
-                                                  productDetailsResponseLast_shopping_location_id = Maybe.Nothing,
-                                                  productDetailsResponseLast_used = Maybe.Nothing,
-                                                  productDetailsResponseLocation = Maybe.Nothing,
-                                                  productDetailsResponseNext_due_date = Maybe.Nothing,
-                                                  productDetailsResponseOldest_price = Maybe.Nothing,
-                                                  productDetailsResponseProduct = Maybe.Nothing,
-                                                  productDetailsResponseProduct_barcodes = Maybe.Nothing,
-                                                  productDetailsResponseQu_conversion_factor_price_to_stock = Maybe.Nothing,
-                                                  productDetailsResponseQu_conversion_factor_purchase_to_stock = Maybe.Nothing,
-                                                  productDetailsResponseQuantity_unit_price = Maybe.Nothing,
-                                                  productDetailsResponseQuantity_unit_stock = Maybe.Nothing,
-                                                  productDetailsResponseSpoil_rate_percent = Maybe.Nothing,
-                                                  productDetailsResponseStock_amount = Maybe.Nothing,
-                                                  productDetailsResponseStock_amount_opened = Maybe.Nothing}
+mkProductDetailsResponse = ProductDetailsResponse{productDetailsResponseAverage_shelf_life_days = GHC.Internal.Maybe.Nothing,
+                                                  productDetailsResponseAvg_price = GHC.Internal.Maybe.Nothing,
+                                                  productDetailsResponseCurrent_price = GHC.Internal.Maybe.Nothing,
+                                                  productDetailsResponseDefault_location = GHC.Internal.Maybe.Nothing,
+                                                  productDetailsResponseDefault_quantity_unit_consume = GHC.Internal.Maybe.Nothing,
+                                                  productDetailsResponseDefault_quantity_unit_purchase = GHC.Internal.Maybe.Nothing,
+                                                  productDetailsResponseHas_childs = GHC.Internal.Maybe.Nothing,
+                                                  productDetailsResponseLast_price = GHC.Internal.Maybe.Nothing,
+                                                  productDetailsResponseLast_purchased = GHC.Internal.Maybe.Nothing,
+                                                  productDetailsResponseLast_shopping_location_id = GHC.Internal.Maybe.Nothing,
+                                                  productDetailsResponseLast_used = GHC.Internal.Maybe.Nothing,
+                                                  productDetailsResponseLocation = GHC.Internal.Maybe.Nothing,
+                                                  productDetailsResponseNext_due_date = GHC.Internal.Maybe.Nothing,
+                                                  productDetailsResponseOldest_price = GHC.Internal.Maybe.Nothing,
+                                                  productDetailsResponseProduct = GHC.Internal.Maybe.Nothing,
+                                                  productDetailsResponseProduct_barcodes = GHC.Internal.Maybe.Nothing,
+                                                  productDetailsResponseQu_conversion_factor_price_to_stock = GHC.Internal.Maybe.Nothing,
+                                                  productDetailsResponseQu_conversion_factor_purchase_to_stock = GHC.Internal.Maybe.Nothing,
+                                                  productDetailsResponseQuantity_unit_price = GHC.Internal.Maybe.Nothing,
+                                                  productDetailsResponseQuantity_unit_stock = GHC.Internal.Maybe.Nothing,
+                                                  productDetailsResponseSpoil_rate_percent = GHC.Internal.Maybe.Nothing,
+                                                  productDetailsResponseStock_amount = GHC.Internal.Maybe.Nothing,
+                                                  productDetailsResponseStock_amount_opened = GHC.Internal.Maybe.Nothing}

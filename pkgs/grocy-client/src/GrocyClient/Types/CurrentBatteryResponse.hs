@@ -8,7 +8,9 @@ module GrocyClient.Types.CurrentBatteryResponse where
 
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
+import qualified Prelude as GHC.Internal.Maybe
 import qualified Control.Monad.Fail
+import qualified Control.Monad.Fail as GHC.Internal.Control.Monad.Fail
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
@@ -18,17 +20,23 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.ByteString
 import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
+import qualified Data.Foldable as GHC.Internal.Data.Foldable
 import qualified Data.Functor
+import qualified Data.Functor as GHC.Internal.Data.Functor
 import qualified Data.Maybe
+import qualified Data.Maybe as GHC.Internal.Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text as Data.Text.Internal
 import qualified Data.Time.Calendar as Data.Time.Calendar.Days
 import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified GHC.Base
+import qualified GHC.Base as GHC.Internal.Base
 import qualified GHC.Classes
 import qualified GHC.Int
+import qualified GHC.Int as GHC.Internal.Int
 import qualified GHC.Show
+import qualified GHC.Show as GHC.Internal.Show
 import qualified GHC.Types
 import qualified GrocyClient.Common
 import GrocyClient.TypeAlias
@@ -38,20 +46,20 @@ import GrocyClient.TypeAlias
 -- 
 data CurrentBatteryResponse = CurrentBatteryResponse {
   -- | battery_id
-  currentBatteryResponseBattery_id :: (Maybe.Maybe GHC.Types.Int)
+  currentBatteryResponseBattery_id :: (GHC.Internal.Maybe.Maybe GHC.Types.Int)
   -- | last_tracked_time
-  , currentBatteryResponseLast_tracked_time :: (Maybe.Maybe Data.Text.Internal.Text)
+  , currentBatteryResponseLast_tracked_time :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
   -- | next_estimated_charge_time: The next estimated charge time of this battery, 2999-12-31 23:59:59 when the given battery has no charge_interval_days defined
-  , currentBatteryResponseNext_estimated_charge_time :: (Maybe.Maybe Data.Text.Internal.Text)
-  } deriving (Show.Show
+  , currentBatteryResponseNext_estimated_charge_time :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
+  } deriving (GHC.Internal.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.Types.ToJSON.ToJSON CurrentBatteryResponse
-    where {toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe Base.mempty (Base.pure Base.. ("battery_id" Data.Aeson.Types.ToJSON..=)) (currentBatteryResponseBattery_id obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("last_tracked_time" Data.Aeson.Types.ToJSON..=)) (currentBatteryResponseLast_tracked_time obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("next_estimated_charge_time" Data.Aeson.Types.ToJSON..=)) (currentBatteryResponseNext_estimated_charge_time obj) : Base.mempty));
-           toEncoding obj = Data.Aeson.Encoding.Internal.pairs (Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe Base.mempty (Base.pure Base.. ("battery_id" Data.Aeson.Types.ToJSON..=)) (currentBatteryResponseBattery_id obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("last_tracked_time" Data.Aeson.Types.ToJSON..=)) (currentBatteryResponseLast_tracked_time obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("next_estimated_charge_time" Data.Aeson.Types.ToJSON..=)) (currentBatteryResponseNext_estimated_charge_time obj) : Base.mempty)))}
+    where {toJSON obj = Data.Aeson.Types.Internal.object (GHC.Internal.Data.Foldable.concat (GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("battery_id" Data.Aeson.Types.ToJSON..=)) (currentBatteryResponseBattery_id obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("last_tracked_time" Data.Aeson.Types.ToJSON..=)) (currentBatteryResponseLast_tracked_time obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("next_estimated_charge_time" Data.Aeson.Types.ToJSON..=)) (currentBatteryResponseNext_estimated_charge_time obj) : GHC.Internal.Base.mempty));
+           toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Internal.Base.mconcat (GHC.Internal.Data.Foldable.concat (GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("battery_id" Data.Aeson.Types.ToJSON..=)) (currentBatteryResponseBattery_id obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("last_tracked_time" Data.Aeson.Types.ToJSON..=)) (currentBatteryResponseLast_tracked_time obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("next_estimated_charge_time" Data.Aeson.Types.ToJSON..=)) (currentBatteryResponseNext_estimated_charge_time obj) : GHC.Internal.Base.mempty)))}
 instance Data.Aeson.Types.FromJSON.FromJSON CurrentBatteryResponse
-    where {parseJSON = Data.Aeson.Types.FromJSON.withObject "CurrentBatteryResponse" (\obj -> ((Base.pure CurrentBatteryResponse Base.<*> (obj Data.Aeson.Types.FromJSON..:! "battery_id")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "last_tracked_time")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "next_estimated_charge_time"))}
+    where {parseJSON = Data.Aeson.Types.FromJSON.withObject "CurrentBatteryResponse" (\obj -> ((GHC.Internal.Base.pure CurrentBatteryResponse GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "battery_id")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "last_tracked_time")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "next_estimated_charge_time"))}
 -- | Create a new 'CurrentBatteryResponse' with all required fields.
 mkCurrentBatteryResponse :: CurrentBatteryResponse
-mkCurrentBatteryResponse = CurrentBatteryResponse{currentBatteryResponseBattery_id = Maybe.Nothing,
-                                                  currentBatteryResponseLast_tracked_time = Maybe.Nothing,
-                                                  currentBatteryResponseNext_estimated_charge_time = Maybe.Nothing}
+mkCurrentBatteryResponse = CurrentBatteryResponse{currentBatteryResponseBattery_id = GHC.Internal.Maybe.Nothing,
+                                                  currentBatteryResponseLast_tracked_time = GHC.Internal.Maybe.Nothing,
+                                                  currentBatteryResponseNext_estimated_charge_time = GHC.Internal.Maybe.Nothing}

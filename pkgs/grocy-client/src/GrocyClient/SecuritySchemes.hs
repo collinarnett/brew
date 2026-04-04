@@ -7,8 +7,10 @@ module GrocyClient.SecuritySchemes where
 
 import qualified Data.Text as Data.Text.Internal
 import qualified GHC.Base
+import qualified GHC.Base as GHC.Internal.Base
 import qualified GHC.Classes
 import qualified GHC.Show
+import qualified GHC.Show as GHC.Internal.Show
 import qualified Network.HTTP.Client as Network.HTTP.Client.Request
 import qualified Network.HTTP.Simple
 import qualified GrocyClient.Common
@@ -24,4 +26,4 @@ import qualified GrocyClient.Common
 -- @
 apiKeyInHeaderAuthenticationSecurityScheme :: Data.Text.Internal.Text ->
                                               GrocyClient.Common.SecurityScheme
-apiKeyInHeaderAuthenticationSecurityScheme = Network.HTTP.Simple.addRequestHeader "GROCY-API-KEY" Base.. GrocyClient.Common.textToByte
+apiKeyInHeaderAuthenticationSecurityScheme = Network.HTTP.Simple.addRequestHeader "GROCY-API-KEY" GHC.Internal.Base.. GrocyClient.Common.textToByte

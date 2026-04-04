@@ -8,7 +8,9 @@ module GrocyClient.Types.CurrentTaskResponse where
 
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
+import qualified Prelude as GHC.Internal.Maybe
 import qualified Control.Monad.Fail
+import qualified Control.Monad.Fail as GHC.Internal.Control.Monad.Fail
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
@@ -18,17 +20,23 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.ByteString
 import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
+import qualified Data.Foldable as GHC.Internal.Data.Foldable
 import qualified Data.Functor
+import qualified Data.Functor as GHC.Internal.Data.Functor
 import qualified Data.Maybe
+import qualified Data.Maybe as GHC.Internal.Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text as Data.Text.Internal
 import qualified Data.Time.Calendar as Data.Time.Calendar.Days
 import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified GHC.Base
+import qualified GHC.Base as GHC.Internal.Base
 import qualified GHC.Classes
 import qualified GHC.Int
+import qualified GHC.Int as GHC.Internal.Int
 import qualified GHC.Show
+import qualified GHC.Show as GHC.Internal.Show
 import qualified GHC.Types
 import qualified GrocyClient.Common
 import GrocyClient.TypeAlias
@@ -40,44 +48,44 @@ import {-# SOURCE #-} GrocyClient.Types.UserDto
 -- 
 data CurrentTaskResponse = CurrentTaskResponse {
   -- | assigned_to_user: A user object without the *password* and with an additional *display_name* property
-  currentTaskResponseAssigned_to_user :: (Maybe.Maybe UserDto)
+  currentTaskResponseAssigned_to_user :: (GHC.Internal.Maybe.Maybe UserDto)
   -- | assigned_to_user_id
-  , currentTaskResponseAssigned_to_user_id :: (Maybe.Maybe GHC.Types.Int)
+  , currentTaskResponseAssigned_to_user_id :: (GHC.Internal.Maybe.Maybe GHC.Types.Int)
   -- | category
-  , currentTaskResponseCategory :: (Maybe.Maybe TaskCategory)
+  , currentTaskResponseCategory :: (GHC.Internal.Maybe.Maybe TaskCategory)
   -- | category_id
-  , currentTaskResponseCategory_id :: (Maybe.Maybe GHC.Types.Int)
+  , currentTaskResponseCategory_id :: (GHC.Internal.Maybe.Maybe GHC.Types.Int)
   -- | description
-  , currentTaskResponseDescription :: (Maybe.Maybe Data.Text.Internal.Text)
+  , currentTaskResponseDescription :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
   -- | done
-  , currentTaskResponseDone :: (Maybe.Maybe GHC.Types.Int)
+  , currentTaskResponseDone :: (GHC.Internal.Maybe.Maybe GHC.Types.Int)
   -- | done_timestamp
-  , currentTaskResponseDone_timestamp :: (Maybe.Maybe Data.Text.Internal.Text)
+  , currentTaskResponseDone_timestamp :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
   -- | due_date
-  , currentTaskResponseDue_date :: (Maybe.Maybe Data.Text.Internal.Text)
+  , currentTaskResponseDue_date :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
   -- | id
-  , currentTaskResponseId :: (Maybe.Maybe GHC.Types.Int)
+  , currentTaskResponseId :: (GHC.Internal.Maybe.Maybe GHC.Types.Int)
   -- | name
-  , currentTaskResponseName :: (Maybe.Maybe Data.Text.Internal.Text)
+  , currentTaskResponseName :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
   -- | row_created_timestamp
-  , currentTaskResponseRow_created_timestamp :: (Maybe.Maybe Data.Text.Internal.Text)
-  } deriving (Show.Show
+  , currentTaskResponseRow_created_timestamp :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
+  } deriving (GHC.Internal.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.Types.ToJSON.ToJSON CurrentTaskResponse
-    where {toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe Base.mempty (Base.pure Base.. ("assigned_to_user" Data.Aeson.Types.ToJSON..=)) (currentTaskResponseAssigned_to_user obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("assigned_to_user_id" Data.Aeson.Types.ToJSON..=)) (currentTaskResponseAssigned_to_user_id obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("category" Data.Aeson.Types.ToJSON..=)) (currentTaskResponseCategory obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("category_id" Data.Aeson.Types.ToJSON..=)) (currentTaskResponseCategory_id obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("description" Data.Aeson.Types.ToJSON..=)) (currentTaskResponseDescription obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("done" Data.Aeson.Types.ToJSON..=)) (currentTaskResponseDone obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("done_timestamp" Data.Aeson.Types.ToJSON..=)) (currentTaskResponseDone_timestamp obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("due_date" Data.Aeson.Types.ToJSON..=)) (currentTaskResponseDue_date obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("id" Data.Aeson.Types.ToJSON..=)) (currentTaskResponseId obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("name" Data.Aeson.Types.ToJSON..=)) (currentTaskResponseName obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("row_created_timestamp" Data.Aeson.Types.ToJSON..=)) (currentTaskResponseRow_created_timestamp obj) : Base.mempty));
-           toEncoding obj = Data.Aeson.Encoding.Internal.pairs (Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe Base.mempty (Base.pure Base.. ("assigned_to_user" Data.Aeson.Types.ToJSON..=)) (currentTaskResponseAssigned_to_user obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("assigned_to_user_id" Data.Aeson.Types.ToJSON..=)) (currentTaskResponseAssigned_to_user_id obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("category" Data.Aeson.Types.ToJSON..=)) (currentTaskResponseCategory obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("category_id" Data.Aeson.Types.ToJSON..=)) (currentTaskResponseCategory_id obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("description" Data.Aeson.Types.ToJSON..=)) (currentTaskResponseDescription obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("done" Data.Aeson.Types.ToJSON..=)) (currentTaskResponseDone obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("done_timestamp" Data.Aeson.Types.ToJSON..=)) (currentTaskResponseDone_timestamp obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("due_date" Data.Aeson.Types.ToJSON..=)) (currentTaskResponseDue_date obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("id" Data.Aeson.Types.ToJSON..=)) (currentTaskResponseId obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("name" Data.Aeson.Types.ToJSON..=)) (currentTaskResponseName obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("row_created_timestamp" Data.Aeson.Types.ToJSON..=)) (currentTaskResponseRow_created_timestamp obj) : Base.mempty)))}
+    where {toJSON obj = Data.Aeson.Types.Internal.object (GHC.Internal.Data.Foldable.concat (GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("assigned_to_user" Data.Aeson.Types.ToJSON..=)) (currentTaskResponseAssigned_to_user obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("assigned_to_user_id" Data.Aeson.Types.ToJSON..=)) (currentTaskResponseAssigned_to_user_id obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("category" Data.Aeson.Types.ToJSON..=)) (currentTaskResponseCategory obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("category_id" Data.Aeson.Types.ToJSON..=)) (currentTaskResponseCategory_id obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (currentTaskResponseDescription obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("done" Data.Aeson.Types.ToJSON..=)) (currentTaskResponseDone obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("done_timestamp" Data.Aeson.Types.ToJSON..=)) (currentTaskResponseDone_timestamp obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("due_date" Data.Aeson.Types.ToJSON..=)) (currentTaskResponseDue_date obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("id" Data.Aeson.Types.ToJSON..=)) (currentTaskResponseId obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("name" Data.Aeson.Types.ToJSON..=)) (currentTaskResponseName obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("row_created_timestamp" Data.Aeson.Types.ToJSON..=)) (currentTaskResponseRow_created_timestamp obj) : GHC.Internal.Base.mempty));
+           toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Internal.Base.mconcat (GHC.Internal.Data.Foldable.concat (GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("assigned_to_user" Data.Aeson.Types.ToJSON..=)) (currentTaskResponseAssigned_to_user obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("assigned_to_user_id" Data.Aeson.Types.ToJSON..=)) (currentTaskResponseAssigned_to_user_id obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("category" Data.Aeson.Types.ToJSON..=)) (currentTaskResponseCategory obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("category_id" Data.Aeson.Types.ToJSON..=)) (currentTaskResponseCategory_id obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (currentTaskResponseDescription obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("done" Data.Aeson.Types.ToJSON..=)) (currentTaskResponseDone obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("done_timestamp" Data.Aeson.Types.ToJSON..=)) (currentTaskResponseDone_timestamp obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("due_date" Data.Aeson.Types.ToJSON..=)) (currentTaskResponseDue_date obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("id" Data.Aeson.Types.ToJSON..=)) (currentTaskResponseId obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("name" Data.Aeson.Types.ToJSON..=)) (currentTaskResponseName obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("row_created_timestamp" Data.Aeson.Types.ToJSON..=)) (currentTaskResponseRow_created_timestamp obj) : GHC.Internal.Base.mempty)))}
 instance Data.Aeson.Types.FromJSON.FromJSON CurrentTaskResponse
-    where {parseJSON = Data.Aeson.Types.FromJSON.withObject "CurrentTaskResponse" (\obj -> ((((((((((Base.pure CurrentTaskResponse Base.<*> (obj Data.Aeson.Types.FromJSON..:! "assigned_to_user")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "assigned_to_user_id")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "category")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "category_id")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "description")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "done")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "done_timestamp")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "due_date")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "id")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "name")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "row_created_timestamp"))}
+    where {parseJSON = Data.Aeson.Types.FromJSON.withObject "CurrentTaskResponse" (\obj -> ((((((((((GHC.Internal.Base.pure CurrentTaskResponse GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "assigned_to_user")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "assigned_to_user_id")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "category")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "category_id")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "description")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "done")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "done_timestamp")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "due_date")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "id")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "name")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "row_created_timestamp"))}
 -- | Create a new 'CurrentTaskResponse' with all required fields.
 mkCurrentTaskResponse :: CurrentTaskResponse
-mkCurrentTaskResponse = CurrentTaskResponse{currentTaskResponseAssigned_to_user = Maybe.Nothing,
-                                            currentTaskResponseAssigned_to_user_id = Maybe.Nothing,
-                                            currentTaskResponseCategory = Maybe.Nothing,
-                                            currentTaskResponseCategory_id = Maybe.Nothing,
-                                            currentTaskResponseDescription = Maybe.Nothing,
-                                            currentTaskResponseDone = Maybe.Nothing,
-                                            currentTaskResponseDone_timestamp = Maybe.Nothing,
-                                            currentTaskResponseDue_date = Maybe.Nothing,
-                                            currentTaskResponseId = Maybe.Nothing,
-                                            currentTaskResponseName = Maybe.Nothing,
-                                            currentTaskResponseRow_created_timestamp = Maybe.Nothing}
+mkCurrentTaskResponse = CurrentTaskResponse{currentTaskResponseAssigned_to_user = GHC.Internal.Maybe.Nothing,
+                                            currentTaskResponseAssigned_to_user_id = GHC.Internal.Maybe.Nothing,
+                                            currentTaskResponseCategory = GHC.Internal.Maybe.Nothing,
+                                            currentTaskResponseCategory_id = GHC.Internal.Maybe.Nothing,
+                                            currentTaskResponseDescription = GHC.Internal.Maybe.Nothing,
+                                            currentTaskResponseDone = GHC.Internal.Maybe.Nothing,
+                                            currentTaskResponseDone_timestamp = GHC.Internal.Maybe.Nothing,
+                                            currentTaskResponseDue_date = GHC.Internal.Maybe.Nothing,
+                                            currentTaskResponseId = GHC.Internal.Maybe.Nothing,
+                                            currentTaskResponseName = GHC.Internal.Maybe.Nothing,
+                                            currentTaskResponseRow_created_timestamp = GHC.Internal.Maybe.Nothing}

@@ -8,7 +8,9 @@ module GrocyClient.Types.ChoreLogEntry where
 
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
+import qualified Prelude as GHC.Internal.Maybe
 import qualified Control.Monad.Fail
+import qualified Control.Monad.Fail as GHC.Internal.Control.Monad.Fail
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
@@ -18,17 +20,23 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.ByteString
 import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
+import qualified Data.Foldable as GHC.Internal.Data.Foldable
 import qualified Data.Functor
+import qualified Data.Functor as GHC.Internal.Data.Functor
 import qualified Data.Maybe
+import qualified Data.Maybe as GHC.Internal.Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text as Data.Text.Internal
 import qualified Data.Time.Calendar as Data.Time.Calendar.Days
 import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified GHC.Base
+import qualified GHC.Base as GHC.Internal.Base
 import qualified GHC.Classes
 import qualified GHC.Int
+import qualified GHC.Int as GHC.Internal.Int
 import qualified GHC.Show
+import qualified GHC.Show as GHC.Internal.Show
 import qualified GHC.Types
 import qualified GrocyClient.Common
 import GrocyClient.TypeAlias
@@ -38,23 +46,23 @@ import GrocyClient.TypeAlias
 -- 
 data ChoreLogEntry = ChoreLogEntry {
   -- | chore_id
-  choreLogEntryChore_id :: (Maybe.Maybe GHC.Types.Int)
+  choreLogEntryChore_id :: (GHC.Internal.Maybe.Maybe GHC.Types.Int)
   -- | id
-  , choreLogEntryId :: (Maybe.Maybe GHC.Types.Int)
+  , choreLogEntryId :: (GHC.Internal.Maybe.Maybe GHC.Types.Int)
   -- | row_created_timestamp
-  , choreLogEntryRow_created_timestamp :: (Maybe.Maybe Data.Text.Internal.Text)
+  , choreLogEntryRow_created_timestamp :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
   -- | tracked_time
-  , choreLogEntryTracked_time :: (Maybe.Maybe Data.Text.Internal.Text)
-  } deriving (Show.Show
+  , choreLogEntryTracked_time :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
+  } deriving (GHC.Internal.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.Types.ToJSON.ToJSON ChoreLogEntry
-    where {toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe Base.mempty (Base.pure Base.. ("chore_id" Data.Aeson.Types.ToJSON..=)) (choreLogEntryChore_id obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("id" Data.Aeson.Types.ToJSON..=)) (choreLogEntryId obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("row_created_timestamp" Data.Aeson.Types.ToJSON..=)) (choreLogEntryRow_created_timestamp obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("tracked_time" Data.Aeson.Types.ToJSON..=)) (choreLogEntryTracked_time obj) : Base.mempty));
-           toEncoding obj = Data.Aeson.Encoding.Internal.pairs (Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe Base.mempty (Base.pure Base.. ("chore_id" Data.Aeson.Types.ToJSON..=)) (choreLogEntryChore_id obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("id" Data.Aeson.Types.ToJSON..=)) (choreLogEntryId obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("row_created_timestamp" Data.Aeson.Types.ToJSON..=)) (choreLogEntryRow_created_timestamp obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("tracked_time" Data.Aeson.Types.ToJSON..=)) (choreLogEntryTracked_time obj) : Base.mempty)))}
+    where {toJSON obj = Data.Aeson.Types.Internal.object (GHC.Internal.Data.Foldable.concat (GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("chore_id" Data.Aeson.Types.ToJSON..=)) (choreLogEntryChore_id obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("id" Data.Aeson.Types.ToJSON..=)) (choreLogEntryId obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("row_created_timestamp" Data.Aeson.Types.ToJSON..=)) (choreLogEntryRow_created_timestamp obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("tracked_time" Data.Aeson.Types.ToJSON..=)) (choreLogEntryTracked_time obj) : GHC.Internal.Base.mempty));
+           toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Internal.Base.mconcat (GHC.Internal.Data.Foldable.concat (GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("chore_id" Data.Aeson.Types.ToJSON..=)) (choreLogEntryChore_id obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("id" Data.Aeson.Types.ToJSON..=)) (choreLogEntryId obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("row_created_timestamp" Data.Aeson.Types.ToJSON..=)) (choreLogEntryRow_created_timestamp obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("tracked_time" Data.Aeson.Types.ToJSON..=)) (choreLogEntryTracked_time obj) : GHC.Internal.Base.mempty)))}
 instance Data.Aeson.Types.FromJSON.FromJSON ChoreLogEntry
-    where {parseJSON = Data.Aeson.Types.FromJSON.withObject "ChoreLogEntry" (\obj -> (((Base.pure ChoreLogEntry Base.<*> (obj Data.Aeson.Types.FromJSON..:! "chore_id")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "id")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "row_created_timestamp")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tracked_time"))}
+    where {parseJSON = Data.Aeson.Types.FromJSON.withObject "ChoreLogEntry" (\obj -> (((GHC.Internal.Base.pure ChoreLogEntry GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "chore_id")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "id")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "row_created_timestamp")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "tracked_time"))}
 -- | Create a new 'ChoreLogEntry' with all required fields.
 mkChoreLogEntry :: ChoreLogEntry
-mkChoreLogEntry = ChoreLogEntry{choreLogEntryChore_id = Maybe.Nothing,
-                                choreLogEntryId = Maybe.Nothing,
-                                choreLogEntryRow_created_timestamp = Maybe.Nothing,
-                                choreLogEntryTracked_time = Maybe.Nothing}
+mkChoreLogEntry = ChoreLogEntry{choreLogEntryChore_id = GHC.Internal.Maybe.Nothing,
+                                choreLogEntryId = GHC.Internal.Maybe.Nothing,
+                                choreLogEntryRow_created_timestamp = GHC.Internal.Maybe.Nothing,
+                                choreLogEntryTracked_time = GHC.Internal.Maybe.Nothing}

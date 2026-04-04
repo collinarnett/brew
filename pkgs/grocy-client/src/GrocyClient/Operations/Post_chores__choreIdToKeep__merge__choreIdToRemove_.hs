@@ -9,21 +9,28 @@ module GrocyClient.Operations.Post_chores__choreIdToKeep__merge__choreIdToRemove
 
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
+import qualified Prelude as GHC.Internal.Maybe
 import qualified Control.Monad.Fail
+import qualified Control.Monad.Fail as GHC.Internal.Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Decoding
 import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
-import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString
 import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.ByteString as Data.ByteString.Internal.Type
 import qualified Data.Either
+import qualified Data.Either as GHC.Internal.Data.Either
 import qualified Data.Foldable
+import qualified Data.Foldable as GHC.Internal.Data.Foldable
 import qualified Data.Functor
+import qualified Data.Functor as GHC.Internal.Data.Functor
 import qualified Data.Maybe
+import qualified Data.Maybe as GHC.Internal.Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text as Data.Text.Internal
@@ -31,9 +38,12 @@ import qualified Data.Time.Calendar as Data.Time.Calendar.Days
 import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
+import qualified GHC.Base as GHC.Internal.Base
 import qualified GHC.Classes
 import qualified GHC.Int
+import qualified GHC.Int as GHC.Internal.Int
 import qualified GHC.Show
+import qualified GHC.Show as GHC.Internal.Show
 import qualified GHC.Types
 import qualified Network.HTTP.Client
 import qualified Network.HTTP.Client as Network.HTTP.Client.Request
@@ -50,10 +60,10 @@ import GrocyClient.Types
 -- Merges two chores into one
 post_chores__choreIdToKeep__merge__choreIdToRemove_ :: forall m . GrocyClient.Common.MonadHTTP m => Post_chores__choreIdToKeep__merge__choreIdToRemove_Parameters -- ^ Contains all available parameters of this operation (query and path parameters)
   -> GrocyClient.Common.ClientT m (Network.HTTP.Client.Types.Response Post_chores__choreIdToKeep__merge__choreIdToRemove_Response) -- ^ Monadic computation which returns the result of the operation
-post_chores__choreIdToKeep__merge__choreIdToRemove_ parameters = Base.fmap (\response_0 -> Base.fmap (Data.Either.either Post_chores__choreIdToKeep__merge__choreIdToRemove_ResponseError Base.id Base.. (\response body -> if | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 204) (Network.HTTP.Client.Types.responseStatus response) -> Data.Either.Right Post_chores__choreIdToKeep__merge__choreIdToRemove_Response204
-                                                                                                                                                                                                                                                                                                | (\status_2 -> Network.HTTP.Types.Status.statusCode status_2 GHC.Classes.== 400) (Network.HTTP.Client.Types.responseStatus response) -> Post_chores__choreIdToKeep__merge__choreIdToRemove_Response400 Data.Functor.<$> (Data.Aeson.Decoding.eitherDecodeStrict body :: Data.Either.Either Base.String
+post_chores__choreIdToKeep__merge__choreIdToRemove_ parameters = GHC.Internal.Base.fmap (\response_0 -> GHC.Internal.Base.fmap (GHC.Internal.Data.Either.either Post_chores__choreIdToKeep__merge__choreIdToRemove_ResponseError GHC.Internal.Base.id GHC.Internal.Base.. (\response body -> if | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 204) (Network.HTTP.Client.Types.responseStatus response) -> GHC.Internal.Data.Either.Right Post_chores__choreIdToKeep__merge__choreIdToRemove_Response204
+                                                                                                                                                                                                                                                                                                | (\status_2 -> Network.HTTP.Types.Status.statusCode status_2 GHC.Classes.== 400) (Network.HTTP.Client.Types.responseStatus response) -> Post_chores__choreIdToKeep__merge__choreIdToRemove_Response400 GHC.Internal.Data.Functor.<$> (Data.Aeson.Decoding.eitherDecodeStrict body :: GHC.Internal.Data.Either.Either GHC.Internal.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       Error400)
-                                                                                                                                                                                                                                                                                                | Base.otherwise -> Data.Either.Left "Missing default response type") response_0) response_0) (GrocyClient.Common.doCallWithConfigurationM (Data.Text.toUpper Base.$ Data.Text.Internal.pack "POST") ("/chores/" Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True Base.$ (GrocyClient.Common.textToByte Base.$ GrocyClient.Common.stringifyModel (post_chores__choreIdToKeep__merge__choreIdToRemove_ParametersPathChoreIdToKeep parameters))) Base.<> ("/merge/" Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True Base.$ (GrocyClient.Common.textToByte Base.$ GrocyClient.Common.stringifyModel (post_chores__choreIdToKeep__merge__choreIdToRemove_ParametersPathChoreIdToRemove parameters))) Base.<> "")))) Base.mempty)
+                                                                                                                                                                                                                                                                                                | GHC.Internal.Base.otherwise -> GHC.Internal.Data.Either.Left "Missing default response type") response_0) response_0) (GrocyClient.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Internal.Base.$ Data.Text.Internal.pack "POST") ("/chores/" GHC.Internal.Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Internal.Base.$ (GrocyClient.Common.textToByte GHC.Internal.Base.$ GrocyClient.Common.stringifyModel (post_chores__choreIdToKeep__merge__choreIdToRemove_ParametersPathChoreIdToKeep parameters))) GHC.Internal.Base.<> ("/merge/" GHC.Internal.Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Internal.Base.$ (GrocyClient.Common.textToByte GHC.Internal.Base.$ GrocyClient.Common.stringifyModel (post_chores__choreIdToKeep__merge__choreIdToRemove_ParametersPathChoreIdToRemove parameters))) GHC.Internal.Base.<> "")))) GHC.Internal.Base.mempty)
 -- | Defines the object schema located at @paths.\/chores\/{choreIdToKeep}\/merge\/{choreIdToRemove}.POST.parameters@ in the specification.
 -- 
 -- 
@@ -66,13 +76,13 @@ data Post_chores__choreIdToKeep__merge__choreIdToRemove_Parameters = Post_chores
   -- 
   -- A valid chore id of the chore to remove
   , post_chores__choreIdToKeep__merge__choreIdToRemove_ParametersPathChoreIdToRemove :: GHC.Types.Int
-  } deriving (Show.Show
+  } deriving (GHC.Internal.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.Types.ToJSON.ToJSON Post_chores__choreIdToKeep__merge__choreIdToRemove_Parameters
-    where {toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (["pathChoreIdToKeep" Data.Aeson.Types.ToJSON..= post_chores__choreIdToKeep__merge__choreIdToRemove_ParametersPathChoreIdToKeep obj] : ["pathChoreIdToRemove" Data.Aeson.Types.ToJSON..= post_chores__choreIdToKeep__merge__choreIdToRemove_ParametersPathChoreIdToRemove obj] : Base.mempty));
-           toEncoding obj = Data.Aeson.Encoding.Internal.pairs (Base.mconcat (Data.Foldable.concat (["pathChoreIdToKeep" Data.Aeson.Types.ToJSON..= post_chores__choreIdToKeep__merge__choreIdToRemove_ParametersPathChoreIdToKeep obj] : ["pathChoreIdToRemove" Data.Aeson.Types.ToJSON..= post_chores__choreIdToKeep__merge__choreIdToRemove_ParametersPathChoreIdToRemove obj] : Base.mempty)))}
+    where {toJSON obj = Data.Aeson.Types.Internal.object (GHC.Internal.Data.Foldable.concat (["pathChoreIdToKeep" Data.Aeson.Types.ToJSON..= post_chores__choreIdToKeep__merge__choreIdToRemove_ParametersPathChoreIdToKeep obj] : ["pathChoreIdToRemove" Data.Aeson.Types.ToJSON..= post_chores__choreIdToKeep__merge__choreIdToRemove_ParametersPathChoreIdToRemove obj] : GHC.Internal.Base.mempty));
+           toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Internal.Base.mconcat (GHC.Internal.Data.Foldable.concat (["pathChoreIdToKeep" Data.Aeson.Types.ToJSON..= post_chores__choreIdToKeep__merge__choreIdToRemove_ParametersPathChoreIdToKeep obj] : ["pathChoreIdToRemove" Data.Aeson.Types.ToJSON..= post_chores__choreIdToKeep__merge__choreIdToRemove_ParametersPathChoreIdToRemove obj] : GHC.Internal.Base.mempty)))}
 instance Data.Aeson.Types.FromJSON.FromJSON Post_chores__choreIdToKeep__merge__choreIdToRemove_Parameters
-    where {parseJSON = Data.Aeson.Types.FromJSON.withObject "Post_chores__choreIdToKeep__merge__choreIdToRemove_Parameters" (\obj -> (Base.pure Post_chores__choreIdToKeep__merge__choreIdToRemove_Parameters Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathChoreIdToKeep")) Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathChoreIdToRemove"))}
+    where {parseJSON = Data.Aeson.Types.FromJSON.withObject "Post_chores__choreIdToKeep__merge__choreIdToRemove_Parameters" (\obj -> (GHC.Internal.Base.pure Post_chores__choreIdToKeep__merge__choreIdToRemove_Parameters GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathChoreIdToKeep")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathChoreIdToRemove"))}
 -- | Create a new 'Post_chores__choreIdToKeep__merge__choreIdToRemove_Parameters' with all required fields.
 mkPost_chores__choreIdToKeep__merge__choreIdToRemove_Parameters :: GHC.Types.Int -- ^ 'post_chores__choreIdToKeep__merge__choreIdToRemove_ParametersPathChoreIdToKeep'
   -> GHC.Types.Int -- ^ 'post_chores__choreIdToKeep__merge__choreIdToRemove_ParametersPathChoreIdToRemove'
@@ -83,10 +93,10 @@ mkPost_chores__choreIdToKeep__merge__choreIdToRemove_Parameters post_chores__cho
 -- 
 -- The response constructor is chosen by the status code of the response. If no case matches (no specific case for the response code, no range case, no default case), 'Post_chores__choreIdToKeep__merge__choreIdToRemove_ResponseError' is used.
 data Post_chores__choreIdToKeep__merge__choreIdToRemove_Response =
-   Post_chores__choreIdToKeep__merge__choreIdToRemove_ResponseError Base.String -- ^ Means either no matching case available or a parse error
+   Post_chores__choreIdToKeep__merge__choreIdToRemove_ResponseError GHC.Internal.Base.String -- ^ Means either no matching case available or a parse error
   | Post_chores__choreIdToKeep__merge__choreIdToRemove_Response204 -- ^ The operation was successful
   | Post_chores__choreIdToKeep__merge__choreIdToRemove_Response400 Error400 -- ^ The operation was not successful (possible errors are: Invalid chore id)
-  deriving (Show.Show, GHC.Classes.Eq)
+  deriving (GHC.Internal.Show.Show, GHC.Classes.Eq)
 -- | > POST /chores/{choreIdToKeep}/merge/{choreIdToRemove}
 -- 
 -- The same as 'post_chores__choreIdToKeep__merge__choreIdToRemove_' but accepts an explicit configuration.
@@ -94,16 +104,16 @@ post_chores__choreIdToKeep__merge__choreIdToRemove_WithConfiguration :: forall m
   -> Post_chores__choreIdToKeep__merge__choreIdToRemove_Parameters -- ^ Contains all available parameters of this operation (query and path parameters)
   -> m (Network.HTTP.Client.Types.Response Post_chores__choreIdToKeep__merge__choreIdToRemove_Response) -- ^ Monadic computation which returns the result of the operation
 post_chores__choreIdToKeep__merge__choreIdToRemove_WithConfiguration config
-                                                                     parameters = Base.fmap (\response_3 -> Base.fmap (Data.Either.either Post_chores__choreIdToKeep__merge__choreIdToRemove_ResponseError Base.id Base.. (\response body -> if | (\status_4 -> Network.HTTP.Types.Status.statusCode status_4 GHC.Classes.== 204) (Network.HTTP.Client.Types.responseStatus response) -> Data.Either.Right Post_chores__choreIdToKeep__merge__choreIdToRemove_Response204
-                                                                                                                                                                                                                                                                                                                 | (\status_5 -> Network.HTTP.Types.Status.statusCode status_5 GHC.Classes.== 400) (Network.HTTP.Client.Types.responseStatus response) -> Post_chores__choreIdToKeep__merge__choreIdToRemove_Response400 Data.Functor.<$> (Data.Aeson.Decoding.eitherDecodeStrict body :: Data.Either.Either Base.String
+                                                                     parameters = GHC.Internal.Base.fmap (\response_3 -> GHC.Internal.Base.fmap (GHC.Internal.Data.Either.either Post_chores__choreIdToKeep__merge__choreIdToRemove_ResponseError GHC.Internal.Base.id GHC.Internal.Base.. (\response body -> if | (\status_4 -> Network.HTTP.Types.Status.statusCode status_4 GHC.Classes.== 204) (Network.HTTP.Client.Types.responseStatus response) -> GHC.Internal.Data.Either.Right Post_chores__choreIdToKeep__merge__choreIdToRemove_Response204
+                                                                                                                                                                                                                                                                                                                 | (\status_5 -> Network.HTTP.Types.Status.statusCode status_5 GHC.Classes.== 400) (Network.HTTP.Client.Types.responseStatus response) -> Post_chores__choreIdToKeep__merge__choreIdToRemove_Response400 GHC.Internal.Data.Functor.<$> (Data.Aeson.Decoding.eitherDecodeStrict body :: GHC.Internal.Data.Either.Either GHC.Internal.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        Error400)
-                                                                                                                                                                                                                                                                                                                 | Base.otherwise -> Data.Either.Left "Missing default response type") response_3) response_3) (GrocyClient.Common.doCallWithConfiguration config (Data.Text.toUpper Base.$ Data.Text.Internal.pack "POST") ("/chores/" Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True Base.$ (GrocyClient.Common.textToByte Base.$ GrocyClient.Common.stringifyModel (post_chores__choreIdToKeep__merge__choreIdToRemove_ParametersPathChoreIdToKeep parameters))) Base.<> ("/merge/" Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True Base.$ (GrocyClient.Common.textToByte Base.$ GrocyClient.Common.stringifyModel (post_chores__choreIdToKeep__merge__choreIdToRemove_ParametersPathChoreIdToRemove parameters))) Base.<> "")))) Base.mempty)
+                                                                                                                                                                                                                                                                                                                 | GHC.Internal.Base.otherwise -> GHC.Internal.Data.Either.Left "Missing default response type") response_3) response_3) (GrocyClient.Common.doCallWithConfiguration config (Data.Text.toUpper GHC.Internal.Base.$ Data.Text.Internal.pack "POST") ("/chores/" GHC.Internal.Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Internal.Base.$ (GrocyClient.Common.textToByte GHC.Internal.Base.$ GrocyClient.Common.stringifyModel (post_chores__choreIdToKeep__merge__choreIdToRemove_ParametersPathChoreIdToKeep parameters))) GHC.Internal.Base.<> ("/merge/" GHC.Internal.Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Internal.Base.$ (GrocyClient.Common.textToByte GHC.Internal.Base.$ GrocyClient.Common.stringifyModel (post_chores__choreIdToKeep__merge__choreIdToRemove_ParametersPathChoreIdToRemove parameters))) GHC.Internal.Base.<> "")))) GHC.Internal.Base.mempty)
 -- | > POST /chores/{choreIdToKeep}/merge/{choreIdToRemove}
 -- 
 -- The same as 'post_chores__choreIdToKeep__merge__choreIdToRemove_' but returns the raw 'Data.ByteString.ByteString'.
 post_chores__choreIdToKeep__merge__choreIdToRemove_Raw :: forall m . GrocyClient.Common.MonadHTTP m => Post_chores__choreIdToKeep__merge__choreIdToRemove_Parameters -- ^ Contains all available parameters of this operation (query and path parameters)
   -> GrocyClient.Common.ClientT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.Type.ByteString) -- ^ Monadic computation which returns the result of the operation
-post_chores__choreIdToKeep__merge__choreIdToRemove_Raw parameters = Base.id (GrocyClient.Common.doCallWithConfigurationM (Data.Text.toUpper Base.$ Data.Text.Internal.pack "POST") ("/chores/" Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True Base.$ (GrocyClient.Common.textToByte Base.$ GrocyClient.Common.stringifyModel (post_chores__choreIdToKeep__merge__choreIdToRemove_ParametersPathChoreIdToKeep parameters))) Base.<> ("/merge/" Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True Base.$ (GrocyClient.Common.textToByte Base.$ GrocyClient.Common.stringifyModel (post_chores__choreIdToKeep__merge__choreIdToRemove_ParametersPathChoreIdToRemove parameters))) Base.<> "")))) Base.mempty)
+post_chores__choreIdToKeep__merge__choreIdToRemove_Raw parameters = GHC.Internal.Base.id (GrocyClient.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Internal.Base.$ Data.Text.Internal.pack "POST") ("/chores/" GHC.Internal.Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Internal.Base.$ (GrocyClient.Common.textToByte GHC.Internal.Base.$ GrocyClient.Common.stringifyModel (post_chores__choreIdToKeep__merge__choreIdToRemove_ParametersPathChoreIdToKeep parameters))) GHC.Internal.Base.<> ("/merge/" GHC.Internal.Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Internal.Base.$ (GrocyClient.Common.textToByte GHC.Internal.Base.$ GrocyClient.Common.stringifyModel (post_chores__choreIdToKeep__merge__choreIdToRemove_ParametersPathChoreIdToRemove parameters))) GHC.Internal.Base.<> "")))) GHC.Internal.Base.mempty)
 -- | > POST /chores/{choreIdToKeep}/merge/{choreIdToRemove}
 -- 
 -- The same as 'post_chores__choreIdToKeep__merge__choreIdToRemove_' but accepts an explicit configuration and returns the raw 'Data.ByteString.ByteString'.
@@ -111,4 +121,4 @@ post_chores__choreIdToKeep__merge__choreIdToRemove_WithConfigurationRaw :: foral
   -> Post_chores__choreIdToKeep__merge__choreIdToRemove_Parameters -- ^ Contains all available parameters of this operation (query and path parameters)
   -> m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.Type.ByteString) -- ^ Monadic computation which returns the result of the operation
 post_chores__choreIdToKeep__merge__choreIdToRemove_WithConfigurationRaw config
-                                                                        parameters = Base.id (GrocyClient.Common.doCallWithConfiguration config (Data.Text.toUpper Base.$ Data.Text.Internal.pack "POST") ("/chores/" Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True Base.$ (GrocyClient.Common.textToByte Base.$ GrocyClient.Common.stringifyModel (post_chores__choreIdToKeep__merge__choreIdToRemove_ParametersPathChoreIdToKeep parameters))) Base.<> ("/merge/" Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True Base.$ (GrocyClient.Common.textToByte Base.$ GrocyClient.Common.stringifyModel (post_chores__choreIdToKeep__merge__choreIdToRemove_ParametersPathChoreIdToRemove parameters))) Base.<> "")))) Base.mempty)
+                                                                        parameters = GHC.Internal.Base.id (GrocyClient.Common.doCallWithConfiguration config (Data.Text.toUpper GHC.Internal.Base.$ Data.Text.Internal.pack "POST") ("/chores/" GHC.Internal.Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Internal.Base.$ (GrocyClient.Common.textToByte GHC.Internal.Base.$ GrocyClient.Common.stringifyModel (post_chores__choreIdToKeep__merge__choreIdToRemove_ParametersPathChoreIdToKeep parameters))) GHC.Internal.Base.<> ("/merge/" GHC.Internal.Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Internal.Base.$ (GrocyClient.Common.textToByte GHC.Internal.Base.$ GrocyClient.Common.stringifyModel (post_chores__choreIdToKeep__merge__choreIdToRemove_ParametersPathChoreIdToRemove parameters))) GHC.Internal.Base.<> "")))) GHC.Internal.Base.mempty)

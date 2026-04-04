@@ -9,21 +9,28 @@ module GrocyClient.Operations.Get_recipes__recipeId__fulfillment where
 
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
+import qualified Prelude as GHC.Internal.Maybe
 import qualified Control.Monad.Fail
+import qualified Control.Monad.Fail as GHC.Internal.Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Decoding
 import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
-import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString
 import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.ByteString as Data.ByteString.Internal.Type
 import qualified Data.Either
+import qualified Data.Either as GHC.Internal.Data.Either
 import qualified Data.Foldable
+import qualified Data.Foldable as GHC.Internal.Data.Foldable
 import qualified Data.Functor
+import qualified Data.Functor as GHC.Internal.Data.Functor
 import qualified Data.Maybe
+import qualified Data.Maybe as GHC.Internal.Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text as Data.Text.Internal
@@ -31,9 +38,12 @@ import qualified Data.Time.Calendar as Data.Time.Calendar.Days
 import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
+import qualified GHC.Base as GHC.Internal.Base
 import qualified GHC.Classes
 import qualified GHC.Int
+import qualified GHC.Int as GHC.Internal.Int
 import qualified GHC.Show
+import qualified GHC.Show as GHC.Internal.Show
 import qualified GHC.Types
 import qualified Network.HTTP.Client
 import qualified Network.HTTP.Client as Network.HTTP.Client.Request
@@ -50,19 +60,19 @@ import GrocyClient.Types
 -- Get stock fulfillment information for the given recipe
 get_recipes__recipeId__fulfillment :: forall m . GrocyClient.Common.MonadHTTP m => Data.Text.Internal.Text -- ^ recipeId: A valid recipe id
   -> GrocyClient.Common.ClientT m (Network.HTTP.Client.Types.Response Get_recipes__recipeId__fulfillmentResponse) -- ^ Monadic computation which returns the result of the operation
-get_recipes__recipeId__fulfillment recipeId = Base.fmap (\response_0 -> Base.fmap (Data.Either.either Get_recipes__recipeId__fulfillmentResponseError Base.id Base.. (\response body -> if | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) -> Get_recipes__recipeId__fulfillmentResponse200 Data.Functor.<$> (Data.Aeson.Decoding.eitherDecodeStrict body :: Data.Either.Either Base.String
+get_recipes__recipeId__fulfillment recipeId = GHC.Internal.Base.fmap (\response_0 -> GHC.Internal.Base.fmap (GHC.Internal.Data.Either.either Get_recipes__recipeId__fulfillmentResponseError GHC.Internal.Base.id GHC.Internal.Base.. (\response body -> if | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) -> Get_recipes__recipeId__fulfillmentResponse200 GHC.Internal.Data.Functor.<$> (Data.Aeson.Decoding.eitherDecodeStrict body :: GHC.Internal.Data.Either.Either GHC.Internal.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  RecipeFulfillmentResponse)
-                                                                                                                                                                                                                                                            | (\status_2 -> Network.HTTP.Types.Status.statusCode status_2 GHC.Classes.== 400) (Network.HTTP.Client.Types.responseStatus response) -> Get_recipes__recipeId__fulfillmentResponse400 Data.Functor.<$> (Data.Aeson.Decoding.eitherDecodeStrict body :: Data.Either.Either Base.String
+                                                                                                                                                                                                                                                            | (\status_2 -> Network.HTTP.Types.Status.statusCode status_2 GHC.Classes.== 400) (Network.HTTP.Client.Types.responseStatus response) -> Get_recipes__recipeId__fulfillmentResponse400 GHC.Internal.Data.Functor.<$> (Data.Aeson.Decoding.eitherDecodeStrict body :: GHC.Internal.Data.Either.Either GHC.Internal.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  Error400)
-                                                                                                                                                                                                                                                            | Base.otherwise -> Data.Either.Left "Missing default response type") response_0) response_0) (GrocyClient.Common.doCallWithConfigurationM (Data.Text.toUpper Base.$ Data.Text.Internal.pack "GET") ("/recipes/" Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True Base.$ (GrocyClient.Common.textToByte Base.$ GrocyClient.Common.stringifyModel recipeId)) Base.<> "/fulfillment")) Base.mempty)
+                                                                                                                                                                                                                                                            | GHC.Internal.Base.otherwise -> GHC.Internal.Data.Either.Left "Missing default response type") response_0) response_0) (GrocyClient.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Internal.Base.$ Data.Text.Internal.pack "GET") ("/recipes/" GHC.Internal.Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Internal.Base.$ (GrocyClient.Common.textToByte GHC.Internal.Base.$ GrocyClient.Common.stringifyModel recipeId)) GHC.Internal.Base.<> "/fulfillment")) GHC.Internal.Base.mempty)
 -- | Represents a response of the operation 'get_recipes__recipeId__fulfillment'.
 -- 
 -- The response constructor is chosen by the status code of the response. If no case matches (no specific case for the response code, no range case, no default case), 'Get_recipes__recipeId__fulfillmentResponseError' is used.
 data Get_recipes__recipeId__fulfillmentResponse =
-   Get_recipes__recipeId__fulfillmentResponseError Base.String -- ^ Means either no matching case available or a parse error
+   Get_recipes__recipeId__fulfillmentResponseError GHC.Internal.Base.String -- ^ Means either no matching case available or a parse error
   | Get_recipes__recipeId__fulfillmentResponse200 RecipeFulfillmentResponse -- ^ A RecipeFulfillmentResponse object
   | Get_recipes__recipeId__fulfillmentResponse400 Error400 -- ^ The operation was not successful
-  deriving (Show.Show, GHC.Classes.Eq)
+  deriving (GHC.Internal.Show.Show, GHC.Classes.Eq)
 -- | > GET /recipes/{recipeId}/fulfillment
 -- 
 -- The same as 'get_recipes__recipeId__fulfillment' but accepts an explicit configuration.
@@ -70,17 +80,17 @@ get_recipes__recipeId__fulfillmentWithConfiguration :: forall m . GrocyClient.Co
   -> Data.Text.Internal.Text -- ^ recipeId: A valid recipe id
   -> m (Network.HTTP.Client.Types.Response Get_recipes__recipeId__fulfillmentResponse) -- ^ Monadic computation which returns the result of the operation
 get_recipes__recipeId__fulfillmentWithConfiguration config
-                                                    recipeId = Base.fmap (\response_3 -> Base.fmap (Data.Either.either Get_recipes__recipeId__fulfillmentResponseError Base.id Base.. (\response body -> if | (\status_4 -> Network.HTTP.Types.Status.statusCode status_4 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) -> Get_recipes__recipeId__fulfillmentResponse200 Data.Functor.<$> (Data.Aeson.Decoding.eitherDecodeStrict body :: Data.Either.Either Base.String
+                                                    recipeId = GHC.Internal.Base.fmap (\response_3 -> GHC.Internal.Base.fmap (GHC.Internal.Data.Either.either Get_recipes__recipeId__fulfillmentResponseError GHC.Internal.Base.id GHC.Internal.Base.. (\response body -> if | (\status_4 -> Network.HTTP.Types.Status.statusCode status_4 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) -> Get_recipes__recipeId__fulfillmentResponse200 GHC.Internal.Data.Functor.<$> (Data.Aeson.Decoding.eitherDecodeStrict body :: GHC.Internal.Data.Either.Either GHC.Internal.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   RecipeFulfillmentResponse)
-                                                                                                                                                                                                                                                                             | (\status_5 -> Network.HTTP.Types.Status.statusCode status_5 GHC.Classes.== 400) (Network.HTTP.Client.Types.responseStatus response) -> Get_recipes__recipeId__fulfillmentResponse400 Data.Functor.<$> (Data.Aeson.Decoding.eitherDecodeStrict body :: Data.Either.Either Base.String
+                                                                                                                                                                                                                                                                             | (\status_5 -> Network.HTTP.Types.Status.statusCode status_5 GHC.Classes.== 400) (Network.HTTP.Client.Types.responseStatus response) -> Get_recipes__recipeId__fulfillmentResponse400 GHC.Internal.Data.Functor.<$> (Data.Aeson.Decoding.eitherDecodeStrict body :: GHC.Internal.Data.Either.Either GHC.Internal.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   Error400)
-                                                                                                                                                                                                                                                                             | Base.otherwise -> Data.Either.Left "Missing default response type") response_3) response_3) (GrocyClient.Common.doCallWithConfiguration config (Data.Text.toUpper Base.$ Data.Text.Internal.pack "GET") ("/recipes/" Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True Base.$ (GrocyClient.Common.textToByte Base.$ GrocyClient.Common.stringifyModel recipeId)) Base.<> "/fulfillment")) Base.mempty)
+                                                                                                                                                                                                                                                                             | GHC.Internal.Base.otherwise -> GHC.Internal.Data.Either.Left "Missing default response type") response_3) response_3) (GrocyClient.Common.doCallWithConfiguration config (Data.Text.toUpper GHC.Internal.Base.$ Data.Text.Internal.pack "GET") ("/recipes/" GHC.Internal.Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Internal.Base.$ (GrocyClient.Common.textToByte GHC.Internal.Base.$ GrocyClient.Common.stringifyModel recipeId)) GHC.Internal.Base.<> "/fulfillment")) GHC.Internal.Base.mempty)
 -- | > GET /recipes/{recipeId}/fulfillment
 -- 
 -- The same as 'get_recipes__recipeId__fulfillment' but returns the raw 'Data.ByteString.ByteString'.
 get_recipes__recipeId__fulfillmentRaw :: forall m . GrocyClient.Common.MonadHTTP m => Data.Text.Internal.Text -- ^ recipeId: A valid recipe id
   -> GrocyClient.Common.ClientT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.Type.ByteString) -- ^ Monadic computation which returns the result of the operation
-get_recipes__recipeId__fulfillmentRaw recipeId = Base.id (GrocyClient.Common.doCallWithConfigurationM (Data.Text.toUpper Base.$ Data.Text.Internal.pack "GET") ("/recipes/" Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True Base.$ (GrocyClient.Common.textToByte Base.$ GrocyClient.Common.stringifyModel recipeId)) Base.<> "/fulfillment")) Base.mempty)
+get_recipes__recipeId__fulfillmentRaw recipeId = GHC.Internal.Base.id (GrocyClient.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Internal.Base.$ Data.Text.Internal.pack "GET") ("/recipes/" GHC.Internal.Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Internal.Base.$ (GrocyClient.Common.textToByte GHC.Internal.Base.$ GrocyClient.Common.stringifyModel recipeId)) GHC.Internal.Base.<> "/fulfillment")) GHC.Internal.Base.mempty)
 -- | > GET /recipes/{recipeId}/fulfillment
 -- 
 -- The same as 'get_recipes__recipeId__fulfillment' but accepts an explicit configuration and returns the raw 'Data.ByteString.ByteString'.
@@ -88,4 +98,4 @@ get_recipes__recipeId__fulfillmentWithConfigurationRaw :: forall m . GrocyClient
   -> Data.Text.Internal.Text -- ^ recipeId: A valid recipe id
   -> m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.Type.ByteString) -- ^ Monadic computation which returns the result of the operation
 get_recipes__recipeId__fulfillmentWithConfigurationRaw config
-                                                       recipeId = Base.id (GrocyClient.Common.doCallWithConfiguration config (Data.Text.toUpper Base.$ Data.Text.Internal.pack "GET") ("/recipes/" Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True Base.$ (GrocyClient.Common.textToByte Base.$ GrocyClient.Common.stringifyModel recipeId)) Base.<> "/fulfillment")) Base.mempty)
+                                                       recipeId = GHC.Internal.Base.id (GrocyClient.Common.doCallWithConfiguration config (Data.Text.toUpper GHC.Internal.Base.$ Data.Text.Internal.pack "GET") ("/recipes/" GHC.Internal.Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Internal.Base.$ (GrocyClient.Common.textToByte GHC.Internal.Base.$ GrocyClient.Common.stringifyModel recipeId)) GHC.Internal.Base.<> "/fulfillment")) GHC.Internal.Base.mempty)

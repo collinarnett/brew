@@ -8,7 +8,9 @@ module GrocyClient.Types.ProductPriceHistory where
 
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
+import qualified Prelude as GHC.Internal.Maybe
 import qualified Control.Monad.Fail
+import qualified Control.Monad.Fail as GHC.Internal.Control.Monad.Fail
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
@@ -18,17 +20,23 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.ByteString
 import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
+import qualified Data.Foldable as GHC.Internal.Data.Foldable
 import qualified Data.Functor
+import qualified Data.Functor as GHC.Internal.Data.Functor
 import qualified Data.Maybe
+import qualified Data.Maybe as GHC.Internal.Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text as Data.Text.Internal
 import qualified Data.Time.Calendar as Data.Time.Calendar.Days
 import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified GHC.Base
+import qualified GHC.Base as GHC.Internal.Base
 import qualified GHC.Classes
 import qualified GHC.Int
+import qualified GHC.Int as GHC.Internal.Int
 import qualified GHC.Show
+import qualified GHC.Show as GHC.Internal.Show
 import qualified GHC.Types
 import qualified GrocyClient.Common
 import GrocyClient.TypeAlias
@@ -39,20 +47,20 @@ import {-# SOURCE #-} GrocyClient.Types.ShoppingLocation
 -- 
 data ProductPriceHistory = ProductPriceHistory {
   -- | date
-  productPriceHistoryDate :: (Maybe.Maybe Data.Text.Internal.Text)
+  productPriceHistoryDate :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
   -- | price
-  , productPriceHistoryPrice :: (Maybe.Maybe GHC.Types.Double)
+  , productPriceHistoryPrice :: (GHC.Internal.Maybe.Maybe GHC.Types.Double)
   -- | shopping_location
-  , productPriceHistoryShopping_location :: (Maybe.Maybe ShoppingLocation)
-  } deriving (Show.Show
+  , productPriceHistoryShopping_location :: (GHC.Internal.Maybe.Maybe ShoppingLocation)
+  } deriving (GHC.Internal.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.Types.ToJSON.ToJSON ProductPriceHistory
-    where {toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe Base.mempty (Base.pure Base.. ("date" Data.Aeson.Types.ToJSON..=)) (productPriceHistoryDate obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("price" Data.Aeson.Types.ToJSON..=)) (productPriceHistoryPrice obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("shopping_location" Data.Aeson.Types.ToJSON..=)) (productPriceHistoryShopping_location obj) : Base.mempty));
-           toEncoding obj = Data.Aeson.Encoding.Internal.pairs (Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe Base.mempty (Base.pure Base.. ("date" Data.Aeson.Types.ToJSON..=)) (productPriceHistoryDate obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("price" Data.Aeson.Types.ToJSON..=)) (productPriceHistoryPrice obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("shopping_location" Data.Aeson.Types.ToJSON..=)) (productPriceHistoryShopping_location obj) : Base.mempty)))}
+    where {toJSON obj = Data.Aeson.Types.Internal.object (GHC.Internal.Data.Foldable.concat (GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("date" Data.Aeson.Types.ToJSON..=)) (productPriceHistoryDate obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("price" Data.Aeson.Types.ToJSON..=)) (productPriceHistoryPrice obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("shopping_location" Data.Aeson.Types.ToJSON..=)) (productPriceHistoryShopping_location obj) : GHC.Internal.Base.mempty));
+           toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Internal.Base.mconcat (GHC.Internal.Data.Foldable.concat (GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("date" Data.Aeson.Types.ToJSON..=)) (productPriceHistoryDate obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("price" Data.Aeson.Types.ToJSON..=)) (productPriceHistoryPrice obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("shopping_location" Data.Aeson.Types.ToJSON..=)) (productPriceHistoryShopping_location obj) : GHC.Internal.Base.mempty)))}
 instance Data.Aeson.Types.FromJSON.FromJSON ProductPriceHistory
-    where {parseJSON = Data.Aeson.Types.FromJSON.withObject "ProductPriceHistory" (\obj -> ((Base.pure ProductPriceHistory Base.<*> (obj Data.Aeson.Types.FromJSON..:! "date")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "price")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "shopping_location"))}
+    where {parseJSON = Data.Aeson.Types.FromJSON.withObject "ProductPriceHistory" (\obj -> ((GHC.Internal.Base.pure ProductPriceHistory GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "date")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "price")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "shopping_location"))}
 -- | Create a new 'ProductPriceHistory' with all required fields.
 mkProductPriceHistory :: ProductPriceHistory
-mkProductPriceHistory = ProductPriceHistory{productPriceHistoryDate = Maybe.Nothing,
-                                            productPriceHistoryPrice = Maybe.Nothing,
-                                            productPriceHistoryShopping_location = Maybe.Nothing}
+mkProductPriceHistory = ProductPriceHistory{productPriceHistoryDate = GHC.Internal.Maybe.Nothing,
+                                            productPriceHistoryPrice = GHC.Internal.Maybe.Nothing,
+                                            productPriceHistoryShopping_location = GHC.Internal.Maybe.Nothing}

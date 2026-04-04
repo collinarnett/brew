@@ -9,21 +9,28 @@ module GrocyClient.Operations.Post_stock_shoppinglist_remove_product where
 
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
+import qualified Prelude as GHC.Internal.Maybe
 import qualified Control.Monad.Fail
+import qualified Control.Monad.Fail as GHC.Internal.Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Decoding
 import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
-import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString
 import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.ByteString as Data.ByteString.Internal.Type
 import qualified Data.Either
+import qualified Data.Either as GHC.Internal.Data.Either
 import qualified Data.Foldable
+import qualified Data.Foldable as GHC.Internal.Data.Foldable
 import qualified Data.Functor
+import qualified Data.Functor as GHC.Internal.Data.Functor
 import qualified Data.Maybe
+import qualified Data.Maybe as GHC.Internal.Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text as Data.Text.Internal
@@ -31,9 +38,12 @@ import qualified Data.Time.Calendar as Data.Time.Calendar.Days
 import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
+import qualified GHC.Base as GHC.Internal.Base
 import qualified GHC.Classes
 import qualified GHC.Int
+import qualified GHC.Int as GHC.Internal.Int
 import qualified GHC.Show
+import qualified GHC.Show as GHC.Internal.Show
 import qualified GHC.Types
 import qualified Network.HTTP.Client
 import qualified Network.HTTP.Client as Network.HTTP.Client.Request
@@ -50,40 +60,40 @@ import GrocyClient.Types
 -- If the resulting amount is \<= 0, the item will be completely removed from the given list, otherwise the given amount will reduce the amount of the existing item
 post_stock_shoppinglist_remove_product :: forall m . GrocyClient.Common.MonadHTTP m => Post_stock_shoppinglist_remove_productRequestBody -- ^ The request body to send
   -> GrocyClient.Common.ClientT m (Network.HTTP.Client.Types.Response Post_stock_shoppinglist_remove_productResponse) -- ^ Monadic computation which returns the result of the operation
-post_stock_shoppinglist_remove_product body = Base.fmap (\response_0 -> Base.fmap (Data.Either.either Post_stock_shoppinglist_remove_productResponseError Base.id Base.. (\response body -> if | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 204) (Network.HTTP.Client.Types.responseStatus response) -> Data.Either.Right Post_stock_shoppinglist_remove_productResponse204
-                                                                                                                                                                                                                                                                | (\status_2 -> Network.HTTP.Types.Status.statusCode status_2 GHC.Classes.== 400) (Network.HTTP.Client.Types.responseStatus response) -> Post_stock_shoppinglist_remove_productResponse400 Data.Functor.<$> (Data.Aeson.Decoding.eitherDecodeStrict body :: Data.Either.Either Base.String
+post_stock_shoppinglist_remove_product body = GHC.Internal.Base.fmap (\response_0 -> GHC.Internal.Base.fmap (GHC.Internal.Data.Either.either Post_stock_shoppinglist_remove_productResponseError GHC.Internal.Base.id GHC.Internal.Base.. (\response body -> if | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 204) (Network.HTTP.Client.Types.responseStatus response) -> GHC.Internal.Data.Either.Right Post_stock_shoppinglist_remove_productResponse204
+                                                                                                                                                                                                                                                                | (\status_2 -> Network.HTTP.Types.Status.statusCode status_2 GHC.Classes.== 400) (Network.HTTP.Client.Types.responseStatus response) -> Post_stock_shoppinglist_remove_productResponse400 GHC.Internal.Data.Functor.<$> (Data.Aeson.Decoding.eitherDecodeStrict body :: GHC.Internal.Data.Either.Either GHC.Internal.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          Error400)
-                                                                                                                                                                                                                                                                | Base.otherwise -> Data.Either.Left "Missing default response type") response_0) response_0) (GrocyClient.Common.doBodyCallWithConfigurationM (Data.Text.toUpper Base.$ Data.Text.Internal.pack "POST") "/stock/shoppinglist/remove-product" Base.mempty (Maybe.Just body) GrocyClient.Common.RequestBodyEncodingJSON)
+                                                                                                                                                                                                                                                                | GHC.Internal.Base.otherwise -> GHC.Internal.Data.Either.Left "Missing default response type") response_0) response_0) (GrocyClient.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Internal.Base.$ Data.Text.Internal.pack "POST") "/stock/shoppinglist/remove-product" GHC.Internal.Base.mempty (GHC.Internal.Maybe.Just body) GrocyClient.Common.RequestBodyEncodingJSON)
 -- | Defines the object schema located at @paths.\/stock\/shoppinglist\/remove-product.POST.requestBody.content.application\/json.schema@ in the specification.
 -- 
 -- 
 data Post_stock_shoppinglist_remove_productRequestBody = Post_stock_shoppinglist_remove_productRequestBody {
   -- | list_id: A valid shopping list id, when omitted, the default shopping list (with id 1) is used
-  post_stock_shoppinglist_remove_productRequestBodyList_id :: (Maybe.Maybe GHC.Types.Int)
+  post_stock_shoppinglist_remove_productRequestBodyList_id :: (GHC.Internal.Maybe.Maybe GHC.Types.Int)
   -- | product_amount: The amount of product units to remove, when omitted, the default amount of 1 is used
-  , post_stock_shoppinglist_remove_productRequestBodyProduct_amount :: (Maybe.Maybe GHC.Types.Double)
+  , post_stock_shoppinglist_remove_productRequestBodyProduct_amount :: (GHC.Internal.Maybe.Maybe GHC.Types.Double)
   -- | product_id: A valid product id of the item on the shopping list
-  , post_stock_shoppinglist_remove_productRequestBodyProduct_id :: (Maybe.Maybe GHC.Types.Int)
-  } deriving (Show.Show
+  , post_stock_shoppinglist_remove_productRequestBodyProduct_id :: (GHC.Internal.Maybe.Maybe GHC.Types.Int)
+  } deriving (GHC.Internal.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.Types.ToJSON.ToJSON Post_stock_shoppinglist_remove_productRequestBody
-    where {toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe Base.mempty (Base.pure Base.. ("list_id" Data.Aeson.Types.ToJSON..=)) (post_stock_shoppinglist_remove_productRequestBodyList_id obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("product_amount" Data.Aeson.Types.ToJSON..=)) (post_stock_shoppinglist_remove_productRequestBodyProduct_amount obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("product_id" Data.Aeson.Types.ToJSON..=)) (post_stock_shoppinglist_remove_productRequestBodyProduct_id obj) : Base.mempty));
-           toEncoding obj = Data.Aeson.Encoding.Internal.pairs (Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe Base.mempty (Base.pure Base.. ("list_id" Data.Aeson.Types.ToJSON..=)) (post_stock_shoppinglist_remove_productRequestBodyList_id obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("product_amount" Data.Aeson.Types.ToJSON..=)) (post_stock_shoppinglist_remove_productRequestBodyProduct_amount obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("product_id" Data.Aeson.Types.ToJSON..=)) (post_stock_shoppinglist_remove_productRequestBodyProduct_id obj) : Base.mempty)))}
+    where {toJSON obj = Data.Aeson.Types.Internal.object (GHC.Internal.Data.Foldable.concat (GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("list_id" Data.Aeson.Types.ToJSON..=)) (post_stock_shoppinglist_remove_productRequestBodyList_id obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("product_amount" Data.Aeson.Types.ToJSON..=)) (post_stock_shoppinglist_remove_productRequestBodyProduct_amount obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("product_id" Data.Aeson.Types.ToJSON..=)) (post_stock_shoppinglist_remove_productRequestBodyProduct_id obj) : GHC.Internal.Base.mempty));
+           toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Internal.Base.mconcat (GHC.Internal.Data.Foldable.concat (GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("list_id" Data.Aeson.Types.ToJSON..=)) (post_stock_shoppinglist_remove_productRequestBodyList_id obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("product_amount" Data.Aeson.Types.ToJSON..=)) (post_stock_shoppinglist_remove_productRequestBodyProduct_amount obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("product_id" Data.Aeson.Types.ToJSON..=)) (post_stock_shoppinglist_remove_productRequestBodyProduct_id obj) : GHC.Internal.Base.mempty)))}
 instance Data.Aeson.Types.FromJSON.FromJSON Post_stock_shoppinglist_remove_productRequestBody
-    where {parseJSON = Data.Aeson.Types.FromJSON.withObject "Post_stock_shoppinglist_remove_productRequestBody" (\obj -> ((Base.pure Post_stock_shoppinglist_remove_productRequestBody Base.<*> (obj Data.Aeson.Types.FromJSON..:! "list_id")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "product_amount")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "product_id"))}
+    where {parseJSON = Data.Aeson.Types.FromJSON.withObject "Post_stock_shoppinglist_remove_productRequestBody" (\obj -> ((GHC.Internal.Base.pure Post_stock_shoppinglist_remove_productRequestBody GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "list_id")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "product_amount")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "product_id"))}
 -- | Create a new 'Post_stock_shoppinglist_remove_productRequestBody' with all required fields.
 mkPost_stock_shoppinglist_remove_productRequestBody :: Post_stock_shoppinglist_remove_productRequestBody
-mkPost_stock_shoppinglist_remove_productRequestBody = Post_stock_shoppinglist_remove_productRequestBody{post_stock_shoppinglist_remove_productRequestBodyList_id = Maybe.Nothing,
-                                                                                                        post_stock_shoppinglist_remove_productRequestBodyProduct_amount = Maybe.Nothing,
-                                                                                                        post_stock_shoppinglist_remove_productRequestBodyProduct_id = Maybe.Nothing}
+mkPost_stock_shoppinglist_remove_productRequestBody = Post_stock_shoppinglist_remove_productRequestBody{post_stock_shoppinglist_remove_productRequestBodyList_id = GHC.Internal.Maybe.Nothing,
+                                                                                                        post_stock_shoppinglist_remove_productRequestBodyProduct_amount = GHC.Internal.Maybe.Nothing,
+                                                                                                        post_stock_shoppinglist_remove_productRequestBodyProduct_id = GHC.Internal.Maybe.Nothing}
 -- | Represents a response of the operation 'post_stock_shoppinglist_remove_product'.
 -- 
 -- The response constructor is chosen by the status code of the response. If no case matches (no specific case for the response code, no range case, no default case), 'Post_stock_shoppinglist_remove_productResponseError' is used.
 data Post_stock_shoppinglist_remove_productResponse =
-   Post_stock_shoppinglist_remove_productResponseError Base.String -- ^ Means either no matching case available or a parse error
+   Post_stock_shoppinglist_remove_productResponseError GHC.Internal.Base.String -- ^ Means either no matching case available or a parse error
   | Post_stock_shoppinglist_remove_productResponse204 -- ^ The operation was successful
   | Post_stock_shoppinglist_remove_productResponse400 Error400 -- ^ The operation was not successful (possible errors are: Not existing shopping list, Invalid product id supplied)
-  deriving (Show.Show, GHC.Classes.Eq)
+  deriving (GHC.Internal.Show.Show, GHC.Classes.Eq)
 -- | > POST /stock/shoppinglist/remove-product
 -- 
 -- The same as 'post_stock_shoppinglist_remove_product' but accepts an explicit configuration.
@@ -91,16 +101,16 @@ post_stock_shoppinglist_remove_productWithConfiguration :: forall m . GrocyClien
   -> Post_stock_shoppinglist_remove_productRequestBody -- ^ The request body to send
   -> m (Network.HTTP.Client.Types.Response Post_stock_shoppinglist_remove_productResponse) -- ^ Monadic computation which returns the result of the operation
 post_stock_shoppinglist_remove_productWithConfiguration config
-                                                        body = Base.fmap (\response_3 -> Base.fmap (Data.Either.either Post_stock_shoppinglist_remove_productResponseError Base.id Base.. (\response body -> if | (\status_4 -> Network.HTTP.Types.Status.statusCode status_4 GHC.Classes.== 204) (Network.HTTP.Client.Types.responseStatus response) -> Data.Either.Right Post_stock_shoppinglist_remove_productResponse204
-                                                                                                                                                                                                                                                                                 | (\status_5 -> Network.HTTP.Types.Status.statusCode status_5 GHC.Classes.== 400) (Network.HTTP.Client.Types.responseStatus response) -> Post_stock_shoppinglist_remove_productResponse400 Data.Functor.<$> (Data.Aeson.Decoding.eitherDecodeStrict body :: Data.Either.Either Base.String
+                                                        body = GHC.Internal.Base.fmap (\response_3 -> GHC.Internal.Base.fmap (GHC.Internal.Data.Either.either Post_stock_shoppinglist_remove_productResponseError GHC.Internal.Base.id GHC.Internal.Base.. (\response body -> if | (\status_4 -> Network.HTTP.Types.Status.statusCode status_4 GHC.Classes.== 204) (Network.HTTP.Client.Types.responseStatus response) -> GHC.Internal.Data.Either.Right Post_stock_shoppinglist_remove_productResponse204
+                                                                                                                                                                                                                                                                                 | (\status_5 -> Network.HTTP.Types.Status.statusCode status_5 GHC.Classes.== 400) (Network.HTTP.Client.Types.responseStatus response) -> Post_stock_shoppinglist_remove_productResponse400 GHC.Internal.Data.Functor.<$> (Data.Aeson.Decoding.eitherDecodeStrict body :: GHC.Internal.Data.Either.Either GHC.Internal.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           Error400)
-                                                                                                                                                                                                                                                                                 | Base.otherwise -> Data.Either.Left "Missing default response type") response_3) response_3) (GrocyClient.Common.doBodyCallWithConfiguration config (Data.Text.toUpper Base.$ Data.Text.Internal.pack "POST") "/stock/shoppinglist/remove-product" Base.mempty (Maybe.Just body) GrocyClient.Common.RequestBodyEncodingJSON)
+                                                                                                                                                                                                                                                                                 | GHC.Internal.Base.otherwise -> GHC.Internal.Data.Either.Left "Missing default response type") response_3) response_3) (GrocyClient.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Internal.Base.$ Data.Text.Internal.pack "POST") "/stock/shoppinglist/remove-product" GHC.Internal.Base.mempty (GHC.Internal.Maybe.Just body) GrocyClient.Common.RequestBodyEncodingJSON)
 -- | > POST /stock/shoppinglist/remove-product
 -- 
 -- The same as 'post_stock_shoppinglist_remove_product' but returns the raw 'Data.ByteString.ByteString'.
 post_stock_shoppinglist_remove_productRaw :: forall m . GrocyClient.Common.MonadHTTP m => Post_stock_shoppinglist_remove_productRequestBody -- ^ The request body to send
   -> GrocyClient.Common.ClientT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.Type.ByteString) -- ^ Monadic computation which returns the result of the operation
-post_stock_shoppinglist_remove_productRaw body = Base.id (GrocyClient.Common.doBodyCallWithConfigurationM (Data.Text.toUpper Base.$ Data.Text.Internal.pack "POST") "/stock/shoppinglist/remove-product" Base.mempty (Maybe.Just body) GrocyClient.Common.RequestBodyEncodingJSON)
+post_stock_shoppinglist_remove_productRaw body = GHC.Internal.Base.id (GrocyClient.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Internal.Base.$ Data.Text.Internal.pack "POST") "/stock/shoppinglist/remove-product" GHC.Internal.Base.mempty (GHC.Internal.Maybe.Just body) GrocyClient.Common.RequestBodyEncodingJSON)
 -- | > POST /stock/shoppinglist/remove-product
 -- 
 -- The same as 'post_stock_shoppinglist_remove_product' but accepts an explicit configuration and returns the raw 'Data.ByteString.ByteString'.
@@ -108,4 +118,4 @@ post_stock_shoppinglist_remove_productWithConfigurationRaw :: forall m . GrocyCl
   -> Post_stock_shoppinglist_remove_productRequestBody -- ^ The request body to send
   -> m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.Type.ByteString) -- ^ Monadic computation which returns the result of the operation
 post_stock_shoppinglist_remove_productWithConfigurationRaw config
-                                                           body = Base.id (GrocyClient.Common.doBodyCallWithConfiguration config (Data.Text.toUpper Base.$ Data.Text.Internal.pack "POST") "/stock/shoppinglist/remove-product" Base.mempty (Maybe.Just body) GrocyClient.Common.RequestBodyEncodingJSON)
+                                                           body = GHC.Internal.Base.id (GrocyClient.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Internal.Base.$ Data.Text.Internal.pack "POST") "/stock/shoppinglist/remove-product" GHC.Internal.Base.mempty (GHC.Internal.Maybe.Just body) GrocyClient.Common.RequestBodyEncodingJSON)

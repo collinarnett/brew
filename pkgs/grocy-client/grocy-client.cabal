@@ -1,0 +1,147 @@
+cabal-version: 1.12
+
+name:           grocy-client
+version:        0.1.0.0
+build-type:     Simple
+
+library
+  exposed-modules:
+      GrocyClient
+      GrocyClient.Operations.Get_batteries
+      GrocyClient.Operations.Post_batteries_charge_cycles__chargeCycleId__undo
+      GrocyClient.Operations.Get_batteries__batteryId_
+      GrocyClient.Operations.Post_batteries__batteryId__charge
+      GrocyClient.Operations.Get_batteries__batteryId__printlabel
+      GrocyClient.Operations.Get_calendar_ical
+      GrocyClient.Operations.Get_calendar_ical_sharing_link
+      GrocyClient.Operations.Get_chores
+      GrocyClient.Operations.Post_chores_executions_calculate_next_assignments
+      GrocyClient.Operations.Post_chores_executions__executionId__undo
+      GrocyClient.Operations.Post_chores__choreIdToKeep__merge__choreIdToRemove_
+      GrocyClient.Operations.Get_chores__choreId_
+      GrocyClient.Operations.Post_chores__choreId__execute
+      GrocyClient.Operations.Get_chores__choreId__printlabel
+      GrocyClient.Operations.Get_files__group___fileName_
+      GrocyClient.Operations.Put_files__group___fileName_
+      GrocyClient.Operations.Delete_files__group___fileName_
+      GrocyClient.Operations.Get_print_shoppinglist_thermal
+      GrocyClient.Operations.Get_recipes_fulfillment
+      GrocyClient.Operations.Post_recipes__recipeId__add_not_fulfilled_products_to_shoppinglist
+      GrocyClient.Operations.Post_recipes__recipeId__consume
+      GrocyClient.Operations.Post_recipes__recipeId__copy
+      GrocyClient.Operations.Get_recipes__recipeId__fulfillment
+      GrocyClient.Operations.Get_recipes__recipeId__printlabel
+      GrocyClient.Operations.Get_stock
+      GrocyClient.Operations.Get_stock_barcodes_external_lookup__barcode_
+      GrocyClient.Operations.Get_stock_bookings__bookingId_
+      GrocyClient.Operations.Post_stock_bookings__bookingId__undo
+      GrocyClient.Operations.Get_stock_entry__entryId_
+      GrocyClient.Operations.Put_stock_entry__entryId_
+      GrocyClient.Operations.Get_stock_entry__entryId__printlabel
+      GrocyClient.Operations.Get_stock_locations__locationId__entries
+      GrocyClient.Operations.Get_stock_products_by_barcode__barcode_
+      GrocyClient.Operations.Post_stock_products_by_barcode__barcode__add
+      GrocyClient.Operations.Post_stock_products_by_barcode__barcode__consume
+      GrocyClient.Operations.Post_stock_products_by_barcode__barcode__inventory
+      GrocyClient.Operations.Post_stock_products_by_barcode__barcode__open
+      GrocyClient.Operations.Post_stock_products_by_barcode__barcode__transfer
+      GrocyClient.Operations.Post_stock_products__productIdToKeep__merge__productIdToRemove_
+      GrocyClient.Operations.Get_stock_products__productId_
+      GrocyClient.Operations.Post_stock_products__productId__add
+      GrocyClient.Operations.Post_stock_products__productId__consume
+      GrocyClient.Operations.Get_stock_products__productId__entries
+      GrocyClient.Operations.Post_stock_products__productId__inventory
+      GrocyClient.Operations.Get_stock_products__productId__locations
+      GrocyClient.Operations.Post_stock_products__productId__open
+      GrocyClient.Operations.Get_stock_products__productId__price_history
+      GrocyClient.Operations.Get_stock_products__productId__printlabel
+      GrocyClient.Operations.Post_stock_products__productId__transfer
+      GrocyClient.Operations.Post_stock_shoppinglist_add_expired_products
+      GrocyClient.Operations.Post_stock_shoppinglist_add_missing_products
+      GrocyClient.Operations.Post_stock_shoppinglist_add_overdue_products
+      GrocyClient.Operations.Post_stock_shoppinglist_add_product
+      GrocyClient.Operations.Post_stock_shoppinglist_clear
+      GrocyClient.Operations.Post_stock_shoppinglist_remove_product
+      GrocyClient.Operations.Get_stock_transactions__transactionId_
+      GrocyClient.Operations.Post_stock_transactions__transactionId__undo
+      GrocyClient.Operations.Get_stock_volatile
+      GrocyClient.Operations.Get_system_config
+      GrocyClient.Operations.Get_system_db_changed_time
+      GrocyClient.Operations.Get_system_info
+      GrocyClient.Operations.Get_system_localization_strings
+      GrocyClient.Operations.Post_system_log_missing_localization
+      GrocyClient.Operations.Get_system_time
+      GrocyClient.Operations.Get_tasks
+      GrocyClient.Operations.Post_tasks__taskId__complete
+      GrocyClient.Operations.Post_tasks__taskId__undo
+      GrocyClient.Operations.Get_user
+      GrocyClient.Operations.Get_user_settings
+      GrocyClient.Operations.Get_user_settings__settingKey_
+      GrocyClient.Operations.Put_user_settings__settingKey_
+      GrocyClient.Operations.Delete_user_settings__settingKey_
+      GrocyClient.Operations.Get_users
+      GrocyClient.Operations.Post_users
+      GrocyClient.Operations.Put_users__userId_
+      GrocyClient.Operations.Delete_users__userId_
+      GrocyClient.Operations.Get_users__userId__permissions
+      GrocyClient.Operations.Put_users__userId__permissions
+      GrocyClient.Operations.Post_users__userId__permissions
+      GrocyClient.Types
+      GrocyClient.TypeAlias
+      GrocyClient.Types.Battery
+      GrocyClient.Types.BatteryChargeCycleEntry
+      GrocyClient.Types.BatteryDetailsResponse
+      GrocyClient.Types.Chore
+      GrocyClient.Types.ChoreDetailsResponse
+      GrocyClient.Types.ChoreLogEntry
+      GrocyClient.Types.CurrentBatteryResponse
+      GrocyClient.Types.CurrentChoreResponse
+      GrocyClient.Types.CurrentStockResponse
+      GrocyClient.Types.CurrentTaskResponse
+      GrocyClient.Types.CurrentVolatilStockResponse
+      GrocyClient.Types.DbChangedTimeResponse
+      GrocyClient.Types.Error400
+      GrocyClient.Types.Error500
+      GrocyClient.Types.ExternalBarcodeLookupResponse
+      GrocyClient.Types.FileGroups
+      GrocyClient.Types.Location
+      GrocyClient.Types.MissingLocalizationRequest
+      GrocyClient.Types.Product
+      GrocyClient.Types.ProductBarcode
+      GrocyClient.Types.ProductDetailsResponse
+      GrocyClient.Types.ProductPriceHistory
+      GrocyClient.Types.ProductWithoutUserfields
+      GrocyClient.Types.QuantityUnit
+      GrocyClient.Types.RecipeFulfillmentResponse
+      GrocyClient.Types.ShoppingListItem
+      GrocyClient.Types.ShoppingLocation
+      GrocyClient.Types.StockEntry
+      GrocyClient.Types.StockLocation
+      GrocyClient.Types.StockLogEntry
+      GrocyClient.Types.StockTransactionType
+      GrocyClient.Types.TaskCategory
+      GrocyClient.Types.TimeResponse
+      GrocyClient.Types.User
+      GrocyClient.Types.UserDto
+      GrocyClient.Types.UserSetting
+      GrocyClient.Configuration
+      GrocyClient.SecuritySchemes
+      GrocyClient.Common
+  hs-source-dirs:
+      src
+  build-depends:
+      base >=4.7 && <5
+    , text
+    , ghc-prim
+    , http-conduit
+    , http-client
+    , http-types
+    , bytestring
+    , aeson
+    , unordered-containers
+    , vector
+    , scientific
+    , time
+    , mtl
+    , transformers
+  default-language: Haskell2010

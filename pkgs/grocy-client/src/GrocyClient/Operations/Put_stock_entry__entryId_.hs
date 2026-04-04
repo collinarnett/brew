@@ -9,21 +9,28 @@ module GrocyClient.Operations.Put_stock_entry__entryId_ where
 
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
+import qualified Prelude as GHC.Internal.Maybe
 import qualified Control.Monad.Fail
+import qualified Control.Monad.Fail as GHC.Internal.Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Decoding
 import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
-import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString
 import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.ByteString as Data.ByteString.Internal.Type
 import qualified Data.Either
+import qualified Data.Either as GHC.Internal.Data.Either
 import qualified Data.Foldable
+import qualified Data.Foldable as GHC.Internal.Data.Foldable
 import qualified Data.Functor
+import qualified Data.Functor as GHC.Internal.Data.Functor
 import qualified Data.Maybe
+import qualified Data.Maybe as GHC.Internal.Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text as Data.Text.Internal
@@ -31,9 +38,12 @@ import qualified Data.Time.Calendar as Data.Time.Calendar.Days
 import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
+import qualified GHC.Base as GHC.Internal.Base
 import qualified GHC.Classes
 import qualified GHC.Int
+import qualified GHC.Int as GHC.Internal.Int
 import qualified GHC.Show
+import qualified GHC.Show as GHC.Internal.Show
 import qualified GHC.Types
 import qualified Network.HTTP.Client
 import qualified Network.HTTP.Client as Network.HTTP.Client.Request
@@ -52,53 +62,53 @@ put_stock_entry__entryId_ :: forall m . GrocyClient.Common.MonadHTTP m => GHC.Ty
   -> Put_stock_entry__entryId_RequestBody -- ^ The request body to send
   -> GrocyClient.Common.ClientT m (Network.HTTP.Client.Types.Response Put_stock_entry__entryId_Response) -- ^ Monadic computation which returns the result of the operation
 put_stock_entry__entryId_ entryId
-                          body = Base.fmap (\response_0 -> Base.fmap (Data.Either.either Put_stock_entry__entryId_ResponseError Base.id Base.. (\response body -> if | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) -> Put_stock_entry__entryId_Response200 Data.Functor.<$> (Data.Aeson.Decoding.eitherDecodeStrict body :: Data.Either.Either Base.String
+                          body = GHC.Internal.Base.fmap (\response_0 -> GHC.Internal.Base.fmap (GHC.Internal.Data.Either.either Put_stock_entry__entryId_ResponseError GHC.Internal.Base.id GHC.Internal.Base.. (\response body -> if | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) -> Put_stock_entry__entryId_Response200 GHC.Internal.Data.Functor.<$> (Data.Aeson.Decoding.eitherDecodeStrict body :: GHC.Internal.Data.Either.Either GHC.Internal.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   [StockLogEntry])
-                                                                                                                                                                                                                                      | (\status_2 -> Network.HTTP.Types.Status.statusCode status_2 GHC.Classes.== 400) (Network.HTTP.Client.Types.responseStatus response) -> Put_stock_entry__entryId_Response400 Data.Functor.<$> (Data.Aeson.Decoding.eitherDecodeStrict body :: Data.Either.Either Base.String
+                                                                                                                                                                                                                                      | (\status_2 -> Network.HTTP.Types.Status.statusCode status_2 GHC.Classes.== 400) (Network.HTTP.Client.Types.responseStatus response) -> Put_stock_entry__entryId_Response400 GHC.Internal.Data.Functor.<$> (Data.Aeson.Decoding.eitherDecodeStrict body :: GHC.Internal.Data.Either.Either GHC.Internal.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   Error400)
-                                                                                                                                                                                                                                      | Base.otherwise -> Data.Either.Left "Missing default response type") response_0) response_0) (GrocyClient.Common.doBodyCallWithConfigurationM (Data.Text.toUpper Base.$ Data.Text.Internal.pack "PUT") ("/stock/entry/" Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True Base.$ (GrocyClient.Common.textToByte Base.$ GrocyClient.Common.stringifyModel entryId)) Base.<> "")) Base.mempty (Maybe.Just body) GrocyClient.Common.RequestBodyEncodingJSON)
+                                                                                                                                                                                                                                      | GHC.Internal.Base.otherwise -> GHC.Internal.Data.Either.Left "Missing default response type") response_0) response_0) (GrocyClient.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Internal.Base.$ Data.Text.Internal.pack "PUT") ("/stock/entry/" GHC.Internal.Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Internal.Base.$ (GrocyClient.Common.textToByte GHC.Internal.Base.$ GrocyClient.Common.stringifyModel entryId)) GHC.Internal.Base.<> "")) GHC.Internal.Base.mempty (GHC.Internal.Maybe.Just body) GrocyClient.Common.RequestBodyEncodingJSON)
 -- | Defines the object schema located at @paths.\/stock\/entry\/{entryId}.PUT.requestBody.content.application\/json.schema@ in the specification.
 -- 
 -- 
 data Put_stock_entry__entryId_RequestBody = Put_stock_entry__entryId_RequestBody {
   -- | amount: The amount to add - please note that when tare weight handling for the product is enabled, this needs to be the amount including the container weight (gross), the amount to be posted will be automatically calculated based on what is in stock and the defined tare weight
-  put_stock_entry__entryId_RequestBodyAmount :: (Maybe.Maybe GHC.Types.Double)
+  put_stock_entry__entryId_RequestBodyAmount :: (GHC.Internal.Maybe.Maybe GHC.Types.Double)
   -- | best_before_date: The due date of the product to add, when omitted, the current date is used
-  , put_stock_entry__entryId_RequestBodyBest_before_date :: (Maybe.Maybe Data.Text.Internal.Text)
+  , put_stock_entry__entryId_RequestBodyBest_before_date :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
   -- | location_id: If omitted, the default location of the product is used
-  , put_stock_entry__entryId_RequestBodyLocation_id :: (Maybe.Maybe GHC.Types.Int)
+  , put_stock_entry__entryId_RequestBodyLocation_id :: (GHC.Internal.Maybe.Maybe GHC.Types.Int)
   -- | open: If the stock entry was already opened or not
-  , put_stock_entry__entryId_RequestBodyOpen :: (Maybe.Maybe GHC.Types.Bool)
+  , put_stock_entry__entryId_RequestBodyOpen :: (GHC.Internal.Maybe.Maybe GHC.Types.Bool)
   -- | price: The price per stock quantity unit in configured currency
-  , put_stock_entry__entryId_RequestBodyPrice :: (Maybe.Maybe GHC.Types.Double)
+  , put_stock_entry__entryId_RequestBodyPrice :: (GHC.Internal.Maybe.Maybe GHC.Types.Double)
   -- | purchased_date: The date when this stock entry was purchased
-  , put_stock_entry__entryId_RequestBodyPurchased_date :: (Maybe.Maybe Data.Text.Internal.Text)
+  , put_stock_entry__entryId_RequestBodyPurchased_date :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
   -- | shopping_location_id: If omitted, no store will be affected
-  , put_stock_entry__entryId_RequestBodyShopping_location_id :: (Maybe.Maybe GHC.Types.Int)
-  } deriving (Show.Show
+  , put_stock_entry__entryId_RequestBodyShopping_location_id :: (GHC.Internal.Maybe.Maybe GHC.Types.Int)
+  } deriving (GHC.Internal.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.Types.ToJSON.ToJSON Put_stock_entry__entryId_RequestBody
-    where {toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe Base.mempty (Base.pure Base.. ("amount" Data.Aeson.Types.ToJSON..=)) (put_stock_entry__entryId_RequestBodyAmount obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("best_before_date" Data.Aeson.Types.ToJSON..=)) (put_stock_entry__entryId_RequestBodyBest_before_date obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("location_id" Data.Aeson.Types.ToJSON..=)) (put_stock_entry__entryId_RequestBodyLocation_id obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("open" Data.Aeson.Types.ToJSON..=)) (put_stock_entry__entryId_RequestBodyOpen obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("price" Data.Aeson.Types.ToJSON..=)) (put_stock_entry__entryId_RequestBodyPrice obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("purchased_date" Data.Aeson.Types.ToJSON..=)) (put_stock_entry__entryId_RequestBodyPurchased_date obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("shopping_location_id" Data.Aeson.Types.ToJSON..=)) (put_stock_entry__entryId_RequestBodyShopping_location_id obj) : Base.mempty));
-           toEncoding obj = Data.Aeson.Encoding.Internal.pairs (Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe Base.mempty (Base.pure Base.. ("amount" Data.Aeson.Types.ToJSON..=)) (put_stock_entry__entryId_RequestBodyAmount obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("best_before_date" Data.Aeson.Types.ToJSON..=)) (put_stock_entry__entryId_RequestBodyBest_before_date obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("location_id" Data.Aeson.Types.ToJSON..=)) (put_stock_entry__entryId_RequestBodyLocation_id obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("open" Data.Aeson.Types.ToJSON..=)) (put_stock_entry__entryId_RequestBodyOpen obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("price" Data.Aeson.Types.ToJSON..=)) (put_stock_entry__entryId_RequestBodyPrice obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("purchased_date" Data.Aeson.Types.ToJSON..=)) (put_stock_entry__entryId_RequestBodyPurchased_date obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("shopping_location_id" Data.Aeson.Types.ToJSON..=)) (put_stock_entry__entryId_RequestBodyShopping_location_id obj) : Base.mempty)))}
+    where {toJSON obj = Data.Aeson.Types.Internal.object (GHC.Internal.Data.Foldable.concat (GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("amount" Data.Aeson.Types.ToJSON..=)) (put_stock_entry__entryId_RequestBodyAmount obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("best_before_date" Data.Aeson.Types.ToJSON..=)) (put_stock_entry__entryId_RequestBodyBest_before_date obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("location_id" Data.Aeson.Types.ToJSON..=)) (put_stock_entry__entryId_RequestBodyLocation_id obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("open" Data.Aeson.Types.ToJSON..=)) (put_stock_entry__entryId_RequestBodyOpen obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("price" Data.Aeson.Types.ToJSON..=)) (put_stock_entry__entryId_RequestBodyPrice obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("purchased_date" Data.Aeson.Types.ToJSON..=)) (put_stock_entry__entryId_RequestBodyPurchased_date obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("shopping_location_id" Data.Aeson.Types.ToJSON..=)) (put_stock_entry__entryId_RequestBodyShopping_location_id obj) : GHC.Internal.Base.mempty));
+           toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Internal.Base.mconcat (GHC.Internal.Data.Foldable.concat (GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("amount" Data.Aeson.Types.ToJSON..=)) (put_stock_entry__entryId_RequestBodyAmount obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("best_before_date" Data.Aeson.Types.ToJSON..=)) (put_stock_entry__entryId_RequestBodyBest_before_date obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("location_id" Data.Aeson.Types.ToJSON..=)) (put_stock_entry__entryId_RequestBodyLocation_id obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("open" Data.Aeson.Types.ToJSON..=)) (put_stock_entry__entryId_RequestBodyOpen obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("price" Data.Aeson.Types.ToJSON..=)) (put_stock_entry__entryId_RequestBodyPrice obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("purchased_date" Data.Aeson.Types.ToJSON..=)) (put_stock_entry__entryId_RequestBodyPurchased_date obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("shopping_location_id" Data.Aeson.Types.ToJSON..=)) (put_stock_entry__entryId_RequestBodyShopping_location_id obj) : GHC.Internal.Base.mempty)))}
 instance Data.Aeson.Types.FromJSON.FromJSON Put_stock_entry__entryId_RequestBody
-    where {parseJSON = Data.Aeson.Types.FromJSON.withObject "Put_stock_entry__entryId_RequestBody" (\obj -> ((((((Base.pure Put_stock_entry__entryId_RequestBody Base.<*> (obj Data.Aeson.Types.FromJSON..:! "amount")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "best_before_date")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "location_id")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "open")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "price")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "purchased_date")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "shopping_location_id"))}
+    where {parseJSON = Data.Aeson.Types.FromJSON.withObject "Put_stock_entry__entryId_RequestBody" (\obj -> ((((((GHC.Internal.Base.pure Put_stock_entry__entryId_RequestBody GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "amount")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "best_before_date")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "location_id")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "open")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "price")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "purchased_date")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "shopping_location_id"))}
 -- | Create a new 'Put_stock_entry__entryId_RequestBody' with all required fields.
 mkPut_stock_entry__entryId_RequestBody :: Put_stock_entry__entryId_RequestBody
-mkPut_stock_entry__entryId_RequestBody = Put_stock_entry__entryId_RequestBody{put_stock_entry__entryId_RequestBodyAmount = Maybe.Nothing,
-                                                                              put_stock_entry__entryId_RequestBodyBest_before_date = Maybe.Nothing,
-                                                                              put_stock_entry__entryId_RequestBodyLocation_id = Maybe.Nothing,
-                                                                              put_stock_entry__entryId_RequestBodyOpen = Maybe.Nothing,
-                                                                              put_stock_entry__entryId_RequestBodyPrice = Maybe.Nothing,
-                                                                              put_stock_entry__entryId_RequestBodyPurchased_date = Maybe.Nothing,
-                                                                              put_stock_entry__entryId_RequestBodyShopping_location_id = Maybe.Nothing}
+mkPut_stock_entry__entryId_RequestBody = Put_stock_entry__entryId_RequestBody{put_stock_entry__entryId_RequestBodyAmount = GHC.Internal.Maybe.Nothing,
+                                                                              put_stock_entry__entryId_RequestBodyBest_before_date = GHC.Internal.Maybe.Nothing,
+                                                                              put_stock_entry__entryId_RequestBodyLocation_id = GHC.Internal.Maybe.Nothing,
+                                                                              put_stock_entry__entryId_RequestBodyOpen = GHC.Internal.Maybe.Nothing,
+                                                                              put_stock_entry__entryId_RequestBodyPrice = GHC.Internal.Maybe.Nothing,
+                                                                              put_stock_entry__entryId_RequestBodyPurchased_date = GHC.Internal.Maybe.Nothing,
+                                                                              put_stock_entry__entryId_RequestBodyShopping_location_id = GHC.Internal.Maybe.Nothing}
 -- | Represents a response of the operation 'put_stock_entry__entryId_'.
 -- 
 -- The response constructor is chosen by the status code of the response. If no case matches (no specific case for the response code, no range case, no default case), 'Put_stock_entry__entryId_ResponseError' is used.
 data Put_stock_entry__entryId_Response =
-   Put_stock_entry__entryId_ResponseError Base.String -- ^ Means either no matching case available or a parse error
+   Put_stock_entry__entryId_ResponseError GHC.Internal.Base.String -- ^ Means either no matching case available or a parse error
   | Put_stock_entry__entryId_Response200 [StockLogEntry] -- ^ The operation was successful
   | Put_stock_entry__entryId_Response400 Error400 -- ^ The operation was not successful (possible errors are: Not existing product, invalid transaction type)
-  deriving (Show.Show, GHC.Classes.Eq)
+  deriving (GHC.Internal.Show.Show, GHC.Classes.Eq)
 -- | > PUT /stock/entry/{entryId}
 -- 
 -- The same as 'put_stock_entry__entryId_' but accepts an explicit configuration.
@@ -108,11 +118,11 @@ put_stock_entry__entryId_WithConfiguration :: forall m . GrocyClient.Common.Mona
   -> m (Network.HTTP.Client.Types.Response Put_stock_entry__entryId_Response) -- ^ Monadic computation which returns the result of the operation
 put_stock_entry__entryId_WithConfiguration config
                                            entryId
-                                           body = Base.fmap (\response_3 -> Base.fmap (Data.Either.either Put_stock_entry__entryId_ResponseError Base.id Base.. (\response body -> if | (\status_4 -> Network.HTTP.Types.Status.statusCode status_4 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) -> Put_stock_entry__entryId_Response200 Data.Functor.<$> (Data.Aeson.Decoding.eitherDecodeStrict body :: Data.Either.Either Base.String
+                                           body = GHC.Internal.Base.fmap (\response_3 -> GHC.Internal.Base.fmap (GHC.Internal.Data.Either.either Put_stock_entry__entryId_ResponseError GHC.Internal.Base.id GHC.Internal.Base.. (\response body -> if | (\status_4 -> Network.HTTP.Types.Status.statusCode status_4 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) -> Put_stock_entry__entryId_Response200 GHC.Internal.Data.Functor.<$> (Data.Aeson.Decoding.eitherDecodeStrict body :: GHC.Internal.Data.Either.Either GHC.Internal.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    [StockLogEntry])
-                                                                                                                                                                                                                                                       | (\status_5 -> Network.HTTP.Types.Status.statusCode status_5 GHC.Classes.== 400) (Network.HTTP.Client.Types.responseStatus response) -> Put_stock_entry__entryId_Response400 Data.Functor.<$> (Data.Aeson.Decoding.eitherDecodeStrict body :: Data.Either.Either Base.String
+                                                                                                                                                                                                                                                       | (\status_5 -> Network.HTTP.Types.Status.statusCode status_5 GHC.Classes.== 400) (Network.HTTP.Client.Types.responseStatus response) -> Put_stock_entry__entryId_Response400 GHC.Internal.Data.Functor.<$> (Data.Aeson.Decoding.eitherDecodeStrict body :: GHC.Internal.Data.Either.Either GHC.Internal.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    Error400)
-                                                                                                                                                                                                                                                       | Base.otherwise -> Data.Either.Left "Missing default response type") response_3) response_3) (GrocyClient.Common.doBodyCallWithConfiguration config (Data.Text.toUpper Base.$ Data.Text.Internal.pack "PUT") ("/stock/entry/" Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True Base.$ (GrocyClient.Common.textToByte Base.$ GrocyClient.Common.stringifyModel entryId)) Base.<> "")) Base.mempty (Maybe.Just body) GrocyClient.Common.RequestBodyEncodingJSON)
+                                                                                                                                                                                                                                                       | GHC.Internal.Base.otherwise -> GHC.Internal.Data.Either.Left "Missing default response type") response_3) response_3) (GrocyClient.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Internal.Base.$ Data.Text.Internal.pack "PUT") ("/stock/entry/" GHC.Internal.Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Internal.Base.$ (GrocyClient.Common.textToByte GHC.Internal.Base.$ GrocyClient.Common.stringifyModel entryId)) GHC.Internal.Base.<> "")) GHC.Internal.Base.mempty (GHC.Internal.Maybe.Just body) GrocyClient.Common.RequestBodyEncodingJSON)
 -- | > PUT /stock/entry/{entryId}
 -- 
 -- The same as 'put_stock_entry__entryId_' but returns the raw 'Data.ByteString.ByteString'.
@@ -120,7 +130,7 @@ put_stock_entry__entryId_Raw :: forall m . GrocyClient.Common.MonadHTTP m => GHC
   -> Put_stock_entry__entryId_RequestBody -- ^ The request body to send
   -> GrocyClient.Common.ClientT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.Type.ByteString) -- ^ Monadic computation which returns the result of the operation
 put_stock_entry__entryId_Raw entryId
-                             body = Base.id (GrocyClient.Common.doBodyCallWithConfigurationM (Data.Text.toUpper Base.$ Data.Text.Internal.pack "PUT") ("/stock/entry/" Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True Base.$ (GrocyClient.Common.textToByte Base.$ GrocyClient.Common.stringifyModel entryId)) Base.<> "")) Base.mempty (Maybe.Just body) GrocyClient.Common.RequestBodyEncodingJSON)
+                             body = GHC.Internal.Base.id (GrocyClient.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Internal.Base.$ Data.Text.Internal.pack "PUT") ("/stock/entry/" GHC.Internal.Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Internal.Base.$ (GrocyClient.Common.textToByte GHC.Internal.Base.$ GrocyClient.Common.stringifyModel entryId)) GHC.Internal.Base.<> "")) GHC.Internal.Base.mempty (GHC.Internal.Maybe.Just body) GrocyClient.Common.RequestBodyEncodingJSON)
 -- | > PUT /stock/entry/{entryId}
 -- 
 -- The same as 'put_stock_entry__entryId_' but accepts an explicit configuration and returns the raw 'Data.ByteString.ByteString'.
@@ -130,4 +140,4 @@ put_stock_entry__entryId_WithConfigurationRaw :: forall m . GrocyClient.Common.M
   -> m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.Type.ByteString) -- ^ Monadic computation which returns the result of the operation
 put_stock_entry__entryId_WithConfigurationRaw config
                                               entryId
-                                              body = Base.id (GrocyClient.Common.doBodyCallWithConfiguration config (Data.Text.toUpper Base.$ Data.Text.Internal.pack "PUT") ("/stock/entry/" Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True Base.$ (GrocyClient.Common.textToByte Base.$ GrocyClient.Common.stringifyModel entryId)) Base.<> "")) Base.mempty (Maybe.Just body) GrocyClient.Common.RequestBodyEncodingJSON)
+                                              body = GHC.Internal.Base.id (GrocyClient.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Internal.Base.$ Data.Text.Internal.pack "PUT") ("/stock/entry/" GHC.Internal.Base.<> (GrocyClient.Common.byteToText (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Internal.Base.$ (GrocyClient.Common.textToByte GHC.Internal.Base.$ GrocyClient.Common.stringifyModel entryId)) GHC.Internal.Base.<> "")) GHC.Internal.Base.mempty (GHC.Internal.Maybe.Just body) GrocyClient.Common.RequestBodyEncodingJSON)

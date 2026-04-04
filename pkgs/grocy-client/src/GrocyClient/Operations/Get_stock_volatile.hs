@@ -9,21 +9,28 @@ module GrocyClient.Operations.Get_stock_volatile where
 
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
+import qualified Prelude as GHC.Internal.Maybe
 import qualified Control.Monad.Fail
+import qualified Control.Monad.Fail as GHC.Internal.Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Decoding
 import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
 import qualified Data.Aeson as Data.Aeson.Types.FromJSON
-import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.Aeson as Data.Aeson.Types.Internal
+import qualified Data.Aeson as Data.Aeson.Types.ToJSON
 import qualified Data.ByteString
 import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.ByteString as Data.ByteString.Internal.Type
 import qualified Data.Either
+import qualified Data.Either as GHC.Internal.Data.Either
 import qualified Data.Foldable
+import qualified Data.Foldable as GHC.Internal.Data.Foldable
 import qualified Data.Functor
+import qualified Data.Functor as GHC.Internal.Data.Functor
 import qualified Data.Maybe
+import qualified Data.Maybe as GHC.Internal.Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text as Data.Text.Internal
@@ -31,9 +38,12 @@ import qualified Data.Time.Calendar as Data.Time.Calendar.Days
 import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
+import qualified GHC.Base as GHC.Internal.Base
 import qualified GHC.Classes
 import qualified GHC.Int
+import qualified GHC.Int as GHC.Internal.Int
 import qualified GHC.Show
+import qualified GHC.Show as GHC.Internal.Show
 import qualified GHC.Types
 import qualified Network.HTTP.Client
 import qualified Network.HTTP.Client as Network.HTTP.Client.Request
@@ -48,39 +58,39 @@ import GrocyClient.Types
 -- | > GET /stock/volatile
 -- 
 -- Returns all products which are due soon, overdue, expired or currently missing
-get_stock_volatile :: forall m . GrocyClient.Common.MonadHTTP m => Maybe.Maybe GHC.Types.Int -- ^ due_soon_days: The number of days in which products are considered to be due soon
+get_stock_volatile :: forall m . GrocyClient.Common.MonadHTTP m => GHC.Internal.Maybe.Maybe GHC.Types.Int -- ^ due_soon_days: The number of days in which products are considered to be due soon
   -> GrocyClient.Common.ClientT m (Network.HTTP.Client.Types.Response Get_stock_volatileResponse) -- ^ Monadic computation which returns the result of the operation
-get_stock_volatile due_soon_days = Base.fmap (\response_0 -> Base.fmap (Data.Either.either Get_stock_volatileResponseError Base.id Base.. (\response body -> if | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) -> Get_stock_volatileResponse200 Data.Functor.<$> (Data.Aeson.Decoding.eitherDecodeStrict body :: Data.Either.Either Base.String
+get_stock_volatile due_soon_days = GHC.Internal.Base.fmap (\response_0 -> GHC.Internal.Base.fmap (GHC.Internal.Data.Either.either Get_stock_volatileResponseError GHC.Internal.Base.id GHC.Internal.Base.. (\response body -> if | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) -> Get_stock_volatileResponse200 GHC.Internal.Data.Functor.<$> (Data.Aeson.Decoding.eitherDecodeStrict body :: GHC.Internal.Data.Either.Either GHC.Internal.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       CurrentVolatilStockResponse)
-                                                                                                                                                                                                                                 | Base.otherwise -> Data.Either.Left "Missing default response type") response_0) response_0) (GrocyClient.Common.doCallWithConfigurationM (Data.Text.toUpper Base.$ Data.Text.Internal.pack "GET") "/stock/volatile" [GrocyClient.Common.QueryParameter (Data.Text.Internal.pack "due_soon_days") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> due_soon_days) (Data.Text.Internal.pack "form") GHC.Types.False])
+                                                                                                                                                                                                                                 | GHC.Internal.Base.otherwise -> GHC.Internal.Data.Either.Left "Missing default response type") response_0) response_0) (GrocyClient.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Internal.Base.$ Data.Text.Internal.pack "GET") "/stock/volatile" [GrocyClient.Common.QueryParameter (Data.Text.Internal.pack "due_soon_days") (Data.Aeson.Types.ToJSON.toJSON GHC.Internal.Data.Functor.<$> due_soon_days) (Data.Text.Internal.pack "form") GHC.Types.False])
 -- | Represents a response of the operation 'get_stock_volatile'.
 -- 
 -- The response constructor is chosen by the status code of the response. If no case matches (no specific case for the response code, no range case, no default case), 'Get_stock_volatileResponseError' is used.
 data Get_stock_volatileResponse =
-   Get_stock_volatileResponseError Base.String -- ^ Means either no matching case available or a parse error
+   Get_stock_volatileResponseError GHC.Internal.Base.String -- ^ Means either no matching case available or a parse error
   | Get_stock_volatileResponse200 CurrentVolatilStockResponse -- ^ A CurrentVolatilStockResponse object
-  deriving (Show.Show, GHC.Classes.Eq)
+  deriving (GHC.Internal.Show.Show, GHC.Classes.Eq)
 -- | > GET /stock/volatile
 -- 
 -- The same as 'get_stock_volatile' but accepts an explicit configuration.
 get_stock_volatileWithConfiguration :: forall m . GrocyClient.Common.MonadHTTP m => GrocyClient.Common.Configuration -- ^ The configuration to use in the request
-  -> Maybe.Maybe GHC.Types.Int -- ^ due_soon_days: The number of days in which products are considered to be due soon
+  -> GHC.Internal.Maybe.Maybe GHC.Types.Int -- ^ due_soon_days: The number of days in which products are considered to be due soon
   -> m (Network.HTTP.Client.Types.Response Get_stock_volatileResponse) -- ^ Monadic computation which returns the result of the operation
 get_stock_volatileWithConfiguration config
-                                    due_soon_days = Base.fmap (\response_2 -> Base.fmap (Data.Either.either Get_stock_volatileResponseError Base.id Base.. (\response body -> if | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) -> Get_stock_volatileResponse200 Data.Functor.<$> (Data.Aeson.Decoding.eitherDecodeStrict body :: Data.Either.Either Base.String
+                                    due_soon_days = GHC.Internal.Base.fmap (\response_2 -> GHC.Internal.Base.fmap (GHC.Internal.Data.Either.either Get_stock_volatileResponseError GHC.Internal.Base.id GHC.Internal.Base.. (\response body -> if | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) -> Get_stock_volatileResponse200 GHC.Internal.Data.Functor.<$> (Data.Aeson.Decoding.eitherDecodeStrict body :: GHC.Internal.Data.Either.Either GHC.Internal.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        CurrentVolatilStockResponse)
-                                                                                                                                                                                                                                                  | Base.otherwise -> Data.Either.Left "Missing default response type") response_2) response_2) (GrocyClient.Common.doCallWithConfiguration config (Data.Text.toUpper Base.$ Data.Text.Internal.pack "GET") "/stock/volatile" [GrocyClient.Common.QueryParameter (Data.Text.Internal.pack "due_soon_days") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> due_soon_days) (Data.Text.Internal.pack "form") GHC.Types.False])
+                                                                                                                                                                                                                                                  | GHC.Internal.Base.otherwise -> GHC.Internal.Data.Either.Left "Missing default response type") response_2) response_2) (GrocyClient.Common.doCallWithConfiguration config (Data.Text.toUpper GHC.Internal.Base.$ Data.Text.Internal.pack "GET") "/stock/volatile" [GrocyClient.Common.QueryParameter (Data.Text.Internal.pack "due_soon_days") (Data.Aeson.Types.ToJSON.toJSON GHC.Internal.Data.Functor.<$> due_soon_days) (Data.Text.Internal.pack "form") GHC.Types.False])
 -- | > GET /stock/volatile
 -- 
 -- The same as 'get_stock_volatile' but returns the raw 'Data.ByteString.ByteString'.
-get_stock_volatileRaw :: forall m . GrocyClient.Common.MonadHTTP m => Maybe.Maybe GHC.Types.Int -- ^ due_soon_days: The number of days in which products are considered to be due soon
+get_stock_volatileRaw :: forall m . GrocyClient.Common.MonadHTTP m => GHC.Internal.Maybe.Maybe GHC.Types.Int -- ^ due_soon_days: The number of days in which products are considered to be due soon
   -> GrocyClient.Common.ClientT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.Type.ByteString) -- ^ Monadic computation which returns the result of the operation
-get_stock_volatileRaw due_soon_days = Base.id (GrocyClient.Common.doCallWithConfigurationM (Data.Text.toUpper Base.$ Data.Text.Internal.pack "GET") "/stock/volatile" [GrocyClient.Common.QueryParameter (Data.Text.Internal.pack "due_soon_days") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> due_soon_days) (Data.Text.Internal.pack "form") GHC.Types.False])
+get_stock_volatileRaw due_soon_days = GHC.Internal.Base.id (GrocyClient.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Internal.Base.$ Data.Text.Internal.pack "GET") "/stock/volatile" [GrocyClient.Common.QueryParameter (Data.Text.Internal.pack "due_soon_days") (Data.Aeson.Types.ToJSON.toJSON GHC.Internal.Data.Functor.<$> due_soon_days) (Data.Text.Internal.pack "form") GHC.Types.False])
 -- | > GET /stock/volatile
 -- 
 -- The same as 'get_stock_volatile' but accepts an explicit configuration and returns the raw 'Data.ByteString.ByteString'.
 get_stock_volatileWithConfigurationRaw :: forall m . GrocyClient.Common.MonadHTTP m => GrocyClient.Common.Configuration -- ^ The configuration to use in the request
-  -> Maybe.Maybe GHC.Types.Int -- ^ due_soon_days: The number of days in which products are considered to be due soon
+  -> GHC.Internal.Maybe.Maybe GHC.Types.Int -- ^ due_soon_days: The number of days in which products are considered to be due soon
   -> m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.Type.ByteString) -- ^ Monadic computation which returns the result of the operation
 get_stock_volatileWithConfigurationRaw config
-                                       due_soon_days = Base.id (GrocyClient.Common.doCallWithConfiguration config (Data.Text.toUpper Base.$ Data.Text.Internal.pack "GET") "/stock/volatile" [GrocyClient.Common.QueryParameter (Data.Text.Internal.pack "due_soon_days") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> due_soon_days) (Data.Text.Internal.pack "form") GHC.Types.False])
+                                       due_soon_days = GHC.Internal.Base.id (GrocyClient.Common.doCallWithConfiguration config (Data.Text.toUpper GHC.Internal.Base.$ Data.Text.Internal.pack "GET") "/stock/volatile" [GrocyClient.Common.QueryParameter (Data.Text.Internal.pack "due_soon_days") (Data.Aeson.Types.ToJSON.toJSON GHC.Internal.Data.Functor.<$> due_soon_days) (Data.Text.Internal.pack "form") GHC.Types.False])

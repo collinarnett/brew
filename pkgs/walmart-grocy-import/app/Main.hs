@@ -12,11 +12,10 @@ import System.FilePath ((</>))
 import Text.Read (readMaybe)
 
 import BrowserCookies (CookieConfig (..), CookieError (..), getFirefoxCookies)
-import Grocy qualified
-import Grocy.Types (GrocyError (..), GrocyProduct (..), SetupConfig (..))
 import Walmart qualified
 import Walmart.Types (OrderId (..), OrderSummary (..), WalmartError (..), WalmartItem (..))
 import WalmartGrocy.App (runImport, runList)
+import WalmartGrocy.Grocy (GrocyConfig (..), GrocyError (..), SetupConfig (..))
 import WalmartGrocy.Types
 
 data Command
@@ -54,7 +53,7 @@ parseSince input = do
             "day"  -> Right (addUTCTime (negate (fromIntegral n * nominalDay)) now)
             "hour" -> Right (addUTCTime (negate (fromIntegral n * 3600)) now)
             "week" -> Right (addUTCTime (negate (fromIntegral n * 7 * nominalDay)) now)
-            _      -> Left (UnknownTimeUnit unitStr)
+            _otherUnit -> Left (UnknownTimeUnit unitStr)
     _otherWordCount -> Left (InvalidSinceFormat input)
 
 globalParser :: Parser (Bool, Command)
@@ -105,8 +104,11 @@ main = do
 
     Import io -> do
       mSince <- traverse requireParseSince (imSince io)
-      grocyEnv <- Grocy.newEnv (imGrocyUrl io) (imGrocyKey io)
-      let stateFile = dataDir </> "state.json"
+      let gc = GrocyConfig
+            { gcBaseUrl = imGrocyUrl io
+            , gcApiKey  = imGrocyKey io
+            }
+          stateFile = dataDir </> "state.json"
           setupCfg = SetupConfig
             { scLocationName         = "Pantry"
             , scShoppingLocationName = "Walmart"
@@ -119,7 +121,7 @@ main = do
             , ioForce  = imForce io
             }
           verbosity = if verbose then Verbose else Quiet
-      result <- runImport walmartEnv grocyEnv setupCfg stateFile verbosity opts
+      result <- runImport walmartEnv gc setupCfg stateFile verbosity opts
       results <- either (die . renderAppError) pure result
       mapM_ printResult results
       let totalMatched = sum (map (length . irMatched) results)
@@ -146,12 +148,12 @@ printResult r = do
   mapM_ printMatched (irMatched r)
   mapM_ printCreated (irCreated r)
 
-printMatched :: (WalmartItem, GrocyProduct) -> IO ()
-printMatched (item, gp) =
+printMatched :: (WalmartItem, (Int, Text)) -> IO ()
+printMatched (item, (_, name)) =
   putStrLn ("    = " <> T.unpack (wiName item) <> priceStr item
-    <> " -> " <> T.unpack (gpName gp))
+    <> " -> " <> T.unpack name)
 
-printCreated :: (WalmartItem, GrocyProduct) -> IO ()
+printCreated :: (WalmartItem, (Int, Text)) -> IO ()
 printCreated (item, _) =
   putStrLn ("    + " <> T.unpack (wiName item) <> priceStr item)
 
@@ -188,19 +190,13 @@ renderAppError (AppWalmartError (WalmartParseError op err)) =
   "Failed to parse " <> T.unpack op <> ": " <> err
 renderAppError (AppWalmartError (WalmartJsonDecodeError err preview)) =
   "JSON decode failed: " <> err <> "\nResponse: " <> preview
-renderAppError (AppGrocyError (GrocyDecodeError err)) =
-  "Failed to decode Grocy response: " <> err
-renderAppError (AppGrocyError (GrocyParseError err)) =
-  "Failed to parse Grocy products: " <> err
-renderAppError (AppGrocyError (GrocyProductNotFound name)) =
-  "Product not found and could not be created: " <> T.unpack name
+renderAppError (AppGrocyError (GrocyHttpError path code)) =
+  "Grocy " <> T.unpack path <> " returned HTTP " <> show code
+renderAppError (AppGrocyError (GrocyParseError msg)) =
+  "Failed to parse Grocy response: " <> T.unpack msg
 renderAppError (AppGrocyError (GrocyEntityNotFound typ name)) =
   "Required Grocy entity not found: " <> T.unpack typ <> "/" <> T.unpack name
+renderAppError (AppGrocyError (GrocyProductNotFound name)) =
+  "Product not found and could not be created: " <> T.unpack name
 renderAppError (AppGrocyError (GrocyCreateError typ err)) =
   "Failed to create " <> T.unpack typ <> ": " <> err
-renderAppError (AppGrocyError (GrocyMissingId typ)) =
-  "No created_object_id in " <> T.unpack typ <> " response"
-renderAppError (AppGrocyError (GrocyHttpError path code)) =
-  "Grocy GET " <> T.unpack path <> " returned HTTP " <> show code
-renderAppError (AppGrocyError (GrocyIdParseError raw)) =
-  "Could not parse Grocy ID: " <> raw

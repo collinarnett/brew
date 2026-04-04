@@ -8,7 +8,9 @@ module GrocyClient.Types.Battery where
 
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
+import qualified Prelude as GHC.Internal.Maybe
 import qualified Control.Monad.Fail
+import qualified Control.Monad.Fail as GHC.Internal.Control.Monad.Fail
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
@@ -18,17 +20,23 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.ByteString
 import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
+import qualified Data.Foldable as GHC.Internal.Data.Foldable
 import qualified Data.Functor
+import qualified Data.Functor as GHC.Internal.Data.Functor
 import qualified Data.Maybe
+import qualified Data.Maybe as GHC.Internal.Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text as Data.Text.Internal
 import qualified Data.Time.Calendar as Data.Time.Calendar.Days
 import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified GHC.Base
+import qualified GHC.Base as GHC.Internal.Base
 import qualified GHC.Classes
 import qualified GHC.Int
+import qualified GHC.Int as GHC.Internal.Int
 import qualified GHC.Show
+import qualified GHC.Show as GHC.Internal.Show
 import qualified GHC.Types
 import qualified GrocyClient.Common
 import GrocyClient.TypeAlias
@@ -42,32 +50,32 @@ data Battery = Battery {
   -- Constraints:
   -- 
   -- * Minimum  of 0.0
-  batteryCharge_interval_days :: (Maybe.Maybe GHC.Types.Int)
+  batteryCharge_interval_days :: (GHC.Internal.Maybe.Maybe GHC.Types.Int)
   -- | description
-  , batteryDescription :: (Maybe.Maybe Data.Text.Internal.Text)
+  , batteryDescription :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
   -- | id
-  , batteryId :: (Maybe.Maybe GHC.Types.Int)
+  , batteryId :: (GHC.Internal.Maybe.Maybe GHC.Types.Int)
   -- | name
-  , batteryName :: (Maybe.Maybe Data.Text.Internal.Text)
+  , batteryName :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
   -- | row_created_timestamp
-  , batteryRow_created_timestamp :: (Maybe.Maybe Data.Text.Internal.Text)
+  , batteryRow_created_timestamp :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
   -- | used_in
-  , batteryUsed_in :: (Maybe.Maybe Data.Text.Internal.Text)
+  , batteryUsed_in :: (GHC.Internal.Maybe.Maybe Data.Text.Internal.Text)
   -- | userfields: Key\/value pairs of userfields
-  , batteryUserfields :: (Maybe.Maybe Data.Aeson.Types.Internal.Object)
-  } deriving (Show.Show
+  , batteryUserfields :: (GHC.Internal.Maybe.Maybe Data.Aeson.Types.Internal.Object)
+  } deriving (GHC.Internal.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.Types.ToJSON.ToJSON Battery
-    where {toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe Base.mempty (Base.pure Base.. ("charge_interval_days" Data.Aeson.Types.ToJSON..=)) (batteryCharge_interval_days obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("description" Data.Aeson.Types.ToJSON..=)) (batteryDescription obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("id" Data.Aeson.Types.ToJSON..=)) (batteryId obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("name" Data.Aeson.Types.ToJSON..=)) (batteryName obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("row_created_timestamp" Data.Aeson.Types.ToJSON..=)) (batteryRow_created_timestamp obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("used_in" Data.Aeson.Types.ToJSON..=)) (batteryUsed_in obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("userfields" Data.Aeson.Types.ToJSON..=)) (batteryUserfields obj) : Base.mempty));
-           toEncoding obj = Data.Aeson.Encoding.Internal.pairs (Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe Base.mempty (Base.pure Base.. ("charge_interval_days" Data.Aeson.Types.ToJSON..=)) (batteryCharge_interval_days obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("description" Data.Aeson.Types.ToJSON..=)) (batteryDescription obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("id" Data.Aeson.Types.ToJSON..=)) (batteryId obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("name" Data.Aeson.Types.ToJSON..=)) (batteryName obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("row_created_timestamp" Data.Aeson.Types.ToJSON..=)) (batteryRow_created_timestamp obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("used_in" Data.Aeson.Types.ToJSON..=)) (batteryUsed_in obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("userfields" Data.Aeson.Types.ToJSON..=)) (batteryUserfields obj) : Base.mempty)))}
+    where {toJSON obj = Data.Aeson.Types.Internal.object (GHC.Internal.Data.Foldable.concat (GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("charge_interval_days" Data.Aeson.Types.ToJSON..=)) (batteryCharge_interval_days obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (batteryDescription obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("id" Data.Aeson.Types.ToJSON..=)) (batteryId obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("name" Data.Aeson.Types.ToJSON..=)) (batteryName obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("row_created_timestamp" Data.Aeson.Types.ToJSON..=)) (batteryRow_created_timestamp obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("used_in" Data.Aeson.Types.ToJSON..=)) (batteryUsed_in obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("userfields" Data.Aeson.Types.ToJSON..=)) (batteryUserfields obj) : GHC.Internal.Base.mempty));
+           toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Internal.Base.mconcat (GHC.Internal.Data.Foldable.concat (GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("charge_interval_days" Data.Aeson.Types.ToJSON..=)) (batteryCharge_interval_days obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("description" Data.Aeson.Types.ToJSON..=)) (batteryDescription obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("id" Data.Aeson.Types.ToJSON..=)) (batteryId obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("name" Data.Aeson.Types.ToJSON..=)) (batteryName obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("row_created_timestamp" Data.Aeson.Types.ToJSON..=)) (batteryRow_created_timestamp obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("used_in" Data.Aeson.Types.ToJSON..=)) (batteryUsed_in obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("userfields" Data.Aeson.Types.ToJSON..=)) (batteryUserfields obj) : GHC.Internal.Base.mempty)))}
 instance Data.Aeson.Types.FromJSON.FromJSON Battery
-    where {parseJSON = Data.Aeson.Types.FromJSON.withObject "Battery" (\obj -> ((((((Base.pure Battery Base.<*> (obj Data.Aeson.Types.FromJSON..:! "charge_interval_days")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "description")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "id")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "name")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "row_created_timestamp")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "used_in")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "userfields"))}
+    where {parseJSON = Data.Aeson.Types.FromJSON.withObject "Battery" (\obj -> ((((((GHC.Internal.Base.pure Battery GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "charge_interval_days")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "description")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "id")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "name")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "row_created_timestamp")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "used_in")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "userfields"))}
 -- | Create a new 'Battery' with all required fields.
 mkBattery :: Battery
-mkBattery = Battery{batteryCharge_interval_days = Maybe.Nothing,
-                    batteryDescription = Maybe.Nothing,
-                    batteryId = Maybe.Nothing,
-                    batteryName = Maybe.Nothing,
-                    batteryRow_created_timestamp = Maybe.Nothing,
-                    batteryUsed_in = Maybe.Nothing,
-                    batteryUserfields = Maybe.Nothing}
+mkBattery = Battery{batteryCharge_interval_days = GHC.Internal.Maybe.Nothing,
+                    batteryDescription = GHC.Internal.Maybe.Nothing,
+                    batteryId = GHC.Internal.Maybe.Nothing,
+                    batteryName = GHC.Internal.Maybe.Nothing,
+                    batteryRow_created_timestamp = GHC.Internal.Maybe.Nothing,
+                    batteryUsed_in = GHC.Internal.Maybe.Nothing,
+                    batteryUserfields = GHC.Internal.Maybe.Nothing}

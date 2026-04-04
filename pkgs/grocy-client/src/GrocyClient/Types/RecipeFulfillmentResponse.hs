@@ -8,7 +8,9 @@ module GrocyClient.Types.RecipeFulfillmentResponse where
 
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
+import qualified Prelude as GHC.Internal.Maybe
 import qualified Control.Monad.Fail
+import qualified Control.Monad.Fail as GHC.Internal.Control.Monad.Fail
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Encoding.Internal
 import qualified Data.Aeson as Data.Aeson.Types
@@ -18,17 +20,23 @@ import qualified Data.Aeson as Data.Aeson.Types.Internal
 import qualified Data.ByteString
 import qualified Data.ByteString as Data.ByteString.Internal
 import qualified Data.Foldable
+import qualified Data.Foldable as GHC.Internal.Data.Foldable
 import qualified Data.Functor
+import qualified Data.Functor as GHC.Internal.Data.Functor
 import qualified Data.Maybe
+import qualified Data.Maybe as GHC.Internal.Data.Maybe
 import qualified Data.Scientific
 import qualified Data.Text
 import qualified Data.Text as Data.Text.Internal
 import qualified Data.Time.Calendar as Data.Time.Calendar.Days
 import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified GHC.Base
+import qualified GHC.Base as GHC.Internal.Base
 import qualified GHC.Classes
 import qualified GHC.Int
+import qualified GHC.Int as GHC.Internal.Int
 import qualified GHC.Show
+import qualified GHC.Show as GHC.Internal.Show
 import qualified GHC.Types
 import qualified GrocyClient.Common
 import GrocyClient.TypeAlias
@@ -38,26 +46,26 @@ import GrocyClient.TypeAlias
 -- 
 data RecipeFulfillmentResponse = RecipeFulfillmentResponse {
   -- | costs
-  recipeFulfillmentResponseCosts :: (Maybe.Maybe GHC.Types.Double)
+  recipeFulfillmentResponseCosts :: (GHC.Internal.Maybe.Maybe GHC.Types.Double)
   -- | missing_products_count
-  , recipeFulfillmentResponseMissing_products_count :: (Maybe.Maybe GHC.Types.Int)
+  , recipeFulfillmentResponseMissing_products_count :: (GHC.Internal.Maybe.Maybe GHC.Types.Int)
   -- | need_fulfilled
-  , recipeFulfillmentResponseNeed_fulfilled :: (Maybe.Maybe GHC.Types.Bool)
+  , recipeFulfillmentResponseNeed_fulfilled :: (GHC.Internal.Maybe.Maybe GHC.Types.Bool)
   -- | need_fulfilled_with_shopping_list
-  , recipeFulfillmentResponseNeed_fulfilled_with_shopping_list :: (Maybe.Maybe GHC.Types.Bool)
+  , recipeFulfillmentResponseNeed_fulfilled_with_shopping_list :: (GHC.Internal.Maybe.Maybe GHC.Types.Bool)
   -- | recipe_id
-  , recipeFulfillmentResponseRecipe_id :: (Maybe.Maybe GHC.Types.Int)
-  } deriving (Show.Show
+  , recipeFulfillmentResponseRecipe_id :: (GHC.Internal.Maybe.Maybe GHC.Types.Int)
+  } deriving (GHC.Internal.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.Types.ToJSON.ToJSON RecipeFulfillmentResponse
-    where {toJSON obj = Data.Aeson.Types.Internal.object (Data.Foldable.concat (Data.Maybe.maybe Base.mempty (Base.pure Base.. ("costs" Data.Aeson.Types.ToJSON..=)) (recipeFulfillmentResponseCosts obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("missing_products_count" Data.Aeson.Types.ToJSON..=)) (recipeFulfillmentResponseMissing_products_count obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("need_fulfilled" Data.Aeson.Types.ToJSON..=)) (recipeFulfillmentResponseNeed_fulfilled obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("need_fulfilled_with_shopping_list" Data.Aeson.Types.ToJSON..=)) (recipeFulfillmentResponseNeed_fulfilled_with_shopping_list obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("recipe_id" Data.Aeson.Types.ToJSON..=)) (recipeFulfillmentResponseRecipe_id obj) : Base.mempty));
-           toEncoding obj = Data.Aeson.Encoding.Internal.pairs (Base.mconcat (Data.Foldable.concat (Data.Maybe.maybe Base.mempty (Base.pure Base.. ("costs" Data.Aeson.Types.ToJSON..=)) (recipeFulfillmentResponseCosts obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("missing_products_count" Data.Aeson.Types.ToJSON..=)) (recipeFulfillmentResponseMissing_products_count obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("need_fulfilled" Data.Aeson.Types.ToJSON..=)) (recipeFulfillmentResponseNeed_fulfilled obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("need_fulfilled_with_shopping_list" Data.Aeson.Types.ToJSON..=)) (recipeFulfillmentResponseNeed_fulfilled_with_shopping_list obj) : Data.Maybe.maybe Base.mempty (Base.pure Base.. ("recipe_id" Data.Aeson.Types.ToJSON..=)) (recipeFulfillmentResponseRecipe_id obj) : Base.mempty)))}
+    where {toJSON obj = Data.Aeson.Types.Internal.object (GHC.Internal.Data.Foldable.concat (GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("costs" Data.Aeson.Types.ToJSON..=)) (recipeFulfillmentResponseCosts obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("missing_products_count" Data.Aeson.Types.ToJSON..=)) (recipeFulfillmentResponseMissing_products_count obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("need_fulfilled" Data.Aeson.Types.ToJSON..=)) (recipeFulfillmentResponseNeed_fulfilled obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("need_fulfilled_with_shopping_list" Data.Aeson.Types.ToJSON..=)) (recipeFulfillmentResponseNeed_fulfilled_with_shopping_list obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("recipe_id" Data.Aeson.Types.ToJSON..=)) (recipeFulfillmentResponseRecipe_id obj) : GHC.Internal.Base.mempty));
+           toEncoding obj = Data.Aeson.Encoding.Internal.pairs (GHC.Internal.Base.mconcat (GHC.Internal.Data.Foldable.concat (GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("costs" Data.Aeson.Types.ToJSON..=)) (recipeFulfillmentResponseCosts obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("missing_products_count" Data.Aeson.Types.ToJSON..=)) (recipeFulfillmentResponseMissing_products_count obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("need_fulfilled" Data.Aeson.Types.ToJSON..=)) (recipeFulfillmentResponseNeed_fulfilled obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("need_fulfilled_with_shopping_list" Data.Aeson.Types.ToJSON..=)) (recipeFulfillmentResponseNeed_fulfilled_with_shopping_list obj) : GHC.Internal.Data.Maybe.maybe GHC.Internal.Base.mempty (GHC.Internal.Base.pure GHC.Internal.Base.. ("recipe_id" Data.Aeson.Types.ToJSON..=)) (recipeFulfillmentResponseRecipe_id obj) : GHC.Internal.Base.mempty)))}
 instance Data.Aeson.Types.FromJSON.FromJSON RecipeFulfillmentResponse
-    where {parseJSON = Data.Aeson.Types.FromJSON.withObject "RecipeFulfillmentResponse" (\obj -> ((((Base.pure RecipeFulfillmentResponse Base.<*> (obj Data.Aeson.Types.FromJSON..:! "costs")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "missing_products_count")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "need_fulfilled")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "need_fulfilled_with_shopping_list")) Base.<*> (obj Data.Aeson.Types.FromJSON..:! "recipe_id"))}
+    where {parseJSON = Data.Aeson.Types.FromJSON.withObject "RecipeFulfillmentResponse" (\obj -> ((((GHC.Internal.Base.pure RecipeFulfillmentResponse GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "costs")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "missing_products_count")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "need_fulfilled")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "need_fulfilled_with_shopping_list")) GHC.Internal.Base.<*> (obj Data.Aeson.Types.FromJSON..:! "recipe_id"))}
 -- | Create a new 'RecipeFulfillmentResponse' with all required fields.
 mkRecipeFulfillmentResponse :: RecipeFulfillmentResponse
-mkRecipeFulfillmentResponse = RecipeFulfillmentResponse{recipeFulfillmentResponseCosts = Maybe.Nothing,
-                                                        recipeFulfillmentResponseMissing_products_count = Maybe.Nothing,
-                                                        recipeFulfillmentResponseNeed_fulfilled = Maybe.Nothing,
-                                                        recipeFulfillmentResponseNeed_fulfilled_with_shopping_list = Maybe.Nothing,
-                                                        recipeFulfillmentResponseRecipe_id = Maybe.Nothing}
+mkRecipeFulfillmentResponse = RecipeFulfillmentResponse{recipeFulfillmentResponseCosts = GHC.Internal.Maybe.Nothing,
+                                                        recipeFulfillmentResponseMissing_products_count = GHC.Internal.Maybe.Nothing,
+                                                        recipeFulfillmentResponseNeed_fulfilled = GHC.Internal.Maybe.Nothing,
+                                                        recipeFulfillmentResponseNeed_fulfilled_with_shopping_list = GHC.Internal.Maybe.Nothing,
+                                                        recipeFulfillmentResponseRecipe_id = GHC.Internal.Maybe.Nothing}
