@@ -43,6 +43,10 @@ in
           filePath = "/var/lib/traefik/traefik.log";
           level = "DEBUG";
         };
+        accessLog = {
+          filePath = "/var/lib/traefik/access.log";
+          filters.statusCodes = [ "302" "303" ];
+        };
       };
       dynamicConfigOptions = {
         http.middlewares.authelia = mkIf cfg.authelia.enable {
@@ -97,6 +101,16 @@ in
           service = "grocy";
           middlewares = "authelia";
         };
+        # Bypass Authelia for Grocy API — authenticated by GROCY-API-KEY header
+        http.middlewares.strip-remote-user.headers.customRequestHeaders.Remote-User = "";
+        http.routers.grocy-api = mkIf cfg.grocy.enable {
+          rule = "Host(`grocy.trexd.dev`) && PathPrefix(`/api`)";
+          entryPoints = [ "websecure" ];
+          tls.certResolver = "letsencrypt";
+          service = "grocy";
+          middlewares = "strip-remote-user";
+          priority = 100;
+        };
         http.services.grocy.loadBalancer.servers = mkIf cfg.grocy.enable [
           { url = "http://127.0.0.1:8099"; }
         ];
@@ -107,6 +121,22 @@ in
           tls.certResolver = "letsencrypt";
           service = "jellyfin";
           middlewares = "authelia";
+        };
+        # Bypass Authelia for authenticated Jellyfin API clients (mobile apps)
+        http.routers.jellyfin-api = mkIf cfg.jellyfin.enable {
+          rule = "Host(`media.trexd.dev`) && HeaderRegexp(`Authorization`, `MediaBrowser.*Token=`)";
+          entryPoints = [ "websecure" ];
+          tls.certResolver = "letsencrypt";
+          service = "jellyfin";
+          priority = 100;
+        };
+        # Bypass Authelia for Jellyfin Quick Connect and server discovery
+        http.routers.jellyfin-public = mkIf cfg.jellyfin.enable {
+          rule = "Host(`media.trexd.dev`) && (PathPrefix(`/System/Info/Public`) || PathPrefix(`/QuickConnect`) || PathPrefix(`/Users/Public`) || PathPrefix(`/Users/AuthenticateWithQuickConnect`))";
+          entryPoints = [ "websecure" ];
+          tls.certResolver = "letsencrypt";
+          service = "jellyfin";
+          priority = 100;
         };
         http.services.jellyfin.loadBalancer.servers = mkIf cfg.jellyfin.enable [
           { url = "http://127.0.0.1:8096"; }
