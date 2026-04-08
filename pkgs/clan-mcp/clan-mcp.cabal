@@ -1,0 +1,31 @@
+cabal-version:   3.0
+name:            clan-mcp
+version:         0.1.0
+synopsis:        MCP server exposing the clan CLI as tools
+license:         MIT
+build-type:      Simple
+
+common opts
+  default-language: GHC2021
+  default-extensions: DataKinds DerivingStrategies LambdaCase OverloadedStrings StrictData
+  ghc-options:      -Wall -Wcompat -Wextra -Wunused-packages -Werror
+                    -fwrite-ide-info -hiedir=.hie
+
+library
+  import:           opts
+  hs-source-dirs:   src
+  exposed-modules:  ClanMcp
+  build-depends:    base >= 4.17 && < 5
+                  , aeson
+                  , mcp-server
+                  , process
+                  , text
+                  , vector
+
+executable clan-mcp
+  import:           opts
+  main-is:          Main.hs
+  hs-source-dirs:   app
+  build-depends:    base >= 4.17 && < 5
+                  , clan-mcp
+                  , mcp-server

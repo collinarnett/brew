@@ -3,6 +3,7 @@ let
   localHsPkg = hprev: name: hprev.callCabal2nix name ./${name} { };
   localHsPkgNames = [
     "browser-cookies"
+    "clan-mcp"
     "walmart"
     "walmart-extractor"
     "grocy-client"
@@ -13,11 +14,33 @@ in
   appgate-sdp = prev.callPackage ./appgate-sdp.nix { }; # fixes RPATH/LD_LIBRARY_PATH over upstream
   dod-certs = prev.callPackage ./dod-certs.nix { };
   cackey = prev.callPackage ./cackey.nix { };
+  clan-commands-json = prev.callPackage ./clan-commands-json.nix { };
+  clan-mcp-wrapped =
+    let
+      exe = prev.haskell.lib.compose.justStaticExecutables
+        final.haskellPackages.clan-mcp;
+    in
+    exe.overrideAttrs (old: {
+      nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ prev.makeWrapper ];
+      postFixup = (old.postFixup or "") + ''
+        wrapProgram $out/bin/clan-mcp \
+          --add-flags "${final.clan-commands-json}/share/clan-mcp/commands.json" \
+          --prefix PATH : ${prev.lib.makeBinPath [ prev.clan-cli ]}
+      '';
+    });
   gitlab-mcp = prev.callPackage ./gitlab-mcp.nix { };
   iommu-groups = prev.callPackage ./iommu-groups.nix { };
   lightpanda = prev.callPackage ./lightpanda { };
   haskellPackages = prev.haskellPackages.override {
-    overrides = hfinal: hprev: prev.lib.genAttrs localHsPkgNames (localHsPkg hprev);
+    overrides = hfinal: hprev:
+      prev.lib.genAttrs localHsPkgNames (localHsPkg hprev) // {
+        mcp-server = hprev.callCabal2nix "mcp-server" (prev.fetchFromGitHub {
+          owner = "collinarnett";
+          repo = "haskell-mcp-server";
+          rev = "3da5b1e";
+          hash = "sha256-hiQuqZ6rjT3Pu1OrmkzNGO/nfqjEUmiXt/OxOZppl3s=";
+        }) { };
+      };
   };
   walmart-grocy-import =
     let

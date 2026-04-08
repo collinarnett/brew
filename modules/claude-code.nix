@@ -60,12 +60,13 @@
             };
           };
         };
+        programs.mcp.servers = {
+          clan.command = lib.getExe pkgs.clan-mcp-wrapped;
+          gitlab.command = lib.getExe pkgs.gitlab-mcp;
+        };
         programs.claude-code = {
           enable = true;
           enableMcpIntegration = true;
-          mcpServers.gitlab = {
-            command = lib.getExe pkgs.gitlab-mcp;
-          };
           settings = {
             alwaysThinkingEnabled = true;
             permissions.defaultMode = "auto";

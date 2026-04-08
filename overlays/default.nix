@@ -1,4 +1,6 @@
 inputs: final: prev: {
+  clan-cli = inputs.clan-core.packages.${prev.system}.clan-cli;
+
   openjdk25-wakefield = prev.openjdk25.overrideAttrs (old: {
     pname = "openjdk-wakefield";
     version = "25.0.2";
