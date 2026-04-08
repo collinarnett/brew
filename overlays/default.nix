@@ -81,6 +81,9 @@ inputs: final: prev: {
       epkgs:
       epkgs
       // {
+        websocket = epkgs.elpaPackages.websocket.overrideAttrs (old: {
+          packageRequires = (old.packageRequires or [ ]) ++ [ epkgs.melpaPackages.f ];
+        });
         claude-code = epkgs.melpaPackages.claude-code.overrideAttrs (old: {
           src = prev.fetchFromGitHub {
             owner = "stevemolitor";
@@ -138,7 +141,7 @@ inputs: final: prev: {
             sha256 = "sha256-3e5DIR+X6JLDaY7vRDutH3EAsyaqK3Jc73ugZTDRUrQ=";
           };
           packageRequires = [
-            epkgs.elpaPackages.websocket
+            epkgs.websocket
           ];
 
           meta = {
