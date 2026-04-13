@@ -118,7 +118,12 @@ parseArray :: Text -> [Text]
 parseArray t =
   case Aeson.decodeStrict (TE.encodeUtf8 t) of
     Just (Array v) -> [s | String s <- V.toList v]
-    _ -> [t]
+    _ ->
+      -- Handle Haskell Show format from mcp-server's jsonValueToText fallback,
+      -- which produces e.g. Array [String "cmd",String "arg"] instead of JSON
+      let parts = drop 1 (T.splitOn "String \"" t)
+          strings = map (T.takeWhile (/= '"')) parts
+      in if null strings then [t] else strings
 
 toCliElement :: Bool -> [Text] -> Text -> [String]
 toCliElement positional flags val
