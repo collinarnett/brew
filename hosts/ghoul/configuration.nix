@@ -178,6 +178,7 @@
         bottomBar = {
           output = "eDP-1";
           position = "bottom";
+          modules-left = [ "battery" ];
           modules-center = [ "sway/workspaces" ];
           modules-right = [ "clock" ];
           modules = {
