@@ -110,7 +110,8 @@ toCli cmd (argName, argVal) =
     [] -> []
     (ClanArgument{..} : _)
       | argType == "boolean" -> [T.unpack (pickFlag flags) | argVal == "true"]
-      | array -> concatMap (toCliElement positional flags) (parseArray argVal)
+      | array, positional -> map T.unpack (parseArray argVal)
+      | array -> T.unpack (pickFlag flags) : map T.unpack (parseArray argVal)
       | positional -> [T.unpack argVal]
       | otherwise -> [T.unpack (pickFlag flags), T.unpack argVal]
 
@@ -124,11 +125,6 @@ parseArray t =
       let parts = drop 1 (T.splitOn "String \"" t)
           strings = map (T.takeWhile (/= '"')) parts
       in if null strings then [t] else strings
-
-toCliElement :: Bool -> [Text] -> Text -> [String]
-toCliElement positional flags val
-  | positional = [T.unpack val]
-  | otherwise = [T.unpack (pickFlag flags), T.unpack val]
 
 pickFlag :: [Text] -> Text
 pickFlag fs = case filter ("--" `T.isPrefixOf`) fs of
