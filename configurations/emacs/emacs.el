@@ -25,6 +25,12 @@
 
 (setq require-final-newline t)
 
+;; Auto-refresh buffers when the underlying file changes — important so the
+;; GUI emacs picks up writes made by the --fg-daemon via newt/* helpers.
+(setq global-auto-revert-non-file-buffers t)
+(setq auto-revert-verbose nil)
+(global-auto-revert-mode 1)
+
 
 ;; Fix packages not found when using tramp
 (require 'tramp-sh)
