@@ -304,6 +304,27 @@
   ;; If using org-roam-protocol
   (require 'org-roam-protocol))
 
+(defun brew/create-recap-note (range-label body-path)
+  "Create an org-roam recap node for RANGE-LABEL with body from BODY-PATH.
+RANGE-LABEL is `YYYY-MM-DD' or `YYYY-MM-DD..YYYY-MM-DD'.
+Returns the absolute path to the created (or existing) file."
+  (let* ((slug (replace-regexp-in-string "\\.\\." "_to_" range-label))
+         (filename (format "recap-%s.org" slug))
+         (target (expand-file-name filename org-roam-directory))
+         (body (with-temp-buffer
+                 (insert-file-contents body-path)
+                 (buffer-string))))
+    (unless (file-exists-p target)
+      (org-roam-capture-
+       :node (org-roam-node-create :title (format "Recap %s" range-label))
+       :templates `(("r" "recap" plain ,body
+                     :target (file+head ,filename
+                                        ,(format "#+title: Recap %s\n#+filetags: :recap:\n\n" range-label))
+                     :immediate-finish t
+                     :unnarrowed t
+                     :jump-to-captured nil))))
+    target))
+
 (use-package org-journal
   :defer t
   :init
