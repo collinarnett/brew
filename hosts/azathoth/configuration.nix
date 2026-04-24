@@ -18,6 +18,7 @@
     server.enable = true;
 
     claude-code.enable = true;
+    recap-timer.enable = true;
     beets.enable = true;
     k9s.enable = true;
     pcie-passthrough = {
