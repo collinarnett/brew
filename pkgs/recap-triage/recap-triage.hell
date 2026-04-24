@@ -1,0 +1,138 @@
+#!/usr/bin/env hell
+
+-- recap-triage.hell
+--
+-- Emits one TSV row per session with records in [START_ISO, END_ISO_EXCL):
+--   source  cwd  first_ts  last_ts  records  user_turns  preview  path
+--
+-- One duckdb process per schema handles every file of that schema in one
+-- query (read_ndjson_objects globs files and surfaces filename as a virtual
+-- column, so GROUP BY filename gives per-session aggregates). Hell's role
+-- is orchestration: parse args, enumerate Codex paths via find (arbitrary
+-- depth), build and dispatch the two SQL queries.
+--
+-- Hell has no bare `x args = body` function syntax — every helper is
+-- `name = \args -> body`. Same-module references are qualified `Main.*`.
+--
+-- Usage: recap-triage.hell START_ISO END_ISO_EXCL
+
+main = do
+  args <- Environment.getArgs
+  if Eq.eq (List.length args) 2
+    then do
+      home <- Environment.getEnv "HOME"
+      let a = Maybe.maybe "" (\x -> x) (Maybe.listToMaybe args)
+      let b = Maybe.maybe "" (\x -> x) (Maybe.listToMaybe (List.drop 1 args))
+      Main.runDuck (Main.claudeSql (Text.concat [home, "/.claude/projects/*/*.jsonl"]) a b)
+      codexPaths <- Main.findCodex home
+      if List.null codexPaths
+        then Monad.return ()
+        else Main.runDuck (Main.codexSql codexPaths a b)
+    else do
+      Text.putStrLn "usage: recap-triage.hell START_ISO END_ISO_EXCL"
+      Exit.exitWith (Exit.ExitFailure 2)
+
+findCodex = \home -> do
+  (code, out, err) <- Text.readProcess (Process.proc "find"
+    [ home, "-type", "f", "-name", "rollout-*.jsonl"
+    , "-path", "*/.codex/sessions/*"
+    ])
+  Monad.return (List.filter (\l -> Bool.not (Eq.eq l "")) (Text.lines out))
+
+runDuck = \sql -> do
+  out <- Text.readProcessStdout_ (Process.proc "duckdb"
+    [ "-cmd", ".mode tabs"
+    , "-cmd", ".headers off"
+    , ":memory:"
+    , "-c", sql
+    ])
+  Text.putStr out
+
+-- Render a [Text] of paths as a SQL array literal: ['a', 'b', 'c'].
+-- Paths are filesystem-safe here (no single quotes possible in our inputs).
+sqlList = \paths -> Text.concat
+  [ "["
+  , Text.intercalate ", " (List.map (\p -> Text.concat ["'", p, "'"]) paths)
+  , "]"
+  ]
+
+-- Quote a timestamp literal for embedding in SQL.
+q = \t -> Text.concat ["'", t, "'"]
+
+-- Claude schema: user records top-level type=="user"; message.content is
+-- polymorphic (string | array of blocks). cwd is a top-level field.
+claudeSql = \glob a b -> Text.concat
+  [ "WITH records AS ( \
+    \  SELECT filename, json, json ->> '$.timestamp' AS ts, json ->> '$.type' AS rectype \
+    \  FROM read_ndjson_objects('", glob, "') \
+    \), filtered AS ( \
+    \  SELECT * FROM records WHERE ts >= ", Main.q a, " AND ts < ", Main.q b, " \
+    \), user_turns AS ( \
+    \  SELECT filename, CASE \
+    \      WHEN json_type(json -> '$.message.content') = 'VARCHAR' \
+    \        THEN json ->> '$.message.content' \
+    \      ELSE ( \
+    \        SELECT coalesce(string_agg(j.value ->> '$.text', ' '), '') \
+    \        FROM json_each(json -> '$.message.content') j \
+    \        WHERE j.value ->> '$.type' != 'tool_result' \
+    \      ) END AS txt \
+    \  FROM filtered WHERE rectype = 'user' \
+    \), subst AS ( \
+    \  SELECT filename, regexp_replace(txt, '[\\t\\n\\r]+', ' ', 'g') AS txt \
+    \  FROM user_turns \
+    \  WHERE txt IS NOT NULL AND length(txt) > 0 AND NOT starts_with(txt, '<command-') \
+    \), agg AS ( \
+    \  SELECT filename, count(*) AS nrec, min(ts) AS first_ts, max(ts) AS last_ts \
+    \  FROM filtered GROUP BY filename \
+    \), cwd_pf AS ( \
+    \  SELECT filename, any_value(json ->> '$.cwd') FILTER (WHERE json ->> '$.cwd' IS NOT NULL) AS cwd_full \
+    \  FROM records GROUP BY filename \
+    \) \
+    \SELECT 'claude', \
+    \  coalesce(regexp_extract(c.cwd_full, '([^/]+)$', 1), ''), \
+    \  a.first_ts, a.last_ts, a.nrec, \
+    \  (SELECT count(*) FROM subst s WHERE s.filename = a.filename), \
+    \  coalesce(substr((SELECT txt FROM subst s WHERE s.filename = a.filename LIMIT 1), 1, 80), ''), \
+    \  a.filename \
+    \FROM agg a LEFT JOIN cwd_pf c ON c.filename = a.filename \
+    \WHERE a.nrec > 0;"
+  ]
+
+-- Codex schema: user content at payload.role=="user" with content blocks
+-- type=="input_text"; payload.cwd is on the session_meta record.
+codexSql = \paths a b -> Text.concat
+  [ "WITH records AS ( \
+    \  SELECT filename, json, json ->> '$.timestamp' AS ts, \
+    \         json ->> '$.type' AS rectype, json ->> '$.payload.role' AS role \
+    \  FROM read_ndjson_objects(", Main.sqlList paths, ") \
+    \), filtered AS ( \
+    \  SELECT * FROM records WHERE ts >= ", Main.q a, " AND ts < ", Main.q b, " \
+    \), user_turns AS ( \
+    \  SELECT filename, ( \
+    \    SELECT coalesce(string_agg(j.value ->> '$.text', ' '), '') \
+    \    FROM json_each(json -> '$.payload.content') j \
+    \    WHERE j.value ->> '$.type' = 'input_text' \
+    \  ) AS txt \
+    \  FROM filtered WHERE role = 'user' \
+    \), subst AS ( \
+    \  SELECT filename, regexp_replace(txt, '[\\t\\n\\r]+', ' ', 'g') AS txt \
+    \  FROM user_turns \
+    \  WHERE txt IS NOT NULL AND length(txt) > 0 \
+    \    AND NOT starts_with(txt, '# AGENTS.md') \
+    \    AND NOT starts_with(txt, '<environment_context>') \
+    \), agg AS ( \
+    \  SELECT filename, count(*) AS nrec, min(ts) AS first_ts, max(ts) AS last_ts \
+    \  FROM filtered GROUP BY filename \
+    \), cwd_pf AS ( \
+    \  SELECT filename, any_value(json ->> '$.payload.cwd') FILTER (WHERE rectype = 'session_meta') AS cwd_full \
+    \  FROM records GROUP BY filename \
+    \) \
+    \SELECT 'codex', \
+    \  coalesce(regexp_extract(c.cwd_full, '([^/]+)$', 1), ''), \
+    \  a.first_ts, a.last_ts, a.nrec, \
+    \  (SELECT count(*) FROM subst s WHERE s.filename = a.filename), \
+    \  coalesce(substr((SELECT txt FROM subst s WHERE s.filename = a.filename LIMIT 1), 1, 80), ''), \
+    \  a.filename \
+    \FROM agg a LEFT JOIN cwd_pf c ON c.filename = a.filename \
+    \WHERE a.nrec > 0;"
+  ]
