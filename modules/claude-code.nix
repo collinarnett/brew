@@ -127,7 +127,9 @@
             ];
           };
           memory.source = ../configurations/claude-code/CLAUDE.md;
-          skillsDir = ../configurations/claude-code/skills;
+          skills = builtins.mapAttrs
+            (name: _: ../configurations/claude-code/skills/${name})
+            (builtins.readDir ../configurations/claude-code/skills);
         };
       };
     };
