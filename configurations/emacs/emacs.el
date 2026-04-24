@@ -623,6 +623,8 @@ Returns the absolute path to the created (or existing) file."
   ;; TODO states matching taskwarrior workflow
   (setq org-todo-keywords
         '((sequence "TODO(t)" "ACTIVE(a)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")))
+  (setq org-enforce-todo-dependencies t)
+  (setq org-agenda-dim-blocked-tasks t)
   :hook
   (org-mode . auto-fill-mode))
 
