@@ -46,6 +46,7 @@
       };
 
       config = lib.mkIf cfg.enable {
+        home.packages = [ pkgs.recap-triage ];
         programs.mcp.enable = true;
         mcp-servers.programs = {
           nixos.enable = true;
