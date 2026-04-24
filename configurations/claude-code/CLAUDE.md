@@ -11,7 +11,10 @@ Always inspect the live environment, actual config files, and real data before a
 When the user corrects your approach, apply the fix to ALL affected locations across the repo, not just the immediate spot. Do not circle back to a rejected approach.
 
 ## No Shortcuts
-No blanket ruff ignores, no `type: ignore` comments, no `or []` defaults to silence errors. Read project config files (`pyproject.toml`, `flake.nix`, etc.) before proposing solutions.
+No blanket ruff ignores, no `type: ignore` comments, no `or []` defaults to silence errors. Read project config files (`pyproject.toml`, `flake.nix`, etc.) before proposing solutions. This rule persists under pressure — when a build fails, a hardening directive misbehaves, or a CLI seems to need a TTY, fix it at the right layer (correct option type, real flag, documented helper). Do not invent workarounds, hand-install files into system dirs, `bash -lc` PATH tricks, `script -qc` TTY shims, or any other "just to make it work" hack. When the proper path isn't obvious, look it up (NixOS manual, home-manager options, upstream source) or ask.
+
+## Prefer MCP Tools Over Shelling Out
+When an MCP tool is available for the operation (clan, git, github, nixos, etc.), use it via the tool call interface rather than invoking the CLI through Bash. Shell out only when there is no MCP equivalent (systemctl, emacsclient, arbitrary scripts). Loading the MCP tool via ToolSearch and calling it is the preferred path — not `Bash("clan machines update ...")`, `Bash("gh pr view ...")`, or similar when the MCP server already exposes the operation.
 
 ## Nix Conventions
 When working in Nix repos: always use Nix-idiomatic approaches and clan-native tooling first. Do not use `uvx`, `pip`, or non-Nix package managers. When stuck on Nix packaging, read the Nix manual or use the NixOS MCP server before trying hacks. Prefer simple solutions (symlinks, writeShellApplication) over complex workarounds (patching package.json, mainProgram overrides). Use `with pkgs;` when listing packages in Nix expressions to keep lists clean.
