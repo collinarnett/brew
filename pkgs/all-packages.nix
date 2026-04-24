@@ -31,6 +31,7 @@ in
   gitlab-mcp = prev.callPackage ./gitlab-mcp.nix { };
   iommu-groups = prev.callPackage ./iommu-groups.nix { };
   lightpanda = prev.callPackage ./lightpanda { };
+  mcp-conformance = prev.callPackage ./mcp-conformance { };
   recap-triage = prev.callPackage ./recap-triage { };
   haskellPackages = prev.haskellPackages.override {
     overrides = hfinal: hprev:
