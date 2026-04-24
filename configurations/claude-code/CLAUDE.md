@@ -17,7 +17,9 @@ No blanket ruff ignores, no `type: ignore` comments, no `or []` defaults to sile
 When an MCP tool is available for the operation (clan, git, github, nixos, etc.), use it via the tool call interface rather than invoking the CLI through Bash. Shell out only when there is no MCP equivalent (systemctl, emacsclient, arbitrary scripts). Loading the MCP tool via ToolSearch and calling it is the preferred path — not `Bash("clan machines update ...")`, `Bash("gh pr view ...")`, or similar when the MCP server already exposes the operation.
 
 ## Nix Conventions
-When working in Nix repos: always use Nix-idiomatic approaches and clan-native tooling first. Do not use `uvx`, `pip`, or non-Nix package managers. When stuck on Nix packaging, read the Nix manual or use the NixOS MCP server before trying hacks. Prefer simple solutions (symlinks, writeShellApplication) over complex workarounds (patching package.json, mainProgram overrides). Use `with pkgs;` when listing packages in Nix expressions to keep lists clean.
+When working in Nix repos: always use Nix-idiomatic approaches and clan-native tooling first. Do not use `uvx`, `pip`, `npx`, or non-Nix package managers. When stuck on Nix packaging, read the Nix manual or use the NixOS MCP server before trying hacks. Prefer simple solutions (symlinks, writeShellApplication) over complex workarounds (patching package.json, mainProgram overrides). Use `with pkgs;` when listing packages in Nix expressions to keep lists clean.
+
+Do not auto-wire new packages into `flake.checks`. Adding a derivation to `pkgs/` and registering it in the overlay is enough; the user opts into `flake.checks` derivations manually when they want them. Never propose or default to creating one.
 
 Common tools like `python3`, `jq`, etc. are not in `$PATH` by default on NixOS. Use `nix shell nixpkgs#<pkg> -c <cmd>` or `nix run nixpkgs#<pkg>` to access them ad hoc. Prefer the new Nix CLI (`nix build`, `nix shell`, `nix run`, `nix develop`, `nix eval`) over legacy commands (`nix-build`, `nix-shell`, `nix-env`).
 
