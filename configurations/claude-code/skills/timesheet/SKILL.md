@@ -51,6 +51,24 @@ Review the conversation (from the boundary in step 1 to now) and group the work 
 - Reference modified files using org tilde formatting: `~path/to/file~`
 - Be concrete and specific — name functions, modules, and behaviors changed
 
+#### Recover compacted history
+
+The visible context only contains the *post-compaction* summary of any earlier work — short, lossy, and missing the concrete file/commit details you need for a good timesheet entry. If the user mentions compaction, or if you see `<command-name>/compact</command-name>` or "This session is being continued from a previous conversation" markers in the conversation, you MUST recover the full history before summarizing.
+
+The conversation jsonl lives at `~/.claude/projects/<encoded-cwd>/<session-id>.jsonl`, where the encoded cwd replaces `/` with `-` (e.g. `/home/foo/bar` → `-home-foo-bar`). The session id matches the conversation file modified most recently in the matching project directory.
+
+Use the jsonl plus `git log --since="<window-start>"` to reconstruct the actual work. Concretely:
+
+1. Find the project dir: `ls -dt ~/.claude/projects/-${PWD//\//-}*/ | head -1` (or whatever encoding matches the cwd).
+2. Find the active jsonl: `find <project-dir> -maxdepth 1 -name "*.jsonl" -newermt "<window-start>" | sort | tail -1`.
+3. Extract real user messages (filter out tool results, system reminders, and compaction summaries) to recover the original asks.
+4. Run `git log --since="<window-start>" --pretty=format:'%h %ai %s'` to enumerate commits made in the window — each commit is a concrete unit of work to account for.
+5. For each commit, run `git show --stat <sha>` to get the actual files changed and the commit body, which feeds the task description.
+
+Cross-check the commit list against your task groupings — if the commits cover work you don't have a logbook entry for, that work was hidden by compaction and needs an entry.
+
+If the user asks about "all conversations" related to a project, also search sibling project directories under `~/.claude/projects/` for jsonls modified in the window, and `grep -l "<project-keyword>"` to find conversations from other working directories that touched the same project.
+
 ### 5. Write the org-roam file
 
 The target file is `~/org/roam/{project}_{YYYY}_{MM}_{DD}.org` where the date is today's date (from step 3).
@@ -100,6 +118,10 @@ After everything is written and synced, print this exact line:
 ```
 
 Use the same timestamp from step 3. This marker allows subsequent `/timesheet` invocations in the same conversation to know where to start.
+
+### 8. Print a one-sentence summary
+
+After the boundary marker, output a single sentence that summarizes the entire window's work. This is what the user will paste into an external/online timesheet, so it must stand alone — no headers, no bullets, no markdown, just one prose sentence that names the concrete things accomplished. Lead with the verb, list the work in commit-message style, end with a period.
 
 ## Example output file
 
