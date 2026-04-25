@@ -42,7 +42,9 @@ main = do
       handlers = McpServerHandlers
         { prompts = Nothing
         , resources = Nothing
+        , resourceTemplates = Nothing
         , tools = Just (pure (listTools commands), callTool commands)
+        , completions = Nothing
         }
 
   case transport of

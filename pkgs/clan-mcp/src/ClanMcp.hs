@@ -92,17 +92,20 @@ listTools = map toToolDef
 
     isCommonFlag a = ClanMcp.name a `elem` ["debug", "option"]
 
-callTool :: [ClanCommand] -> ToolName -> [(ArgumentName, ArgumentValue)] -> IO (Either Error Content)
-callTool cmds toolN args =
+callTool :: [ClanCommand] -> McpSession IO -> ToolName -> [(ArgumentName, ArgumentValue)] -> IO (Either Error ToolResult)
+callTool cmds _session toolN args =
   case filter (\c -> toolName c == toolN) cmds of
     [] -> pure $ Left $ UnknownTool toolN
     (cmd : _) -> do
       let cliArgs = map T.unpack (path cmd) <> concatMap (toCli cmd) args
       (code, out, err) <- readProcessWithExitCode "clan" cliArgs ""
       let output = out <> if null err then "" else "\n" <> err
-      pure $ Right $ ContentText $ T.pack output <> case code of
-        ExitSuccess -> ""
-        ExitFailure n -> "\n[exit code " <> T.pack (show n) <> "]"
+          body = T.pack output <> case code of
+            ExitSuccess -> ""
+            ExitFailure n -> "\n[exit code " <> T.pack (show n) <> "]"
+      pure $ Right $ case code of
+        ExitSuccess -> toolText body
+        ExitFailure _ -> toolError body
 
 toCli :: ClanCommand -> (ArgumentName, ArgumentValue) -> [String]
 toCli cmd (argName, argVal) =
