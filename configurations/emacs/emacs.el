@@ -331,6 +331,76 @@ Returns the absolute path to the created (or existing) file."
                      :jump-to-captured nil))))
     target))
 
+(defun brew/clock-in (project date day time)
+  "Start an org-clock on today's PROJECT timesheet session heading.
+DATE is `YYYY-MM-DD'.  DAY is the 3-letter weekday.  TIME is `HH:MM'.
+Creates the daily file via `org-roam-capture-' if missing, appends a
+`** session TIME' heading under `* Timesheet', sets `:CLOCK_IN:' to
+`DATE DAY TIME', and calls `org-clock-in' so the modeline shows the
+running clock.  Returns the absolute file path."
+  (let* ((file-date (replace-regexp-in-string "-" "_" date))
+         (filename (format "%s_%s.org" project file-date))
+         (target (expand-file-name filename org-roam-directory))
+         (title (format "%s %s" (capitalize project) date))
+         (stamp (format "%s %s %s" date day time)))
+    (unless (file-exists-p target)
+      (org-roam-capture-
+       :node (org-roam-node-create :title title)
+       :templates `(("t" "timesheet" plain "* Timesheet\n"
+                     :target (file+head ,filename
+                                        ,(format "#+title: %s\n\n" title))
+                     :immediate-finish t
+                     :unnarrowed t
+                     :jump-to-captured nil))))
+    (with-current-buffer (find-file-noselect target)
+      (save-excursion
+        (goto-char (point-min))
+        (unless (re-search-forward "^\\* Timesheet" nil t)
+          (goto-char (point-max))
+          (unless (bolp) (insert "\n"))
+          (insert "* Timesheet\n"))
+        (goto-char (point-max))
+        (unless (bolp) (insert "\n"))
+        (insert (format "** session %s\n" time))
+        (forward-line -1)
+        (org-set-property "CLOCK_IN" stamp)
+        (org-clock-in))
+      (save-buffer))
+    target))
+
+(defun brew/clock-out (project stamp)
+  "Close the org-clock on PROJECT's session heading identified by STAMP.
+STAMP is the `:CLOCK_IN:' property value (`DATE DAY TIME').  Returns the
+absolute file path.  If the session is not the currently-active clock
+(e.g. a subsequent `org-clock-in' already closed it), this is a no-op
+on the clock but still returns the file path so callers can locate the
+heading to attach task descriptions."
+  (let* ((files (directory-files org-roam-directory t
+                                 (format "^%s_[0-9_]+\\.org$"
+                                         (regexp-quote project))))
+         (target (cl-find-if
+                  (lambda (f)
+                    (with-current-buffer (find-file-noselect f)
+                      (save-excursion
+                        (goto-char (point-min))
+                        (re-search-forward
+                         (format "^[ \t]*:CLOCK_IN:[ \t]+%s[ \t]*$"
+                                 (regexp-quote stamp))
+                         nil t))))
+                  files)))
+    (unless target
+      (error "No session with CLOCK_IN=%s in project %s" stamp project))
+    (with-current-buffer (find-file-noselect target)
+      (when (and (org-clocking-p)
+                 (eq (marker-buffer org-clock-marker) (current-buffer)))
+        (save-excursion
+          (goto-char (marker-position org-clock-marker))
+          (org-back-to-heading t)
+          (when (equal (org-entry-get nil "CLOCK_IN") stamp)
+            (org-clock-out))))
+      (save-buffer))
+    target))
+
 (use-package org-journal
   :defer t
   :init

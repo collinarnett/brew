@@ -1,6 +1,6 @@
 ---
 name: timesheet
-description: "Generate org-roam timesheet entries from the current conversation. Use when the user wants to log time, create a timesheet entry, or record what was accomplished during a work session. Invoke with /timesheet or /timesheet <project-name> to override the auto-detected project."
+description: "Generate org-roam timesheet entries from the current conversation. Use when the user wants to log time, create a timesheet entry, or record what was accomplished during a work session. Invoke with /timesheet or /timesheet <project-name> to override the auto-detected project. If the conversation contains a `--- TIMESHEET STARTED at ... ---` marker from `/clock-in`, this run closes that org-clock and nests task descriptions under the existing session heading instead of creating new top-level headings."
 ---
 
 # Timesheet
@@ -18,7 +18,12 @@ Follow these steps in order. Do not skip steps.
 
 ### 1. Determine the time boundary
 
-Scan the conversation for the most recent `--- TIMESHEET LOGGED at {timestamp} ---` marker. If found, only summarize work done **after** that marker. If no marker exists, summarize the entire conversation.
+Scan the conversation for the most recent of these two markers:
+
+- `--- TIMESHEET LOGGED at {timestamp} ---` — written by a previous `/timesheet` invocation; marks the **end** of the previous window.
+- `--- TIMESHEET STARTED at {timestamp} ---` — written by `/clock-in`; marks the **start** of an explicit session and means an emacs org-clock is currently open against a `** session` heading.
+
+The most recent of the two anchors the window. If a `STARTED` marker is the most recent, this run will close that open clock and attach tasks under its session heading (clock-in flow, see step 5b). If a `LOGGED` marker is the most recent, summarize work after it as new top-level headings (default flow, step 5a). If neither marker exists, summarize the entire conversation in the default flow.
 
 ### 2. Determine the project name
 
@@ -36,11 +41,13 @@ Run:
 date '+%Y-%m-%d %a %H:%M'
 ```
 
-This gives you the end time for the CLOCK entry. The start time is either:
-- The timestamp from the previous `TIMESHEET LOGGED` marker, or
-- The earliest timestamp visible in the conversation (from tool results, file operations, git output, etc.)
+This gives you the end time for the CLOCK entry. The start time is, in priority order:
 
-If timestamps span multiple days, create separate CLOCK entries per day or per logical work block.
+1. The timestamp from the most recent `TIMESHEET STARTED` marker (clock-in flow), or
+2. The timestamp from the previous `TIMESHEET LOGGED` marker, or
+3. The earliest timestamp visible in the conversation (from tool results, file operations, git output, etc.)
+
+If timestamps span multiple days, create separate CLOCK entries per day or per logical work block. (In the clock-in flow the CLOCK is already a single span owned by the session heading — multi-day spans should be rare; if they occur, clock out and start a new `/clock-in` per day.)
 
 ### 4. Summarize the work
 
@@ -73,6 +80,13 @@ If the user asks about "all conversations" related to a project, also search sib
 
 The target file is `~/org/roam/{project}_{YYYY}_{MM}_{DD}.org` where the date is today's date (from step 3).
 
+Branch on whether a `TIMESHEET STARTED` marker is the most recent boundary marker (step 1):
+
+- **Clock-in flow** (STARTED marker present and more recent than any LOGGED marker): go to **step 5b**.
+- **Default flow** (no STARTED marker, or a later LOGGED marker supersedes it): go to **step 5a**.
+
+#### 5a. Default flow — top-level task headings
+
 **If the file already exists:** Read it with the Read tool. Append new `**` task headings at the end of the file (after the last existing content). Do not overwrite or duplicate existing entries. Use the Edit tool to append.
 
 **If the file does not exist:** Generate a UUID with `uuidgen` and create the file with this exact structure:
@@ -101,6 +115,45 @@ Format rules:
 - Descriptions are plain prose, hard-wrapped around 70 characters
 - File paths in descriptions use org tilde formatting: `~config.py~`
 
+#### 5b. Clock-in flow — nest tasks under the existing session heading
+
+The session heading and its open `CLOCK: [start]` line already exist in the file (created by `/clock-in`). The window may overlap with other Claude conversations that ran their own `/clock-in` for the same or different projects, so do not assume the clock is still active — let the helper decide.
+
+Extract the start stamp from the most recent `--- TIMESHEET STARTED at {DATE} {DAY} {TIME} ---` marker (these three fields, exact spacing). That string is the heading's `:CLOCK_IN:` property value.
+
+Close the clock and locate the file:
+
+```bash
+FILE=$(emacsclient -e "(brew/clock-out \"$PROJECT\" \"$STAMP\")" | tr -d '"')
+```
+
+`brew/clock-out` (in `~/brew/configurations/emacs/emacs.el`):
+- finds the `~/org/roam/{project}_*.org` file containing `:CLOCK_IN: $STAMP`,
+- if that heading is the currently-active org-clock, calls `org-clock-out` (writes the `--[end]` half and computed duration into the existing CLOCK line),
+- if the clock has already been closed (because a later `/clock-in` from another conversation took over), no-op on the clock,
+- saves the buffer and returns the absolute file path.
+
+Read `$FILE`. Find the `** session HH:MM` heading whose `:CLOCK_IN:` property matches `$STAMP`. Append child task headings under it — one `***` per logical task — with prose descriptions. **No `:LOGBOOK:` on children**: the parent session heading owns the wall clock for the whole window.
+
+Resulting structure under the matched session:
+
+```
+** session 14:30
+:PROPERTIES:
+:CLOCK_IN: 2026-04-25 Sat 14:30
+:END:
+:LOGBOOK:
+CLOCK: [2026-04-25 Sat 14:30]--[2026-04-25 Sat 15:45] =>  1:15
+:END:
+*** {task heading}
+{description paragraph}
+
+*** {task heading}
+{description paragraph}
+```
+
+Append the children just before the next `**` sibling heading (or at end-of-file if none follows). Same prose rules as step 5a apply: lowercase task headings of 5–10 words, 1–3 sentences, file paths in `~tilde~` formatting.
+
 ### 6. Sync org-roam
 
 Run:
@@ -123,7 +176,7 @@ Use the same timestamp from step 3. This marker allows subsequent `/timesheet` i
 
 After the boundary marker, output a single sentence that summarizes the entire window's work. This is what the user will paste into an external/online timesheet, so it must stand alone — no headers, no bullets, no markdown, just one prose sentence that names the concrete things accomplished. Lead with the verb, list the work in commit-message style, end with a period.
 
-## Example output file
+## Example output — default flow (no `/clock-in`)
 
 ```org
 :PROPERTIES:
@@ -147,6 +200,34 @@ the public interface.
 CLOCK: [2026-04-07 Mon 11:45]--[2026-04-07 Mon 12:10] =>  0:25
 :END:
 
+The ~test_concurrent_writes~ test was failing intermittently due to a
+race condition in the test fixture teardown. Added explicit cleanup
+ordering in ~tests/conftest.py~.
+```
+
+## Example output — clock-in flow (`/clock-in` then `/timesheet`)
+
+```org
+:PROPERTIES:
+:ID:       a1b2c3d4-e5f6-7890-abcd-ef1234567890
+:END:
+#+title: Myproject 2026-04-07
+
+* Timesheet
+** session 09:30
+:PROPERTIES:
+:CLOCK_IN: 2026-04-07 Mon 09:30
+:END:
+:LOGBOOK:
+CLOCK: [2026-04-07 Mon 09:30]--[2026-04-07 Mon 12:10] =>  2:40
+:END:
+
+*** refactored authentication module
+Extracted token validation from ~auth/middleware.py~ into a standalone
+~auth/tokens.py~ module. Updated all call sites in ~api/routes.py~ and
+~api/admin.py~ to use the new import path.
+
+*** fixed flaky integration test
 The ~test_concurrent_writes~ test was failing intermittently due to a
 race condition in the test fixture teardown. Added explicit cleanup
 ordering in ~tests/conftest.py~.
