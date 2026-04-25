@@ -39,8 +39,8 @@ in
         mcp-server = hprev.callCabal2nix "mcp-server" (prev.fetchFromGitHub {
           owner = "collinarnett";
           repo = "haskell-mcp-server";
-          rev = "3da5b1e";
-          hash = "sha256-hiQuqZ6rjT3Pu1OrmkzNGO/nfqjEUmiXt/OxOZppl3s=";
+          rev = "90ed3e199f24f7bc9f89c09ffffe3a762c8233a6";
+          hash = "sha256-rykSZX0Ivnlbf5nGVNkqZDyFVFku7DsZ3G1YZWWVh/Y=";
         }) { };
       };
   };
