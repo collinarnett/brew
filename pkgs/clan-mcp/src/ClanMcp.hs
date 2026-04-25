@@ -9,15 +9,21 @@ module ClanMcp
   , callTool
   ) where
 
+import Control.Concurrent (forkIO)
+import Control.Concurrent.MVar (newEmptyMVar, putMVar, takeMVar)
+import Control.Exception (finally)
+import Control.Monad (unless)
 import Data.Aeson (FromJSON (..), Value (..), eitherDecodeFileStrict, withObject, (.:), (.:?), (.!=))
 import Data.Aeson qualified as Aeson
+import Data.IORef (IORef, atomicModifyIORef', newIORef, readIORef)
 import Data.Text (Text)
 import Data.Text qualified as T
 import Data.Text.Encoding qualified as TE
 import Data.Vector qualified as V
 import MCP.Server.Types
 import System.Exit (ExitCode (..))
-import System.Process (readProcessWithExitCode)
+import System.IO (Handle, hGetLine, hIsEOF)
+import System.Process (CreateProcess (..), StdStream (..), createProcess, proc, waitForProcess)
 
 data ClanCommand = ClanCommand
   { path :: [Text]
@@ -93,19 +99,60 @@ listTools = map toToolDef
     isCommonFlag a = ClanMcp.name a `elem` ["debug", "option"]
 
 callTool :: [ClanCommand] -> McpSession IO -> ToolName -> [(ArgumentName, ArgumentValue)] -> IO (Either Error ToolResult)
-callTool cmds _session toolN args =
+callTool cmds session toolN args =
   case filter (\c -> toolName c == toolN) cmds of
     [] -> pure $ Left $ UnknownTool toolN
     (cmd : _) -> do
       let cliArgs = map T.unpack (path cmd) <> concatMap (toCli cmd) args
-      (code, out, err) <- readProcessWithExitCode "clan" cliArgs ""
-      let output = out <> if null err then "" else "\n" <> err
-          body = T.pack output <> case code of
+      (code, combined) <- runClanStreaming session cliArgs
+      let body = combined <> case code of
             ExitSuccess -> ""
             ExitFailure n -> "\n[exit code " <> T.pack (show n) <> "]"
       pure $ Right $ case code of
         ExitSuccess -> toolText body
         ExitFailure _ -> toolError body
+
+-- | Invoke @clan@ with the given argv while streaming each stdout/stderr line
+-- to the client as a @notifications/message@ via the session's 'sendLog'. The
+-- accumulated text is returned for the final 'ToolResult'; clients that want
+-- to react mid-run (spinners, progress UIs) can do so from the log stream.
+--
+-- stdout lines go out at 'LogInfo', stderr at 'LogWarning' — nixos-rebuild and
+-- most other clan-internal subprocesses write their progress narration to
+-- stderr, so that's where the interesting output shows up.
+runClanStreaming :: McpSession IO -> [String] -> IO (ExitCode, Text)
+runClanStreaming session cliArgs = do
+  (_, Just hOut, Just hErr, ph) <-
+    createProcess (proc "clan" cliArgs) { std_out = CreatePipe, std_err = CreatePipe }
+  stdoutRef <- newIORef []
+  stderrRef <- newIORef []
+  stdoutDone <- newEmptyMVar
+  stderrDone <- newEmptyMVar
+  _ <- forkIO (drainHandle session LogInfo "clan.stdout" hOut stdoutRef `finally` putMVar stdoutDone ())
+  _ <- forkIO (drainHandle session LogWarning "clan.stderr" hErr stderrRef `finally` putMVar stderrDone ())
+  code <- waitForProcess ph
+  takeMVar stdoutDone
+  takeMVar stderrDone
+  stdoutLines <- reverse <$> readIORef stdoutRef
+  stderrLines <- reverse <$> readIORef stderrRef
+  let stdoutText = T.unlines stdoutLines
+      stderrText = T.unlines stderrLines
+  pure (code, stdoutText <> if T.null stderrText then "" else "\n" <> stderrText)
+
+-- | Read a handle line-by-line until EOF, emitting each line as a log
+-- notification and accumulating it into the given 'IORef' (in reverse order —
+-- the caller reverses once on exit).
+drainHandle :: McpSession IO -> LogLevel -> Text -> Handle -> IORef [Text] -> IO ()
+drainHandle session level logger h ref = loop
+  where
+    loop = do
+      eof <- hIsEOF h
+      unless eof $ do
+        line <- hGetLine h
+        let t = T.pack line
+        sendLog session level (Just logger) (Aeson.String t)
+        atomicModifyIORef' ref (\acc -> (t : acc, ()))
+        loop
 
 toCli :: ClanCommand -> (ArgumentName, ArgumentValue) -> [String]
 toCli cmd (argName, argVal) =
