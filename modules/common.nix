@@ -47,6 +47,7 @@
               "pipe-operators"
               "auto-allocate-uids"
               "cgroups"
+              "ca-derivations"
             ];
             auto-allocate-uids = true;
             system-features = [
