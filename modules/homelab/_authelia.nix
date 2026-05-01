@@ -12,10 +12,15 @@ in
     services.authelia.instances = {
       main = {
         enable = true;
-        settingsFiles = [ config.clan.core.vars.generators.authelia_jwks_settings_file.files.authelia_jwks_settings_file.path ];
-        secrets.jwtSecretFile = config.clan.core.vars.generators.authelia_jwt_secret_file.files.authelia_jwt_secret_file.path;
-        secrets.sessionSecretFile = config.clan.core.vars.generators.authelia_session_secret_file.files.authelia_session_secret_file.path;
-        secrets.storageEncryptionKeyFile = config.clan.core.vars.generators.authelia_storage_encryption_key_file.files.authelia_storage_encryption_key_file.path;
+        settingsFiles = [
+          config.clan.core.vars.generators.authelia_jwks_settings_file.files.authelia_jwks_settings_file.path
+        ];
+        secrets.jwtSecretFile =
+          config.clan.core.vars.generators.authelia_jwt_secret_file.files.authelia_jwt_secret_file.path;
+        secrets.sessionSecretFile =
+          config.clan.core.vars.generators.authelia_session_secret_file.files.authelia_session_secret_file.path;
+        secrets.storageEncryptionKeyFile =
+          config.clan.core.vars.generators.authelia_storage_encryption_key_file.files.authelia_storage_encryption_key_file.path;
         settings.default_2fa_method = "totp";
         settings = {
           authentication_backend.file.path = "/var/lib/authelia-main/users_database.yml";
@@ -40,12 +45,14 @@ in
           identity_providers.oidc = {
             clients = mkIf cfg.jellyfin.enable [
               {
-                id = "jellyfin";
-                description = "Jellyfin";
-                secret = "$pbkdf2-sha512$310000$YTPOIu.8sypt1DNtvPDj2Q$JPUVH7/9lnMOPrfQnzveXnA3e46uSBG3bw4j8I84COOJNCf1CKr8wJ/VKw/kgk1V2lULxUixiK9y4iFDPSIiPA";
+                client_id = "jellyfin";
+                client_name = "Jellyfin";
+                client_secret = "$pbkdf2-sha512$310000$YTPOIu.8sypt1DNtvPDj2Q$JPUVH7/9lnMOPrfQnzveXnA3e46uSBG3bw4j8I84COOJNCf1CKr8wJ/VKw/kgk1V2lULxUixiK9y4iFDPSIiPA";
                 authorization_policy = "two_factor";
+                # jellyfin-plugin-sso (Duende IdentityModel) uses client_secret_post
+                token_endpoint_auth_method = "client_secret_post";
                 redirect_uris = [
-                  "https://media.trexd.dev/sso/OID/start/authelia"
+                  "https://media.trexd.dev/sso/OID/redirect/authelia"
                 ];
                 scopes = [
                   "openid"
