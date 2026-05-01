@@ -58,6 +58,18 @@ Review the conversation (from the boundary in step 1 to now) and group the work 
 - Reference modified files using org tilde formatting: `~path/to/file~`
 - Be concrete and specific — name functions, modules, and behaviors changed
 
+#### Always check for parallel conversations in this project
+
+Before summarizing, list every conversation jsonl in this project's directory whose modification time overlaps the window. Parallel conversations are common — the user often runs research in one terminal while monitoring a generation loop in another, or asks a question mid-stream of an autonomous loop. The current conversation's transcript reflects only one slice of that work.
+
+```bash
+find ~/.claude/projects/-${PWD//\//-} -maxdepth 1 -name "*.jsonl" -newermt "<window-start>" 2>/dev/null
+```
+
+For each jsonl other than the current session, extract user messages and assistant text (`jq -r 'select(.type == "user" and (.message.content | type == "string")) | .timestamp + " " + .message.content[0:250]'`) to determine what work happened there. Add task entries for that work too. If the parallel conversation produced commits or working-tree changes, `git log --since="<window-start>"` and `git status` will surface them — cross-check that every commit and every modified file in the window has a logbook entry, regardless of which conversation produced it.
+
+If the user asks about "all conversations" related to a project, broaden the search to sibling project directories under `~/.claude/projects/` and `grep -l "<project-keyword>"` to find conversations from other working directories that touched the same project.
+
 #### Recover compacted history
 
 The visible context only contains the *post-compaction* summary of any earlier work — short, lossy, and missing the concrete file/commit details you need for a good timesheet entry. If the user mentions compaction, or if you see `<command-name>/compact</command-name>` or "This session is being continued from a previous conversation" markers in the conversation, you MUST recover the full history before summarizing.
@@ -74,7 +86,18 @@ Use the jsonl plus `git log --since="<window-start>"` to reconstruct the actual 
 
 Cross-check the commit list against your task groupings — if the commits cover work you don't have a logbook entry for, that work was hidden by compaction and needs an entry.
 
-If the user asks about "all conversations" related to a project, also search sibling project directories under `~/.claude/projects/` for jsonls modified in the window, and `grep -l "<project-keyword>"` to find conversations from other working directories that touched the same project.
+#### Wall clock is the truth
+
+When work happened across multiple parallel conversations or autonomous loops within the same window, the CLOCK durations you write must reflect **wall-clock time, not summed engagement**. Two conversations active simultaneously for an hour each is one wall-clock hour, not two.
+
+Concretely:
+
+1. Build the union of all engagement intervals across this conversation and any parallel ones found above. Engagement intervals start at the earliest user message of a conversation (or the previous boundary marker, whichever is later) and end at the latest assistant message (or now).
+2. The total of all CLOCK durations you write **must equal the wall-clock union span** — not the sum of per-conversation spans.
+3. When you partition that wall-clock span across task headings, intervals must not overlap. If two tasks ran in parallel, either merge them into one heading covering the union span, or split the span proportionally so adjacent tasks tile cleanly.
+4. Never log a CLOCK that double-counts time you already logged elsewhere in the same file. Re-read existing CLOCKs before appending; if a new task's natural interval overlaps an existing one, shrink the new interval to fit the gap or extend the existing description instead of adding a new CLOCK.
+
+The user bills against this file. Sum-of-engagement looks like padding even when each contributing conversation was real work.
 
 ### 5. Write the org-roam file
 
@@ -114,6 +137,7 @@ Format rules:
 - CLOCK lines have no leading spaces
 - Descriptions are plain prose, hard-wrapped around 70 characters
 - File paths in descriptions use org tilde formatting: `~config.py~`
+- CLOCK intervals must not overlap each other or any CLOCK already in the file. Sum of all CLOCK durations in the day's file must equal the wall-clock union span across every conversation that contributed to the window — never the sum of per-conversation engagement (see "Wall clock is the truth" in step 4).
 
 #### 5b. Clock-in flow — nest tasks under the existing session heading
 
