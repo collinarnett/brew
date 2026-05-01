@@ -45,7 +45,10 @@ in
         };
         accessLog = {
           filePath = "/var/lib/traefik/access.log";
-          filters.statusCodes = [ "302" "303" ];
+          filters.statusCodes = [
+            "302"
+            "303"
+          ];
         };
       };
       dynamicConfigOptions = {
@@ -115,28 +118,16 @@ in
           { url = "http://127.0.0.1:8099"; }
         ];
 
+        # Auth handled inside Jellyfin by jellyfin-plugin-sso (OIDC against Authelia).
+        # Every Jellyfin user is pinned to AuthenticationProviderId =
+        # Jellyfin.Plugin.SSO_Auth.Api.SSOController, so password login is dead
+        # even with the form publicly exposed. Native clients (Finamp audio
+        # streams, /socket websocket) need the proxy out of the way.
         http.routers.jellyfin = mkIf cfg.jellyfin.enable {
           rule = "Host(`media.trexd.dev`)";
           entryPoints = [ "websecure" ];
           tls.certResolver = "letsencrypt";
           service = "jellyfin";
-          middlewares = "authelia";
-        };
-        # Bypass Authelia for authenticated Jellyfin API clients (mobile apps)
-        http.routers.jellyfin-api = mkIf cfg.jellyfin.enable {
-          rule = "Host(`media.trexd.dev`) && HeaderRegexp(`Authorization`, `MediaBrowser.*Token=`)";
-          entryPoints = [ "websecure" ];
-          tls.certResolver = "letsencrypt";
-          service = "jellyfin";
-          priority = 100;
-        };
-        # Bypass Authelia for Jellyfin Quick Connect and server discovery
-        http.routers.jellyfin-public = mkIf cfg.jellyfin.enable {
-          rule = "Host(`media.trexd.dev`) && (PathPrefix(`/System/Info/Public`) || PathPrefix(`/QuickConnect`) || PathPrefix(`/Users/Public`) || PathPrefix(`/Users/AuthenticateWithQuickConnect`))";
-          entryPoints = [ "websecure" ];
-          tls.certResolver = "letsencrypt";
-          service = "jellyfin";
-          priority = 100;
         };
         http.services.jellyfin.loadBalancer.servers = mkIf cfg.jellyfin.enable [
           { url = "http://127.0.0.1:8096"; }
