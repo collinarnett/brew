@@ -216,6 +216,8 @@
       GPG_TTY = "$(tty)";
     };
 
+    brew.crawl.enable = true;
+
     home.packages = with pkgs; [
       alejandra
       anki-bin
@@ -224,7 +226,6 @@
       clang-tools
 
       cloc
-      crawl
       dconf
       drawio
       fastfetch
@@ -253,6 +254,7 @@
       ruff
       signal-desktop
       statix
+      tangaria
       tealdeer
       texliveFull
       timg
