@@ -32,6 +32,7 @@ in
   lightpanda = prev.callPackage ./lightpanda { };
   mcp-conformance = prev.callPackage ./mcp-conformance { };
   recap-triage = prev.callPackage ./recap-triage { };
+  tangaria = prev.callPackage ./tangaria { };
   haskellPackages = prev.haskellPackages.override {
     overrides =
       hfinal: hprev:
