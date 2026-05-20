@@ -135,7 +135,7 @@
               hsPkgs.shellFor {
               packages = ps: map (name: ps.${name}) localPkgs;
               nativeBuildInputs = with pkgs; [
-                inputs.clan-core.packages.${pkgs.system}.default
+                inputs.clan-core.packages.${pkgs.stdenv.hostPlatform.system}.default
                 sops
                 nixfmt
                 cabal-install

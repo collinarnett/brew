@@ -19,6 +19,7 @@
             name = "Dracula";
             package = pkgs.dracula-theme;
           };
+          gtk4.theme = config.gtk.theme;
           iconTheme = {
             name = "Dracula";
             package = pkgs.dracula-icon-theme;
