@@ -127,22 +127,29 @@
             devShells.default =
               let
                 localHsPkg = hprev: name: hprev.callCabal2nix name ./pkgs/${name} { };
-                localPkgs = [ "browser-cookies" "clan-mcp" "walmart" "walmart-extractor" "grocy-client" "walmart-grocy-import" ];
+                localPkgs = [
+                  "browser-cookies"
+                  "clan-mcp"
+                  "walmart"
+                  "walmart-extractor"
+                  "grocy-client"
+                  "walmart-grocy-import"
+                ];
                 hsPkgs = pkgs.haskellPackages.override {
                   overrides = hfinal: hprev: pkgs.lib.genAttrs localPkgs (localHsPkg hprev);
                 };
               in
               hsPkgs.shellFor {
-              packages = ps: map (name: ps.${name}) localPkgs;
-              nativeBuildInputs = with pkgs; [
-                inputs.clan-core.packages.${pkgs.stdenv.hostPlatform.system}.default
-                sops
-                nixfmt
-                cabal-install
-                haskellPackages.haskell-language-server
-                haskellPackages.stan
-              ];
-            };
+                packages = ps: map (name: ps.${name}) localPkgs;
+                nativeBuildInputs = with pkgs; [
+                  inputs.clan-core.packages.${pkgs.stdenv.hostPlatform.system}.default
+                  sops
+                  nixfmt
+                  cabal-install
+                  haskellPackages.haskell-language-server
+                  haskellPackages.stan
+                ];
+              };
           };
       }
     );
