@@ -81,7 +81,7 @@
   ("C-<prior>" . centaur-tabs-backward)
   ("C-<next>" . centaur-tabs-forward))
 
-(use-package monet :ensure t)
+(use-package monet)
 
 ;; for eat terminal backend:
 (use-package eat :ensure t
