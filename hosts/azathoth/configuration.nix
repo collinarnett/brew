@@ -217,6 +217,7 @@
     };
 
     brew.crawl.enable = true;
+    brew.tangaria.enable = true;
 
     home.packages = with pkgs; [
       alejandra
@@ -254,7 +255,6 @@
       ruff
       signal-desktop
       statix
-      tangaria
       tealdeer
       texliveFull
       timg
