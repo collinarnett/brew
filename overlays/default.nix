@@ -82,32 +82,11 @@ inputs: final: prev: {
     package = prev.emacs-unstable-pgtk;
     override =
       epkgs:
-      epkgs
-      // {
+      let
         websocket = epkgs.elpaPackages.websocket.overrideAttrs (old: {
           packageRequires = (old.packageRequires or [ ]) ++ [ epkgs.melpaPackages.f ];
         });
-        claude-code = epkgs.melpaPackages.claude-code.overrideAttrs (old: {
-          src = prev.fetchFromGitHub {
-            owner = "stevemolitor";
-            repo = "claude-code.el";
-            rev = "main";
-            sha256 = "sha256-ISlD6q1hceckry1Jd19BX1MfobHJxng5ulX2gq9f644=";
-          };
-          packageRequires = with epkgs; [
-            eat
-            melpaPackages.inheritenv
-            melpaPackages.markdown-mode
-            melpaPackages.projectile
-            melpaPackages.transient
-          ];
-        });
-      };
-    extraEmacsPackages =
-      epkgs: with epkgs; [
-        use-package
-        treesit-grammars.with-all-grammars
-        (epkgs.trivialBuild {
+        org-fc = epkgs.trivialBuild {
           pname = "org-fc";
           version = "20201121";
           src = prev.fetchFromGitHub {
@@ -133,8 +112,8 @@ inputs: final: prev: {
             description = "Spaced Repetition System for Emacs org-mode";
             license = prev.lib.licenses.gpl3;
           };
-        })
-        (epkgs.trivialBuild {
+        };
+        monet = epkgs.trivialBuild {
           pname = "monet";
           version = "0-unstable-2025-09-25";
           src = prev.fetchFromGitHub {
@@ -144,14 +123,43 @@ inputs: final: prev: {
             sha256 = "sha256-3e5DIR+X6JLDaY7vRDutH3EAsyaqK3Jc73ugZTDRUrQ=";
           };
           packageRequires = [
-            epkgs.websocket
+            websocket
           ];
 
           meta = {
             description = "Implements Claude Code IDE protocol for Emacs";
             license = prev.lib.licenses.mit;
           };
-        })
+        };
+        claude-code = epkgs.melpaPackages.claude-code.overrideAttrs (old: {
+          src = prev.fetchFromGitHub {
+            owner = "stevemolitor";
+            repo = "claude-code.el";
+            rev = "main";
+            sha256 = "sha256-ISlD6q1hceckry1Jd19BX1MfobHJxng5ulX2gq9f644=";
+          };
+          packageRequires = with epkgs; [
+            eat
+            melpaPackages.inheritenv
+            melpaPackages.markdown-mode
+            melpaPackages.projectile
+            melpaPackages.transient
+          ];
+        });
+      in
+      epkgs
+      // {
+        inherit
+          websocket
+          org-fc
+          monet
+          claude-code
+          ;
+      };
+    extraEmacsPackages =
+      epkgs: with epkgs; [
+        use-package
+        treesit-grammars.with-all-grammars
       ];
   };
 }
