@@ -160,11 +160,13 @@ Concatenate subagent outputs. Group by `cwd` basename (sessions in the same proj
 * Sessions
 ```
 
-Write the assembled body to a tempfile:
+Write the assembled body to a tempfile under `$HOME` (not `/tmp`):
 
 ```bash
-BODY=$(mktemp --suffix=.org)
+BODY=$(mktemp -p "$HOME/.cache" --suffix=.org claude-recap-XXXXXX)
 ```
+
+`/tmp` is not safe here: when the recap is invoked from a systemd service (e.g. via `/schedule` or `/loop`), the harness shell runs under `PrivateTmp=yes`, so the emacs daemon — which has its own `/tmp` — cannot see the file. Keep the body inside `$HOME`, which both sides share.
 
 Use the Write tool to populate `$BODY`.
 
