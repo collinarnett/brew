@@ -114,5 +114,6 @@ When editing prose, match the existing voice of the document rather than imposin
 - Forced metaphors that gesture at meaning without earning it
 - Filler — multiple sentences reducible to one
 - Unearned profundity: "Something shifted", "Everything changed"
+- Chat-context references inside documents: contrastive corrections ("X is not Y — it's…"), "as noted earlier", clarifications meaningful only to someone who saw a prior draft. Documents are read standalone; readers don't have the transcript.
 
 Prefer specificity, varied sentence length, natural voice, and concise expression.
