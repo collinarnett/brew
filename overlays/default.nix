@@ -1,6 +1,6 @@
 inputs: final: prev: {
-  clan-cli = inputs.clan-core.packages.${prev.system}.clan-cli;
-  hell = inputs.hell.packages.${prev.system}.default;
+  clan-cli = inputs.clan-core.packages.${prev.stdenv.hostPlatform.system}.clan-cli;
+  hell = inputs.hell.packages.${prev.stdenv.hostPlatform.system}.default;
 
   openjdk25-wakefield = prev.openjdk25.overrideAttrs (old: {
     pname = "openjdk-wakefield";
