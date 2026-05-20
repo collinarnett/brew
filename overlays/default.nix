@@ -135,8 +135,8 @@ inputs: final: prev: {
           src = prev.fetchFromGitHub {
             owner = "stevemolitor";
             repo = "claude-code.el";
-            rev = "main";
-            sha256 = "sha256-ISlD6q1hceckry1Jd19BX1MfobHJxng5ulX2gq9f644=";
+            rev = "03199df8b3a1e9cd4857f0851f7a912ba524aff3";
+            sha256 = "sha256-5QJrWIu4EgnHcOqMwlrs2JBBx7aI9OaSJswesr6Apfk=";
           };
           packageRequires = with epkgs; [
             eat
