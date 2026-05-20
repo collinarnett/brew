@@ -17,8 +17,7 @@ in
   clan-commands-json = prev.callPackage ./clan-commands-json.nix { };
   clan-mcp-wrapped =
     let
-      exe = prev.haskell.lib.compose.justStaticExecutables
-        final.haskellPackages.clan-mcp;
+      exe = prev.haskell.lib.compose.justStaticExecutables final.haskellPackages.clan-mcp;
     in
     exe.overrideAttrs (old: {
       nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ prev.makeWrapper ];
@@ -34,8 +33,10 @@ in
   mcp-conformance = prev.callPackage ./mcp-conformance { };
   recap-triage = prev.callPackage ./recap-triage { };
   haskellPackages = prev.haskellPackages.override {
-    overrides = hfinal: hprev:
-      prev.lib.genAttrs localHsPkgNames (localHsPkg hprev) // {
+    overrides =
+      hfinal: hprev:
+      prev.lib.genAttrs localHsPkgNames (localHsPkg hprev)
+      // {
         mcp-server = hprev.callCabal2nix "mcp-server" (prev.fetchFromGitHub {
           owner = "collinarnett";
           repo = "haskell-mcp-server";
@@ -46,8 +47,7 @@ in
   };
   walmart-grocy-import =
     let
-      exe = prev.haskell.lib.compose.justStaticExecutables
-        final.haskellPackages.walmart-grocy-import;
+      exe = prev.haskell.lib.compose.justStaticExecutables final.haskellPackages.walmart-grocy-import;
     in
     exe.overrideAttrs (old: {
       nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ prev.makeWrapper ];
@@ -58,8 +58,7 @@ in
     });
   walmart-extractor =
     let
-      exe = prev.haskell.lib.compose.justStaticExecutables
-        final.haskellPackages.walmart-extractor;
+      exe = prev.haskell.lib.compose.justStaticExecutables final.haskellPackages.walmart-extractor;
     in
     exe.overrideAttrs (old: {
       nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ prev.makeWrapper ];
