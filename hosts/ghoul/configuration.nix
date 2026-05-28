@@ -379,11 +379,9 @@
     };
 
     home.packages = with pkgs; [
-      anki-bin
       bluetui
 
       croc
-      drawio
       emacs-all-the-icons-fonts
       fira-code
       fira-code-symbols
@@ -391,22 +389,11 @@
       git
       gotop
       grim
-      libreoffice
       noto-fonts-color-emoji
-      pandoc
       pavucontrol
       poppler-utils
-      pulseaudio
-      ripgrep
-      signal-desktop
       siji
       slurp
-      timg
-      tree
-      unzip
-      waypipe
-      wl-clipboard
-      xauth
     ];
 
     home.stateVersion = "21.11";

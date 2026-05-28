@@ -28,7 +28,12 @@
     };
 
   flake.modules.homeManager.desktop =
-    { config, lib, ... }:
+    {
+      config,
+      lib,
+      pkgs,
+      ...
+    }:
     let
       cfg = config.brew.desktop;
     in
@@ -43,6 +48,22 @@
           xdg-mime.enable = true;
           zathura.enable = true;
         };
+        home.packages = with pkgs; [
+          anki-bin
+          drawio
+          inlyne
+          libreoffice
+          pandoc
+          pulseaudio
+          ripgrep
+          signal-desktop
+          timg
+          tree
+          unzip
+          waypipe
+          wl-clipboard
+          xauth
+        ];
       };
     };
 }

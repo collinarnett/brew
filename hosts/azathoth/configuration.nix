@@ -221,14 +221,12 @@
 
     home.packages = with pkgs; [
       alejandra
-      anki-bin
       bash-language-server
       bibata-cursors
       clang-tools
 
       cloc
       dconf
-      drawio
       fastfetch
       fd
       freetube
@@ -241,31 +239,20 @@
       jq
       languagetool
       leiningen
-      libreoffice
       nixd
       nix-output-monitor
       nix-tree
       nixfmt
       nixpkgs-review
-      pandoc
       pciutils
       pinta
-      pulseaudio
-      ripgrep
       ruff
-      signal-desktop
       statix
       tealdeer
       texliveFull
-      timg
-      tree
-      unzip
       usbutils
-      waypipe
       wget
       whipper
-      wl-clipboard
-      xauth
       xplr
       zip
     ];
