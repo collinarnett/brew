@@ -42,6 +42,12 @@
         group = "nginx";
         mode = "0700";
       }
+      {
+        directory = "/var/lib/hermes";
+        user = "hermes";
+        group = "hermes";
+        mode = "0700";
+      }
     ];
     files = [
       "/etc/nix/netrc"

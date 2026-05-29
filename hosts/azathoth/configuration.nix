@@ -18,6 +18,10 @@
     server.enable = true;
 
     claude-code.enable = true;
+    nous-agent = {
+      enable = true;
+      users = [ "collin" ];
+    };
     recap-timer.enable = true;
     beets.enable = true;
     k9s.enable = true;
