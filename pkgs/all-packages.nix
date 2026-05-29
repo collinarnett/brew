@@ -28,6 +28,7 @@ in
       '';
     });
   gitlab-mcp = prev.callPackage ./gitlab-mcp.nix { };
+  gpt-oss-20b-heretic-ara-v4 = prev.callPackage ./gpt-oss-20b-heretic-ara-v4 { };
   iommu-groups = prev.callPackage ./iommu-groups.nix { };
   lightpanda = prev.callPackage ./lightpanda { };
   mcp-conformance = prev.callPackage ./mcp-conformance { };
