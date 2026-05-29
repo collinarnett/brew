@@ -12,7 +12,10 @@
 
   brew.common.enable = true;
   brew.claude-code.enable = true;
-  brew.ollama.enable = true;
+  brew.ollama = {
+    enable = true;
+    models."gpt-oss-heretic-ara-v4:20b" = pkgs.gpt-oss-20b-heretic-ara-v4;
+  };
   brew.prometheus.enable = true;
   brew.grafana.enable = true;
   brew.sillytavern.enable = true;
@@ -76,6 +79,12 @@
     package = pkgs.ollama-cuda;
     openFirewall = true;
     host = "0.0.0.0";
+    environmentVariables = {
+      OLLAMA_CONTEXT_LENGTH = "65536";
+      OLLAMA_FLASH_ATTENTION = "1";
+      OLLAMA_KV_CACHE_TYPE = "q8_0";
+    };
+    loadModels = [ "gpt-oss:20b" ];
   };
 
   services.openssh = {
