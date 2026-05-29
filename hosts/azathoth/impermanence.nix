@@ -48,6 +48,12 @@
         group = "hermes";
         mode = "0700";
       }
+      {
+        directory = "/var/lib/postgresql";
+        user = "postgres";
+        group = "postgres";
+        mode = "0700";
+      }
     ];
     files = [
       "/etc/nix/netrc"
@@ -83,6 +89,8 @@
         "projects"
         "work_projects"
         ".claude"
+        ".codex"
+        ".crawl"
         ".config/obs-studio"
         {
           directory = ".gnupg";
