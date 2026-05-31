@@ -72,6 +72,10 @@
         # Stable machine-id across reboots (managed by clan vars)
         clan.core.settings.machine-id.enable = true;
 
+        # Ship terminfo (including xterm-kitty) so SSHing in from kitty
+        # works without `kitty +kitten ssh` pushing it over the wire.
+        environment.enableAllTerminfo = true;
+
         # NixOS-level enables for mixed modules
         brew.keychain.enable = true;
 
