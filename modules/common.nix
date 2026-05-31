@@ -11,11 +11,10 @@
       cfg = config.brew.common;
     in
     {
-      imports =
-        [
-          inputs.home-manager.nixosModules.home-manager
-        ]
-        ++ builtins.attrValues (inputs.newt.nixosModules or { });
+      imports = [
+        inputs.home-manager.nixosModules.home-manager
+      ]
+      ++ builtins.attrValues (inputs.newt.nixosModules or { });
 
       options.brew.common.enable = lib.mkEnableOption "common profile";
 
@@ -23,18 +22,18 @@
         # Home-manager base setup
         home-manager.useGlobalPkgs = true;
         home-manager.useUserPackages = true;
-        home-manager.users.${config.brew.user}.imports =
-          builtins.attrValues (inputs.newt.homeManagerModules or { });
+        home-manager.users.${config.brew.user}.imports = builtins.attrValues (
+          inputs.newt.homeManagerModules or { }
+        );
 
         # Nix settings + overlays
-        nixpkgs.overlays =
-          [
-            inputs.emacs-overlay.overlay
-            inputs.claude-code-nix.overlays.default
-            (import ../overlays inputs)
-            (import ../pkgs/all-packages.nix)
-          ]
-          ++ builtins.attrValues (inputs.newt.overlays or { });
+        nixpkgs.overlays = [
+          inputs.emacs-overlay.overlay
+          inputs.claude-code-nix.overlays.default
+          (import ../overlays inputs)
+          (import ../pkgs/all-packages.nix)
+        ]
+        ++ builtins.attrValues (inputs.newt.overlays or { });
         nixpkgs.config.allowUnfree = true;
         nix = {
           package = pkgs.nixVersions.latest;
