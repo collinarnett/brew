@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 {
   imports = [
     ./disko.nix
@@ -44,8 +49,12 @@
       # sway maps $mod+0 to "workspace number 10", not "workspace number 0"
       workspaces =
         let
-          top = { output = "DP-3"; };
-          bottom = { output = "eDP-1"; };
+          top = {
+            output = "DP-3";
+          };
+          bottom = {
+            output = "eDP-1";
+          };
         in
         {
           "10" = top // {
@@ -118,7 +127,10 @@
             "battery"
           ];
           modules-center = [ "sway/workspaces" ];
-          modules-right = [ "custom/tomat" "clock" ];
+          modules-right = [
+            "custom/tomat"
+            "clock"
+          ];
           modules = {
             "sway/workspaces" = {
               persistent-workspaces = {
