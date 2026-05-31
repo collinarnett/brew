@@ -1,10 +1,10 @@
 # p-e-w/gpt-oss-20b-heretic-ara-v4 → MXFP4_MOE GGUF → ollama Modelfile,
-# built entirely from a single git-LFS fetch + llama.cpp tooling.
+# built from per-file fetchurl downloads + llama.cpp tooling.
 # `passthru` exposes every intermediate so each stage can be built
 # independently via `nix build .#gpt-oss-20b-heretic-ara-v4.<attr>`.
 {
   lib,
-  fetchgit,
+  fetchurl,
   llama-cpp,
   python3,
   runCommand,
@@ -12,6 +12,8 @@
 }:
 
 let
+  hfRepo = "p-e-w/gpt-oss-20b-heretic-ara-v4";
+
   # Mirrors upstream llama.cpp's `.devops/nix/python-scripts.nix` deps
   # plus what gguf-py pulls in transitively (mistral-common →
   # pydantic-extra-types → pycountry).
@@ -31,26 +33,31 @@ let
     ]
   );
 
-  # convert_hf_to_gguf.py from the same llama.cpp source that nixpkgs
-  # builds llama-quantize from — keeps gguf-py and the C++ binaries on
-  # the same version.
+  # convert_hf_to_gguf.py from the same llama.cpp source nixpkgs builds
+  # llama-quantize from — keeps gguf-py and the C++ binaries on the same
+  # version.
   llama-convert-hf-to-gguf = writeShellApplication {
     name = "llama-convert-hf-to-gguf";
     runtimeInputs = [ pythonEnv ];
     text = ''exec python ${llama-cpp.src}/convert_hf_to_gguf.py "$@"'';
   };
 
-  # Single fixed-output derivation pulling the whole HF repo — git plus
-  # LFS blobs. One hash protects the entire source tree.
-  #
-  # NOTE: replace lib.fakeHash with the real hash on first build. Nix
-  # reports the actual value in the "hash mismatch" error message.
-  source = fetchgit {
-    url = "https://huggingface.co/p-e-w/gpt-oss-20b-heretic-ara-v4";
-    rev = "main";
-    fetchLFS = true;
-    hash = lib.fakeHash;
-  };
+  # One fetchurl per HF file. HF rejects the default curl UA, so spoof
+  # Wget — same trick nixpkgs' hasktorch datasets use.
+  hfFile =
+    file: hash:
+    fetchurl {
+      url = "https://huggingface.co/${hfRepo}/resolve/main/${file}";
+      inherit hash;
+      curlOptsList = [ "-HUser-Agent: Wget/1.21.4" ];
+    };
+
+  safetensors = hfFile "model.safetensors" "sha256-ScpBoGyYdQiWWZol9Iqxq5LH2mGiY7KT7vTR+z+ZO7w=";
+  configJson = hfFile "config.json" "sha256-69Wacmbh52cKnvMonsqDBunOrxfsupIpFploRjX//gY=";
+  generationConfig = hfFile "generation_config.json" "sha256-jbMFb7T444/T6kTf3T5fzc+GeyLGtcbvzH8FPq24gYA=";
+  tokenizerJson = hfFile "tokenizer.json" "sha256-BhT+g8ratCEpbmZOH0j0Jh+o/vbgPmO7dcIPOON9B9M=";
+  tokenizerConfig = hfFile "tokenizer_config.json" "sha256-/OBl8I3KpvjluAvtfFGVS/fM+hwsED/TbxsNZxUx8Uo=";
+  chatTemplate = hfFile "chat_template.jinja" "sha256-pMmRnLvUrN1RzP/iLaBJJksbc+WQVfpYgRqZ7718gUY=";
 
   # Strip the doubled `_blocks_blocks` / `_blocks_scales` suffixes ara-v4
   # weights ship with — the converter's substring match treats the 3D
@@ -61,8 +68,19 @@ let
         nativeBuildInputs = [ pythonEnv ];
       }
       ''
-        python ${./rename-tensors.py} ${source}/model.safetensors $out
+        python ${./rename-tensors.py} ${safetensors} $out
       '';
+
+  # Assemble the HF source layout convert_hf_to_gguf.py expects.
+  source = runCommand "gpt-oss-20b-heretic-ara-v4-source" { } ''
+    mkdir $out
+    ln -s ${configJson}         $out/config.json
+    ln -s ${generationConfig}   $out/generation_config.json
+    ln -s ${tokenizerJson}      $out/tokenizer.json
+    ln -s ${tokenizerConfig}    $out/tokenizer_config.json
+    ln -s ${chatTemplate}       $out/chat_template.jinja
+    ln -s ${renamedSafetensors} $out/model.safetensors
+  '';
 
   # F16 GGUF intermediate. The MoE block tensors keep raw_dtype = mxfp4
   # — the converter's gpt-oss path passes them through verbatim — so
@@ -73,18 +91,7 @@ let
         nativeBuildInputs = [ llama-convert-hf-to-gguf ];
       }
       ''
-        mkdir hf
-        # Symlink every config/tokenizer file from the source repo, then
-        # swap in the renamed safetensors.
-        for f in ${source}/*; do
-          name=$(basename "$f")
-          case "$name" in
-            model.safetensors|.git|.gitattributes|README.md) ;;
-            *) ln -s "$f" "hf/$name" ;;
-          esac
-        done
-        ln -s ${renamedSafetensors} hf/model.safetensors
-        llama-convert-hf-to-gguf hf --outfile $out --outtype f16
+        llama-convert-hf-to-gguf ${source} --outfile $out --outtype f16
       '';
 
   gguf =
@@ -108,6 +115,7 @@ runCommand "gpt-oss-20b-heretic-ara-v4-Modelfile"
         gguf
         f16Gguf
         renamedSafetensors
+        safetensors
         source
         ;
     };
