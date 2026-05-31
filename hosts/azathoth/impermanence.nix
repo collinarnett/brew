@@ -11,7 +11,13 @@
       "/var/log"
       "/var/lib/libvirt"
       "/var/lib/nixos"
-      "/var/lib/systemd/coredump"
+      # Persist the whole dir (not just coredump) so systemd's
+      # credential.secret survives reboots. Without it, anything created
+      # via systemd-creds encrypt (libvirt's secrets-encryption-key, etc.)
+      # becomes undecryptable after the next boot. Persisting as a file
+      # via symlink doesn't work — systemd opens credential.secret with
+      # O_NOFOLLOW and a symlink triggers ELOOP.
+      "/var/lib/systemd"
       {
         directory = "/var/lib/traefik";
         user = "traefik";
