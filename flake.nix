@@ -9,6 +9,7 @@
     emacs-overlay.url = "github:nix-community/emacs-overlay";
     flake-parts.url = "github:hercules-ci/flake-parts";
     gpd-duo-nixos-hardware.url = "github:/shymega/nixos-hardware/add-gpd-duo";
+    gpd-duo-nixos-hardware.inputs.nixpkgs.follows = "nixpkgs";
     hell.url = "github:chrisdone/hell";
     hell.inputs.nixpkgs.follows = "nixpkgs";
     hermes-agent.url = "github:NousResearch/hermes-agent";
