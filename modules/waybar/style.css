@@ -10,7 +10,7 @@ window#waybar {
 	padding-right: 2px;
 }
 
-#pulseaudio, #mpd, #clock, #cpu, #disk, #memory, #network, #custom-tomat {
+#pulseaudio, #mpd, #clock, #cpu, #disk, #memory, #network, #custom-tomat, #custom-audio-output {
 	margin-left: 4px;
 	margin-right: 4px;
 	padding-left: 4px;

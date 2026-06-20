@@ -17,6 +17,29 @@
     desktop.enable = true;
     server.enable = true;
 
+    # Waybar output switcher: speakers (analog line-out) and headphones
+    # (optical S/PDIF) are mutually-exclusive profiles on the ALC1220, so each
+    # entry flips the card profile before selecting its sink. Host-specific
+    # (tied to this machine's codec), so it is enabled here rather than in the
+    # desktop profile.
+    audio-output.enable = true;
+    audio-output.outputs = [
+      {
+        label = "Speakers";
+        icon = builtins.fromJSON ''"\uf028"'';
+        sink = "alsa_output.pci-0000_05_00.7.analog-stereo";
+        card = "alsa_card.pci-0000_05_00.7";
+        profile = "output:analog-stereo+input:analog-stereo";
+      }
+      {
+        label = "Headphones";
+        icon = builtins.fromJSON ''"\uf025"'';
+        sink = "alsa_output.pci-0000_05_00.7.iec958-stereo";
+        card = "alsa_card.pci-0000_05_00.7";
+        profile = "output:iec958-stereo+input:analog-stereo";
+      }
+    ];
+
     claude-code.enable = true;
     nous-agent = {
       enable = true;

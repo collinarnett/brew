@@ -17,7 +17,10 @@ let
                 "network"
               ];
               modules-center = [ "sway/workspaces" ];
-              modules-right = [ "custom/tomat" "clock" ];
+              modules-right = [
+                "custom/tomat"
+                "clock"
+              ];
               "sway/workspaces" = {
                 format = "{icon}";
                 format-icons = {
@@ -86,13 +89,34 @@ in
     { config, lib, ... }:
     let
       cfg = config.brew.waybar;
+      # The audio-output switcher is host-specific (tied to azathoth's codec), so
+      # its waybar button is contributed only when that leaf is enabled. Hosts
+      # without it never reference the missing `audio-output` command.
+      settings =
+        if config.brew.audio-output.enable or false then
+          cfg.settings
+          // {
+            mainBar = cfg.settings.mainBar // {
+              modules-right = [ "custom/audio-output" ] ++ cfg.settings.mainBar.modules-right;
+              "custom/audio-output" = {
+                exec = "audio-output status";
+                interval = 5;
+                return-type = "json";
+                format = "{}";
+                on-click = "audio-output menu";
+                signal = 8;
+              };
+            };
+          }
+        else
+          cfg.settings;
     in
     {
       imports = [ waybarOptions ];
       config = lib.mkIf cfg.enable {
         programs.waybar = {
           enable = true;
-          settings = cfg.settings;
+          inherit settings;
           style = cfg.style;
         };
       };
