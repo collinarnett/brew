@@ -408,6 +408,12 @@
       slurp
     ];
 
+    # blueman-applet requires tray.target, but waybar (which hosts the tray) is
+    # launched from sway's bar config, so nothing starts tray.target on its own.
+    # Bind it to the graphical session so the applet can start.
+    services.blueman-applet.enable = true;
+    systemd.user.targets.tray.Install.WantedBy = [ "graphical-session.target" ];
+
     home.stateVersion = "21.11";
     programs.home-manager.enable = true;
   };
