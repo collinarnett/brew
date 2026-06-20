@@ -12,6 +12,7 @@ let
 in
 {
   appgate-sdp = prev.callPackage ./appgate-sdp.nix { }; # fixes RPATH/LD_LIBRARY_PATH over upstream
+  bypass-paywalls-clean = prev.callPackage ./bypass-paywalls-clean.nix { };
   dod-certs = prev.callPackage ./dod-certs.nix { };
   cackey = prev.callPackage ./cackey.nix { };
   clan-commands-json = prev.callPackage ./clan-commands-json.nix { };

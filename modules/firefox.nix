@@ -16,6 +16,14 @@
         programs.firefox.enable = true;
         programs.firefox.package = pkgs.firefox-esr;
         programs.firefox.policies = {
+          ExtensionSettings = {
+            # Bypass Paywalls Clean — self-distributed signed XPI from gitflic,
+            # force-installed from its nix store path (see pkgs/bypass-paywalls-clean.nix).
+            "magnolia@12.34" = {
+              install_url = "file://${pkgs.bypass-paywalls-clean}";
+              installation_mode = "force_installed";
+            };
+          };
           SearchEngines = {
             Default = "SearX";
             Remove = [
