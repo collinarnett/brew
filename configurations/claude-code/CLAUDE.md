@@ -70,6 +70,9 @@ Functions should do what they say, nothing more. No hidden side effects. No impl
 ### Consistency
 Similar operations should work the same way everywhere. Naming, structure, patterns should be predictable across the codebase.
 
+### Comments Stand Alone
+A code comment is read by someone who has only the code, never the conversation that produced it. Explain why the code is the way it is in absolute terms. Never frame a comment as "X, not Y" or "should be X rather than Y" when the reader had no reason to expect Y — that contrast only lands for someone who saw the rejected alternative get discussed. State the positive fact and the reason.
+
 ## Error Handling
 
 ### Predictable Errors, Short Timeouts
