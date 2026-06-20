@@ -59,6 +59,7 @@ Disk layout is declared per-host in `disko.nix` so that new machines can be prov
 
 - Formatter is `nixfmt`. Run before committing.
 - Module options live under `brew.<name>`, not directly under `services.*` or `programs.*`.
+- A feature that takes no configuration and is used by only one machine does not need its own module. Inline it in that host's `configuration.nix` (NixOS bits at the top level, home-manager bits in the host's `home-manager.users` block) rather than wrapping three lines in `brew.<name>` scaffolding. Modules earn their keep through reuse or aggregation by a profile.
 - Deploy with `clan machines update <host>`, not `nixos-rebuild`.
 - Machines connect over Yggdrasil mesh VPN. Use `.clan` hostnames (e.g., `azathoth.clan`).
 - azathoth is the build host for ghoul (`clan.core.networking.buildHost`).
