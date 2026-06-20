@@ -111,6 +111,7 @@
                 machineBase
               ];
               clan.core.networking.buildHost = "root@azathoth.clan";
+              clan.core.networking.forwardAgent = true;
             };
             azathoth = {
               imports = brewNixosModules ++ [
