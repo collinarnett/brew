@@ -7,6 +7,7 @@
     claude-code-nix.url = "github:sadjow/claude-code-nix";
     claude-code-nix.inputs.nixpkgs.follows = "nixpkgs";
     emacs-overlay.url = "github:nix-community/emacs-overlay";
+    emacs-overlay.inputs.nixpkgs.follows = "nixpkgs";
     flake-parts.url = "github:hercules-ci/flake-parts";
     gpd-duo-nixos-hardware.url = "github:/shymega/nixos-hardware/add-gpd-duo";
     gpd-duo-nixos-hardware.inputs.nixpkgs.follows = "nixpkgs";
@@ -14,13 +15,19 @@
     hell.inputs.nixpkgs.follows = "nixpkgs";
     hermes-agent.url = "github:NousResearch/hermes-agent";
     hermes-agent.inputs.nixpkgs.follows = "nixpkgs";
+    hermes-agent.inputs.flake-parts.follows = "flake-parts";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     home-manager.url = "github:nix-community/home-manager";
     mcp-servers-nix.url = "github:natsukium/mcp-servers-nix";
     mcp-servers-nix.inputs.nixpkgs.follows = "nixpkgs";
     import-tree.url = "github:vic/import-tree";
     impermanence.url = "github:nix-community/impermanence";
+    impermanence.inputs.nixpkgs.follows = "nixpkgs";
+    impermanence.inputs.home-manager.follows = "home-manager";
     nixos-anywhere.inputs.nixpkgs.follows = "nixpkgs";
+    nixos-anywhere.inputs.flake-parts.follows = "flake-parts";
+    nixos-anywhere.inputs.disko.follows = "clan-core/disko";
+    nixos-anywhere.inputs.treefmt-nix.follows = "clan-core/treefmt-nix";
     nixos-anywhere.url = "github:nix-community/nixos-anywhere";
     nixos-facter-modules.url = "github:numtide/nixos-facter-modules";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
@@ -29,6 +36,7 @@
     newt.url = "git+file:///home/collin/newt";
     newt.inputs.nixpkgs.follows = "nixpkgs";
     newt.inputs.flake-parts.follows = "flake-parts";
+    newt.inputs.import-tree.follows = "import-tree";
   };
   outputs =
     inputs@{
