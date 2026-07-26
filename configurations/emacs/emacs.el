@@ -32,11 +32,19 @@
 (global-auto-revert-mode 1)
 
 
-;; Fix packages not found when using tramp
+;; Fix packages not found when using tramp.
+;; tramp-own-remote-path reads the remote login shell's PATH, but on NixOS that
+;; capture is unreliable (noisy zsh login: keychain banner, "can't change option:
+;; zle"), so direnv/nix — which live only in Nix profile dirs, not /bin — go
+;; missing and remote `direnv exec` server launches fail with exit 127. Pin the
+;; stable Nix profile dirs explicitly so direnv (per-user profile) and nix
+;; (system profile) are always on TRAMP's remote PATH.
 (require 'tramp-sh)
 (setq tramp-remote-path
       (append tramp-remote-path
- 	       '(tramp-own-remote-path)))
+ 	       '(tramp-own-remote-path
+ 		 "/run/current-system/sw/bin"
+ 		 "/etc/profiles/per-user/collin/bin")))
 
 ;; Fix flycheck opening on the right
 (add-to-list 'display-buffer-alist
