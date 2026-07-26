@@ -244,6 +244,7 @@
 
     brew.crawl.enable = true;
     brew.tangaria.enable = true;
+    brew.tuicr.enable = true;
 
     home.packages = with pkgs; [
       alejandra

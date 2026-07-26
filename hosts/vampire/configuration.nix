@@ -159,6 +159,8 @@
 
     programs.btop.package = pkgs.btop-cuda;
 
+    brew.tuicr.enable = true;
+
     home.stateVersion = "21.11";
     programs.home-manager.enable = true;
   };
