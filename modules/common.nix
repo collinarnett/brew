@@ -22,6 +22,8 @@
         # Home-manager base setup
         home-manager.useGlobalPkgs = true;
         home-manager.useUserPackages = true;
+        # Back up pre-existing dotfiles HM wants to manage instead of aborting.
+        home-manager.backupFileExtension = "hm-bak";
         home-manager.users.${config.brew.user}.imports = builtins.attrValues (
           inputs.newt.homeManagerModules or { }
         );
