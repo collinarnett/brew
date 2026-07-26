@@ -601,7 +601,31 @@ ein's contents/session queries fail with HTTP 403."
   (add-hook 'find-file-hook #'ein:process-find-file-callback))
 
 ;; haskell
+(defun brew/lsp-haskell-nix-develop-wrapper (argv)
+  "Launch the Haskell language server inside the project's Nix devShell.
+When a flake.nix dominates `default-directory', run ARGV through
+`nix develop <root> --command' so haskell-language-server-wrapper and its
+GHC detection see the full devShell.  Without this, a remote (TRAMP) session
+runs HLS with a bare shell PATH that lacks the devShell's GHC, and the wrapper
+fails with \"Couldn't find a working/matching GHC installation.\"
+
+`nix' is referenced by its absolute system-profile path so the command
+resolves regardless of TRAMP's remote PATH.  On NixOS that PATH lacks the Nix
+profile dirs, and neither `tramp-own-remote-path' (unreliable: noisy zsh login)
+nor envrc fixes it here — envrc's `tramp-get-remote-path' advice actually
+overrides `tramp-remote-path' with a captured devShell path, so pinning dirs
+there has no effect for this launch.  An absolute path sidesteps all of it.
+`file-local-name' strips the TRAMP prefix so the dir arg is valid remotely."
+  (if-let ((root (locate-dominating-file default-directory "flake.nix")))
+      (append (list "/run/current-system/sw/bin/nix" "develop"
+                    (file-local-name (expand-file-name root))
+                    "--command")
+              argv)
+    argv))
+
 (use-package lsp-haskell
+  :custom
+  (lsp-haskell-server-wrapper-function #'brew/lsp-haskell-nix-develop-wrapper)
   :hook
   (haskell-mode . lsp-deferred)
   (haskell-literate-mode . lsp-deferred))
