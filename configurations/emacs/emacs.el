@@ -479,27 +479,35 @@ heading to attach task descriptions."
   :custom (terraform-indent-level 4)
   :hook (terraform-mode . lsp-deferred))
 
-;; scala
+;; scala — https://scalameta.org/metals/docs/editors/emacs
+;; `metals' is provided per-project, not by the OS: add it to the project's Nix
+;; devshell so `metals', the JDK, sbt/mill and scala all come from the same flake.
+;; lsp-metals resolves the server via `executable-find', and envrc makes the
+;; project's devshell binaries buffer-local, so opening a .scala file in a direnv
+;; project Just Works with no per-project Emacs configuration.
+;;
+;; metals server `-J' options are intentionally not set: the nixpkgs metals
+;; wrapper runs `java ... -cp <classpath> Main', so `-J' flags would land after
+;; the main class and be ignored. To set metals.* system properties, add them to
+;; the devshell's metals (e.g. a wrapper) or JAVA_TOOL_OPTIONS there.
 (use-package lsp-metals
   :custom
-  ;; You might set metals server options via -J arguments. This might not always work, for instance when
-  ;; metals is installed using nix. In this case you can use JAVA_TOOL_OPTIONS environment variable.
-  (lsp-metals-server-args '(;; Metals claims to support range formatting by default but it supports range
-                            ;; formatting of multiline strings only. You might want to disable it so that
-                            ;; emacs can use indentation provided by scala-mode.
-                            "-J-Dmetals.allow-multiline-string-formatting=off"
-                            ;; Enable unicode icons. But be warned that emacs might not render unicode
-                            ;; correctly in all cases.
-                            "-J-Dmetals.icons=unicode"))
-  ;; In case you want semantic highlighting. This also has to be enabled in lsp-mode using
-  ;; `lsp-semantic-tokens-enable' variable. Also you might want to disable highlighting of modifiers
-  ;; setting `lsp-semantic-tokens-apply-modifiers' to `nil' because metals sends `abstract' modifier
-  ;; which is mapped to `keyword' face.
+  ;; Semantic highlighting. Requires lsp-mode's semantic tokens to be on; disable
+  ;; modifier faces because metals sends `abstract', which maps to `keyword'.
   (lsp-metals-enable-semantic-highlighting t)
+  (lsp-semantic-tokens-enable t)
+  (lsp-semantic-tokens-apply-modifiers nil)
   :hook (scala-mode . lsp-deferred))
 
 (use-package scala-mode
   :interpreter ("scala" . scala-mode))
+
+;; Drive sbt from within Emacs; Metals uses the same build underneath.
+(use-package sbt-mode
+  :commands (sbt-start sbt-command)
+  :config
+  ;; sbt's supershell TUI breaks sbt-mode's comint buffer; turn it off.
+  (setq sbt:program-options '("-Dsbt.supershell=false")))
 
 ;; python
 (use-package python-mode
