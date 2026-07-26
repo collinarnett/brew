@@ -42,10 +42,20 @@
           position = "0 900";
           bg = "/home/collin/Pictures/purple_swamp.jpg fill";
         };
+        # Any external display on the HDMI port, extended to the right of the
+        # 1440px-wide laptop stack. The scale here is the fallback for a display
+        # that is connected at login; the hdmi-autoscale service below adjusts
+        # it to match the panel's resolution on every hotplug (4K -> 2x).
+        HDMI-A-1 = {
+          position = "1440 0";
+          scale = "1";
+          bg = "/home/collin/Pictures/purple_swamp.jpg fill";
+        };
       };
       focusWorkspace = "9";
-      # Top monitor (DP-3): workspaces 6 7 8 9 10
+      # Top monitor (DP-3): workspaces 8 9 10
       # Bottom monitor (eDP-1): workspaces 1 2 3 4 5
+      # HDMI TV (HDMI-A-1): workspaces 6 7
       # sway maps $mod+0 to "workspace number 10", not "workspace number 0"
       workspaces =
         let
@@ -54,6 +64,9 @@
           };
           bottom = {
             output = "eDP-1";
+          };
+          tv = {
+            output = "HDMI-A-1";
           };
         in
         {
@@ -91,8 +104,8 @@
           "3" = bottom;
           "4" = bottom;
           "5" = bottom;
-          "6" = top;
-          "7" = top;
+          "6" = tv;
+          "7" = tv;
           "8" = top;
           "9" = top // {
             startup = [
@@ -413,6 +426,55 @@
     # Bind it to the graphical session so the applet can start.
     services.blueman-applet.enable = true;
     systemd.user.targets.tray.Install.WantedBy = [ "graphical-session.target" ];
+
+    # Scale the HDMI output to match whatever panel is plugged in. Sway keys
+    # output config by connector name, so a static scale cannot serve both a 4K
+    # display (wants 2x) and a 1080p one (wants 1x) on the same port. This
+    # watches sway's output events and picks the scale from the live resolution,
+    # so any monitor or TV gets a sensible size on hotplug without per-panel config.
+    systemd.user.services.hdmi-autoscale = {
+      Unit = {
+        Description = "Scale the HDMI output to match the connected panel's resolution";
+        PartOf = [ "graphical-session.target" ];
+        After = [ "graphical-session.target" ];
+      };
+      Service = {
+        ExecStart = "${
+          pkgs.writeShellApplication {
+            name = "hdmi-autoscale";
+            runtimeInputs = with pkgs; [
+              sway
+              jq
+            ];
+            text = ''
+              apply() {
+                local w h s want cur
+                read -r w h s < <(
+                  swaymsg -t get_outputs \
+                    | jq -r '.[] | select(.name == "HDMI-A-1" and .active) | "\(.current_mode.width) \(.current_mode.height) \(.scale)"'
+                ) || true
+                [ -n "''${w:-}" ] || return 0
+                if [ "$w" -ge 3840 ] || [ "$h" -ge 2160 ]; then
+                  want=2
+                else
+                  want=1
+                fi
+                cur=$(printf '%.0f' "$s")
+                [ "$cur" = "$want" ] || swaymsg output HDMI-A-1 scale "$want"
+              }
+
+              apply
+              swaymsg -t subscribe -m '["output"]' | while read -r _; do
+                apply
+              done
+            '';
+          }
+        }/bin/hdmi-autoscale";
+        Restart = "on-failure";
+        RestartSec = 2;
+      };
+      Install.WantedBy = [ "sway-session.target" ];
+    };
 
     home.stateVersion = "21.11";
     programs.home-manager.enable = true;
