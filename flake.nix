@@ -33,6 +33,8 @@
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     nixpkgs-prometheus.url = "github:collinarnett/nixpkgs/dcgm-prometheus-exporter";
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nix-topology.url = "github:oddlama/nix-topology";
+    nix-topology.inputs.nixpkgs.follows = "nixpkgs";
     newt.url = "git+file:///home/collin/newt";
     newt.inputs.nixpkgs.follows = "nixpkgs";
     newt.inputs.flake-parts.follows = "flake-parts";
