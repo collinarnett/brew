@@ -13,6 +13,25 @@ inputs: final: prev: {
     ];
   });
 
+  # pip-chill 1.0.3 imports pkg_resources at runtime, which setuptools 82
+  # (python 3.14) no longer ships, breaking calibre-web via its
+  # scholarly -> free-proxy -> pip-chill dependency chain. Mirrors nixpkgs
+  # PR #542718, which bumps to the upstream commit that drops pkg_resources;
+  # the fixed release is not tagged in the git repo, hence the bare commit.
+  # Drop once that PR is merged and nixpkgs is past it.
+  pythonPackagesExtensions = prev.pythonPackagesExtensions ++ [
+    (python-final: python-prev: {
+      pip-chill = python-prev.pip-chill.overrideAttrs (old: {
+        src = prev.fetchFromGitHub {
+          owner = "rbanffy";
+          repo = "pip-chill";
+          rev = "e978cc0a0ced8cce685db92fcf4f5ab3fca6f21e";
+          hash = "sha256-Sn7BfNnslLaVcCJsEMgZaOubD4YfkuO6VhX7aS+7yxg=";
+        };
+      });
+    })
+  ];
+
   openjdk25-wakefield = prev.openjdk25.overrideAttrs (old: {
     pname = "openjdk-wakefield";
     version = "25.0.2";
