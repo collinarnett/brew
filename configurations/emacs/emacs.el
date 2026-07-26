@@ -525,6 +525,60 @@ heading to attach task descriptions."
 (use-package python-pytest)
 
 ;; jupyter notebooks
+(defvar brew/ein-server-tokens (make-hash-table :test #'equal)
+  "Jupyter server auth token keyed by \"host:port\".
+Cribbed from `jupyter server list --json' so requests can carry an
+Authorization header instead of relying on ein's curl cookie jar,
+which concurrent requests corrupt (ein's own ein:query-xsrf-cache
+docstring concedes the race).")
+
+(defun brew/ein-server-token-key (url)
+  "Return the `brew/ein-server-tokens' key for URL."
+  (let ((parsed (url-generic-parse-url url)))
+    (format "%s:%s" (url-host parsed) (url-port parsed))))
+
+(defun brew/ein-process-refresh-processes ()
+  "Populate `ein:%processes%' from `jupyter server list --json'.
+Replacement for `ein:process-refresh-processes': jupyter-server 2.x
+renamed the notebook_dir field to root_dir, and ein (sunset upstream)
+still reads notebook_dir only, crashing with \(wrong-type-argument
+stringp nil) on every open while a server is already running.
+Also stashes each server's token in `brew/ein-server-tokens'."
+  (clrhash ein:%processes%)
+  (cl-loop for line in (condition-case err
+                           (apply #'process-lines
+                                  ein:jupyter-server-command
+                                  (append (split-string (or ein:jupyter-server-use-subcommand ""))
+                                          '("list" "--json")))
+                         (error (ein:log 'info "ein:process-refresh-processes: %s" err) nil))
+           do (cl-destructuring-bind
+                  (&key pid url root_dir notebook_dir token &allow-other-keys)
+                  (ein:json-read-from-string line)
+                (when-let* ((dir (or root_dir notebook_dir)))
+                  (when (and (stringp token) (not (string-empty-p token)))
+                    (puthash (brew/ein-server-token-key (ein:url url))
+                             token brew/ein-server-tokens))
+                  (puthash (directory-file-name dir)
+                           (make-ein:$process :pid pid
+                                              :url (ein:url url)
+                                              :dir (directory-file-name dir))
+                           ein:%processes%)))))
+
+(defun brew/ein-query-token-auth (fn url settings &optional securep)
+  "Add an Authorization token header to ein REST calls when known.
+Token-authenticated requests are exempt from jupyter's cookie and
+XSRF checks, so they survive the cookie-jar corruption that makes
+ein's contents/session queries fail with HTTP 403."
+  (let ((settings (funcall fn url settings securep)))
+    (when-let* ((token (gethash (brew/ein-server-token-key url)
+                                brew/ein-server-tokens))
+                ((not (assoc "Authorization" (plist-get settings :headers)))))
+      (setq settings
+            (plist-put settings :headers
+                       (cons (cons "Authorization" (format "token %s" token))
+                             (plist-get settings :headers)))))
+    settings))
+
 (use-package ein
   :mode ("\\.ipynb\\'" . ein:ipynb-mode)
   :commands (ein:run ein:login)
@@ -532,6 +586,10 @@ heading to attach task descriptions."
   (ein:jupyter-default-kernel "python3")
   (ein:jupyter-server-use-subcommand "server")
   :config
+  (advice-add 'ein:process-refresh-processes :override
+              #'brew/ein-process-refresh-processes)
+  (advice-add 'ein:query-prepare-header :around
+              #'brew/ein-query-token-auth)
   (dolist (fn '(ein:process-open-notebook
                 ein:process-refresh-processes
                 ein:jupyter-server-start
