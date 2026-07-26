@@ -132,6 +132,26 @@ in
         http.services.jellyfin.loadBalancer.servers = mkIf cfg.jellyfin.enable [
           { url = "http://127.0.0.1:8096"; }
         ];
+
+        # rqbit serves its web UI under /web/; the API lives at the root, so
+        # send a bare visit to the UI rather than the raw JSON endpoint listing.
+        http.middlewares.rqbit-web.redirectregex = mkIf cfg.rqbit.enable {
+          regex = "^https://torrents\\.trexd\\.dev/?$";
+          replacement = "https://torrents.trexd.dev/web/";
+        };
+        http.routers.rqbit = mkIf cfg.rqbit.enable {
+          rule = "Host(`torrents.trexd.dev`)";
+          entryPoints = [ "websecure" ];
+          tls.certResolver = "letsencrypt";
+          service = "rqbit";
+          middlewares = [
+            "authelia"
+            "rqbit-web"
+          ];
+        };
+        http.services.rqbit.loadBalancer.servers = mkIf cfg.rqbit.enable [
+          { url = "http://127.0.0.1:3030"; }
+        ];
       };
     };
 

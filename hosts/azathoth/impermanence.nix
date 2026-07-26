@@ -54,6 +54,14 @@
         group = "hermes";
         mode = "0700";
       }
+      # rqbit session state and downloads. Reconstructible (re-downloadable),
+      # so it lives here rather than the backed-up /persist/save tier.
+      {
+        directory = "/var/lib/rqbit";
+        user = "rqbit";
+        group = "multimedia";
+        mode = "0750";
+      }
       {
         directory = "/var/lib/postgresql";
         user = "postgres";

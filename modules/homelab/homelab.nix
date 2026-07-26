@@ -21,6 +21,7 @@
         ./_calibre-web.nix
         ./_grocy.nix
         ./_jellyfin.nix
+        ./_rqbit.nix
         ./_searx.nix
         ./_traefik.nix
       ];
@@ -56,6 +57,14 @@
           type = types.submodule {
             options = {
               enable = mkEnableOption "jellyfin";
+            };
+          };
+        };
+        rqbit = mkOption {
+          default = { };
+          type = types.submodule {
+            options = {
+              enable = mkEnableOption "rqbit";
             };
           };
         };
