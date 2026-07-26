@@ -146,7 +146,7 @@
       git
       hunspellDicts.en_US
       nixd
-      nixfmt-classic
+      nixfmt
       nodejs
       noto-fonts-color-emoji
       ripgrep
