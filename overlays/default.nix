@@ -2,6 +2,17 @@ inputs: final: prev: {
   clan-cli = inputs.clan-core.packages.${prev.stdenv.hostPlatform.system}.clan-cli;
   hell = inputs.hell.packages.${prev.stdenv.hostPlatform.system}.default;
 
+  # calibre-web's runtime deps check rejects the certifi and chardet versions
+  # now shipped by nixpkgs, which exceed its declared upper bounds. Mirrors
+  # nixpkgs commit f1bed4e0d2d0 ("calibre-web: relax python deps"), already on
+  # master but not yet in nixos-unstable. Drop once the channel includes it.
+  calibre-web = prev.calibre-web.overrideAttrs (old: {
+    pythonRelaxDeps = old.pythonRelaxDeps ++ [
+      "certifi"
+      "chardet"
+    ];
+  });
+
   openjdk25-wakefield = prev.openjdk25.overrideAttrs (old: {
     pname = "openjdk-wakefield";
     version = "25.0.2";
@@ -71,6 +82,7 @@ inputs: final: prev: {
   leiningen = prev.leiningen.override {
     jdk = final.openjdk25-wakefield;
   };
+
   emacs = prev.emacsWithPackagesFromUsePackage {
     config = builtins.toFile "emacs-config.el" (
       builtins.readFile ../configurations/emacs/emacs.el
