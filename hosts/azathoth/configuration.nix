@@ -185,6 +185,7 @@
     openssh.authorizedKeys.keyFiles = [
       ../../secrets/keys/collinarnett.pub
       ../../secrets/keys/ghoul.pub
+      ../../secrets/keys/android.pub
     ];
   };
 
