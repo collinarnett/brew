@@ -41,6 +41,7 @@
       options.brew.desktop.enable = lib.mkEnableOption "desktop profile";
       config = lib.mkIf cfg.enable {
         brew = {
+          anki.enable = true;
           gtk.enable = true;
           kitty.enable = true;
           mako.enable = true;
@@ -49,7 +50,6 @@
           zathura.enable = true;
         };
         home.packages = with pkgs; [
-          anki-bin
           drawio
           inlyne
           libreoffice
