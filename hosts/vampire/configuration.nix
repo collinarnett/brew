@@ -106,7 +106,6 @@
   # ── Programs ──────────────────────────────────────────────────────
 
   programs.ssh.setXAuthLocation = true;
-  programs.tmux.enable = true;
 
   # ── Nix Settings ──────────────────────────────────────────────────
 

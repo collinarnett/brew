@@ -218,7 +218,6 @@
   # ── Programs & Packages ───────────────────────────────────────────
 
   programs.obs-studio.enable = true;
-  programs.tmux.enable = true;
   programs.nh = {
     enable = true;
     clean.enable = true;

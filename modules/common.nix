@@ -75,6 +75,9 @@
         # works without `kitty +kitten ssh` pushing it over the wire.
         environment.enableAllTerminfo = true;
 
+        # Persistent terminal sessions for reattaching over SSH.
+        programs.tmux.enable = true;
+
         # NixOS-level enables for mixed modules
         brew.keychain.enable = true;
 
