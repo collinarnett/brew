@@ -265,7 +265,9 @@
       iommu-groups
       jq
       languagetool
-      leiningen
+      # TEMP: openjdk25-wakefield (its JDK) fails a /build/-reference check under
+      # nixpkgs 26.11; re-enable once overlays/default.nix openjdk override is fixed.
+      # leiningen
       nixd
       nix-output-monitor
       nix-tree
