@@ -630,11 +630,21 @@ there has no effect for this launch.  An absolute path sidesteps all of it.
   (haskell-mode . lsp-deferred)
   (haskell-literate-mode . lsp-deferred))
 
+;; `evil-shift-width' (used by the < / > operators) and `tab-width' are
+;; buffer-local and default to 4 and 8, with no built-in link to a major mode's
+;; indentation.  The active engine here is haskell-indentation-mode, which
+;; indents by `haskell-indentation-left-offset' (2); mirror that into both so
+;; visual-mode shifting and tab display stay in step with automatic indentation.
+;; This lives in a hook rather than :config/:custom because those set global
+;; values once at load, whereas these variables must be set per buffer.
+(defun brew/haskell-sync-indent-widths ()
+  (setq-local evil-shift-width haskell-indentation-left-offset
+              tab-width haskell-indentation-left-offset))
+
 (use-package haskell-mode
-  :config
-  (setq haskell-indent-offset 2)
   :hook
   (haskell-mode . interactive-haskell-mode)
+  (haskell-mode . brew/haskell-sync-indent-widths)
   :mode "\\.hs\\'")
 
 (use-package reformatter)
