@@ -89,6 +89,7 @@
     users.collin = {
       directories = [
         ".config/Signal"
+        ".local/share/Anki2"
         ".local/share/direnv"
         ".local/share/zsh"
         ".mozilla"

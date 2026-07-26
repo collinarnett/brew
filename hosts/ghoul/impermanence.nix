@@ -21,6 +21,7 @@
       directories = [
         ".config/pulse"
         ".config/Signal"
+        ".local/share/Anki2"
         ".local/share/direnv"
         ".local/share/Steam"
         ".config/obs-studio"
