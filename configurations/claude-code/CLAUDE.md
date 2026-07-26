@@ -13,6 +13,9 @@ When the user corrects your approach, apply the fix to ALL affected locations ac
 ## No Shortcuts
 No blanket ruff ignores, no `type: ignore` comments, no `or []` defaults to silence errors. Read project config files (`pyproject.toml`, `flake.nix`, etc.) before proposing solutions. This rule persists under pressure — when a build fails, a hardening directive misbehaves, or a CLI seems to need a TTY, fix it at the right layer (correct option type, real flag, documented helper). Do not invent workarounds, hand-install files into system dirs, `bash -lc` PATH tricks, `script -qc` TTY shims, or any other "just to make it work" hack. When the proper path isn't obvious, look it up (NixOS manual, home-manager options, upstream source) or ask.
 
+## Never Hot-Reload the Running Emacs
+Never load new or changed elisp into the user's running emacs daemon — no `emacsclient -e '(load ...)'`, no re-evaluating defuns, no adding advice at runtime. Apply emacs config changes by editing `configurations/emacs/emacs.el` in brew and deploying with `clan machines update <host>`; verify through the deploy. Read-only emacsclient queries for diagnosis are fine.
+
 ## Prefer MCP Tools Over Shelling Out
 When an MCP tool is available for the operation (clan, git, github, nixos, etc.), use it via the tool call interface rather than invoking the CLI through Bash. Shell out only when there is no MCP equivalent (systemctl, emacsclient, arbitrary scripts). Loading the MCP tool via ToolSearch and calling it is the preferred path — not `Bash("clan machines update ...")`, `Bash("gh pr view ...")`, or similar when the MCP server already exposes the operation.
 
