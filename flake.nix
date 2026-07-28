@@ -95,15 +95,26 @@
             };
             yggdrasil = {
               roles.default.tags.all = { };
-              roles.default.settings.extraPeers = [
-                "tls://ygg.jjolly.dev:3443"
-                "tls://mo.us.ygg.triplebit.org:993"
+              # Direct LAN peering; UDP 9001 + TCP 5400 opened in host firewall.
+              roles.default.machines.azathoth.settings.multicastInterfaces = [
+                {
+                  Regex = "eno2";
+                  Beacon = true;
+                  Listen = true;
+                  Port = 5400;
+                  Priority = 0;
+                }
               ];
-            };
-
-            internet = {
-              roles.default.machines.azathoth.settings = {
-                host = "trexd.dev";
+              roles.default.settings = {
+                extraPeers = [
+                  "tls://mo.us.ygg.triplebit.org:993"
+                  "tls://mn.us.ygg.triplebit.org:993"
+                  "tls://ygg-pa.incognet.io:8884"
+                ];
+                extraYggdrasilIPs = [
+                  # Phone
+                  "201:746b:a9c:402a:6a45:a9fe:ab4c:9ffa"
+                ];
               };
             };
           };

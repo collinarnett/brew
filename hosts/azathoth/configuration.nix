@@ -150,6 +150,11 @@
   networking = {
     hostName = "azathoth";
     hostId = "20556d4b";
+    firewall = {
+      # Yggdrasil LAN multicast: beacons UDP 9001, peering listener TCP 5400.
+      allowedUDPPorts = [ 9001 ];
+      allowedTCPPorts = [ 5400 ];
+    };
     nameservers = [
       "1.1.1.1"
       "9.9.9.9"
