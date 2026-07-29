@@ -62,6 +62,16 @@
         group = "multimedia";
         mode = "0750";
       }
+      # Seeded repositories are replicas of working copies that live in the
+      # backed-up /persist/save tier, so the seed store is reconstructible.
+      # If radicle issues/patches become the source of truth for a project,
+      # move this to /persist/save and add a restic backup.
+      {
+        directory = "/var/lib/radicle";
+        user = "radicle";
+        group = "radicle";
+        mode = "0750";
+      }
       {
         directory = "/var/lib/postgresql";
         user = "postgres";
@@ -106,6 +116,7 @@
         ".claude"
         ".codex"
         ".crawl"
+        ".radicle"
         ".config/obs-studio"
         {
           directory = ".gnupg";

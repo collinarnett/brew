@@ -37,6 +37,7 @@
         "projects"
         "work_projects"
         ".claude"
+        ".radicle"
         {
           directory = ".gnupg";
           mode = "0700";

@@ -21,6 +21,7 @@
         ./_calibre-web.nix
         ./_grocy.nix
         ./_jellyfin.nix
+        ./_radicle.nix
         ./_rqbit.nix
         ./_searx.nix
         ./_traefik.nix
@@ -57,6 +58,32 @@
           type = types.submodule {
             options = {
               enable = mkEnableOption "jellyfin";
+            };
+          };
+        };
+        radicle = mkOption {
+          default = { };
+          type = types.submodule {
+            options = {
+              enable = mkEnableOption "radicle";
+              follow = mkOption {
+                type = types.listOf types.str;
+                default = [ ];
+                example = [ "did:key:z6MkjE3BSJn4Y129rhqi5rViSUru8KSBcCQdQcDZq1cnjumw" ];
+                description = ''
+                  DIDs to follow. The seed accepts and periodically
+                  auto-seeds every repository these identities publish.
+                '';
+              };
+              seedRepositories = mkOption {
+                type = types.listOf types.str;
+                default = [ ];
+                example = [ "rad:z3gqcJUoA1n9HaHKufZs5FCSGazv5" ];
+                description = ''
+                  Repository IDs to seed unconditionally and pin in the
+                  web UI.
+                '';
+              };
             };
           };
         };

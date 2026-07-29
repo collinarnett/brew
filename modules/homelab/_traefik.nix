@@ -133,6 +133,29 @@ in
           { url = "http://127.0.0.1:8096"; }
         ];
 
+        # No Authelia on either radicle router: radicle-httpd is a read-only
+        # API by design, and git/rad clients hitting /api and /raw cannot
+        # carry an Authelia session cookie.
+        http.routers.radicle = mkIf cfg.radicle.enable {
+          rule = "Host(`garden.trexd.dev`)";
+          entryPoints = [ "websecure" ];
+          tls.certResolver = "letsencrypt";
+          service = "radicle";
+        };
+        http.services.radicle.loadBalancer.servers = mkIf cfg.radicle.enable [
+          { url = "http://127.0.0.1:8779"; }
+        ];
+        http.routers.radicle-api = mkIf cfg.radicle.enable {
+          rule = "Host(`garden.trexd.dev`) && (PathPrefix(`/api`) || PathPrefix(`/raw`))";
+          entryPoints = [ "websecure" ];
+          tls.certResolver = "letsencrypt";
+          service = "radicle-api";
+          priority = 100;
+        };
+        http.services.radicle-api.loadBalancer.servers = mkIf cfg.radicle.enable [
+          { url = "http://127.0.0.1:8778"; }
+        ];
+
         # rqbit serves its web UI under /web/; the API lives at the root, so
         # send a bare visit to the UI rather than the raw JSON endpoint listing.
         http.middlewares.rqbit-web.redirectregex = mkIf cfg.rqbit.enable {

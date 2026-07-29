@@ -403,6 +403,8 @@
       GPG_TTY = "$(tty)";
     };
 
+    brew.radicle.enable = true;
+
     home.packages = with pkgs; [
       bluetui
 

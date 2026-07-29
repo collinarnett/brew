@@ -66,6 +66,14 @@
       calibre-web.enable = true;
       grocy.enable = true;
       rqbit.enable = true;
+      radicle = {
+        enable = true;
+        follow = [
+          "did:key:z6MktbGDs1j1jKPXaTjvYawu2WFcCbtQQehxqa7gp6HGcdgn" # azathoth
+          "did:key:z6MkfySG4RjARTz3owuuaF8mQfe9NJsGSz32omfKn1QCcp2E" # ghoul
+          "did:key:z6MknS6p3YArG8sBcnSKAdS3GRMt2n3BqG2uQpVxrypq7mGg" # vampire
+        ];
+      };
     };
 
     keychain = {
@@ -250,6 +258,7 @@
     };
 
     brew.crawl.enable = true;
+    brew.radicle.enable = true;
     brew.tangaria.enable = true;
     brew.tuicr.enable = true;
 
