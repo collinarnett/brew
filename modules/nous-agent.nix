@@ -1,9 +1,22 @@
 { inputs, ... }:
 {
   flake.modules.nixos.nous-agent =
-    { config, lib, ... }:
+    {
+      config,
+      lib,
+      pkgs,
+      ...
+    }:
     let
       cfg = config.brew.nous-agent;
+      # Official Dracula skin for the Hermes skin engine
+      # (https://draculatheme.com/hermes-agent).
+      draculaSkin = pkgs.fetchFromGitHub {
+        owner = "dracula";
+        repo = "hermes-agent";
+        rev = "647446f667e78b8a178d0a23cd453470ba88f997";
+        hash = "sha256-RKtZxCOy7BZFGRKen72rBu0lD604bid+IHXzKHHcjTM=";
+      };
     in
     {
       imports = [ inputs.hermes-agent.nixosModules.default ];
@@ -62,7 +75,20 @@
             base_url = "http://${cfg.modelHost}:${toString cfg.modelPort}/v1";
             context_length = cfg.contextLength;
           };
+          settings.display.skin = "dracula";
         };
+
+        # The skin engine only loads skins from $HERMES_HOME/skins, which the
+        # upstream module fixes at <stateDir>/.hermes; link the store-pinned
+        # skin there.
+        systemd.tmpfiles.rules =
+          let
+            hcfg = config.services.hermes-agent;
+          in
+          [
+            "d ${hcfg.stateDir}/.hermes/skins 0750 ${hcfg.user} ${hcfg.group} -"
+            "L+ ${hcfg.stateDir}/.hermes/skins/dracula.yaml - - - - ${draculaSkin}/dracula.yaml"
+          ];
 
         users.users = lib.genAttrs cfg.users (_: {
           extraGroups = [ config.services.hermes-agent.group ];
