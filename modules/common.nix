@@ -73,8 +73,8 @@
         # Stable machine-id across reboots (managed by clan vars)
         clan.core.settings.machine-id.enable = true;
 
-        # Ship terminfo (including xterm-kitty) so SSHing in from kitty
-        # works without `kitty +kitten ssh` pushing it over the wire.
+        # Ship terminfo (including xterm-ghostty) so SSHing in from ghostty
+        # works without unknown-terminal errors on the remote host.
         environment.enableAllTerminfo = true;
 
         # Persistent terminal sessions for reattaching over SSH.

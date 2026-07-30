@@ -44,7 +44,6 @@
           anki.enable = true;
           ghostty.enable = true;
           gtk.enable = true;
-          kitty.enable = true;
           mako.enable = true;
           wofi.enable = true;
           xdg-mime.enable = true;

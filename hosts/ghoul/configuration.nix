@@ -110,8 +110,8 @@
           "9" = top // {
             startup = [
               {
-                command = "kitty";
-                waitFor = "kitty";
+                command = "ghostty";
+                waitFor = "ghostty";
               }
             ];
           };

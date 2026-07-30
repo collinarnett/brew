@@ -14,7 +14,7 @@ let
       terminal = lib.mkOption {
         type = lib.types.bool;
         default = false;
-        description = "Wrap command in kitty terminal";
+        description = "Wrap command in ghostty terminal";
       };
       requiresInternet = lib.mkOption {
         type = lib.types.bool;
@@ -128,10 +128,12 @@ in
       # Derive workspaceOutputAssign from workspaces
       workspaceOutputAssign = lib.pipe cfg.workspaces [
         (lib.filterAttrs (_: ws: ws.output != null))
-        (lib.mapAttrsToList (name: ws: {
-          workspace = name;
-          output = ws.output;
-        }))
+        (lib.mapAttrsToList (
+          name: ws: {
+            workspace = name;
+            output = ws.output;
+          }
+        ))
       ];
 
       # Derive assigns from workspaces
@@ -143,21 +145,23 @@ in
       # Collect workspaces with startup apps, sorted by name
       startupWorkspaces = lib.pipe cfg.workspaces [
         (lib.filterAttrs (_: ws: ws.startup != [ ]))
-        (lib.mapAttrsToList (name: ws: {
-          inherit name;
-          inherit (ws) startup;
-        }))
+        (lib.mapAttrsToList (
+          name: ws: {
+            inherit name;
+            inherit (ws) startup;
+          }
+        ))
         (lib.sort (a: b: a.name < b.name))
       ];
 
-      hasInternetApps = lib.any
-        (ws: lib.any (app: app.requiresInternet) ws.startup)
-        (lib.attrValues cfg.workspaces);
+      hasInternetApps = lib.any (ws: lib.any (app: app.requiresInternet) ws.startup) (
+        lib.attrValues cfg.workspaces
+      );
 
       swaymsg = "${pkgs.sway}/bin/swaymsg";
       jq = "${pkgs.jq}/bin/jq";
       ping = "${pkgs.iputils}/bin/ping";
-      kitty = "${pkgs.kitty}/bin/kitty";
+      ghostty = "${pkgs.ghostty}/bin/ghostty";
       wpctl = "${pkgs.wireplumber}/bin/wpctl";
       playerctl = "${pkgs.playerctl}/bin/playerctl";
 
@@ -194,13 +198,10 @@ in
         echo "$CON_ID"
       '';
 
-      mkLaunchBlock = wsName: app:
+      mkLaunchBlock =
+        wsName: app:
         let
-          cmd =
-            if app.terminal then
-              "${kitty} sh -c '${app.command}; exec $SHELL'"
-            else
-              app.command;
+          cmd = if app.terminal then "${ghostty} -e sh -c '${app.command}; exec $SHELL'" else app.command;
         in
         ''
           # Workspace ${wsName}: ${app.command}
@@ -287,9 +288,7 @@ in
           # Launch startup apps
         ''
         + lib.concatStringsSep "\n" (
-          lib.concatMap (
-            wsInfo: map (mkLaunchBlock wsInfo.name) wsInfo.startup
-          ) startupWorkspaces
+          lib.concatMap (wsInfo: map (mkLaunchBlock wsInfo.name) wsInfo.startup) startupWorkspaces
         )
         + ''
 
@@ -325,7 +324,7 @@ in
           wrapperFeatures.base = true;
           systemd.variables = [ "--all" ];
           config = {
-            terminal = "kitty";
+            terminal = "ghostty";
             output = cfg.outputs;
             modifier = cfg.modifier;
             bars = [ { command = "${pkgs.waybar}/bin/waybar"; } ];
@@ -373,18 +372,17 @@ in
             window.titlebar = false;
             menu = "${pkgs.wofi}/bin/wofi";
           };
-          extraConfig =
-            ''
-              set $mod ${cfg.modifier}
-              bindsym --locked XF86AudioRaiseVolume exec ${wpctl} set-volume @DEFAULT_AUDIO_SINK@ 5%+ -l 1.0
-              bindsym --locked XF86AudioLowerVolume exec ${wpctl} set-volume @DEFAULT_AUDIO_SINK@ 5%-
-              bindsym --locked XF86AudioMute exec ${wpctl} set-mute @DEFAULT_AUDIO_SINK@ toggle
-              bindsym --locked XF86AudioPlay exec ${playerctl} play-pause
-              bindsym --locked XF86AudioNext exec ${playerctl} next
-              bindsym --locked XF86AudioPrev exec ${playerctl} previous
-              bindsym $mod+p exec ${pkgs.grim}/bin/grim -g "$(${pkgs.slurp}/bin/slurp -d)" - | ${pkgs.wl-clipboard}/bin/wl-copy -t image/png
-            ''
-            + cfg.extraConfig;
+          extraConfig = ''
+            set $mod ${cfg.modifier}
+            bindsym --locked XF86AudioRaiseVolume exec ${wpctl} set-volume @DEFAULT_AUDIO_SINK@ 5%+ -l 1.0
+            bindsym --locked XF86AudioLowerVolume exec ${wpctl} set-volume @DEFAULT_AUDIO_SINK@ 5%-
+            bindsym --locked XF86AudioMute exec ${wpctl} set-mute @DEFAULT_AUDIO_SINK@ toggle
+            bindsym --locked XF86AudioPlay exec ${playerctl} play-pause
+            bindsym --locked XF86AudioNext exec ${playerctl} next
+            bindsym --locked XF86AudioPrev exec ${playerctl} previous
+            bindsym $mod+p exec ${pkgs.grim}/bin/grim -g "$(${pkgs.slurp}/bin/slurp -d)" - | ${pkgs.wl-clipboard}/bin/wl-copy -t image/png
+          ''
+          + cfg.extraConfig;
         };
         services.playerctld.enable = true;
         services.mpris-proxy.enable = true;
