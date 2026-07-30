@@ -20,6 +20,7 @@
         ./_authelia.nix
         ./_calibre-web.nix
         ./_grocy.nix
+        ./_homepage.nix
         ./_jellyfin.nix
         ./_radicle.nix
         ./_rqbit.nix
@@ -50,6 +51,14 @@
           type = types.submodule {
             options = {
               enable = mkEnableOption "calibre-web";
+            };
+          };
+        };
+        homepage = mkOption {
+          default = { };
+          type = types.submodule {
+            options = {
+              enable = mkEnableOption "homepage";
             };
           };
         };

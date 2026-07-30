@@ -65,6 +65,7 @@
       jellyfin.enable = true;
       calibre-web.enable = true;
       grocy.enable = true;
+      homepage.enable = true;
       rqbit.enable = true;
       radicle = {
         enable = true;

@@ -118,6 +118,17 @@ in
           { url = "http://127.0.0.1:8099"; }
         ];
 
+        http.routers.homepage = mkIf cfg.homepage.enable {
+          rule = "Host(`home.trexd.dev`)";
+          entryPoints = [ "websecure" ];
+          tls.certResolver = "letsencrypt";
+          service = "homepage";
+          middlewares = "authelia";
+        };
+        http.services.homepage.loadBalancer.servers = mkIf cfg.homepage.enable [
+          { url = "http://127.0.0.1:8082"; }
+        ];
+
         # Auth handled inside Jellyfin by jellyfin-plugin-sso (OIDC against Authelia).
         # Every Jellyfin user is pinned to AuthenticationProviderId =
         # Jellyfin.Plugin.SSO_Auth.Api.SSOController, so password login is dead
