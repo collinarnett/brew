@@ -4,8 +4,13 @@
   ...
 }:
 let
-  inherit (lib) mkIf;
+  inherit (lib) mkIf optional;
   cfg = config.brew.homelab;
+  # Guarded on .exists to break the bootstrap cycle: enumerating generators
+  # for `clan vars generate` evaluates this module before the digest file
+  # has been generated.
+  kavitaOidcDigest =
+    config.clan.core.vars.generators.kavita_oidc_client_secret.files.kavita_oidc_client_secret_digest;
 in
 {
   config = mkIf (cfg.enable && cfg.authelia.enable) {
@@ -43,8 +48,8 @@ in
             };
           };
           identity_providers.oidc = {
-            clients = mkIf cfg.jellyfin.enable [
-              {
+            clients =
+              optional cfg.jellyfin.enable {
                 client_id = "jellyfin";
                 client_name = "Jellyfin";
                 client_secret = "$pbkdf2-sha512$310000$YTPOIu.8sypt1DNtvPDj2Q$JPUVH7/9lnMOPrfQnzveXnA3e46uSBG3bw4j8I84COOJNCf1CKr8wJ/VKw/kgk1V2lULxUixiK9y4iFDPSIiPA";
@@ -60,7 +65,24 @@ in
                   "groups"
                 ];
               }
-            ];
+              ++ optional (cfg.kavita.enable && kavitaOidcDigest.exists) {
+                client_id = "kavita";
+                client_name = "Kavita";
+                client_secret = kavitaOidcDigest.value;
+                authorization_policy = "two_factor";
+                # ASP.NET Core's OpenIdConnect handler posts the client
+                # secret in the token request body
+                token_endpoint_auth_method = "client_secret_post";
+                redirect_uris = [
+                  "https://books.trexd.dev/signin-oidc"
+                ];
+                scopes = [
+                  "openid"
+                  "profile"
+                  "email"
+                  "groups"
+                ];
+              };
           };
           access_control = {
             default_policy = "deny";
