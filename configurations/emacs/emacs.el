@@ -107,6 +107,23 @@
     (display-line-numbers-mode -1))
   (add-hook 'eat-mode-hook #'my/eat-fix-fringes-h))
 
+;; ghostel terminal (libghostty-vt); nixpkgs builds the native module from
+;; source, shadowing the MELPA prebuilt-binary download.
+(declare-function ghostel--redraw-now "ghostel")
+(use-package ghostel :ensure t
+  :bind
+  (("C-c g" . ghostel)
+   :map project-prefix-map
+   ("m" . ghostel-project)
+   ("M" . ghostel-project-list-buffers))
+  :config
+  (require 'ghostel)
+  (add-to-list 'project-switch-commands '(ghostel-project "Ghostel") t))
+
+(use-package evil-ghostel :ensure t
+  :after (ghostel evil)
+  :hook (ghostel-mode . evil-ghostel-mode))
+
 ;; install claude-code.el
 (use-package claude-code :ensure t
   :after (eat monet)
@@ -915,8 +932,14 @@ there has no effect for this launch.  An absolute path sidesteps all of it.
 (use-package reformatter
   :hook (python-mode . ruff-format-on-save-mode)
   :config
+  ;; ruff resolves pyproject.toml by walking up from --stdin-filename.
+  ;; reformatter's default input file is a temp path under /tmp, where ruff
+  ;; finds no config and falls back to its built-in line-length of 88. Pass the
+  ;; buffer's own path so the project's line-length applies. Content still
+  ;; arrives on stdin; --stdin-filename only steers config discovery.
   (reformatter-define ruff-format :program "ruff"
-    :args (list "format" "--stdin-filename" input-file "-")))
+    :args (list "format" "--stdin-filename"
+                (or buffer-file-name "stdin.py") "-")))
 
 ;; Custom Functions
 
