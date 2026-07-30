@@ -31,9 +31,9 @@
         mode = "0700";
       }
       {
-        directory = "/var/lib/calibre-web";
-        user = "calibre-web";
-        group = "calibre-web";
+        directory = "/var/lib/kavita";
+        user = "kavita";
+        group = "kavita";
         mode = "0700";
       }
       {

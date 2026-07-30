@@ -22,12 +22,12 @@ let
         siteMonitor = "http://127.0.0.1:8096";
       };
     }
-    ++ optional cfg.calibre-web.enable {
-      Calibre-Web = {
+    ++ optional cfg.kavita.enable {
+      Kavita = {
         href = "https://books.trexd.dev";
-        icon = "calibre-web.png";
-        description = "Ebook library";
-        siteMonitor = "http://127.0.0.1:8083";
+        icon = "kavita.png";
+        description = "Ebook library and reader";
+        siteMonitor = "http://127.0.0.1:5001";
       };
     }
     ++ optional cfg.rqbit.enable {

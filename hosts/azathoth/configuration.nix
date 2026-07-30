@@ -63,7 +63,7 @@
       traefik.enable = true;
       authelia.enable = true;
       jellyfin.enable = true;
-      calibre-web.enable = true;
+      kavita.enable = true;
       grocy.enable = true;
       homepage.enable = true;
       rqbit.enable = true;

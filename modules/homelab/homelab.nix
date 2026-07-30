@@ -18,10 +18,10 @@
     {
       imports = [
         ./_authelia.nix
-        ./_calibre-web.nix
         ./_grocy.nix
         ./_homepage.nix
         ./_jellyfin.nix
+        ./_kavita.nix
         ./_radicle.nix
         ./_rqbit.nix
         ./_searx.nix
@@ -46,14 +46,6 @@
             };
           };
         };
-        calibre-web = mkOption {
-          default = { };
-          type = types.submodule {
-            options = {
-              enable = mkEnableOption "calibre-web";
-            };
-          };
-        };
         homepage = mkOption {
           default = { };
           type = types.submodule {
@@ -67,6 +59,14 @@
           type = types.submodule {
             options = {
               enable = mkEnableOption "jellyfin";
+            };
+          };
+        };
+        kavita = mkOption {
+          default = { };
+          type = types.submodule {
+            options = {
+              enable = mkEnableOption "kavita";
             };
           };
         };

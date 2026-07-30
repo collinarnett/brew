@@ -86,15 +86,17 @@ in
           { url = "http://127.0.0.1:8080"; }
         ];
 
-        http.routers.calibre-web = mkIf cfg.calibre-web.enable {
+        # No Authelia: OPDS apps and the KOReader sync plugin authenticate
+        # with Kavita API keys and cannot carry an Authelia session cookie.
+        # Kavita's own JWT login guards the web UI and API.
+        http.routers.kavita = mkIf cfg.kavita.enable {
           rule = "Host(`books.trexd.dev`)";
           entryPoints = [ "websecure" ];
           tls.certResolver = "letsencrypt";
-          service = "calibre-web";
-          middlewares = "authelia";
+          service = "kavita";
         };
-        http.services.calibre-web.loadBalancer.servers = mkIf cfg.calibre-web.enable [
-          { url = "http://127.0.0.1:8083"; }
+        http.services.kavita.loadBalancer.servers = mkIf cfg.kavita.enable [
+          { url = "http://127.0.0.1:5001"; }
         ];
 
         http.routers.grocy = mkIf cfg.grocy.enable {
