@@ -258,6 +258,9 @@
     };
 
     brew.crawl.enable = true;
+    # Couch viewing distance: 18pt gives a 127-column grid on the scale-2
+    # DP-4 output.
+    brew.ghostty.fontSize = 18;
     brew.radicle.enable = true;
     brew.tangaria.enable = true;
     brew.tuicr.enable = true;

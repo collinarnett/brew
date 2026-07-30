@@ -42,6 +42,7 @@
       config = lib.mkIf cfg.enable {
         brew = {
           anki.enable = true;
+          ghostty.enable = true;
           gtk.enable = true;
           kitty.enable = true;
           mako.enable = true;
