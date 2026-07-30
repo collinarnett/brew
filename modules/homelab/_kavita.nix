@@ -52,6 +52,10 @@ in
           ProvisionAccounts = true;
           SyncUserSettings = true;
           CustomScopes = [ "groups" ];
+          # Kavita refuses OIDC sign-in until the mandatory first-run admin
+          # registration has been completed, so the OIDC identity links to
+          # that initial account by shared email instead of a second account.
+          AccountLinkingByEmail = true;
           # Authelia group "kavita-Admin" becomes the Kavita "Admin" role.
           RolesClaim = "groups";
           RolesPrefix = "kavita-";
