@@ -49,6 +49,9 @@ in
         whitelist-domain = ".trexd.dev";
         code-challenge-method = "S256";
         skip-provider-button = true;
+        # Kanidm access tokens live 15 minutes; refreshing the session
+        # just before expiry avoids a visible re-auth redirect.
+        cookie-refresh = "14m";
       };
     };
   };

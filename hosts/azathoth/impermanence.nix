@@ -97,6 +97,15 @@
         group = "multimedia";
         mode = "0770";
       }
+      # Kanidm's nightly online backups: the live database in /persist is
+      # rebuildable from these, and credentials/passkey enrollments are
+      # irreplaceable, so the dumps belong in the restic-backed tier.
+      {
+        directory = "/var/lib/kanidm/backups";
+        user = "kanidm";
+        group = "kanidm";
+        mode = "0700";
+      }
     ];
     files = [
       "/root/.ssh/remotebuild"

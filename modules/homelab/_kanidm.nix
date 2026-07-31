@@ -70,6 +70,9 @@ in
         bindaddress = "127.0.0.1:8445";
         tls_chain = "${acmeDir}/fullchain.pem";
         tls_key = "${acmeDir}/key.pem";
+        # Trust X-Forwarded-For from traefik so rate limiting and audit
+        # logs see real client addresses instead of 127.0.0.1.
+        http_client_address_info.x-forward-for = [ "127.0.0.1" ];
       };
 
       provision = {
@@ -120,8 +123,8 @@ in
           originLanding = "https://media.trexd.dev";
           basicSecretFile = vars.jellyfin_oidc_client_secret.files.jellyfin_oidc_client_secret.path;
           preferShortUsername = true;
-          # jellyfin-plugin-sso supports neither PKCE nor ES256 tokens.
-          allowInsecureClientDisablePkce = true;
+          # jellyfin-plugin-sso performs PKCE but cannot validate ES256
+          # tokens, so only the legacy RS256 crypto stays enabled.
           enableLegacyCrypto = true;
           scopeMaps.homelab_users = [
             "openid"
