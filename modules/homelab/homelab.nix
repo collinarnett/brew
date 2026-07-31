@@ -129,17 +129,6 @@
           "d /media 0770 - multimedia - -"
         ];
 
-        clan.core.vars.generators.searx_secret_key = mkIf cfg.traefik.enable {
-          files.searx_secret_key = {
-            owner = config.systemd.services.traefik.serviceConfig.User;
-          };
-          prompts.searx_secret_key = {
-            description = "SearX secret key";
-            type = "hidden";
-            persist = true;
-          };
-        };
-
       };
     };
 }
