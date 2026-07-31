@@ -33,6 +33,22 @@ inputs: final: prev: {
     })
   ];
 
+  # 0.8.3's rewritten PipeWire capture loop deadlocks once the consumer holds
+  # both buffers of the pool, freezing every screencast after the first frame
+  # (upstream issue emersion/xdg-desktop-portal-wlr#395; broke Zoom and
+  # Chromium screen sharing on sway). Mirrors nixpkgs commit f9b78ed
+  # ("xdg-desktop-portal-wlr: 0.8.3 -> 0.8.4"), already on master but not yet
+  # in nixos-unstable. Drop once the channel includes it.
+  xdg-desktop-portal-wlr = prev.xdg-desktop-portal-wlr.overrideAttrs (old: {
+    version = "0.8.4";
+    src = final.fetchFromGitHub {
+      owner = "emersion";
+      repo = "xdg-desktop-portal-wlr";
+      rev = "v0.8.4";
+      hash = "sha256-8Ohgkz13FcG8ddjjgreXkvFD2Q+zUDZnAM4Oh+C9P/s=";
+    };
+  });
+
   openjdk25-wakefield = prev.openjdk25.overrideAttrs (old: {
     pname = "openjdk-wakefield";
     version = "25.0.2";
