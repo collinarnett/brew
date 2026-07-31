@@ -81,6 +81,8 @@ in
                   "profile"
                   "email"
                   "groups"
+                  # Kavita requests refresh tokens on every challenge
+                  "offline_access"
                 ];
               };
           };
