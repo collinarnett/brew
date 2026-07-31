@@ -100,6 +100,26 @@
         "type": "github"
       }
     },
+    "dracula-signal": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1779738675,
+        "narHash": "sha256-eGUQqqHeXZ6HHRlLjwk87hwXrteswlSY9ckmFyumV+A=",
+        "owner": "dracula",
+        "repo": "signal-desktop",
+        "rev": "b3c81002c4ea31ddf8523e3fd47f2502fae6b19f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "dracula",
+        "repo": "signal-desktop",
+        "type": "github"
+      }
+    },
     "emacs-overlay": {
       "inputs": {
         "nixpkgs": [
@@ -801,6 +821,7 @@
       "inputs": {
         "clan-core": "clan-core",
         "claude-code-nix": "claude-code-nix",
+        "dracula-signal": "dracula-signal",
         "emacs-overlay": "emacs-overlay",
         "flake-parts": "flake-parts",
         "gpd-duo-nixos-hardware": "gpd-duo-nixos-hardware",

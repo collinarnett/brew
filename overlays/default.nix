@@ -3,35 +3,10 @@ inputs: final: prev: {
   hell = inputs.hell.packages.${prev.stdenv.hostPlatform.system}.default;
   tuicr = inputs.tuicr.packages.${prev.stdenv.hostPlatform.system}.default;
 
-  # calibre-web's runtime deps check rejects the certifi and chardet versions
-  # now shipped by nixpkgs, which exceed its declared upper bounds. Mirrors
-  # nixpkgs commit f1bed4e0d2d0 ("calibre-web: relax python deps"), already on
-  # master but not yet in nixos-unstable. Drop once the channel includes it.
-  calibre-web = prev.calibre-web.overrideAttrs (old: {
-    pythonRelaxDeps = old.pythonRelaxDeps ++ [
-      "certifi"
-      "chardet"
-    ];
-  });
-
-  # pip-chill 1.0.3 imports pkg_resources at runtime, which setuptools 82
-  # (python 3.14) no longer ships, breaking calibre-web via its
-  # scholarly -> free-proxy -> pip-chill dependency chain. Mirrors nixpkgs
-  # PR #542718, which bumps to the upstream commit that drops pkg_resources;
-  # the fixed release is not tagged in the git repo, hence the bare commit.
-  # Drop once that PR is merged and nixpkgs is past it.
-  pythonPackagesExtensions = prev.pythonPackagesExtensions ++ [
-    (python-final: python-prev: {
-      pip-chill = python-prev.pip-chill.overrideAttrs (old: {
-        src = prev.fetchFromGitHub {
-          owner = "rbanffy";
-          repo = "pip-chill";
-          rev = "e978cc0a0ced8cce685db92fcf4f5ab3fca6f21e";
-          hash = "sha256-Sn7BfNnslLaVcCJsEMgZaOubD4YfkuO6VhX7aS+7yxg=";
-        };
-      });
-    })
-  ];
+  # The dracula org maintains the themed rebuild (asar-injected CSS) in
+  # their flake; kavita's dracula theme comes through Kavita's own theme
+  # browser instead, since theme choice is per-user database state.
+  signal-desktop = (inputs.dracula-signal.overlays final prev).signal-desktop;
 
   # 0.8.3's rewritten PipeWire capture loop deadlocks once the consumer holds
   # both buffers of the pool, freezing every screencast after the first frame
