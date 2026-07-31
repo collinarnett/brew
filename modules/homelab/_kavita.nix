@@ -22,7 +22,7 @@ in
     # The plaintext secret goes to Kavita; Authelia's client registry only
     # ever sees the pbkdf2 digest, which is safe to keep as a world-readable
     # var and reference at eval time.
-    clan.core.vars.generators.kavita_oidc_client_secret = mkIf cfg.authelia.enable {
+    clan.core.vars.generators.kavita_oidc_client_secret = mkIf cfg.kanidm.enable {
       files.kavita_oidc_client_secret = { };
       files.kavita_oidc_client_secret_digest.secret = false;
       runtimeInputs = with pkgs; [
@@ -45,18 +45,18 @@ in
         IpAddresses = "127.0.0.1";
         # 5000 is taken by the docker registry.
         Port = 5001;
-        OpenIdConnectSettings = mkIf cfg.authelia.enable {
-          Authority = "https://login.trexd.dev";
+        OpenIdConnectSettings = mkIf cfg.kanidm.enable {
+          Authority = "https://idm.trexd.dev/oauth2/openid/kavita";
           ClientId = "kavita";
           Secret = "@OIDC_SECRET@";
           ProvisionAccounts = true;
           SyncUserSettings = true;
-          CustomScopes = [ "groups" ];
           # Kavita refuses OIDC sign-in until the mandatory first-run admin
           # registration has been completed, so the OIDC identity links to
           # that initial account by shared email instead of a second account.
           AccountLinkingByEmail = true;
-          # Authelia group "kavita-Admin" becomes the Kavita "Admin" role.
+          # The kanidm claim map emits "kavita-Admin" in the groups claim,
+          # which becomes the Kavita "Admin" role after prefix stripping.
           RolesClaim = "groups";
           RolesPrefix = "kavita-";
           AutoLogin = true;
@@ -65,7 +65,7 @@ in
       };
     };
 
-    systemd.services.kavita = mkIf cfg.authelia.enable {
+    systemd.services.kavita = mkIf cfg.kanidm.enable {
       serviceConfig.LoadCredential = [
         "oidc-secret:${config.clan.core.vars.generators.kavita_oidc_client_secret.files.kavita_oidc_client_secret.path}"
       ];

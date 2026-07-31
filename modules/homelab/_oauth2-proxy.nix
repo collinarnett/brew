@@ -32,7 +32,14 @@ in
       oidcIssuerUrl = "https://idm.trexd.dev/oauth2/openid/forward-auth";
       httpAddress = "http://127.0.0.1:4180";
       reverseProxy = true;
+      trustedProxyIP = [ "127.0.0.1/32" ];
       setXauthrequest = true;
+      # Traefik's forwardAuth points at the proxy root: authenticated
+      # requests hit this static upstream and pass with a 202, while
+      # unauthenticated browsers get a real 302 into the sign-in flow
+      # (a 401-wrapped redirect from an errors middleware would not be
+      # followed by browsers).
+      upstream = [ "static://202" ];
       email.domains = [ "*" ];
       cookie = {
         domain = ".trexd.dev";

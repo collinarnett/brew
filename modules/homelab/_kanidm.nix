@@ -33,6 +33,14 @@ in
     clan.core.vars.generators.kavita_oidc_client_secret.files.kavita_oidc_client_secret.owner =
       mkIf cfg.kavita.enable "kanidm";
 
+    clan.core.vars.generators.jellyfin_oidc_client_secret = mkIf cfg.jellyfin.enable {
+      files.jellyfin_oidc_client_secret.owner = "kanidm";
+      runtimeInputs = [ pkgs.coreutils ];
+      script = ''
+        head -c 48 /dev/urandom | base64 --wrap=0 | tr -d '+/=' > "$out"/jellyfin_oidc_client_secret
+      '';
+    };
+
     # Kanidm terminates its own TLS even behind the reverse proxy, so it
     # gets a real certificate through the same route53 DNS challenge
     # Traefik uses, sharing the aws credentials var via the aws group.
@@ -104,6 +112,49 @@ in
             joinType = "array";
             valuesByGroup.kavita_admin = [ "kavita-Admin" ];
           };
+        };
+
+        systems.oauth2.jellyfin = mkIf cfg.jellyfin.enable {
+          displayName = "Jellyfin";
+          originUrl = "https://media.trexd.dev/sso/OID/redirect/kanidm";
+          originLanding = "https://media.trexd.dev";
+          basicSecretFile = vars.jellyfin_oidc_client_secret.files.jellyfin_oidc_client_secret.path;
+          preferShortUsername = true;
+          # jellyfin-plugin-sso supports neither PKCE nor ES256 tokens.
+          allowInsecureClientDisablePkce = true;
+          enableLegacyCrypto = true;
+          scopeMaps.homelab_users = [
+            "openid"
+            "profile"
+            "email"
+          ];
+          # The claim values match the group names the SSO plugin was
+          # configured with under the previous identity provider.
+          claimMaps.groups = {
+            joinType = "array";
+            valuesByGroup = {
+              jellyfin_admins = [ "jellyfin-admins" ];
+              jellyfin_users = [ "jellyfin-users" ];
+            };
+          };
+        };
+
+        systems.oauth2.forward-auth = {
+          displayName = "Forward Auth";
+          originUrl = [
+            "https://search.trexd.dev/oauth2/callback"
+            "https://grocy.trexd.dev/oauth2/callback"
+            "https://torrents.trexd.dev/oauth2/callback"
+            "https://home.trexd.dev/oauth2/callback"
+          ];
+          originLanding = "https://home.trexd.dev";
+          basicSecretFile = vars.oauth2_proxy.files.oauth2_proxy_client_secret.path;
+          preferShortUsername = true;
+          scopeMaps.homelab_users = [
+            "openid"
+            "profile"
+            "email"
+          ];
         };
       };
     };

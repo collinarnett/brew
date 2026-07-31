@@ -25,7 +25,7 @@ in
         Setting('FEATURE_FLAG_BATTERIES', false);
         Setting('FEATURE_FLAG_EQUIPMENT', false);
         Setting('AUTH_CLASS', 'Grocy\Middleware\ReverseProxyAuthMiddleware');
-        Setting('REVERSE_PROXY_AUTH_HEADER', 'Remote-User');
+        Setting('REVERSE_PROXY_AUTH_HEADER', 'X-Auth-Request-Preferred-Username');
         DefaultUserSetting('night_mode', 'off');
       '';
     };

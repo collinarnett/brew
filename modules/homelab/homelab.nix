@@ -23,6 +23,7 @@
         ./_jellyfin.nix
         ./_kanidm.nix
         ./_kavita.nix
+        ./_oauth2-proxy.nix
         ./_radicle.nix
         ./_rqbit.nix
         ./_searx.nix

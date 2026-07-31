@@ -80,7 +80,7 @@ in
           entryPoints = [ "websecure" ];
           tls.certResolver = "letsencrypt";
           service = "searx";
-          middlewares = "authelia";
+          middlewares = "kanidm-auth";
         };
         http.services.searx.loadBalancer.servers = mkIf cfg.searx.enable [
           { url = "http://127.0.0.1:8080"; }
@@ -104,10 +104,11 @@ in
           entryPoints = [ "websecure" ];
           tls.certResolver = "letsencrypt";
           service = "grocy";
-          middlewares = "authelia";
+          middlewares = "kanidm-auth";
         };
-        # Bypass Authelia for Grocy API — authenticated by GROCY-API-KEY header
-        http.middlewares.strip-remote-user.headers.customRequestHeaders.Remote-User = "";
+        # Bypass forward-auth for Grocy API — authenticated by GROCY-API-KEY header
+        http.middlewares.strip-remote-user.headers.customRequestHeaders."X-Auth-Request-Preferred-Username" =
+          "";
         http.routers.grocy-api = mkIf cfg.grocy.enable {
           rule = "Host(`grocy.trexd.dev`) && PathPrefix(`/api`)";
           entryPoints = [ "websecure" ];
@@ -118,6 +119,31 @@ in
         };
         http.services.grocy.loadBalancer.servers = mkIf cfg.grocy.enable [
           { url = "http://127.0.0.1:8099"; }
+        ];
+
+        # Forward-auth through oauth2-proxy against Kanidm: the middleware
+        # hits the proxy root, which 302s unauthenticated browsers into the
+        # sign-in flow and answers 202 (static upstream) for valid sessions.
+        # The shared /oauth2/ router serves the callback on every protected
+        # domain.
+        http.middlewares.kanidm-auth.forwardAuth = mkIf cfg.kanidm.enable {
+          address = "http://127.0.0.1:4180";
+          trustForwardHeader = true;
+          authResponseHeaders = [
+            "X-Auth-Request-User"
+            "X-Auth-Request-Email"
+            "X-Auth-Request-Preferred-Username"
+          ];
+        };
+        http.routers.oauth2-proxy = mkIf cfg.kanidm.enable {
+          rule = "(Host(`search.trexd.dev`) || Host(`grocy.trexd.dev`) || Host(`torrents.trexd.dev`) || Host(`home.trexd.dev`)) && PathPrefix(`/oauth2/`)";
+          entryPoints = [ "websecure" ];
+          tls.certResolver = "letsencrypt";
+          service = "oauth2-proxy";
+          priority = 200;
+        };
+        http.services.oauth2-proxy.loadBalancer.servers = mkIf cfg.kanidm.enable [
+          { url = "http://127.0.0.1:4180"; }
         ];
 
         # Kanidm refuses plaintext HTTP, so traefik re-encrypts to the
@@ -142,7 +168,7 @@ in
           entryPoints = [ "websecure" ];
           tls.certResolver = "letsencrypt";
           service = "homepage";
-          middlewares = "authelia";
+          middlewares = "kanidm-auth";
         };
         http.services.homepage.loadBalancer.servers = mkIf cfg.homepage.enable [
           { url = "http://127.0.0.1:8082"; }
@@ -198,7 +224,7 @@ in
           tls.certResolver = "letsencrypt";
           service = "rqbit";
           middlewares = [
-            "authelia"
+            "kanidm-auth"
             "rqbit-web"
           ];
         };
