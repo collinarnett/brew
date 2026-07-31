@@ -22,7 +22,7 @@ with [home-manager](https://github.com/nix-community/home-manager).
 | **Editor**    | emacs         |
 | **Browser**   | firefox       |
 | **WM**        | sway + waybar |
-| **Terminal**  | kitty         |
+| **Terminal**  | ghostty       |
 | **Shell**     | zsh           |
 | **Launcher**  | wofi          |
 | **GTK Theme** | Dracula       |
@@ -32,10 +32,11 @@ with [home-manager](https://github.com/nix-community/home-manager).
 #### `azathoth` 👾
 
 My main workstation and homelab server. Runs self-hosted services
-(Traefik, Authelia, Jellyfin, SearX, Calibre-Web), a Docker registry,
-Nix binary cache (Atticd), and Restic backups to S3. Supports PCIe
-passthrough for GPU virtualization. ZFS with impermanence for an
-ephemeral root filesystem.
+behind nginx with Kanidm single sign-on (Jellyfin, Kavita, SearX,
+Grocy, rqbit, Radicle, Homepage), a Docker registry, Nix binary cache
+(Atticd), and Restic backups to S3. Supports PCIe passthrough for GPU
+virtualization. ZFS with impermanence for an ephemeral root
+filesystem.
 
 Specs:
 
@@ -69,15 +70,16 @@ Reusable NixOS and home-manager modules under `modules/`, selectively
 enabled per host:
 
 - **Desktop** — sway, waybar, wofi, swaylock, swayidle, greetd, GTK theming, XDG portals/MIME, mako
-- **User tools** — kitty, zsh, zoxide, starship, git, gh, fzf, bat, direnv, btop, autojump, zathura, firefox, beets
+- **User tools** — ghostty, zsh, zoxide, starship, git, gh, fzf, bat, direnv, btop, autojump, zathura, firefox, beets
 - **Services** — Ollama, Atticd, Docker registry, remote/distributed builds, Restic backups, apcupsd
-- **Homelab** — Traefik, Authelia, Jellyfin, SearX, Calibre-Web
+- **Homelab** — nginx, Kanidm, oauth2-proxy, Jellyfin, Kavita, SearX, Grocy, rqbit, Radicle, Homepage
 - **Security** — sops, GPG, keychain
 - **Hardware** — PCIe passthrough, PipeWire
 
 ### Overlays
 
 - **emacs** — Emacs Unstable with PGTK backend and custom packages
+- **signal-desktop** — Dracula-themed rebuild from the [dracula org flake](https://github.com/dracula/signal-desktop)
 
 ## Motivation
 
