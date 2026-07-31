@@ -37,6 +37,18 @@
         mode = "0700";
       }
       {
+        directory = "/var/lib/kanidm";
+        user = "kanidm";
+        group = "kanidm";
+        mode = "0700";
+      }
+      {
+        directory = "/var/lib/acme";
+        user = "acme";
+        group = "acme";
+        mode = "0755";
+      }
+      {
         directory = "/var/lib/authelia-main";
         user = "authelia-main";
         group = "authelia-main";

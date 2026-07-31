@@ -21,6 +21,7 @@
         ./_grocy.nix
         ./_homepage.nix
         ./_jellyfin.nix
+        ./_kanidm.nix
         ./_kavita.nix
         ./_radicle.nix
         ./_rqbit.nix
@@ -59,6 +60,14 @@
           type = types.submodule {
             options = {
               enable = mkEnableOption "jellyfin";
+            };
+          };
+        };
+        kanidm = mkOption {
+          default = { };
+          type = types.submodule {
+            options = {
+              enable = mkEnableOption "kanidm";
             };
           };
         };

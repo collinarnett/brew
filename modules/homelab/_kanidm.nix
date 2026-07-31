@@ -42,7 +42,7 @@ in
         email = "collin@arnett.it";
         dnsProvider = "route53";
         group = "kanidm";
-        credentialsFile = pkgs.writeText "kanidm-acme-env" ''
+        environmentFile = pkgs.writeText "kanidm-acme-env" ''
           AWS_SHARED_CREDENTIALS_FILE=${vars.awscli2-credentials.files.awscli2-credentials.path}
           AWS_PROFILE=default
           AWS_REGION=us-east-1
@@ -58,7 +58,8 @@ in
       server.settings = {
         origin = "https://idm.trexd.dev";
         domain = "idm.trexd.dev";
-        bindaddress = "127.0.0.1:8443";
+        # The pcie-passthrough VM forwards 8443 and 8444 on the host.
+        bindaddress = "127.0.0.1:8445";
         tls_chain = "${acmeDir}/fullchain.pem";
         tls_key = "${acmeDir}/key.pem";
       };

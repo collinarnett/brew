@@ -120,6 +120,23 @@ in
           { url = "http://127.0.0.1:8099"; }
         ];
 
+        # Kanidm refuses plaintext HTTP, so traefik re-encrypts to the
+        # backend; the transport pins the SNI since the dial address is
+        # 127.0.0.1 but the backend cert is for idm.trexd.dev.
+        http.serversTransports.kanidm = mkIf cfg.kanidm.enable {
+          serverName = "idm.trexd.dev";
+        };
+        http.routers.kanidm = mkIf cfg.kanidm.enable {
+          rule = "Host(`idm.trexd.dev`)";
+          entryPoints = [ "websecure" ];
+          tls.certResolver = "letsencrypt";
+          service = "kanidm";
+        };
+        http.services.kanidm.loadBalancer = mkIf cfg.kanidm.enable {
+          servers = [ { url = "https://127.0.0.1:8445"; } ];
+          serversTransport = "kanidm";
+        };
+
         http.routers.homepage = mkIf cfg.homepage.enable {
           rule = "Host(`home.trexd.dev`)";
           entryPoints = [ "websecure" ];

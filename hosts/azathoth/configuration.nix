@@ -63,6 +63,7 @@
       traefik.enable = true;
       authelia.enable = true;
       jellyfin.enable = true;
+      kanidm.enable = true;
       kavita.enable = true;
       grocy.enable = true;
       homepage.enable = true;
