@@ -29,7 +29,7 @@ in
     };
 
     # Provisioning runs inside kanidm.service as the kanidm user, so it
-    # needs direct read access to the client secret Kavita already uses.
+    # needs direct read access to the client secret shared with Kavita.
     clan.core.vars.generators.kavita_oidc_client_secret.files.kavita_oidc_client_secret.owner =
       mkIf cfg.kavita.enable "kanidm";
 
@@ -42,8 +42,8 @@ in
     };
 
     # Kanidm terminates its own TLS even behind the reverse proxy, so it
-    # gets a real certificate through the same route53 DNS challenge
-    # Traefik uses, sharing the aws credentials var via the aws group.
+    # gets a real certificate through the route53 DNS challenge, sharing
+    # the aws credentials var with the other acme certs via the aws group.
     security.acme = {
       acceptTerms = true;
       certs."idm.trexd.dev" = {
@@ -124,16 +124,16 @@ in
           originLanding = "https://media.trexd.dev";
           basicSecretFile = vars.jellyfin_oidc_client_secret.files.jellyfin_oidc_client_secret.path;
           preferShortUsername = true;
-          # jellyfin-plugin-sso performs PKCE but cannot validate ES256
-          # tokens, so only the legacy RS256 crypto stays enabled.
+          # jellyfin-plugin-sso cannot validate ES256 tokens; legacy RS256
+          # crypto is required.
           enableLegacyCrypto = true;
           scopeMaps.homelab_users = [
             "openid"
             "profile"
             "email"
           ];
-          # The claim values match the group names the SSO plugin was
-          # configured with under the previous identity provider.
+          # The claim values must match the AdminRoles and Roles strings
+          # in the SSO plugin's configuration (SSO-Auth.xml).
           claimMaps.groups = {
             joinType = "array";
             valuesByGroup = {

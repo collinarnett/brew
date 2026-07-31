@@ -3,9 +3,8 @@ inputs: final: prev: {
   hell = inputs.hell.packages.${prev.stdenv.hostPlatform.system}.default;
   tuicr = inputs.tuicr.packages.${prev.stdenv.hostPlatform.system}.default;
 
-  # The dracula org maintains the themed rebuild (asar-injected CSS) in
-  # their flake; kavita's dracula theme comes through Kavita's own theme
-  # browser instead, since theme choice is per-user database state.
+  # Signal with the dracula theme. The dracula org maintains the themed
+  # rebuild (asar-injected CSS) in their flake.
   signal-desktop = (inputs.dracula-signal.overlays final prev).signal-desktop;
 
   # 0.8.3's rewritten PipeWire capture loop deadlocks once the consumer holds

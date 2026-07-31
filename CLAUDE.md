@@ -28,7 +28,7 @@ Hosts running impermanence (azathoth, ghoul) roll back `zroot/root` to an empty 
 
 State that needs to survive is bind-mounted from two persistent datasets, following the [two-tier pattern](https://grahamc.com/blog/nixos-on-zfs/) of separating data by backup necessity rather than scattering it across the filesystem:
 
-- **`/persist`** — State that must survive reboots but does not need backup (reconstructible). System logs, `/var/lib/nixos`, service state like traefik/jellyfin/authelia, NetworkManager connections. Losing this is inconvenient but recoverable.
+- **`/persist`** — State that must survive reboots but does not need backup (reconstructible). System logs, `/var/lib/nixos`, service state like jellyfin/kanidm/kavita, NetworkManager connections. Losing this is inconvenient but recoverable.
 - **`/persist/save`** — State that must both persist and be backed up (irreplaceable). User data: `~/brew`, `~/work_projects`, `~/Documents`, `~/.gnupg`, `~/.ssh`, `~/.claude`, `~/.mozilla`. This is the single dataset that restic targets for backup, keeping backups small and focused.
 
 This split forces an explicit decision for every piece of state: is it ephemeral, reconstructible, or irreplaceable? When adding new stateful services or user directories, declare them in the host's `impermanence.nix` or they will be lost on reboot.
