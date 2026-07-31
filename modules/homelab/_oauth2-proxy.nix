@@ -34,12 +34,6 @@ in
       reverseProxy = true;
       trustedProxyIP = [ "127.0.0.1/32" ];
       setXauthrequest = true;
-      # Traefik's forwardAuth points at the proxy root: authenticated
-      # requests hit this static upstream and pass with a 202, while
-      # unauthenticated browsers get a real 302 into the sign-in flow
-      # (a 401-wrapped redirect from an errors middleware would not be
-      # followed by browsers).
-      upstream = [ "static://202" ];
       email.domains = [ "*" ];
       cookie = {
         domain = ".trexd.dev";
@@ -52,6 +46,21 @@ in
         # Kanidm access tokens live 15 minutes; refreshing the session
         # just before expiry avoids a visible re-auth redirect.
         cookie-refresh = "14m";
+        # The session user (X-User to backends) is the short username.
+        user-id-claim = "preferred_username";
+      };
+
+      # nixpkgs generates the auth_request wiring for these vhosts; the
+      # sign-in redirect always round-trips through the domain below, and
+      # the .trexd.dev session cookie carries the login to the others.
+      nginx = {
+        domain = "home.trexd.dev";
+        virtualHosts = {
+          "home.trexd.dev" = { };
+          "search.trexd.dev" = { };
+          "grocy.trexd.dev" = { };
+          "torrents.trexd.dev" = { };
+        };
       };
     };
   };

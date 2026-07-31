@@ -59,6 +59,7 @@ in
       };
     };
     users.users.acme.extraGroups = [ "aws" ];
+    users.users.nginx.extraGroups = [ "kanidm" ];
 
     services.kanidm = {
       package = pkgs.kanidmWithSecretProvisioning_1_10;
@@ -70,7 +71,7 @@ in
         bindaddress = "127.0.0.1:8445";
         tls_chain = "${acmeDir}/fullchain.pem";
         tls_key = "${acmeDir}/key.pem";
-        # Trust X-Forwarded-For from traefik so rate limiting and audit
+        # Trust X-Forwarded-For from nginx so rate limiting and audit
         # logs see real client addresses instead of 127.0.0.1.
         http_client_address_info.x-forward-for = [ "127.0.0.1" ];
       };
@@ -144,12 +145,9 @@ in
 
         systems.oauth2.forward-auth = {
           displayName = "Forward Auth";
-          originUrl = [
-            "https://search.trexd.dev/oauth2/callback"
-            "https://grocy.trexd.dev/oauth2/callback"
-            "https://torrents.trexd.dev/oauth2/callback"
-            "https://home.trexd.dev/oauth2/callback"
-          ];
+          # The nginx integration routes every sign-in through the shared
+          # auth domain, so this is the only redirect target.
+          originUrl = "https://home.trexd.dev/oauth2/callback";
           originLanding = "https://home.trexd.dev";
           basicSecretFile = vars.oauth2_proxy.files.oauth2_proxy_client_secret.path;
           preferShortUsername = true;
@@ -166,6 +164,23 @@ in
     systemd.services.kanidm = {
       after = [ "acme-finished-idm.trexd.dev.target" ];
       wants = [ "acme-finished-idm.trexd.dev.target" ];
+    };
+
+    # Kanidm refuses plaintext HTTP, so nginx re-encrypts to the backend;
+    # the SNI needs pinning since the dial address is 127.0.0.1 but the
+    # backend cert is for idm.trexd.dev.
+    services.nginx.virtualHosts."idm.trexd.dev" = {
+      # Serve the same DNS-challenge certificate kanidm terminates with;
+      # nginx joins the kanidm group to read it.
+      useACMEHost = "idm.trexd.dev";
+      forceSSL = true;
+      locations."/" = {
+        proxyPass = "https://127.0.0.1:8445";
+        extraConfig = ''
+          proxy_ssl_server_name on;
+          proxy_ssl_name idm.trexd.dev;
+        '';
+      };
     };
   };
 }

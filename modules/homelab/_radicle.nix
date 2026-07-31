@@ -134,16 +134,16 @@ in
     };
 
     # The explorer is a static SPA built to query this seed's httpd API at
-    # the same origin (traefik sends /api and /raw to radicle-httpd).
+    # the same origin (/api and /raw go to radicle-httpd). No auth on any
+    # of it: radicle-httpd is a read-only API by design, and git/rad
+    # clients cannot carry a session cookie.
     services.nginx = {
       enable = true;
       virtualHosts."garden.trexd.dev" = {
-        listen = [
-          {
-            addr = "127.0.0.1";
-            port = 8779;
-          }
-        ];
+        enableACME = true;
+        # DNS-01 through the acme defaults; HTTP-01 cannot reach this host.
+        acmeRoot = null;
+        forceSSL = true;
         root = pkgs.radicle-explorer.withConfig {
           preferredSeeds = [
             {
@@ -154,6 +154,8 @@ in
           ];
         };
         locations."/".tryFiles = "$uri /index.html";
+        locations."^~ /api".proxyPass = "http://127.0.0.1:8778";
+        locations."^~ /raw".proxyPass = "http://127.0.0.1:8778";
       };
     };
   };

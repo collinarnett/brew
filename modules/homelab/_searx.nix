@@ -20,6 +20,14 @@ in
       '';
     };
 
+    services.nginx.virtualHosts."search.trexd.dev" = {
+      enableACME = true;
+      # DNS-01 through the acme defaults; HTTP-01 cannot reach this host.
+      acmeRoot = null;
+      forceSSL = true;
+      locations."/".proxyPass = "http://127.0.0.1:8080";
+    };
+
     services.searx = {
       enable = true;
       environmentFile = config.clan.core.vars.generators.searx_environment.files.searx_environment.path;

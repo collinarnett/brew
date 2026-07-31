@@ -60,7 +60,7 @@
 
     homelab = {
       searx.enable = true;
-      traefik.enable = true;
+      nginx.enable = true;
       jellyfin.enable = true;
       kanidm.enable = true;
       kavita.enable = true;

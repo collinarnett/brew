@@ -22,11 +22,11 @@
         ./_jellyfin.nix
         ./_kanidm.nix
         ./_kavita.nix
+        ./_nginx.nix
         ./_oauth2-proxy.nix
         ./_radicle.nix
         ./_rqbit.nix
         ./_searx.nix
-        ./_traefik.nix
       ];
 
       options.brew.homelab = {
@@ -113,11 +113,11 @@
             };
           };
         };
-        traefik = mkOption {
+        nginx = mkOption {
           default = { };
           type = types.submodule {
             options = {
-              enable = mkEnableOption "traefik";
+              enable = mkEnableOption "nginx";
             };
           };
         };

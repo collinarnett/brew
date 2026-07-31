@@ -27,6 +27,17 @@ in
       '';
     };
 
+    services.nginx.virtualHosts."books.trexd.dev" = {
+      enableACME = true;
+      # DNS-01 through the acme defaults; HTTP-01 cannot reach this host.
+      acmeRoot = null;
+      forceSSL = true;
+      locations."/" = {
+        proxyPass = "http://127.0.0.1:5001";
+        proxyWebsockets = true;
+      };
+    };
+
     services.kavita = {
       enable = true;
       tokenKeyFile = config.clan.core.vars.generators.kavita_token_key.files.kavita_token_key.path;

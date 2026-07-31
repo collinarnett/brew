@@ -19,12 +19,6 @@
       # O_NOFOLLOW and a symlink triggers ELOOP.
       "/var/lib/systemd"
       {
-        directory = "/var/lib/traefik";
-        user = "traefik";
-        group = "traefik";
-        mode = "0700";
-      }
-      {
         directory = "/var/lib/jellyfin";
         user = "jellyfin";
         group = "jellyfin";

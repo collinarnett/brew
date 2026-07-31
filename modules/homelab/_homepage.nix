@@ -44,7 +44,7 @@ let
       href = "https://grocy.trexd.dev";
       icon = "grocy.png";
       description = "Groceries and household";
-      siteMonitor = "http://127.0.0.1:8099";
+      siteMonitor = "https://grocy.trexd.dev";
     };
   };
 
@@ -76,6 +76,14 @@ let
 in
 {
   config = mkIf (cfg.enable && cfg.homepage.enable) {
+    services.nginx.virtualHosts."home.trexd.dev" = {
+      enableACME = true;
+      # DNS-01 through the acme defaults; HTTP-01 cannot reach this host.
+      acmeRoot = null;
+      forceSSL = true;
+      locations."/".proxyPass = "http://127.0.0.1:8082";
+    };
+
     services.homepage-dashboard = {
       enable = true;
       listenPort = 8082;
