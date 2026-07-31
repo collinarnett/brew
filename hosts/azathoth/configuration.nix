@@ -61,7 +61,6 @@
     homelab = {
       searx.enable = true;
       traefik.enable = true;
-      authelia.enable = true;
       jellyfin.enable = true;
       kanidm.enable = true;
       kavita.enable = true;

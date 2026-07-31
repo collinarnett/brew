@@ -52,29 +52,6 @@ in
         };
       };
       dynamicConfigOptions = {
-        http.middlewares.authelia = mkIf cfg.authelia.enable {
-          forwardauth = {
-            address = "http://127.0.0.1:9091/api/verify?rd=https://login.trexd.dev/";
-            trustForwardHeader = true;
-            authResponseHeaders = [
-              "Remote-User"
-              "Remote-Name"
-              "Remote-Email"
-              "Remote-Groups"
-            ];
-          };
-        };
-
-        http.routers.authelia = mkIf cfg.authelia.enable {
-          rule = "Host(`login.trexd.dev`)";
-          entryPoints = [ "websecure" ];
-          tls.certResolver = "letsencrypt";
-          service = "authelia";
-        };
-        http.services.authelia.loadBalancer.servers = mkIf cfg.authelia.enable [
-          { url = "http://127.0.0.1:9091"; }
-        ];
-
         http.routers.searx = mkIf cfg.searx.enable {
           rule = "Host(`search.trexd.dev`)";
           entryPoints = [ "websecure" ];
@@ -86,9 +63,10 @@ in
           { url = "http://127.0.0.1:8080"; }
         ];
 
-        # No Authelia: OPDS apps and the KOReader sync plugin authenticate
-        # with Kavita API keys and cannot carry an Authelia session cookie.
-        # Kavita's own JWT login guards the web UI and API.
+        # No forward-auth: OPDS apps and the KOReader sync plugin
+        # authenticate with Kavita API keys and cannot carry a session
+        # cookie. Kavita's own login (OIDC against Kanidm) guards the web
+        # UI and API.
         http.routers.kavita = mkIf cfg.kavita.enable {
           rule = "Host(`books.trexd.dev`)";
           entryPoints = [ "websecure" ];
@@ -174,7 +152,7 @@ in
           { url = "http://127.0.0.1:8082"; }
         ];
 
-        # Auth handled inside Jellyfin by jellyfin-plugin-sso (OIDC against Authelia).
+        # Auth handled inside Jellyfin by jellyfin-plugin-sso (OIDC against Kanidm).
         # Every Jellyfin user is pinned to AuthenticationProviderId =
         # Jellyfin.Plugin.SSO_Auth.Api.SSOController, so password login is dead
         # even with the form publicly exposed. Native clients (Finamp audio
@@ -189,9 +167,9 @@ in
           { url = "http://127.0.0.1:8096"; }
         ];
 
-        # No Authelia on either radicle router: radicle-httpd is a read-only
-        # API by design, and git/rad clients hitting /api and /raw cannot
-        # carry an Authelia session cookie.
+        # No forward-auth on either radicle router: radicle-httpd is a
+        # read-only API by design, and git/rad clients hitting /api and
+        # /raw cannot carry a session cookie.
         http.routers.radicle = mkIf cfg.radicle.enable {
           rule = "Host(`garden.trexd.dev`)";
           entryPoints = [ "websecure" ];

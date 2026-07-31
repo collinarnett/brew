@@ -19,22 +19,11 @@ in
       '';
     };
 
-    # The plaintext secret goes to Kavita; Authelia's client registry only
-    # ever sees the pbkdf2 digest, which is safe to keep as a world-readable
-    # var and reference at eval time.
     clan.core.vars.generators.kavita_oidc_client_secret = mkIf cfg.kanidm.enable {
       files.kavita_oidc_client_secret = { };
-      files.kavita_oidc_client_secret_digest.secret = false;
-      runtimeInputs = with pkgs; [
-        coreutils
-        gnused
-        authelia
-      ];
+      runtimeInputs = [ pkgs.coreutils ];
       script = ''
         head -c 48 /dev/urandom | base64 --wrap=0 | tr -d '+/=' > "$out"/kavita_oidc_client_secret
-        authelia crypto hash generate pbkdf2 --variant sha512 \
-          --password "$(cat "$out"/kavita_oidc_client_secret)" \
-          | sed 's/^Digest: //' | tr -d '\n' > "$out"/kavita_oidc_client_secret_digest
       '';
     };
 

@@ -65,12 +65,12 @@ let
         siteMonitor = "http://127.0.0.1:8779";
       };
     }
-    ++ optional cfg.authelia.enable {
-      Authelia = {
-        href = "https://login.trexd.dev";
-        icon = "authelia.png";
+    ++ optional cfg.kanidm.enable {
+      Kanidm = {
+        href = "https://idm.trexd.dev";
+        icon = "kanidm.png";
         description = "Single sign-on";
-        siteMonitor = "http://127.0.0.1:9091";
+        siteMonitor = "https://idm.trexd.dev";
       };
     };
 in

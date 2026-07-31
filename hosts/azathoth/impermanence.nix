@@ -49,12 +49,6 @@
         mode = "0755";
       }
       {
-        directory = "/var/lib/authelia-main";
-        user = "authelia-main";
-        group = "authelia-main";
-        mode = "0700";
-      }
-      {
         directory = "/var/lib/grocy";
         user = "grocy";
         group = "nginx";

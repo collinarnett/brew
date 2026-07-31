@@ -17,7 +17,6 @@
     in
     {
       imports = [
-        ./_authelia.nix
         ./_grocy.nix
         ./_homepage.nix
         ./_jellyfin.nix
@@ -32,14 +31,6 @@
 
       options.brew.homelab = {
         enable = mkEnableOption "homelab";
-        authelia = mkOption {
-          default = { };
-          type = types.submodule {
-            options = {
-              enable = mkEnableOption "authelia";
-            };
-          };
-        };
         grocy = mkOption {
           default = { };
           type = types.submodule {
@@ -149,58 +140,6 @@
           };
         };
 
-        clan.core.vars.generators.authelia_jwks_settings_file = mkIf cfg.authelia.enable {
-          files.authelia_jwks_settings_file = {
-            owner = config.systemd.services.authelia-main.serviceConfig.User;
-          };
-          prompts.authelia_jwks_settings_file = {
-            description = "Authelia JWKS settings file contents";
-            type = "multiline";
-            persist = true;
-          };
-        };
-
-        clan.core.vars.generators.authelia_jwt_secret_file = mkIf cfg.authelia.enable {
-          files.authelia_jwt_secret_file = {
-            owner = config.systemd.services.authelia-main.serviceConfig.User;
-          };
-          prompts.authelia_jwt_secret_file = {
-            description = "Authelia JWT secret";
-            type = "hidden";
-            persist = true;
-          };
-        };
-
-        clan.core.vars.generators.authelia_session_secret_file = mkIf cfg.authelia.enable {
-          files.authelia_session_secret_file = {
-            owner = config.systemd.services.authelia-main.serviceConfig.User;
-          };
-          prompts.authelia_session_secret_file = {
-            description = "Authelia session secret";
-            type = "hidden";
-            persist = true;
-          };
-        };
-
-        clan.core.vars.generators.authelia_storage_encryption_key_file = mkIf cfg.authelia.enable {
-          files.authelia_storage_encryption_key_file = {
-            owner = config.systemd.services.authelia-main.serviceConfig.User;
-          };
-          prompts.authelia_storage_encryption_key_file = {
-            description = "Authelia storage encryption key";
-            type = "hidden";
-            persist = true;
-          };
-        };
-
-        clan.core.vars.generators.authelia_session_redis_password_file = mkIf cfg.authelia.enable {
-          files.authelia_session_redis_password_file = { };
-          prompts.authelia_session_redis_password_file = {
-            description = "Authelia session Redis password";
-            type = "hidden";
-            persist = true;
-          };
-        };
       };
     };
 }
