@@ -41,6 +41,15 @@
     ];
 
     claude-code.enable = true;
+    # Publishes the WAN address so the phone can peer directly with this
+    # machine's yggdrasil listener instead of relaying through a public
+    # peer. The Verizon lease survives most reboots but not long outages.
+    r53-ddns = {
+      enable = true;
+      hostname = "ygg";
+      domain = "trexd.dev";
+      zoneId = "Z02841443N2C1YNW3LDOS";
+    };
     nous-agent = {
       enable = true;
       users = [ "collin" ];
