@@ -25,7 +25,7 @@ in
       postFixup = (old.postFixup or "") + ''
         wrapProgram $out/bin/clan-mcp \
           --add-flags "${final.clan-commands-json}/share/clan-mcp/commands.json" \
-          --prefix PATH : ${prev.lib.makeBinPath [ prev.clan-cli ]}
+          --prefix PATH : ${prev.lib.makeBinPath [ final.clan-cli ]}
       '';
     });
   gitlab-mcp = prev.callPackage ./gitlab-mcp.nix { };
