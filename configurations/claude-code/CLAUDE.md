@@ -74,7 +74,10 @@ Functions should do what they say, nothing more. No hidden side effects. No impl
 Similar operations should work the same way everywhere. Naming, structure, patterns should be predictable across the codebase.
 
 ### Comments Stand Alone
-A code comment is read by someone who has only the code, never the conversation that produced it. Explain why the code is the way it is in absolute terms. Never frame a comment as "X, not Y" or "should be X rather than Y" when the reader had no reason to expect Y — that contrast only lands for someone who saw the rejected alternative get discussed. State the positive fact and the reason.
+A code comment is read by someone who has only the code, never the conversation that produced it. State what is true of the code today and why, in absolute terms. Never reference removed components, prior approaches, or decisions from a conversation ("the previous X", "instead of the old Y", "stays enabled"), and never frame a comment as "X, not Y" or "should be X rather than Y" when the reader had no reason to expect Y. That contrast only lands for someone who saw the rejected alternative get discussed. State the positive fact and the reason.
+
+### Comments Inform, They Never Defend
+A comment earns its place by telling that reader something the code cannot: an external constraint, the consequence of getting it wrong, or a line that looks removable but is load-bearing. Do not justify a choice, pre-empt an objection, or record why some other approach was rejected. Nobody reading the line is asking, and a self-contained sentence is still noise if it exists only to defend the code from review. Keep that reasoning in the commit message.
 
 ## Error Handling
 
