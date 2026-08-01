@@ -148,9 +148,8 @@
 
         # Credentials for the DNS-01 challenge, shared by every vhost
         # certificate and by kanidm's. The IAM user behind them may only
-        # write _acme-challenge TXT records in the trexd.dev zone, so a
-        # leak cannot redirect a hostname or reach the rest of the
-        # account.
+        # write _acme-challenge TXT records in the zone below, so a leak
+        # cannot redirect a hostname or reach the rest of the account.
         clan.core.vars.generators.acme-aws-credentials = {
           files.acme-aws-credentials = {
             group = "acme";

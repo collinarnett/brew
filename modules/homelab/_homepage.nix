@@ -20,8 +20,6 @@ let
         href = "https://media.${cfg.domain}";
         icon = "jellyfin.png";
         description = "Movies, TV, and music";
-        # Jellyfin fixes its own listener at 8096 and the module exposes
-        # no option for it.
         siteMonitor = "http://127.0.0.1:8096";
       };
     }
@@ -65,9 +63,6 @@ let
         href = "https://garden.${cfg.domain}";
         icon = "mdi-source-branch";
         description = "Code forge";
-        # The explorer is a static bundle nginx serves directly, so
-        # watching radicle-httpd is what reveals whether repositories
-        # actually resolve.
         siteMonitor = "http://${config.services.radicle.httpd.listenAddress}:${toString config.services.radicle.httpd.listenPort}";
       };
     }
@@ -80,10 +75,6 @@ let
       };
     };
 
-  # apcupsd answers status queries on its network information server,
-  # whose port the module leaves to apcupsd's own 3551 default since it
-  # exposes nothing but a raw config blob. The daemon has no web
-  # interface, so the tile carries no link.
   systemGroup = optional config.brew.apcupsd.enable {
     UPS = {
       description = "Battery backup";
@@ -95,9 +86,6 @@ let
     };
   };
 
-  # CrowdSec has no self-hosted web UI; the widget shows live alert and
-  # ban counts from the local API, and the link goes to the hosted
-  # console (which stays a login page unless the engine is enrolled).
   securityGroup = optional cfg.crowdsec.enable {
     CrowdSec = {
       href = "https://app.crowdsec.net";
@@ -120,9 +108,6 @@ in
       # DNS-01 through the acme defaults; HTTP-01 cannot reach this host.
       acmeRoot = null;
       forceSSL = true;
-      # Homepage binds every interface and its module offers no option to
-      # narrow that, so the reverse proxy dials loopback to keep the
-      # traffic on this machine.
       locations."/".proxyPass =
         "http://127.0.0.1:${toString config.services.homepage-dashboard.listenPort}";
     };
@@ -175,14 +160,9 @@ in
       environmentFiles = optional cfg.crowdsec.enable "/run/homepage-crowdsec.env";
     };
 
-    # The crowdsec widget authenticates against the local API with the
-    # machine credentials cscli writes to lapi.yaml at first start.
-    # Homepage only reads secrets through {{HOMEPAGE_VAR_*}} environment
-    # substitution, so translate the yaml into an environment file
-    # before homepage starts.
-    # Pulled in by homepage as a weak dependency: a missing or malformed
-    # credentials file leaves this unit failed and visible in
-    # `systemctl --failed` while the rest of the dashboard still starts.
+    # Homepage reads secrets only through {{HOMEPAGE_VAR_*}} environment
+    # substitution, so the machine credentials cscli writes to lapi.yaml
+    # have to reach it as an environment file.
     systemd.services.homepage-crowdsec-credentials = mkIf cfg.crowdsec.enable {
       description = "Derive homepage crowdsec widget credentials from lapi.yaml";
       after = [ "crowdsec.service" ];

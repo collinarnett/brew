@@ -39,10 +39,9 @@
       };
 
       config = mkIf cfg.enable {
-        # Dedicated credentials, kept separate from the account-wide keys
-        # in awscli2-credentials: the IAM user behind these may only
-        # UPSERT this one A record, so a leak from this machine cannot
-        # touch anything else in the account.
+        # The IAM user behind these credentials may only UPSERT the one
+        # A record named below, so a leak from this machine cannot touch
+        # anything else in the account.
         clan.core.vars.generators.r53-ddns = {
           files.environment = { };
           prompts.environment = {
