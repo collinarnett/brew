@@ -63,7 +63,10 @@ let
         href = "https://garden.trexd.dev";
         icon = "mdi-source-branch";
         description = "Code forge";
-        siteMonitor = "http://127.0.0.1:8779";
+        # The explorer is a static bundle nginx serves directly, so
+        # watching radicle-httpd is what reveals whether repositories
+        # actually resolve.
+        siteMonitor = "http://127.0.0.1:8778";
       };
     }
     ++ optional cfg.kanidm.enable {
