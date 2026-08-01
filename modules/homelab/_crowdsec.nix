@@ -29,10 +29,12 @@ in
           listen_uri = "127.0.0.1:8081";
         };
         # Credential files are written by cscli at first start
-        # (`machine add --auto` / `capi register`), so they must live in
-        # the writable, persisted state directory. Registering with the
-        # central API pulls the community blocklist of known-bad IPs and
-        # shares locally detected attacker IPs back to it.
+        # (`machine add --auto` against the local API, `capi register`
+        # against the central one), so they must live in the writable,
+        # persisted state directory. Registering with the central API is
+        # what delivers the community blocklist of known-bad IPs; the
+        # reciprocal half of that exchange uploads locally detected
+        # attacker IPs.
         lapi.credentialsFile = "/var/lib/crowdsec/lapi.yaml";
         capi.credentialsFile = "/var/lib/crowdsec/capi.yaml";
       };
