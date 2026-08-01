@@ -19,7 +19,7 @@ in
       group = "multimedia";
     };
 
-    services.nginx.virtualHosts."torrents.trexd.dev" = {
+    services.nginx.virtualHosts."torrents.${cfg.domain}" = {
       enableACME = true;
       # DNS-01 through the acme defaults; HTTP-01 cannot reach this host.
       acmeRoot = null;
@@ -27,7 +27,8 @@ in
       # rqbit serves its web UI under /web/; the API lives at the root, so
       # send a bare visit to the UI rather than the raw JSON endpoint listing.
       locations."= /".return = "302 /web/";
-      locations."/".proxyPass = "http://127.0.0.1:3030";
+      locations."/".proxyPass =
+        "http://${config.services.rqbit.httpHost}:${toString config.services.rqbit.httpPort}";
     };
   };
 }

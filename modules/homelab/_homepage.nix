@@ -17,69 +17,73 @@ let
   mediaGroup =
     optional cfg.jellyfin.enable {
       Jellyfin = {
-        href = "https://media.trexd.dev";
+        href = "https://media.${cfg.domain}";
         icon = "jellyfin.png";
         description = "Movies, TV, and music";
+        # Jellyfin fixes its own listener at 8096 and the module exposes
+        # no option for it.
         siteMonitor = "http://127.0.0.1:8096";
       };
     }
     ++ optional cfg.kavita.enable {
       Kavita = {
-        href = "https://books.trexd.dev";
+        href = "https://books.${cfg.domain}";
         icon = "kavita.png";
         description = "Ebook library and reader";
-        siteMonitor = "http://127.0.0.1:5001";
+        siteMonitor = "http://${config.services.kavita.settings.IpAddresses}:${toString config.services.kavita.settings.Port}";
       };
     }
     ++ optional cfg.rqbit.enable {
       rqbit = {
-        href = "https://torrents.trexd.dev/web/";
+        href = "https://torrents.${cfg.domain}/web/";
         icon = "mdi-download";
         description = "Torrent client";
-        siteMonitor = "http://127.0.0.1:3030";
+        siteMonitor = "http://${config.services.rqbit.httpHost}:${toString config.services.rqbit.httpPort}";
       };
     };
 
   homeGroup = optional cfg.grocy.enable {
     Grocy = {
-      href = "https://grocy.trexd.dev";
+      href = "https://grocy.${cfg.domain}";
       icon = "grocy.png";
       description = "Groceries and household";
-      siteMonitor = "https://grocy.trexd.dev";
+      siteMonitor = "https://grocy.${cfg.domain}";
     };
   };
 
   toolsGroup =
     optional cfg.searx.enable {
       SearXNG = {
-        href = "https://search.trexd.dev";
+        href = "https://search.${cfg.domain}";
         icon = "searxng.png";
         description = "Metasearch";
-        siteMonitor = "http://127.0.0.1:8080";
+        siteMonitor = "http://${config.services.searx.settings.server.bind_address}:${toString config.services.searx.settings.server.port}";
       };
     }
     ++ optional cfg.radicle.enable {
       Radicle = {
-        href = "https://garden.trexd.dev";
+        href = "https://garden.${cfg.domain}";
         icon = "mdi-source-branch";
         description = "Code forge";
         # The explorer is a static bundle nginx serves directly, so
         # watching radicle-httpd is what reveals whether repositories
         # actually resolve.
-        siteMonitor = "http://127.0.0.1:8778";
+        siteMonitor = "http://${config.services.radicle.httpd.listenAddress}:${toString config.services.radicle.httpd.listenPort}";
       };
     }
     ++ optional cfg.kanidm.enable {
       Kanidm = {
-        href = "https://idm.trexd.dev";
+        href = "https://idm.${cfg.domain}";
         icon = "kanidm.png";
         description = "Single sign-on";
-        siteMonitor = "https://idm.trexd.dev";
+        siteMonitor = "https://idm.${cfg.domain}";
       };
     };
 
-  # apcupsd answers status queries on its network information server.
-  # The daemon has no web interface, so the tile carries no link.
+  # apcupsd answers status queries on its network information server,
+  # whose port the module leaves to apcupsd's own 3551 default since it
+  # exposes nothing but a raw config blob. The daemon has no web
+  # interface, so the tile carries no link.
   systemGroup = optional config.brew.apcupsd.enable {
     UPS = {
       description = "Battery backup";
@@ -99,10 +103,10 @@ let
       href = "https://app.crowdsec.net";
       icon = "crowdsec.png";
       description = "Intrusion detection";
-      siteMonitor = "http://127.0.0.1:8081/health";
+      siteMonitor = "http://${config.services.crowdsec.settings.general.api.server.listen_uri}/health";
       widget = {
         type = "crowdsec";
-        url = "http://127.0.0.1:8081";
+        url = "http://${config.services.crowdsec.settings.general.api.server.listen_uri}";
         username = "{{HOMEPAGE_VAR_CROWDSEC_LOGIN}}";
         password = "{{HOMEPAGE_VAR_CROWDSEC_PASSWORD}}";
       };
@@ -111,21 +115,25 @@ let
 in
 {
   config = mkIf (cfg.enable && cfg.homepage.enable) {
-    services.nginx.virtualHosts."home.trexd.dev" = {
+    services.nginx.virtualHosts."home.${cfg.domain}" = {
       enableACME = true;
       # DNS-01 through the acme defaults; HTTP-01 cannot reach this host.
       acmeRoot = null;
       forceSSL = true;
-      locations."/".proxyPass = "http://127.0.0.1:8082";
+      # Homepage binds every interface and its module offers no option to
+      # narrow that, so the reverse proxy dials loopback to keep the
+      # traffic on this machine.
+      locations."/".proxyPass =
+        "http://127.0.0.1:${toString config.services.homepage-dashboard.listenPort}";
     };
 
     services.homepage-dashboard = {
       enable = true;
       listenPort = 8082;
-      allowedHosts = "home.trexd.dev";
+      allowedHosts = "home.${cfg.domain}";
 
       settings = {
-        title = "trexd.dev";
+        title = cfg.domain;
         theme = "dark";
         # The Dracula custom CSS overrides the variables of the gray preset.
         color = "gray";
@@ -147,8 +155,8 @@ in
       ++ optional cfg.searx.enable {
         search = {
           provider = "custom";
-          url = "https://search.trexd.dev/search?q=";
-          suggestionUrl = "https://search.trexd.dev/autocompleter?q=";
+          url = "https://search.${cfg.domain}/search?q=";
+          suggestionUrl = "https://search.${cfg.domain}/autocompleter?q=";
           showSearchSuggestions = true;
           target = "_self";
         };

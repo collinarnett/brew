@@ -32,6 +32,14 @@
 
       options.brew.homelab = {
         enable = mkEnableOption "homelab";
+        domain = mkOption {
+          type = types.str;
+          example = "example.com";
+          description = ''
+            Domain the services are published under. Each one takes a
+            subdomain of it, and the certificates follow.
+          '';
+        };
         crowdsec = mkOption {
           default = { };
           type = types.submodule {

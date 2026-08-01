@@ -11,7 +11,7 @@ in
   config = mkIf (cfg.enable && cfg.grocy.enable) {
     services.grocy = {
       enable = true;
-      hostName = "grocy.trexd.dev";
+      hostName = "grocy.${cfg.domain}";
       nginx.enableSSL = true;
       settings = {
         currency = "USD";
@@ -34,7 +34,7 @@ in
     # pass, so the oauth2-proxy identity has to reach PHP as a fastcgi
     # param: derive it from the auth_request subrequest and override
     # whatever X-User header the client sent.
-    services.nginx.virtualHosts."grocy.trexd.dev" = {
+    services.nginx.virtualHosts."grocy.${cfg.domain}" = {
       # DNS-01 through the acme defaults; HTTP-01 cannot reach this host.
       acmeRoot = null;
       locations."~ \\.php$".extraConfig = lib.mkAfter ''

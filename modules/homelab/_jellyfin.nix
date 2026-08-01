@@ -17,7 +17,7 @@ in
     # Jellyfin.Plugin.SSO_Auth.Api.SSOController, so password login is dead
     # even with the form publicly exposed. Native clients (Finamp audio
     # streams, /socket websocket) need the proxy out of the way.
-    services.nginx.virtualHosts."media.trexd.dev" = {
+    services.nginx.virtualHosts."media.${cfg.domain}" = {
       enableACME = true;
       # DNS-01 through the acme defaults; HTTP-01 cannot reach this host.
       acmeRoot = null;

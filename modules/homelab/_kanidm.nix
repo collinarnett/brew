@@ -8,7 +8,7 @@ let
   inherit (lib) mkIf;
   cfg = config.brew.homelab;
   vars = config.clan.core.vars.generators;
-  acmeDir = config.security.acme.certs."idm.trexd.dev".directory;
+  acmeDir = config.security.acme.certs."idm.${cfg.domain}".directory;
 in
 {
   config = mkIf (cfg.enable && cfg.kanidm.enable) {
@@ -46,7 +46,7 @@ in
     # the acme credentials var with the other certs.
     security.acme = {
       acceptTerms = true;
-      certs."idm.trexd.dev" = {
+      certs."idm.${cfg.domain}" = {
         email = "collin@arnett.it";
         dnsProvider = "route53";
         group = "kanidm";
@@ -64,8 +64,8 @@ in
       package = pkgs.kanidmWithSecretProvisioning_1_10;
       server.enable = true;
       server.settings = {
-        origin = "https://idm.trexd.dev";
-        domain = "idm.trexd.dev";
+        origin = "https://idm.${cfg.domain}";
+        domain = "idm.${cfg.domain}";
         # The pcie-passthrough VM forwards 8443 and 8444 on the host.
         bindaddress = "127.0.0.1:8445";
         tls_chain = "${acmeDir}/fullchain.pem";
@@ -100,8 +100,8 @@ in
 
         systems.oauth2.kavita = mkIf cfg.kavita.enable {
           displayName = "Kavita";
-          originUrl = "https://books.trexd.dev/signin-oidc";
-          originLanding = "https://books.trexd.dev";
+          originUrl = "https://books.${cfg.domain}/signin-oidc";
+          originLanding = "https://books.${cfg.domain}";
           basicSecretFile = vars.kavita_oidc_client_secret.files.kavita_oidc_client_secret.path;
           preferShortUsername = true;
           scopeMaps.homelab_users = [
@@ -119,8 +119,8 @@ in
 
         systems.oauth2.jellyfin = mkIf cfg.jellyfin.enable {
           displayName = "Jellyfin";
-          originUrl = "https://media.trexd.dev/sso/OID/redirect/kanidm";
-          originLanding = "https://media.trexd.dev";
+          originUrl = "https://media.${cfg.domain}/sso/OID/redirect/kanidm";
+          originLanding = "https://media.${cfg.domain}";
           basicSecretFile = vars.jellyfin_oidc_client_secret.files.jellyfin_oidc_client_secret.path;
           preferShortUsername = true;
           # jellyfin-plugin-sso cannot validate ES256 tokens; legacy RS256
@@ -146,8 +146,8 @@ in
           displayName = "Forward Auth";
           # The nginx integration routes every sign-in through the shared
           # auth domain, so this is the only redirect target.
-          originUrl = "https://home.trexd.dev/oauth2/callback";
-          originLanding = "https://home.trexd.dev";
+          originUrl = "https://home.${cfg.domain}/oauth2/callback";
+          originLanding = "https://home.${cfg.domain}";
           basicSecretFile = vars.oauth2_proxy.files.oauth2_proxy_client_secret.path;
           preferShortUsername = true;
           scopeMaps.homelab_users = [
@@ -161,23 +161,23 @@ in
 
     # The certificate must exist before kanidm can start.
     systemd.services.kanidm = {
-      after = [ "acme-finished-idm.trexd.dev.target" ];
-      wants = [ "acme-finished-idm.trexd.dev.target" ];
+      after = [ "acme-finished-idm.${cfg.domain}.target" ];
+      wants = [ "acme-finished-idm.${cfg.domain}.target" ];
     };
 
     # Kanidm refuses plaintext HTTP, so nginx re-encrypts to the backend;
     # the SNI needs pinning since the dial address is 127.0.0.1 but the
-    # backend cert is for idm.trexd.dev.
-    services.nginx.virtualHosts."idm.trexd.dev" = {
+    # backend cert is for the idm subdomain.
+    services.nginx.virtualHosts."idm.${cfg.domain}" = {
       # Serve the same DNS-challenge certificate kanidm terminates with;
       # nginx joins the kanidm group to read it.
-      useACMEHost = "idm.trexd.dev";
+      useACMEHost = "idm.${cfg.domain}";
       forceSSL = true;
       locations."/" = {
-        proxyPass = "https://127.0.0.1:8445";
+        proxyPass = "https://${config.services.kanidm.server.settings.bindaddress}";
         extraConfig = ''
           proxy_ssl_server_name on;
-          proxy_ssl_name idm.trexd.dev;
+          proxy_ssl_name idm.${cfg.domain};
         '';
       };
     };

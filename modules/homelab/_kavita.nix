@@ -27,13 +27,13 @@ in
       '';
     };
 
-    services.nginx.virtualHosts."books.trexd.dev" = {
+    services.nginx.virtualHosts."books.${cfg.domain}" = {
       enableACME = true;
       # DNS-01 through the acme defaults; HTTP-01 cannot reach this host.
       acmeRoot = null;
       forceSSL = true;
       locations."/" = {
-        proxyPass = "http://127.0.0.1:5001";
+        proxyPass = "http://${config.services.kavita.settings.IpAddresses}:${toString config.services.kavita.settings.Port}";
         proxyWebsockets = true;
       };
     };
@@ -46,7 +46,7 @@ in
         # 5000 is taken by the docker registry.
         Port = 5001;
         OpenIdConnectSettings = mkIf cfg.kanidm.enable {
-          Authority = "https://idm.trexd.dev/oauth2/openid/kavita";
+          Authority = "https://idm.${cfg.domain}/oauth2/openid/kavita";
           ClientId = "kavita";
           Secret = "@OIDC_SECRET@";
           ProvisionAccounts = true;

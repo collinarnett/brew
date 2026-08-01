@@ -29,18 +29,18 @@ in
       provider = "oidc";
       clientID = "forward-auth";
       clientSecretFile = vars.oauth2_proxy.files.oauth2_proxy_client_secret.path;
-      oidcIssuerUrl = "https://idm.trexd.dev/oauth2/openid/forward-auth";
+      oidcIssuerUrl = "https://idm.${cfg.domain}/oauth2/openid/forward-auth";
       httpAddress = "http://127.0.0.1:4180";
       reverseProxy = true;
       trustedProxyIP = [ "127.0.0.1/32" ];
       setXauthrequest = true;
       email.domains = [ "*" ];
       cookie = {
-        domain = ".trexd.dev";
+        domain = ".${cfg.domain}";
         secretFile = vars.oauth2_proxy.files.oauth2_proxy_cookie_secret.path;
       };
       extraConfig = {
-        whitelist-domain = ".trexd.dev";
+        whitelist-domain = ".${cfg.domain}";
         code-challenge-method = "S256";
         skip-provider-button = true;
         # Kanidm access tokens live 15 minutes; refreshing the session
@@ -52,14 +52,14 @@ in
 
       # nixpkgs generates the auth_request wiring for these vhosts; the
       # sign-in redirect always round-trips through the domain below, and
-      # the .trexd.dev session cookie carries the login to the others.
+      # the wildcard session cookie carries the login to the others.
       nginx = {
-        domain = "home.trexd.dev";
+        domain = "home.${cfg.domain}";
         virtualHosts = {
-          "home.trexd.dev" = { };
-          "search.trexd.dev" = { };
-          "grocy.trexd.dev" = { };
-          "torrents.trexd.dev" = { };
+          "home.${cfg.domain}" = { };
+          "search.${cfg.domain}" = { };
+          "grocy.${cfg.domain}" = { };
+          "torrents.${cfg.domain}" = { };
         };
       };
     };

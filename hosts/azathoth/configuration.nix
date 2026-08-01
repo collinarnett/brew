@@ -68,6 +68,7 @@
     };
 
     homelab = {
+      domain = "trexd.dev";
       crowdsec.enable = true;
       searx.enable = true;
       nginx.enable = true;

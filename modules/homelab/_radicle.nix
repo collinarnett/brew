@@ -139,7 +139,7 @@ in
     # clients cannot carry a session cookie.
     services.nginx = {
       enable = true;
-      virtualHosts."garden.trexd.dev" = {
+      virtualHosts."garden.${cfg.domain}" = {
         enableACME = true;
         # DNS-01 through the acme defaults; HTTP-01 cannot reach this host.
         acmeRoot = null;
@@ -147,15 +147,17 @@ in
         root = pkgs.radicle-explorer.withConfig {
           preferredSeeds = [
             {
-              hostname = "garden.trexd.dev";
+              hostname = "garden.${cfg.domain}";
               port = 443;
               scheme = "https";
             }
           ];
         };
         locations."/".tryFiles = "$uri /index.html";
-        locations."^~ /api".proxyPass = "http://127.0.0.1:8778";
-        locations."^~ /raw".proxyPass = "http://127.0.0.1:8778";
+        locations."^~ /api".proxyPass =
+          "http://${config.services.radicle.httpd.listenAddress}:${toString config.services.radicle.httpd.listenPort}";
+        locations."^~ /raw".proxyPass =
+          "http://${config.services.radicle.httpd.listenAddress}:${toString config.services.radicle.httpd.listenPort}";
       };
     };
   };
