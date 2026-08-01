@@ -43,7 +43,7 @@ in
 
     # Kanidm terminates its own TLS even behind the reverse proxy, so it
     # gets a real certificate through the route53 DNS challenge, sharing
-    # the aws credentials var with the other acme certs via the aws group.
+    # the acme credentials var with the other certs.
     security.acme = {
       acceptTerms = true;
       certs."idm.trexd.dev" = {
@@ -51,14 +51,13 @@ in
         dnsProvider = "route53";
         group = "kanidm";
         environmentFile = pkgs.writeText "kanidm-acme-env" ''
-          AWS_SHARED_CREDENTIALS_FILE=${vars.awscli2-credentials.files.awscli2-credentials.path}
+          AWS_SHARED_CREDENTIALS_FILE=${vars.acme-aws-credentials.files.acme-aws-credentials.path}
           AWS_PROFILE=default
           AWS_REGION=us-east-1
         '';
         reloadServices = [ "kanidm.service" ];
       };
     };
-    users.users.acme.extraGroups = [ "aws" ];
     users.users.nginx.extraGroups = [ "kanidm" ];
 
     services.kanidm = {

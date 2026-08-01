@@ -21,6 +21,19 @@
           };
         };
 
+        # Credentials for the backup bucket alone. The IAM user behind
+        # them can only read and write objects under the restic prefix of
+        # collin-backups, so a leak from a backup job reaches no other
+        # bucket and nothing else in the account.
+        clan.core.vars.generators.restic-aws-credentials = {
+          files.restic-aws-credentials = { };
+          prompts.restic-aws-credentials = {
+            description = "AWS credentials file contents for the restic S3 repository";
+            type = "multiline";
+            persist = true;
+          };
+        };
+
         services.restic =
           let
             initialize = true;
@@ -137,7 +150,8 @@
               environment = {
                 AWS_PROFILE = "default";
                 AWS_REGION = "us-east-1";
-                AWS_SHARED_CREDENTIALS_FILE = config.clan.core.vars.generators.awscli2-credentials.files.awscli2-credentials.path;
+                AWS_SHARED_CREDENTIALS_FILE =
+                  config.clan.core.vars.generators.restic-aws-credentials.files.restic-aws-credentials.path;
               };
             });
 
