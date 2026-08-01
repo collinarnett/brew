@@ -65,6 +65,11 @@
         machineBase = {
           nixpkgs.hostPlatform = "x86_64-linux";
           brew.user = "collin";
+          # The iroh tunnel exposes sshd to the whole iroh network, leaving
+          # SSH authentication as the only barrier. PAM's keyboard-interactive
+          # path accepts user passwords even with PasswordAuthentication off,
+          # so disable it to keep logins strictly key-based.
+          services.openssh.settings.KbdInteractiveAuthentication = false;
           home-manager.sharedModules = brewHmModules ++ [
             inputs.mcp-servers-nix.homeManagerModules.default
           ];
@@ -118,6 +123,16 @@
                   "201:746b:a9c:402a:6a45:a9fe:ab4c:9ffa"
                 ];
               };
+            };
+            # NAT-traversing SSH over iroh (dumbpipe): `clan ssh` falls back
+            # to it when direct and yggdrasil routes fail, so machines stay
+            # reachable without exposing sshd to the internet.
+            iroh = {
+              module = {
+                name = "p2p-ssh-iroh";
+                input = "clan-core";
+              };
+              roles.server.tags.all = { };
             };
           };
           machines = {
