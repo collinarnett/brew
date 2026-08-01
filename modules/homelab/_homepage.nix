@@ -75,6 +75,19 @@ let
       };
     };
 
+  # apcupsd answers status queries on its network information server.
+  # The daemon has no web interface, so the tile carries no link.
+  systemGroup = optional config.brew.apcupsd.enable {
+    UPS = {
+      description = "Battery backup";
+      icon = "mdi-battery-charging";
+      widget = {
+        type = "apcups";
+        url = "tcp://127.0.0.1:3551";
+      };
+    };
+  };
+
   # CrowdSec has no self-hosted web UI; the widget shows live alert and
   # ban counts from the local API, and the link goes to the hosted
   # console (which stays a login page unless the engine is enrolled).
@@ -143,6 +156,7 @@ in
         { Home = homeGroup; }
         { Tools = toolsGroup; }
         { Security = securityGroup; }
+        { System = systemGroup; }
       ];
 
       customCSS = builtins.readFile ./homepage-dracula.css;
