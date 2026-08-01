@@ -59,6 +59,7 @@ Disk layout is declared per-host in `disko.nix` so that new machines can be prov
 
 - Formatter is `nixfmt`. Run before committing.
 - Comments must stand alone. A comment is read by someone with only the code in front of them: state what is true of the code today and why, in absolute terms. Never reference removed components, prior approaches, or decisions from a conversation ("the previous X", "instead of the old Y", "stays enabled") — that context does not exist for the reader.
+- A comment earns its place by telling that reader something the code cannot: an external constraint, the consequence of getting it wrong, or a line that looks removable but is load-bearing. Do not justify a choice, pre-empt an objection, or record why some other approach was rejected. Nobody reading the line is asking, and a self-contained sentence is still noise if it only exists to defend the code from review. That reasoning belongs in the commit message.
 - Module options live under `brew.<name>`, not directly under `services.*` or `programs.*`.
 - A feature that takes no configuration and is used by only one machine does not need its own module. Inline it in that host's `configuration.nix` (NixOS bits at the top level, home-manager bits in the host's `home-manager.users` block) rather than wrapping three lines in `brew.<name>` scaffolding. Modules earn their keep through reuse or aggregation by a profile.
 - Deploy with `clan machines update <host>`, not `nixos-rebuild`.
