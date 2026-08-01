@@ -139,7 +139,6 @@
       "vfat"
       "zfs"
     ];
-    zfs.forceImportAll = true;
   };
 
   fileSystems = {
