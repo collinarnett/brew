@@ -78,6 +78,25 @@
         group = "postgres";
         mode = "0700";
       }
+      # Hub state, the alert/decision database, and the LAPI/CAPI
+      # credentials cscli writes at first start. Losing this would
+      # re-register the machine and drop ban history.
+      {
+        directory = "/var/lib/crowdsec";
+        user = "crowdsec";
+        group = "crowdsec";
+        mode = "0750";
+      }
+      # The firewall bouncer's LAPI key, issued once at registration. The
+      # engine's database (also persisted) lists the bouncer after first
+      # registration, so losing this key would leave the bouncer unable
+      # to authenticate.
+      {
+        directory = "/var/lib/crowdsec-firewall-bouncer-register";
+        user = "crowdsec";
+        group = "crowdsec";
+        mode = "0755";
+      }
     ];
     files = [
       "/etc/nix/netrc"

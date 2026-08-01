@@ -59,6 +59,7 @@
     };
 
     homelab = {
+      crowdsec.enable = true;
       searx.enable = true;
       nginx.enable = true;
       jellyfin.enable = true;

@@ -17,6 +17,7 @@
     in
     {
       imports = [
+        ./_crowdsec.nix
         ./_grocy.nix
         ./_homepage.nix
         ./_jellyfin.nix
@@ -31,6 +32,14 @@
 
       options.brew.homelab = {
         enable = mkEnableOption "homelab";
+        crowdsec = mkOption {
+          default = { };
+          type = types.submodule {
+            options = {
+              enable = mkEnableOption "crowdsec";
+            };
+          };
+        };
         grocy = mkOption {
           default = { };
           type = types.submodule {
