@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }:
 let
@@ -73,6 +74,24 @@ let
         siteMonitor = "https://idm.trexd.dev";
       };
     };
+
+  # CrowdSec has no self-hosted web UI; the widget shows live alert and
+  # ban counts from the local API, and the link goes to the hosted
+  # console (which stays a login page unless the engine is enrolled).
+  securityGroup = optional cfg.crowdsec.enable {
+    CrowdSec = {
+      href = "https://app.crowdsec.net";
+      icon = "crowdsec.png";
+      description = "Intrusion detection";
+      siteMonitor = "http://127.0.0.1:8081/health";
+      widget = {
+        type = "crowdsec";
+        url = "http://127.0.0.1:8081";
+        username = "{{HOMEPAGE_VAR_CROWDSEC_LOGIN}}";
+        password = "{{HOMEPAGE_VAR_CROWDSEC_PASSWORD}}";
+      };
+    };
+  };
 in
 {
   config = mkIf (cfg.enable && cfg.homepage.enable) {
@@ -123,9 +142,42 @@ in
         { Media = mediaGroup; }
         { Home = homeGroup; }
         { Tools = toolsGroup; }
+        { Security = securityGroup; }
       ];
 
       customCSS = builtins.readFile ./homepage-dracula.css;
+
+      environmentFiles = optional cfg.crowdsec.enable "/run/homepage-crowdsec.env";
+    };
+
+    # The crowdsec widget authenticates against the local API with the
+    # machine credentials cscli writes to lapi.yaml at first start.
+    # Homepage only reads secrets through {{HOMEPAGE_VAR_*}} environment
+    # substitution, so translate the yaml into an environment file
+    # before homepage starts.
+    # Pulled in by homepage as a weak dependency: a missing or malformed
+    # credentials file leaves this unit failed and visible in
+    # `systemctl --failed` while the rest of the dashboard still starts.
+    systemd.services.homepage-crowdsec-credentials = mkIf cfg.crowdsec.enable {
+      description = "Derive homepage crowdsec widget credentials from lapi.yaml";
+      after = [ "crowdsec.service" ];
+      before = [ "homepage-dashboard.service" ];
+      wantedBy = [ "homepage-dashboard.service" ];
+      serviceConfig.Type = "oneshot";
+      path = [ pkgs.gnused ];
+      script = ''
+        set -euo pipefail
+        umask 077
+        credentials=/var/lib/crowdsec/lapi.yaml
+        login=$(sed -n 's/^login: //p' "$credentials")
+        password=$(sed -n 's/^password: //p' "$credentials")
+        if [ -z "$login" ] || [ -z "$password" ]; then
+          echo "no machine credentials found in $credentials" >&2
+          exit 1
+        fi
+        printf 'HOMEPAGE_VAR_CROWDSEC_LOGIN=%s\nHOMEPAGE_VAR_CROWDSEC_PASSWORD=%s\n' \
+          "$login" "$password" > /run/homepage-crowdsec.env
+      '';
     };
   };
 }
