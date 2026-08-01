@@ -132,7 +132,7 @@
                 name = "p2p-ssh-iroh";
                 input = "clan-core";
               };
-              roles.server.tags.all = { };
+              roles.server.machines.azathoth = { };
             };
           };
           machines = {
