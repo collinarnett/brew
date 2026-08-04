@@ -226,6 +226,21 @@
 
   services.openssh.settings.X11Forwarding = true;
 
+  # Sol Reader serial ports (normal mode and its USB JTAG programming mode):
+  # the uaccess tag grants the seated user an ACL on the device nodes. The
+  # rules must be numbered below 73, where systemd's seat rules resolve the
+  # tag.
+  services.udev.packages = [
+    (pkgs.writeTextFile {
+      name = "solreader-udev-rules";
+      destination = "/etc/udev/rules.d/70-solreader.rules";
+      text = ''
+        SUBSYSTEM=="tty", ATTRS{idVendor}=="303a", ATTRS{idProduct}=="4002", TAG+="uaccess"
+        SUBSYSTEM=="tty", ATTRS{idVendor}=="303a", ATTRS{idProduct}=="1001", TAG+="uaccess"
+      '';
+    })
+  ];
+
   virtualisation.docker.enable = true;
   virtualisation.oci-containers.backend = "docker";
 
