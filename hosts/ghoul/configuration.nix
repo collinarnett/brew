@@ -4,6 +4,25 @@
   lib,
   ...
 }:
+let
+  # The GPD Duo's top panel (DP-3) folds down to face someone across the
+  # table; the hardware rotates the panel itself when folded. This mirrors the
+  # bottom panel (eDP-1) onto it. Running it again stops the mirror and DP-3
+  # returns to its normal workspaces.
+  share-screen = pkgs.writeShellApplication {
+    name = "share-screen";
+    runtimeInputs = with pkgs; [
+      procps
+      wl-mirror
+    ];
+    text = ''
+      if pkill -x wl-mirror; then
+        exit 0
+      fi
+      exec wl-mirror --fullscreen-output DP-3 eDP-1
+    '';
+  };
+in
 {
   imports = [
     ./disko.nix
@@ -124,6 +143,8 @@
         bindsym --locked XF86AudioMicMute exec ${pkgs.wireplumber}/bin/wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
         unbindsym $mod+l
         bindsym $mod+l exec ${pkgs.swaylock}/bin/swaylock
+        no_focus [app_id="at.yrlf.wl_mirror"]
+        bindsym $mod+m exec ${share-screen}/bin/share-screen
       '';
     };
 
@@ -418,6 +439,7 @@
       noto-fonts-color-emoji
       pavucontrol
       poppler-utils
+      share-screen
       siji
       slurp
     ];
