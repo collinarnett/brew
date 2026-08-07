@@ -144,6 +144,8 @@
         ".claude"
         ".codex"
         ".crawl"
+        # MakeMKV registration key and settings.
+        ".MakeMKV"
         ".radicle"
         ".config/obs-studio"
         {

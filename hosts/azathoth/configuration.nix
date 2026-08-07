@@ -229,6 +229,8 @@
 
   services.openssh.settings.X11Forwarding = true;
 
+  brew.toenail.enable = true;
+
   # Sol Reader serial ports (normal mode and its USB JTAG programming mode):
   # the uaccess tag grants the seated user an ACL on the device nodes. The
   # rules must be numbered below 73, where systemd's seat rules resolve the
@@ -242,6 +244,12 @@
         SUBSYSTEM=="tty", ATTRS{idVendor}=="303a", ATTRS{idProduct}=="1001", TAG+="uaccess"
       '';
     })
+  ];
+
+  # Movie library for Jellyfin; setgid so rips created by collin inherit the
+  # multimedia group that jellyfin reads through.
+  systemd.tmpfiles.rules = [
+    "d /media/movies 2770 collin multimedia - -"
   ];
 
   virtualisation.docker.enable = true;
@@ -313,6 +321,7 @@
       iommu-groups
       jq
       languagetool
+      makemkv
       # TEMP: openjdk25-wakefield (its JDK) fails a /build/-reference check under
       # nixpkgs 26.11; re-enable once overlays/default.nix openjdk override is fixed.
       # leiningen
