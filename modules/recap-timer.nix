@@ -50,6 +50,12 @@
             Type = "oneshot";
             ExecStart = lib.getExe recapRun;
 
+            # Claude subagents summarizing the day's sessions write scratch files
+            # through relative shell redirects. A user service with no working
+            # directory inherits $HOME, which leaves that scratch in the home root.
+            CacheDirectory = "recap";
+            WorkingDirectory = "%C/recap";
+
             ProtectSystem = "strict";
             PrivateTmp = true;
             PrivateDevices = true;
