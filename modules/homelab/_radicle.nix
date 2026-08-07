@@ -158,6 +158,10 @@ in
           "http://${config.services.radicle.httpd.listenAddress}:${toString config.services.radicle.httpd.listenPort}";
         locations."^~ /raw".proxyPass =
           "http://${config.services.radicle.httpd.listenAddress}:${toString config.services.radicle.httpd.listenPort}";
+        # Seeded repositories clone over git smart HTTP straight from
+        # radicle-httpd, which is what lets Nix flake inputs fetch them.
+        locations."~ ^/z[a-zA-Z0-9]+\\.git/".proxyPass =
+          "http://${config.services.radicle.httpd.listenAddress}:${toString config.services.radicle.httpd.listenPort}";
       };
     };
   };

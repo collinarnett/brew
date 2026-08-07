@@ -85,6 +85,9 @@
           "did:key:z6MkfySG4RjARTz3owuuaF8mQfe9NJsGSz32omfKn1QCcp2E" # ghoul
           "did:key:z6MknS6p3YArG8sBcnSKAdS3GRMt2n3BqG2uQpVxrypq7mGg" # vampire
         ];
+        seedRepositories = [
+          "rad:z3PyS59SMW9PRoyz8MSpG2gXiPnq1" # toenail
+        ];
       };
     };
 
