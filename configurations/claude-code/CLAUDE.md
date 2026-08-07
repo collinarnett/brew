@@ -33,6 +33,9 @@ Common tools like `python3`, `jq`, etc. are not in `$PATH` by default on NixOS. 
 ### Parse, Don't Validate
 Resolve raw inputs into typed objects at the boundary. Functions deep in the stack should never receive strings that might be invalid. No `or []` shortcuts, no empty strings as None alternatives. Invalid states should be unrepresentable at the type level.
 
+### Configuration Over Environment Variables
+Programs read their settings from their configuration file, never from environment variables — env vars are invisible inputs that nothing records or validates. Secrets enter configuration as *paths to files* holding the secret (what clan vars, sops, or systemd credentials render, or a file written by hand), never as inline values: inline secrets end up committed in dotfiles or rendered world-readable into the Nix store. Resolve every configured path once at load into a proven type; a path that does not deliver fails the run naming the field. Nix module options for secret files are `types.str`, which rejects the path literal that would copy the secret into the store.
+
 ### Declarative Over Imperative
 Models describe themselves (`__str__`). Tool registration via decorators. Configuration via Pydantic. Derive patterns from what the code already does rather than imposing new abstractions.
 
