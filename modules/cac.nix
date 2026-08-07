@@ -1,4 +1,11 @@
 { ... }:
+let
+  # NSS records a PKCS#11 module's library path verbatim in each profile's
+  # pkcs11.txt and dlopens it at startup. Registering this indirection keeps
+  # those databases valid across p11-kit and OpenSC upgrades. It sits outside
+  # /etc/pkcs11 because p11-kit scans that directory for its own configuration.
+  pkcs11ProxyPath = "/etc/pkcs11-proxy/p11-kit-proxy.so";
+in
 {
   flake.modules.nixos.cac =
     {
@@ -49,11 +56,14 @@
           module: ${pkgs.opensc}/lib/opensc-pkcs11.so
         '';
 
-        # Firefox reads p11-kit-proxy automatically — declarative PKCS#11 registration.
+        environment.etc."pkcs11-proxy/p11-kit-proxy.so".source = "${pkgs.p11-kit}/lib/p11-kit-proxy.so";
+
+        # Firefox resolves the proxy to whatever /etc/pkcs11/modules/ lists, so
+        # an OpenSC upgrade reaches Firefox without touching any profile.
         programs.firefox.policies = {
           SecurityDevices = {
             Add = {
-              "CAC" = "${pkgs.opensc}/lib/opensc-pkcs11.so";
+              "CAC" = pkcs11ProxyPath;
             };
           };
         };
@@ -81,23 +91,24 @@
 
       config = lib.mkIf cfg.enable {
         # Chrome uses a per-user NSS database (~/.pki/nssdb) and does not read
-        # /etc/pkcs11/modules/ directly. Register p11-kit-proxy there once so
-        # Chrome can reach OpenSC through the system-wide module config above.
-        # The modutil call is skipped if the module is already registered.
+        # /etc/pkcs11/modules/ directly. Register p11-kit-proxy there so Chrome
+        # can reach OpenSC through the system-wide module config above. The
+        # guard matches on the library path, so a database still holding some
+        # other path is corrected rather than left alone.
         home.activation.setupChromiumCac = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
           NSSDB="$HOME/.pki/nssdb"
+          MODUTIL="${pkgs.nssTools}/bin/modutil"
           if [ ! -f "$NSSDB/cert9.db" ]; then
             $DRY_RUN_CMD mkdir -p "$NSSDB"
             $DRY_RUN_CMD ${pkgs.nssTools}/bin/certutil \
               -d sql:"$NSSDB" -N --empty-password
           fi
-          if ! ${pkgs.nssTools}/bin/modutil -dbdir sql:"$NSSDB" -list 2>/dev/null \
-              | grep -q "p11-kit-proxy"; then
-            $DRY_RUN_CMD ${pkgs.nssTools}/bin/modutil \
-              -force \
-              -dbdir sql:"$NSSDB" \
-              -add "p11-kit-proxy" \
-              -libfile ${pkgs.p11-kit}/lib/p11-kit-proxy.so
+          if ! "$MODUTIL" -dbdir sql:"$NSSDB" -list 2>/dev/null \
+              | grep -qF "${pkcs11ProxyPath}"; then
+            $DRY_RUN_CMD "$MODUTIL" -force -dbdir sql:"$NSSDB" \
+              -delete "p11-kit-proxy" >/dev/null 2>&1 || true
+            $DRY_RUN_CMD "$MODUTIL" -force -dbdir sql:"$NSSDB" \
+              -add "p11-kit-proxy" -libfile "${pkcs11ProxyPath}"
           fi
         '';
       };
