@@ -54,7 +54,7 @@
           {
             brew.toenail = {
               enable = true;
-              apiKeyFile =
+              opensubtitlesKeyFile =
                 config.clan.core.vars.generators.opensubtitles_api_key.files.opensubtitles_api_key.path;
             };
           }
@@ -75,13 +75,33 @@
     {
       options.brew.toenail = {
         enable = lib.mkEnableOption "toenail";
-        apiKeyFile = lib.mkOption {
-          type = lib.types.nullOr lib.types.path;
+        # The key-file options are strings on purpose: a Nix path literal
+        # would copy the secret into the world-readable store, and
+        # types.str rejects path values outright. Pass the runtime path a
+        # secrets manager renders the key at.
+        opensubtitlesKeyFile = lib.mkOption {
+          type = lib.types.nullOr lib.types.str;
           default = null;
           description = ''
-            File holding the OpenSubtitles API key, exported to login
-            sessions as OPENSUBTITLES_API_KEY. Null leaves the variable
-            unset and toenail skips subtitle verification.
+            Runtime path of the file holding the OpenSubtitles API key,
+            rendered into the configuration as opensubtitlesKeyFile. Null
+            disables subtitle fetching, and with it verification.
+          '';
+        };
+        tmdbKeyFile = lib.mkOption {
+          type = lib.types.nullOr lib.types.str;
+          default = null;
+          description = ''
+            Runtime path of the file holding the TMDb API key. Null makes
+            the tmdb search backend skip itself.
+          '';
+        };
+        omdbKeyFile = lib.mkOption {
+          type = lib.types.nullOr lib.types.str;
+          default = null;
+          description = ''
+            Runtime path of the file holding the OMDb API key. Null makes
+            the omdb search backend skip itself.
           '';
         };
         settings = {
@@ -104,9 +124,9 @@
             ];
             description = ''
               Movie databases the identification menu consults, in display
-              order. tmdb and omdb read their API keys from API_KEY_TMDB and
-              API_KEY_OMDB and skip themselves when unset; discdb needs no
-              key.
+              order. tmdb and omdb read their API keys from the files the
+              tmdbKeyFile and omdbKeyFile options name and skip themselves
+              when unconfigured; discdb needs no key.
             '';
           };
           naming = {
@@ -185,13 +205,20 @@
               description = "Opus bitrate of each surround track, in kbit/s.";
             };
           };
+          whisperModel = lib.mkOption {
+            type = lib.types.nullOr lib.types.str;
+            default = "${pkgs.whisper-ggml-tiny-en}";
+            defaultText = lib.literalExpression ''"''${pkgs.whisper-ggml-tiny-en}"'';
+            description = ''
+              Path of the whisper.cpp model used to pick the film's audio
+              track and verify dialogue order. Null disables speech
+              analysis.
+            '';
+          };
         };
       };
       config = lib.mkIf cfg.enable {
         home.packages = [ pkgs.toenail ];
-        home.sessionVariables = lib.mkIf (cfg.apiKeyFile != null) {
-          OPENSUBTITLES_API_KEY = "$(cat ${cfg.apiKeyFile})";
-        };
         xdg.configFile."toenail/config.dhall".text =
           let
             s = cfg.settings;
@@ -203,6 +230,7 @@
               omdb = "Backend.Omdb";
               discdb = "Backend.DiscDb";
             };
+            optionalText = v: if v == null then "None Text" else "Some ${dhallText v}";
             # The program decodes the numeric fields as Naturals, which Dhall
             # only reads from bare literals; a sign prefix would make them
             # Integers and fail decoding.
@@ -236,6 +264,10 @@
                     { stereoKbps = ${toString s.audio.stereoKbps}
                     , surroundKbps = ${toString s.audio.surroundKbps}
                     }
+                , opensubtitlesKeyFile = ${optionalText cfg.opensubtitlesKeyFile}
+                , tmdbKeyFile = ${optionalText cfg.tmdbKeyFile}
+                , omdbKeyFile = ${optionalText cfg.omdbKeyFile}
+                , whisperModel = ${optionalText s.whisperModel}
                 }
           '';
       };

@@ -948,16 +948,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1786108418,
-        "narHash": "sha256-GVzC6sRAtUyysGp0Or9gr1itptOJrwoSK3/li0du3Fk=",
-        "ref": "refs/tags/v0.2.0",
-        "rev": "b99c6de97f6eea37cfc12432adc6f88870a334f2",
-        "revCount": 3,
+        "lastModified": 1786111297,
+        "narHash": "sha256-tJZJWZtuTz2AxmSwKFzbLXTRPRUBUyjjfgcddDuRvTs=",
+        "ref": "refs/tags/v0.3.0",
+        "rev": "4fd2c1e3245d43db21f240ab796517f7c3b5491e",
+        "revCount": 5,
         "type": "git",
         "url": "https://garden.trexd.dev/z3PyS59SMW9PRoyz8MSpG2gXiPnq1.git"
       },
       "original": {
-        "ref": "refs/tags/v0.2.0",
+        "ref": "refs/tags/v0.3.0",
         "type": "git",
         "url": "https://garden.trexd.dev/z3PyS59SMW9PRoyz8MSpG2gXiPnq1.git"
       }
