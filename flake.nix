@@ -37,7 +37,7 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nix-topology.url = "github:oddlama/nix-topology";
     nix-topology.inputs.nixpkgs.follows = "nixpkgs";
-    toenail.url = "git+https://garden.trexd.dev/z3PyS59SMW9PRoyz8MSpG2gXiPnq1.git?ref=main";
+    toenail.url = "git+https://garden.trexd.dev/z3PyS59SMW9PRoyz8MSpG2gXiPnq1.git?ref=refs/tags/v0.2.0";
     toenail.inputs.nixpkgs.follows = "nixpkgs";
     newt.url = "git+file:///home/collin/newt";
     newt.inputs.nixpkgs.follows = "nixpkgs";
