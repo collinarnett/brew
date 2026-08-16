@@ -7,7 +7,7 @@ import BrowserCookies
 
 main :: IO ()
 main = do
-  Right cookies <- getFirefoxCookies defaultConfig ".example.com"
+  Right cookies <- getFirefoxCookies ".example.com"
   -- cookies :: CookieJar, ready for http-client
 ```
 
@@ -17,23 +17,13 @@ Firefox stores cookies in a SQLite database (`cookies.sqlite`) inside each profi
 
 The domain parameter is matched with a SQL `LIKE` prefix, so `".walmart.com"` picks up cookies for `www.walmart.com`, `.walmart.com`, etc.
 
-## Configuration
-
-```haskell
-data CookieConfig = CookieConfig
-  { ccVerbose :: Bool  -- log cookie DB path and count to stderr
-  }
-
-defaultConfig :: CookieConfig
-defaultConfig = CookieConfig { ccVerbose = False }
-```
-
 ## Errors
 
 ```haskell
 data CookieError
-  = NoCookiesFound Text FilePath   -- no cookies for that domain in the DB
+  = NoProfilesIni FilePath         -- no ~/.mozilla/firefox/profiles.ini
   | NoDefaultProfile FilePath      -- couldn't find Default=1 in profiles.ini
+  | NoCookiesFound Text FilePath   -- no cookies for that domain in the DB
 ```
 
 ## Limitations

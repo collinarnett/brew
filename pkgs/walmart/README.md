@@ -4,14 +4,14 @@ Haskell client for Walmart's GraphQL API. Typed access to order history and per-
 
 ```haskell
 import qualified Walmart
-import BrowserCookies (getFirefoxCookies, defaultConfig)
+import BrowserCookies (getFirefoxCookies)
 
 main :: IO ()
 main = do
-  Right cookies <- getFirefoxCookies defaultConfig ".walmart.com"
+  Right cookies <- getFirefoxCookies ".walmart.com"
   env <- Walmart.newEnv cookies
-  Right orders <- Walmart.getOrders env Nothing 10
-  Right detail <- Walmart.getOrder env (head orders)
+  Right (summary : _) <- Walmart.getOrders env Nothing 10
+  Right detail <- Walmart.getOrder env summary
   mapM_ print (Walmart.woItems detail)
 ```
 
