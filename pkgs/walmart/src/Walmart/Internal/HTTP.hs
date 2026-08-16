@@ -1,7 +1,8 @@
 {-# LANGUAGE OverloadedStrings #-}
 
 module Walmart.Internal.HTTP
-  ( walmartRequest
+  ( Endpoint (..)
+  , walmartRequest
   ) where
 
 import Data.Aeson qualified as Aeson
@@ -16,6 +17,13 @@ import Network.HTTP.Types.Header (Header)
 import Network.HTTP.Types.Status (statusCode)
 
 import Walmart.Types
+
+-- | A Walmart GraphQL persisted query: the hashed URL it is served from
+-- and the operation name the API expects in the request headers.
+data Endpoint = Endpoint
+  { endpointUrl       :: Text
+  , endpointOperation :: Text
+  } deriving stock (Show)
 
 mkHeaders :: Text -> [Header]
 mkHeaders opName = map (\(k, v) -> (CI.mk (TE.encodeUtf8 k), TE.encodeUtf8 v))
@@ -33,6 +41,8 @@ mkHeaders opName = map (\(k, v) -> (CI.mk (TE.encodeUtf8 k), TE.encodeUtf8 v))
   , ("x-o-gql-query",           "query " <> opName)
   ]
 
+-- | Firefox cookies must go out as a raw Cookie header; http-client's
+-- cookieJar support drops them because of @.walmart.com@ domain filtering.
 cookieHeader :: CookieJar -> BS.ByteString
 cookieHeader jar =
   let cs = destroyCookieJar jar
@@ -40,17 +50,17 @@ cookieHeader jar =
   in BS.intercalate "; " pairs
 
 walmartRequest
-  :: Manager -> CookieJar -> Text -> Text -> Aeson.Value
+  :: Manager -> CookieJar -> Endpoint -> Aeson.Value
   -> IO (Either WalmartError Aeson.Value)
-walmartRequest mgr cookies url opName variables = do
-  initReq <- parseRequest (T.unpack url)
+walmartRequest mgr cookies endpoint variables = do
+  initReq <- parseRequest (T.unpack (endpointUrl endpoint))
   let varsBS = LBS.toStrict (Aeson.encode variables)
       req0 = setQueryString [("variables", Just varsBS)] initReq
   let cookieBS = cookieHeader cookies
       req = req0
         { method = "GET"
         , requestHeaders =
-            ("Cookie", cookieBS) : mkHeaders opName
+            ("Cookie", cookieBS) : mkHeaders (endpointOperation endpoint)
         }
   resp <- httpLbs req mgr
   let code = statusCode (responseStatus resp)

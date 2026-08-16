@@ -8,6 +8,7 @@
 module WalmartExtractor
   ( discoverEndpoints
   , Endpoints (..)
+  , DiscoveryError (..)
     -- * Parsers (exported for testing)
   , parseScriptUrls
   , parseHashPair
@@ -45,18 +46,23 @@ data Endpoints = Endpoints
   , epGetOrder        :: Text
   } deriving stock (Show)
 
+-- | An operation whose hash was not found in any scanned JS chunk.
+newtype DiscoveryError = HashNotFound Text
+  deriving stock (Show, Eq)
+
 -- | Discover current endpoint URLs by scraping Walmart's JS bundles.
 -- Requires lightpanda on PATH.
-discoverEndpoints :: Manager -> IO Endpoints
+discoverEndpoints :: Manager -> IO (Either DiscoveryError Endpoints)
 discoverEndpoints mgr = do
   html <- T.pack <$> renderOrdersPage
   let scriptUrls = parseScriptUrls html
   hashes <- scanChunks mgr scriptUrls (Map.keysSet operationPaths)
-  let purchaseHash = hashes Map.! "PurchaseHistoryV2"
-  pure Endpoints
-    { epPurchaseHistory = walmartBase <> "/orchestra/cph/graphql/PurchaseHistoryV2/" <> purchaseHash
-    , epGetOrder = walmartBase <> "/orchestra/orders/graphql/getOrder/" <> seedGetOrderHash
-    }
+  pure $ case Map.lookup "PurchaseHistoryV2" hashes of
+    Nothing -> Left (HashNotFound "PurchaseHistoryV2")
+    Just purchaseHash -> Right Endpoints
+      { epPurchaseHistory = walmartBase <> "/orchestra/cph/graphql/PurchaseHistoryV2/" <> purchaseHash
+      , epGetOrder = walmartBase <> "/orchestra/orders/graphql/getOrder/" <> seedGetOrderHash
+      }
 
 renderOrdersPage :: IO String
 renderOrdersPage =

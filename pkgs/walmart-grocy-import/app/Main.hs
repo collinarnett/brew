@@ -139,8 +139,8 @@ requireParseSince input = do
 printSummary :: OrderSummary -> IO ()
 printSummary s =
   putStrLn ("  " <> T.unpack (unOrderId (osOrderId s))
-    <> "  " <> show (osItemCount s) <> " items  "
-    <> T.unpack (osStatus s))
+    <> "  " <> show (osItemCount s) <> " items"
+    <> maybe "" (\status -> "  " <> T.unpack status) (osStatus s))
 
 printResult :: ImportResult -> IO ()
 printResult r = do

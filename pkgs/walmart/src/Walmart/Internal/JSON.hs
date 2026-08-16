@@ -28,27 +28,27 @@ parseOrderGroup = withObject "orderGroup" $ \obj -> do
   orderId   <- OrderId <$> obj .: "orderId"
   orderType <- obj .: "type" :: Parser Text
   itemCount <- obj .: "itemCount"
-  statusText <- parseStatusText obj
+  status    <- parseStatusText obj
   pure OrderSummary
     { osOrderId   = orderId
-    , osIsInStore  = orderType == "IN_STORE"
+    , osChannel   = if orderType == "IN_STORE" then InStore else Online
     , osItemCount = itemCount
-    , osStatus    = statusText
+    , osStatus    = status
     }
 
-parseStatusText :: Object -> Parser Text
+parseStatusText :: Object -> Parser (Maybe Text)
 parseStatusText obj = do
   mStatus <- obj .:? "status"
   case mStatus of
-    Nothing -> pure ""
+    Nothing -> pure Nothing
     Just status -> do
       mMsg <- status .:? "message"
       case mMsg of
-        Nothing  -> pure ""
+        Nothing  -> pure Nothing
         Just msg -> do
           parts <- msg .: "parts"
           texts <- traverse (\p -> p .: "text") parts
-          pure (mconcat texts)
+          pure (Just (mconcat texts))
 
 parseWalmartOrder :: Value -> Either String WalmartOrder
 parseWalmartOrder = parseEither $ withObject "response" $ \obj -> do

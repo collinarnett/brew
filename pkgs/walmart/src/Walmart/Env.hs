@@ -45,7 +45,7 @@ getOrders env mSince limit = do
         , "platform" Aeson..= ("WEB" :: Text)
         ]
   result <- walmartRequest (envManager env) (envCookieJar env)
-    Endpoints.purchaseHistoryUrl "PurchaseHistoryV2" variables
+    Endpoints.purchaseHistory variables
   pure $ case result of
     Left err   -> Left err
     Right body -> case parseOrderSummaries body of
@@ -54,9 +54,12 @@ getOrders env mSince limit = do
 
 getOrder :: Env -> OrderSummary -> IO (Either WalmartError WalmartOrder)
 getOrder env summary = do
-  let variables = Aeson.object
+  let inStore = case osChannel summary of
+        InStore -> True
+        Online  -> False
+      variables = Aeson.object
         [ "orderId"              Aeson..= unOrderId (osOrderId summary)
-        , "orderIsInStore"       Aeson..= osIsInStore summary
+        , "orderIsInStore"       Aeson..= inStore
         , "clickThroughGroupId"  Aeson..= ("0" :: Text)
         , "enableIsWcpOrder"     Aeson..= False
         , "enabledFeatures"      Aeson..= (["csat-northstar-v1", "tips", "delivery-fees"] :: [Text])
@@ -65,7 +68,7 @@ getOrder env summary = do
         , "includeFeesDetails"   Aeson..= True
         ]
   result <- walmartRequest (envManager env) (envCookieJar env)
-    Endpoints.getOrderUrl "getOrder" variables
+    Endpoints.getOrder variables
   pure $ case result of
     Left err   -> Left err
     Right body -> case parseWalmartOrder body of

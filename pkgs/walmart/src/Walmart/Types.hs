@@ -3,6 +3,7 @@
 module Walmart.Types
   ( OrderId (..)
   , UsItemId (..)
+  , OrderChannel (..)
   , SalesUnitType (..)
   , WalmartItem (..)
   , WalmartOrder (..)
@@ -20,6 +21,11 @@ newtype OrderId = OrderId { unOrderId :: Text }
 
 newtype UsItemId = UsItemId { unUsItemId :: Text }
   deriving stock (Show, Eq, Ord)
+
+-- | Where the order was placed. getOrder must be told which kind it is
+-- fetching, so the summary records it.
+data OrderChannel = InStore | Online
+  deriving stock (Show, Eq)
 
 data SalesUnitType = Each | EachWeight | PackWeight
   deriving stock (Show, Eq)
@@ -40,9 +46,9 @@ data WalmartOrder = WalmartOrder
 
 data OrderSummary = OrderSummary
   { osOrderId   :: OrderId
-  , osIsInStore :: Bool
+  , osChannel   :: OrderChannel
   , osItemCount :: Int
-  , osStatus    :: Text
+  , osStatus    :: Maybe Text
   } deriving stock (Show)
 
 data WalmartError
