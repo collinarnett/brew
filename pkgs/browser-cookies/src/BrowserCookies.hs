@@ -25,16 +25,21 @@ data CookieError
   deriving stock (Show, Eq)
 
 data CookieRow = CookieRow
-  { crName   :: Text
-  , crValue  :: Text
-  , crHost   :: Text
-  , crPath   :: Text
-  , crSecure :: Int
-  , crExpiry :: Int
+  { crName         :: Text
+  , crValue        :: Text
+  , crHost         :: Text
+  , crPath         :: Text
+  , crSecure       :: Bool
+  , crHttpOnly     :: Bool
+  , crExpiry       :: Int  -- seconds since epoch
+  , crCreated      :: Int  -- microseconds since epoch
+  , crLastAccessed :: Int  -- microseconds since epoch
   }
 
 instance FromRow CookieRow where
-  fromRow = CookieRow <$> field <*> field <*> field <*> field <*> field <*> field
+  fromRow = CookieRow
+    <$> field <*> field <*> field <*> field
+    <*> field <*> field <*> field <*> field <*> field
 
 -- | Read cookies for a domain from the default Firefox profile's SQLite
 -- cookie database.
@@ -57,7 +62,8 @@ queryCookies :: FilePath -> Text -> IO [CookieRow]
 queryCookies dbPath domain =
   withConnection dbPath $ \conn ->
     query conn
-      "SELECT name, value, host, path, isSecure, expiry \
+      "SELECT name, value, host, path, isSecure, isHttpOnly, \
+      \expiry, creationTime, lastAccessed \
       \FROM moz_cookies WHERE host LIKE ?"
       (Only ("%" <> T.unpack domain))
 
@@ -67,17 +73,22 @@ toCookie row = Cookie
   , cookie_value            = TE.encodeUtf8 (crValue row)
   , cookie_domain           = TE.encodeUtf8 (crHost row)
   , cookie_path             = TE.encodeUtf8 (crPath row)
-  , cookie_secure_only      = crSecure row /= 0
-  , cookie_http_only        = False
-  , cookie_host_only        = False
-  , cookie_expiry_time      = epochToUTC (crExpiry row)
-  , cookie_creation_time    = epochToUTC 0
-  , cookie_last_access_time = epochToUTC 0
+  , cookie_secure_only      = crSecure row
+  , cookie_http_only        = crHttpOnly row
+  -- Firefox stores domain cookies with a leading dot on the host;
+  -- a bare host means the cookie is for that exact host only.
+  , cookie_host_only        = not ("." `T.isPrefixOf` crHost row)
+  , cookie_expiry_time      = epochSecondsToUTC (crExpiry row)
+  , cookie_creation_time    = epochMicrosToUTC (crCreated row)
+  , cookie_last_access_time = epochMicrosToUTC (crLastAccessed row)
   , cookie_persistent       = True
   }
 
-epochToUTC :: Int -> UTCTime
-epochToUTC = posixSecondsToUTCTime . fromIntegral
+epochSecondsToUTC :: Int -> UTCTime
+epochSecondsToUTC = posixSecondsToUTCTime . fromIntegral
+
+epochMicrosToUTC :: Int -> UTCTime
+epochMicrosToUTC micros = posixSecondsToUTCTime (fromIntegral micros / 1e6)
 
 findCookieDb :: IO (Either CookieError FilePath)
 findCookieDb = do
@@ -93,18 +104,21 @@ findCookieDb = do
         Just relPath -> Right (ffDir </> relPath </> "cookies.sqlite")
         Nothing      -> Left (NoDefaultProfile iniPath)
 
+-- | Find the profile section marked Default=1. Any section header ends
+-- the current section, so an [Install] section's Default=<path> line can
+-- never be mistaken for a profile's Default=1 flag.
 parseDefaultProfile :: [Text] -> Maybe FilePath
 parseDefaultProfile = go Nothing False
   where
     go currentPath isDefault [] =
       if isDefault then currentPath else Nothing
     go currentPath isDefault (line : rest)
-      | T.isPrefixOf "[Profile" line =
+      | T.isPrefixOf "[" line =
           if isDefault then currentPath
           else go Nothing False rest
       | T.isPrefixOf "Path=" line =
           go (Just (T.unpack (T.drop 5 line))) isDefault rest
-      | T.isInfixOf "Default=1" line =
+      | T.strip line == "Default=1" =
           go currentPath True rest
       | otherwise =
           go currentPath isDefault rest
