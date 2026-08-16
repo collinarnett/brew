@@ -1,12 +1,9 @@
-{-# LANGUAGE OverloadedStrings #-}
-
 -- | Configuration loading.
 --
--- The config file names the Grocy endpoint and the Grocy objects an
--- import stocks into. The API key enters as a path to a file holding
--- the secret and is resolved here, so the rest of the program only
--- ever sees a proven 'Grocy.ApiKey'.
-module WalmartGrocy.Config
+-- The config file names the Grocy endpoint. The API key enters as a
+-- path to a file holding the secret and is resolved here, so the rest
+-- of the program only ever sees a proven 'Grocy.ApiKey'.
+module GrocyMcp.Config
   ( Config (..)
   , ConfigError (..)
   , defaultConfigPath
@@ -23,12 +20,10 @@ import Toml qualified
 import Toml.Schema (FromValue (..), parseTableFromValue, reqKey)
 
 import Grocy (ApiKey (..), BaseUrl (..))
-import WalmartGrocy.Types (SetupConfig (..))
 
 data Config = Config
   { cfgGrocyUrl    :: BaseUrl
   , cfgGrocyApiKey :: ApiKey
-  , cfgSetup       :: SetupConfig
   }
 
 data ConfigError
@@ -40,8 +35,7 @@ data ConfigError
 renderConfigError :: ConfigError -> String
 renderConfigError (ConfigMissing path) =
   "No config file at " <> path
-  <> ". Create one with a [grocy] section (url, api-key-file) and an"
-  <> " [import] section (location, shopping-location, quantity-unit)."
+  <> ". Create one with a [grocy] section holding url and api-key-file."
 renderConfigError (ConfigInvalid path errs) =
   "Invalid config file " <> path <> ":\n" <> unlines errs
 renderConfigError (ApiKeyFileMissing path) =
@@ -56,28 +50,14 @@ instance FromValue GrocySection where
   fromValue = parseTableFromValue $
     GrocySection <$> reqKey "url" <*> reqKey "api-key-file"
 
-newtype ImportSection = ImportSection SetupConfig
-
-instance FromValue ImportSection where
-  fromValue = parseTableFromValue $
-    fmap ImportSection $
-      SetupConfig
-        <$> reqKey "location"
-        <*> reqKey "shopping-location"
-        <*> reqKey "quantity-unit"
-
-data RawConfig = RawConfig
-  { rawGrocy  :: GrocySection
-  , rawImport :: ImportSection
-  }
+newtype RawConfig = RawConfig GrocySection
 
 instance FromValue RawConfig where
-  fromValue = parseTableFromValue $
-    RawConfig <$> reqKey "grocy" <*> reqKey "import"
+  fromValue = parseTableFromValue (RawConfig <$> reqKey "grocy")
 
 defaultConfigPath :: IO FilePath
 defaultConfigPath = do
-  configDir <- getXdgDirectory XdgConfig "walmart-grocy-import"
+  configDir <- getXdgDirectory XdgConfig "grocy-mcp"
   pure (configDir </> "config.toml")
 
 loadConfig :: FilePath -> IO (Either ConfigError Config)
@@ -91,21 +71,19 @@ loadConfig path = do
         Toml.Failure errs -> pure (Left (ConfigInvalid path errs))
         -- toml-parser warns about keys the schema never consumed; in a
         -- config file an unconsumed key is a typo, so it fails the load.
-        Toml.Success warnings raw
+        Toml.Success warnings (RawConfig grocy)
           | not (null warnings) -> pure (Left (ConfigInvalid path warnings))
-          | otherwise           -> resolveApiKey raw
+          | otherwise           -> resolveApiKey grocy
 
-resolveApiKey :: RawConfig -> IO (Either ConfigError Config)
-resolveApiKey raw = do
-  let keyPath = T.unpack (grocyApiKeyFile (rawGrocy raw))
+resolveApiKey :: GrocySection -> IO (Either ConfigError Config)
+resolveApiKey grocy = do
+  let keyPath = T.unpack (grocyApiKeyFile grocy)
   keyExists <- doesFileExist keyPath
   if not keyExists
     then pure (Left (ApiKeyFileMissing keyPath))
     else do
       key <- T.strip <$> T.IO.readFile keyPath
-      let ImportSection setup = rawImport raw
       pure $ Right Config
-        { cfgGrocyUrl    = BaseUrl (grocyUrl (rawGrocy raw))
+        { cfgGrocyUrl    = BaseUrl (grocyUrl grocy)
         , cfgGrocyApiKey = ApiKey key
-        , cfgSetup       = setup
         }

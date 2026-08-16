@@ -68,6 +68,9 @@ newEnv baseUrl apiKey = do
 newtype ProductId = ProductId { unProductId :: Int }
   deriving stock (Show, Eq, Ord)
 
+instance Aeson.ToJSON ProductId where
+  toJSON = Aeson.toJSON . unProductId
+
 newtype LocationId = LocationId { unLocationId :: Int }
   deriving stock (Show, Eq)
 
@@ -85,6 +88,9 @@ data Product = Product
 instance Aeson.FromJSON Product where
   parseJSON = Aeson.withObject "Product" $ \obj ->
     Product <$> (ProductId <$> obj .: "id") <*> obj .: "name"
+
+instance Aeson.ToJSON Product where
+  toJSON p = Aeson.object ["id" .= productId p, "name" .= productName p]
 
 data NewProduct = NewProduct
   { newProductName             :: Text

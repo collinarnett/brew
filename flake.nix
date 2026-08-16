@@ -174,20 +174,21 @@
             formatter = pkgs.nixfmt;
             devShells.default =
               let
-                localHsPkg = hprev: name: hprev.callCabal2nix name ./pkgs/${name} { };
+                # The overlay defines the local packages and the mcp-server
+                # fork; building the shell from it keeps cabal compiling
+                # against the same dependency versions the machines deploy.
+                brewPkgs = pkgs.extend (import ./pkgs/all-packages.nix);
                 localPkgs = [
                   "browser-cookies"
                   "clan-mcp"
                   "walmart"
                   "walmart-extractor"
+                  "walmart-mcp"
                   "grocy"
-                  "walmart-grocy-import"
+                  "grocy-mcp"
                 ];
-                hsPkgs = pkgs.haskellPackages.override {
-                  overrides = hfinal: hprev: pkgs.lib.genAttrs localPkgs (localHsPkg hprev);
-                };
               in
-              hsPkgs.shellFor {
+              brewPkgs.haskellPackages.shellFor {
                 packages = ps: map (name: ps.${name}) localPkgs;
                 nativeBuildInputs = with pkgs; [
                   inputs.clan-core.packages.${pkgs.stdenv.hostPlatform.system}.default

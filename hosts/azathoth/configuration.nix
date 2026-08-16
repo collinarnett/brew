@@ -231,6 +231,8 @@
 
   brew.toenail.enable = true;
 
+  brew.grocy-mcp.enable = true;
+
   # Sol Reader serial ports (normal mode and its USB JTAG programming mode):
   # the uaccess tag grants the seated user an ACL on the device nodes. The
   # rules must be numbered below 73, where systemd's seat rules resolve the
@@ -301,6 +303,10 @@
     brew.radicle.enable = true;
     brew.tangaria.enable = true;
     brew.tuicr.enable = true;
+
+    # Reads Walmart cookies from this machine's Firefox profile, so it
+    # only works where that session lives.
+    programs.mcp.servers.walmart.command = lib.getExe pkgs.walmart-mcp;
 
     home.packages = with pkgs; [
       alejandra

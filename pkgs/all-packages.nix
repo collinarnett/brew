@@ -6,8 +6,9 @@ let
     "clan-mcp"
     "walmart"
     "walmart-extractor"
+    "walmart-mcp"
     "grocy"
-    "walmart-grocy-import"
+    "grocy-mcp"
   ];
 in
 {
@@ -48,17 +49,8 @@ in
         }) { };
       };
   };
-  walmart-grocy-import =
-    let
-      exe = prev.haskell.lib.compose.justStaticExecutables final.haskellPackages.walmart-grocy-import;
-    in
-    exe.overrideAttrs (old: {
-      nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ prev.makeWrapper ];
-      postFixup = (old.postFixup or "") + ''
-        wrapProgram $out/bin/walmart-grocy-import \
-          --prefix PATH : ${prev.lib.makeBinPath [ final.lightpanda ]}
-      '';
-    });
+  walmart-mcp = prev.haskell.lib.compose.justStaticExecutables final.haskellPackages.walmart-mcp;
+  grocy-mcp = prev.haskell.lib.compose.justStaticExecutables final.haskellPackages.grocy-mcp;
   walmart-extractor =
     let
       exe = prev.haskell.lib.compose.justStaticExecutables final.haskellPackages.walmart-extractor;

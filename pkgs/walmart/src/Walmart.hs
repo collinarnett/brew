@@ -18,6 +18,7 @@ module Walmart
     -- * API
   , getOrders
   , getOrder
+  , getOrderDetails
     -- * Types
   , module Walmart.Types
   ) where

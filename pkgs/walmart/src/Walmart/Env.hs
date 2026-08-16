@@ -5,6 +5,7 @@ module Walmart.Env
   , newEnv
   , getOrders
   , getOrder
+  , getOrderDetails
   ) where
 
 import Data.Aeson qualified as Aeson
@@ -53,12 +54,15 @@ getOrders env mSince limit = do
       Right summaries -> Right summaries
 
 getOrder :: Env -> OrderSummary -> IO (Either WalmartError WalmartOrder)
-getOrder env summary = do
-  let inStore = case osChannel summary of
+getOrder env summary = getOrderDetails env (osOrderId summary) (osChannel summary)
+
+getOrderDetails :: Env -> OrderId -> OrderChannel -> IO (Either WalmartError WalmartOrder)
+getOrderDetails env orderId channel = do
+  let inStore = case channel of
         InStore -> True
         Online  -> False
       variables = Aeson.object
-        [ "orderId"              Aeson..= unOrderId (osOrderId summary)
+        [ "orderId"              Aeson..= unOrderId orderId
         , "orderIsInStore"       Aeson..= inStore
         , "clickThroughGroupId"  Aeson..= ("0" :: Text)
         , "enableIsWcpOrder"     Aeson..= False
