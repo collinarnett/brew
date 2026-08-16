@@ -23,11 +23,33 @@ import Grocy
   , GrocyError (..)
   , LocationId (..)
   , ObjectCollection (..)
+  , ObjectRef (..)
   , ProductId (..)
   , QuantityUnitId (..)
   , ShoppingLocationId (..)
   )
 import Grocy qualified
+
+-- | One delete tool: the object it removes, how its id argument is
+-- named, and the constructor that types that id. Both the tool
+-- declarations and the dispatcher read this table, so a new deletable
+-- collection is one entry.
+data Deletion = Deletion
+  { deletionTool  :: Text
+  , deletionNoun  :: Text
+  , deletionIdArg :: Text
+  , deletionRef   :: Int -> ObjectRef
+  }
+
+deletions :: [Deletion]
+deletions =
+  [ Deletion "grocy_delete_product" "product" "product_id" (ProductRef . ProductId)
+  , Deletion "grocy_delete_location" "location" "location_id" (LocationRef . LocationId)
+  , Deletion "grocy_delete_shopping_location" "shopping location" "shopping_location_id"
+      (ShoppingLocationRef . ShoppingLocationId)
+  , Deletion "grocy_delete_quantity_unit" "quantity unit" "quantity_unit_id"
+      (QuantityUnitRef . QuantityUnitId)
+  ]
 
 listTools :: [ToolDefinition]
 listTools =
@@ -67,7 +89,15 @@ listTools =
       "Return the id of the named Grocy quantity unit; it must already exist."
       [ strProp "name" "Quantity unit name." ] [ "name" ]
   ]
+  <> map deleteTool deletions
   where
+    deleteTool deletion = tool
+      (deletionTool deletion)
+      ("Permanently delete a Grocy " <> deletionNoun deletion
+        <> ". This cannot be undone. Grocy refuses with HTTP 400 when the "
+        <> deletionNoun deletion <> " cannot be removed.")
+      [ intProp (deletionIdArg deletion) ("Id of the " <> deletionNoun deletion <> " to delete.") ]
+      [ deletionIdArg deletion ]
     tool name description props reqd = ToolDefinition
       { toolDefinitionName = name
       , toolDefinitionDescription = description
@@ -105,7 +135,13 @@ callTool env _session toolName args = case toolName of
   "grocy_find_quantity_unit" ->
     run $ withName args $ \name ->
       fmap (idJson "quantity_unit_id" . unQuantityUnitId) <$> Grocy.findQuantityUnit env name
-  _ -> pure (Left (UnknownTool toolName))
+  _ -> case filter ((== toolName) . deletionTool) deletions of
+    (deletion : _) -> run $ case requireInt (deletionIdArg deletion) args of
+      Left err -> pure (Left err)
+      Right oid ->
+        bimap ApiFailure (const (deletedMessage deletion oid))
+          <$> Grocy.deleteObject env (deletionRef deletion oid)
+    [] -> pure (Left (UnknownTool toolName))
   where
     run :: IO (Either ToolFailure Text) -> IO (Either Error ToolResult)
     run action = do
@@ -132,6 +168,10 @@ jsonResult = bimap ApiFailure encodeJson
 
 idJson :: Text -> Int -> Text
 idJson key n = encodeJson (Aeson.object [(Key.fromText key, Aeson.toJSON n)])
+
+deletedMessage :: Deletion -> Int -> Text
+deletedMessage deletion oid =
+  "Deleted " <> deletionNoun deletion <> " " <> T.pack (show oid)
 
 stockedMessage :: ProductId -> Grocy.StockPurchase -> Text
 stockedMessage productId purchase =
@@ -218,6 +258,7 @@ renderGrocyError (GrocyObjectNotFound collection name) =
   "Grocy " <> collectionNoun collection <> " not found: " <> name
 
 collectionNoun :: ObjectCollection -> Text
+collectionNoun Products          = "product"
 collectionNoun Locations         = "location"
 collectionNoun ShoppingLocations = "shopping location"
 collectionNoun QuantityUnits     = "quantity unit"

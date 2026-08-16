@@ -21,6 +21,7 @@ module Grocy
   , StockPurchase (..)
   , neverExpires
   , ObjectCollection (..)
+  , ObjectRef (..)
   , ApiPath (..)
   , GrocyError (..)
     -- * Operations
@@ -30,6 +31,7 @@ module Grocy
   , ensureLocation
   , ensureShoppingLocation
   , findQuantityUnit
+  , deleteObject
   ) where
 
 import Control.Exception (displayException, try)
@@ -110,9 +112,31 @@ data StockPurchase = StockPurchase
 neverExpires :: Day
 neverExpires = fromGregorian 2999 12 31
 
--- | The named-object collections this client can look up and create.
-data ObjectCollection = Locations | ShoppingLocations | QuantityUnits
+-- | The object collections this client addresses.
+data ObjectCollection = Products | Locations | ShoppingLocations | QuantityUnits
   deriving stock (Show, Eq)
+
+-- | One object, identified by the id type that indexes its collection.
+-- Pairing the two means a location id cannot be passed where a product
+-- id belongs.
+data ObjectRef
+  = ProductRef ProductId
+  | LocationRef LocationId
+  | ShoppingLocationRef ShoppingLocationId
+  | QuantityUnitRef QuantityUnitId
+  deriving stock (Show, Eq)
+
+refCollection :: ObjectRef -> ObjectCollection
+refCollection (ProductRef _)          = Products
+refCollection (LocationRef _)         = Locations
+refCollection (ShoppingLocationRef _) = ShoppingLocations
+refCollection (QuantityUnitRef _)     = QuantityUnits
+
+refObjectId :: ObjectRef -> Int
+refObjectId (ProductRef pid)          = unProductId pid
+refObjectId (LocationRef lid)         = unLocationId lid
+refObjectId (ShoppingLocationRef sid) = unShoppingLocationId sid
+refObjectId (QuantityUnitRef qid)     = unQuantityUnitId qid
 
 newtype ApiPath = ApiPath { unApiPath :: Text }
   deriving stock (Show, Eq)
@@ -127,7 +151,7 @@ data GrocyError
 -- * Operations
 
 getProducts :: Env -> IO (Either GrocyError [Product])
-getProducts env = getJson env "/api/objects/products"
+getProducts env = getJson env (collectionPath Products)
 
 createProduct :: Env -> NewProduct -> IO (Either GrocyError Product)
 createProduct env new = do
@@ -138,7 +162,7 @@ createProduct env new = do
         , "qu_id_stock"          .= unQuantityUnitId (newProductQuantityUnit new)
         , "shopping_location_id" .= unShoppingLocationId (newProductShoppingLocation new)
         ]
-  created <- postForId env "/api/objects/products" payload
+  created <- postForId env (collectionPath Products) payload
   pure $ fmap (\pid -> Product { productId = ProductId pid, productName = newProductName new }) created
 
 addStock :: Env -> ProductId -> StockPurchase -> IO (Either GrocyError ())
@@ -155,6 +179,19 @@ addStock env pid purchase = do
   pure $ attempt >>= \resp ->
     let code = statusCode (responseStatus resp)
     in if code == 200
+         then Right ()
+         else Left (GrocyHttpError (ApiPath path) code (bodyPreview resp))
+
+-- | Permanently remove one object. Grocy answers 400 when it refuses,
+-- which surfaces as a 'GrocyHttpError' carrying its explanation.
+deleteObject :: Env -> ObjectRef -> IO (Either GrocyError ())
+deleteObject env ref = do
+  let path = collectionPath (refCollection ref) <> "/" <> T.pack (show (refObjectId ref))
+  attempt <- request env "DELETE" path Nothing
+  pure $ attempt >>= \resp ->
+    let code = statusCode (responseStatus resp)
+    -- The API documents 204 for a successful delete.
+    in if code == 204
          then Right ()
          else Left (GrocyHttpError (ApiPath path) code (bodyPreview resp))
 
@@ -184,6 +221,7 @@ instance Aeson.FromJSON NamedObject where
     NamedObject <$> obj .: "id" <*> obj .: "name"
 
 collectionPath :: ObjectCollection -> Text
+collectionPath Products          = "/api/objects/products"
 collectionPath Locations         = "/api/objects/locations"
 collectionPath ShoppingLocations = "/api/objects/shopping_locations"
 collectionPath QuantityUnits     = "/api/objects/quantity_units"

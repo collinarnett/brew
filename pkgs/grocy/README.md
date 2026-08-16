@@ -18,3 +18,7 @@ main = do
 Ids are distinct newtypes (`ProductId`, `LocationId`, `ShoppingLocationId`,
 `QuantityUnitId`) so they cannot be swapped at a call site. Every operation
 returns `Either GrocyError`; nothing throws for API-level failures.
+
+Deletion goes through `deleteObject` and an `ObjectRef`, which pairs each
+collection with the id type that indexes it, so a location id cannot be
+passed where a product id belongs.

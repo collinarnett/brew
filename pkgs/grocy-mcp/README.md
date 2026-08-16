@@ -12,6 +12,9 @@ Tools:
 - `grocy_ensure_location` / `grocy_ensure_shopping_location` — resolve
   a name to an id, creating the object if missing.
 - `grocy_find_quantity_unit` — resolve a name to an id; must exist.
+- `grocy_delete_product` / `grocy_delete_location` /
+  `grocy_delete_shopping_location` / `grocy_delete_quantity_unit` —
+  permanently remove one object.
 
 ## Configuration
 
