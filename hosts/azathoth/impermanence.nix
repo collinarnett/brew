@@ -101,6 +101,16 @@
     files = [
       "/etc/nix/netrc"
     ];
+    users.collin = {
+      directories = [
+        # Decrypted disc copies toe backup writes, and the only thing that
+        # reads a drive at length. Tens of gigabytes each and re-creatable
+        # from the disc, so they belong here rather than in the backed-up
+        # /persist/save tier: a rip spanning a reboot still finds its copy,
+        # and restic never carries them to S3.
+        ".cache/toenail"
+      ];
+    };
   };
   users.groups.multimedia = { };
   environment.persistence."/persist/save" = {
