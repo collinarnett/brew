@@ -230,6 +230,8 @@ renderAppError (AppStateCorrupt path err) =
   <> "\nFix or remove it; removing it will re-import every order on the next run."
 
 renderWalmartError :: WalmartError -> String
+renderWalmartError (WalmartNetworkError msg) =
+  "Could not reach Walmart: " <> T.unpack msg
 renderWalmartError WalmartBadRequest =
   "Walmart rejected the request (HTTP 400) -- the endpoint hash may have rotated. Run walmart-extractor to update endpoints."
 renderWalmartError WalmartRateLimited =
@@ -241,9 +243,11 @@ renderWalmartError (WalmartHttpError code) =
 renderWalmartError (WalmartParseError op err) =
   "Failed to parse " <> T.unpack op <> ": " <> err
 renderWalmartError (WalmartJsonDecodeError err preview) =
-  "JSON decode failed: " <> err <> "\nResponse: " <> unBodyPreview preview
+  "JSON decode failed: " <> err <> "\nResponse: " <> T.unpack (unBodyPreview preview)
 
 renderGrocyError :: GrocyError -> String
+renderGrocyError (GrocyNetworkError path msg) =
+  "Could not reach Grocy (" <> T.unpack (unApiPath path) <> "): " <> T.unpack msg
 renderGrocyError (GrocyHttpError path code preview) =
   "Grocy " <> T.unpack (unApiPath path) <> " returned HTTP " <> show code
   <> ": " <> T.unpack preview

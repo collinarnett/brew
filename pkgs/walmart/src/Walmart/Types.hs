@@ -53,11 +53,12 @@ data OrderSummary = OrderSummary
   } deriving stock (Show)
 
 -- | The first 200 characters of a response body, kept for diagnostics.
-newtype BodyPreview = BodyPreview { unBodyPreview :: String }
+newtype BodyPreview = BodyPreview { unBodyPreview :: Text }
   deriving stock (Show, Eq)
 
 data WalmartError
-  = WalmartParseError Text String
+  = WalmartNetworkError Text
+  | WalmartParseError Text String
   | WalmartBadRequest
   | WalmartRateLimited
   | WalmartAccessDenied

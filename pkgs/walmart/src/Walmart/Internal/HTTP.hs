@@ -5,6 +5,7 @@ module Walmart.Internal.HTTP
   , walmartRequest
   ) where
 
+import Control.Exception (displayException, try)
 import Data.Aeson qualified as Aeson
 import Data.ByteString qualified as BS
 import Data.ByteString.Lazy qualified as LBS
@@ -53,24 +54,28 @@ walmartRequest
   :: Manager -> CookieJar -> Endpoint -> Aeson.Value
   -> IO (Either WalmartError Aeson.Value)
 walmartRequest mgr cookies endpoint variables = do
-  initReq <- parseRequest (T.unpack (endpointUrl endpoint))
-  let varsBS = LBS.toStrict (Aeson.encode variables)
-      req0 = setQueryString [("variables", Just varsBS)] initReq
-  let cookieBS = cookieHeader cookies
-      req = req0
-        { method = "GET"
-        , requestHeaders =
-            ("Cookie", cookieBS) : mkHeaders (endpointOperation endpoint)
-        }
-  resp <- httpLbs req mgr
-  let code = statusCode (responseStatus resp)
-      bodyPreview = take 200 (show (responseBody resp))
-  case code of
-    200 -> case Aeson.eitherDecode (responseBody resp) of
-      Left err  -> pure (Left (WalmartJsonDecodeError err (BodyPreview bodyPreview)))
-      Right val -> pure (Right val)
-    400 -> pure (Left WalmartBadRequest)
-    429 -> pure (Left WalmartRateLimited)
-    403 -> pure (Left WalmartAccessDenied)
-    418 -> pure (Left WalmartAccessDenied)
-    _   -> pure (Left (WalmartHttpError code))
+  attempt <- try $ do
+    initReq <- parseRequest (T.unpack (endpointUrl endpoint))
+    let varsBS = LBS.toStrict (Aeson.encode variables)
+        req0 = setQueryString [("variables", Just varsBS)] initReq
+        cookieBS = cookieHeader cookies
+        req = req0
+          { method = "GET"
+          , requestHeaders =
+              ("Cookie", cookieBS) : mkHeaders (endpointOperation endpoint)
+          }
+    httpLbs req mgr
+  pure $ case attempt of
+    Left err -> Left (WalmartNetworkError (T.pack (displayException (err :: HttpException))))
+    Right resp ->
+      let code = statusCode (responseStatus resp)
+          preview = T.take 200 (TE.decodeUtf8Lenient (LBS.toStrict (responseBody resp)))
+      in case code of
+        200 -> case Aeson.eitherDecode (responseBody resp) of
+          Left err  -> Left (WalmartJsonDecodeError err (BodyPreview preview))
+          Right val -> Right val
+        400 -> Left WalmartBadRequest
+        429 -> Left WalmartRateLimited
+        403 -> Left WalmartAccessDenied
+        418 -> Left WalmartAccessDenied
+        _   -> Left (WalmartHttpError code)

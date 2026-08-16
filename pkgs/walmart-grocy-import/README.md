@@ -49,6 +49,8 @@ On the first real (non-dry-run) import, the tool creates the configured location
 
 Imported order IDs are saved to `~/.local/share/walmart-grocy-import/state.json`. Subsequent runs skip already-imported orders. Use `--force` to re-import them.
 
+If an order fails partway through, any order that stocked at least one item is also recorded, so a retry cannot stock those items twice; the items that were not imported are listed in the failure output for manual follow-up. A run with execution failures exits non-zero.
+
 ## Dependencies
 
 Composes three libraries:

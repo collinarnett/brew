@@ -32,6 +32,7 @@ module Grocy
   , findQuantityUnit
   ) where
 
+import Control.Exception (displayException, try)
 import Data.Aeson ((.:), (.=))
 import Data.Aeson qualified as Aeson
 import Data.ByteString.Lazy qualified as LBS
@@ -111,7 +112,8 @@ newtype ApiPath = ApiPath { unApiPath :: Text }
   deriving stock (Show, Eq)
 
 data GrocyError
-  = GrocyHttpError ApiPath Int Text
+  = GrocyNetworkError ApiPath Text
+  | GrocyHttpError ApiPath Int Text
   | GrocyParseError ApiPath Text
   | GrocyObjectNotFound ObjectCollection Text
   deriving stock (Show, Eq)
@@ -143,11 +145,12 @@ addStock env pid purchase = do
         , "purchased_date"   .= iso8601Show (purchasedOn purchase)
         ]
         <> maybe [] (\price -> ["price" .= centsToDollars price]) (purchasePrice purchase)
-  resp <- request env "POST" path (Just payload)
-  let code = statusCode (responseStatus resp)
-  pure $ if code == 200
-    then Right ()
-    else Left (GrocyHttpError (ApiPath path) code (bodyPreview resp))
+  attempt <- request env "POST" path (Just payload)
+  pure $ attempt >>= \resp ->
+    let code = statusCode (responseStatus resp)
+    in if code == 200
+         then Right ()
+         else Left (GrocyHttpError (ApiPath path) code (bodyPreview resp))
 
 ensureLocation :: Env -> Text -> IO (Either GrocyError LocationId)
 ensureLocation env name = fmap LocationId <$> ensureObject env Locations name
@@ -200,19 +203,23 @@ lookupByName name objects =
 
 -- * HTTP plumbing
 
-request :: Env -> Method -> Text -> Maybe Aeson.Value -> IO (Response LBS.ByteString)
+request :: Env -> Method -> Text -> Maybe Aeson.Value -> IO (Either GrocyError (Response LBS.ByteString))
 request env method path mBody = do
-  req0 <- parseRequest (T.unpack (unBaseUrl (envBaseUrl env) <> path))
-  let req = req0
-        { method = method
-        , requestHeaders =
-            [ ("GROCY-API-KEY", TE.encodeUtf8 (unApiKey (envApiKey env)))
-            , ("accept", "application/json")
-            , ("content-type", "application/json")
-            ]
-        , requestBody = maybe (requestBody req0) (RequestBodyLBS . Aeson.encode) mBody
-        }
-  httpLbs req (envManager env)
+  attempt <- try $ do
+    req0 <- parseRequest (T.unpack (unBaseUrl (envBaseUrl env) <> path))
+    let req = req0
+          { method = method
+          , requestHeaders =
+              [ ("GROCY-API-KEY", TE.encodeUtf8 (unApiKey (envApiKey env)))
+              , ("accept", "application/json")
+              , ("content-type", "application/json")
+              ]
+          , requestBody = maybe (requestBody req0) (RequestBodyLBS . Aeson.encode) mBody
+          }
+    httpLbs req (envManager env)
+  pure $ case attempt of
+    Left err   -> Left (GrocyNetworkError (ApiPath path) (T.pack (displayException (err :: HttpException))))
+    Right resp -> Right resp
 
 -- | The first 200 characters of a response body, kept for diagnostics.
 bodyPreview :: Response LBS.ByteString -> Text
@@ -220,13 +227,14 @@ bodyPreview = T.take 200 . TE.decodeUtf8Lenient . LBS.toStrict . responseBody
 
 getJson :: Aeson.FromJSON a => Env -> Text -> IO (Either GrocyError a)
 getJson env path = do
-  resp <- request env "GET" path Nothing
-  let code = statusCode (responseStatus resp)
-  pure $ if code == 200
-    then case Aeson.eitherDecode (responseBody resp) of
-      Left err  -> Left (GrocyParseError (ApiPath path) (T.pack err))
-      Right val -> Right val
-    else Left (GrocyHttpError (ApiPath path) code (bodyPreview resp))
+  attempt <- request env "GET" path Nothing
+  pure $ attempt >>= \resp ->
+    let code = statusCode (responseStatus resp)
+    in if code == 200
+         then case Aeson.eitherDecode (responseBody resp) of
+           Left err  -> Left (GrocyParseError (ApiPath path) (T.pack err))
+           Right val -> Right val
+         else Left (GrocyHttpError (ApiPath path) code (bodyPreview resp))
 
 -- | Grocy reports a created object's id as a decimal string.
 newtype CreatedObjectId = CreatedObjectId Text
@@ -237,15 +245,16 @@ instance Aeson.FromJSON CreatedObjectId where
 
 postForId :: Env -> Text -> Aeson.Value -> IO (Either GrocyError Int)
 postForId env path payload = do
-  resp <- request env "POST" path (Just payload)
-  let code = statusCode (responseStatus resp)
-  pure $ if code == 200
-    then case Aeson.eitherDecode (responseBody resp) of
-      Left err -> Left (GrocyParseError (ApiPath path) (T.pack err))
-      Right (CreatedObjectId idText) -> case readMaybe (T.unpack idText) of
-        Just oid -> Right oid
-        Nothing  -> Left (GrocyParseError (ApiPath path) ("created_object_id is not a number: " <> idText))
-    else Left (GrocyHttpError (ApiPath path) code (bodyPreview resp))
+  attempt <- request env "POST" path (Just payload)
+  pure $ attempt >>= \resp ->
+    let code = statusCode (responseStatus resp)
+    in if code == 200
+         then case Aeson.eitherDecode (responseBody resp) of
+           Left err -> Left (GrocyParseError (ApiPath path) (T.pack err))
+           Right (CreatedObjectId idText) -> case readMaybe (T.unpack idText) of
+             Just oid -> Right oid
+             Nothing  -> Left (GrocyParseError (ApiPath path) ("created_object_id is not a number: " <> idText))
+         else Left (GrocyHttpError (ApiPath path) code (bodyPreview resp))
 
 centsToDollars :: Discrete "USD" "cent" -> Scientific
 centsToDollars cents = scientific (toInteger cents) (-2)
