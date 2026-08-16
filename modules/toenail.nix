@@ -110,6 +110,15 @@
             default = "/media/movies";
             description = "Directory rips are imported into.";
           };
+          backups = lib.mkOption {
+            type = lib.types.nullOr lib.types.str;
+            default = null;
+            description = ''
+              Directory toe backup writes decrypted disc copies to and toe
+              rip reads them from. Null uses the XDG cache,
+              ~/.cache/toenail/backups.
+            '';
+          };
           search = lib.mkOption {
             type = lib.types.listOf (
               lib.types.enum [
@@ -241,6 +250,7 @@
             let Container = < Matroska | WebM >
 
             in  { library = ${dhallText s.library}
+                , backups = ${optionalText s.backups}
                 , search = ${
                   if s.search == [ ] then
                     "[] : List Backend"
