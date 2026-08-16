@@ -34,15 +34,14 @@ parserTests = testGroup "Parsers"
             , "<script src=\"/local.js\"></script>"
             , "<script src=\"https://i5.walmartimages.com/other-def.js\"></script>"
             ]
-      let urls = parseScriptUrls html
-      length urls @?= 2
-      head urls @?= "https://i5.walmartimages.com/chunk-abc.js"
+      parseScriptUrls html @?=
+        [ "https://i5.walmartimages.com/chunk-abc.js"
+        , "https://i5.walmartimages.com/other-def.js"
+        ]
 
   , testCase "extract hash pairs from JS" $ do
       let js = "blah name:\"PurchaseHistoryV2\",hash:\"a7067e4c7c36457fdef25b48d8c1ab5574f2e5f64580cdd5b1202b32c39928f6\" more"
-      let pairs = collectAll parseHashPair js
-      length pairs @?= 1
-      fst (head pairs) @?= "PurchaseHistoryV2"
+      map fst (collectAll parseHashPair js) @?= ["PurchaseHistoryV2"]
 
   , testCase "no script URLs in empty HTML" $
       parseScriptUrls "" @?= []
@@ -70,9 +69,7 @@ parserTests = testGroup "Parsers"
             , " other stuff "
             , "name:\"Op2\",hash:\"" <> T.replicate 64 "b" <> "\""
             ]
-      let pairs = collectAll parseHashPair js
-      length pairs @?= 2
-      fst (head pairs) @?= "Op1"
+      map fst (collectAll parseHashPair js) @?= ["Op1", "Op2"]
 
   , testCase "parser survives megabytes of garbage" $ do
       let garbage = T.replicate 1000000 "x"

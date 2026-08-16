@@ -2,13 +2,16 @@
 
 module Main (main) where
 
+import Control.Monad (unless)
 import Data.Text (Text)
 import Data.Text qualified as T
 import Data.Time (UTCTime, addUTCTime, getCurrentTime, nominalDay)
+import Money qualified
 import Options.Applicative
 import System.Directory (createDirectoryIfMissing, getHomeDirectory)
-import System.Exit (die)
+import System.Exit (die, exitFailure)
 import System.FilePath ((</>))
+import System.IO (hPutStrLn, stderr)
 import Text.Read (readMaybe)
 
 import BrowserCookies (CookieError (..), getFirefoxCookies)
@@ -95,28 +98,32 @@ main = do
   createDirectoryIfMissing True dataDir
 
   case cmd of
-    List lo -> do
-      mSince <- traverse requireParseSince (loSince lo)
-      result <- runList walmartEnv mSince (loLimit lo)
+    List listOpts -> do
+      mSince <- traverse requireParseSince (loSince listOpts)
+      result <- runList walmartEnv mSince (loLimit listOpts)
       summaries <- either (die . renderAppError) pure result
       mapM_ printSummary summaries
 
-    Import io -> do
-      mSince <- traverse requireParseSince (imSince io)
-      configPath <- maybe defaultConfigPath pure (imConfigPath io)
+    Import importOpts -> do
+      mSince <- traverse requireParseSince (imSince importOpts)
+      configPath <- maybe defaultConfigPath pure (imConfigPath importOpts)
       configResult <- loadConfig configPath
       config <- either (die . renderConfigError) pure configResult
       grocy <- Grocy.newEnv (cfgGrocyUrl config) (cfgGrocyApiKey config)
       let stateFile = dataDir </> "state.json"
           opts = ImportOptions
             { ioSince = mSince
-            , ioLimit = imLimit io
-            , ioMode  = if imDryRun io then DryRun else Execute
-            , ioForce = imForce io
+            , ioLimit = imLimit importOpts
+            , ioMode  = if imDryRun importOpts then DryRun else Execute
+            , ioForce = imForce importOpts
             }
       result <- runImport walmartEnv grocy (cfgSetup config) stateFile opts
-      outcome <- either (die . renderAppError) pure result
-      printOutcome outcome
+      report <- either (die . renderAppError) pure result
+      mapM_ printSkipped (reportSkipped report)
+      printOutcome (reportOutcome report)
+      case reportOutcome report of
+        Imported _ failures -> unless (null failures) exitFailure
+        PlannedOnly _       -> pure ()
 
 requireParseSince :: Text -> IO UTCTime
 requireParseSince input = do
@@ -129,6 +136,11 @@ printSummary s =
     <> "  " <> show (osItemCount s) <> " items"
     <> maybe "" (\status -> "  " <> T.unpack status) (osStatus s))
 
+printSkipped :: SkippedOrder -> IO ()
+printSkipped skippedOrder = hPutStrLn stderr $
+  "Skipped order " <> T.unpack (unOrderId (soOrderId skippedOrder))
+  <> ": " <> renderWalmartError (soError skippedOrder)
+
 printOutcome :: ImportOutcome -> IO ()
 printOutcome (PlannedOnly plans) = do
   mapM_ printPlan plans
@@ -136,12 +148,29 @@ printOutcome (PlannedOnly plans) = do
       matched = length [() | StockExisting _ _ <- actions]
       created = length [() | CreateAndStock _ <- actions]
   putStrLn (summaryLine "[DRY RUN] Would import" matched created)
-printOutcome (Imported results) = do
+printOutcome (Imported results failures) = do
   mapM_ printResult results
   let executed = concatMap irActions results
       matched = length [() | Stocked _ _ <- executed]
       created = length [() | Created _ _ <- executed]
   putStrLn (summaryLine "Import complete" matched created)
+  mapM_ printFailure failures
+
+printFailure :: OrderFailure -> IO ()
+printFailure failure = hPutStrLn stderr $
+  "\nOrder " <> T.unpack (unOrderId (ofOrderId failure))
+  <> " failed: " <> renderGrocyError (ofError failure)
+  <> "\n  Items not imported:"
+  <> concatMap (\a -> "\n    " <> T.unpack (wiName (actionItem a))) (ofNotExecuted failure)
+  <> if null (ofStocked failure)
+       then "\n  Nothing from this order was stocked; it will be retried on the next run."
+       else "\n  " <> show (length (ofStocked failure))
+            <> " item(s) were already stocked, so the order is marked imported"
+            <> " and will not be retried."
+
+actionItem :: Action -> WalmartItem
+actionItem (CreateAndStock item)   = item
+actionItem (StockExisting item _) = item
 
 summaryLine :: String -> Int -> Int -> String
 summaryLine prefix matched created =
@@ -174,10 +203,10 @@ printExecuted (Created item _) =
 priceStr :: WalmartItem -> String
 priceStr item = case wiLinePrice item of
   Just cents ->
-    let total = abs (toInteger cents)
-        dollars = total `div` 100
-        remainder = total `mod` 100
-    in " $" <> show dollars <> "." <> (if remainder < 10 then "0" else "") <> show remainder
+    let rendered = Money.discreteToDecimal Money.defaultDecimalConf Money.Round cents
+    in if cents < 0
+         then " -$" <> T.unpack (T.drop 1 rendered)
+         else " $" <> T.unpack rendered
   Nothing -> ""
 
 renderCliError :: CliError -> String

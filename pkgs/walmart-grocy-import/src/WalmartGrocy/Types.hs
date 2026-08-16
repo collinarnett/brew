@@ -3,7 +3,10 @@ module WalmartGrocy.Types
   , ExecutedAction (..)
   , ImportPlan (..)
   , ImportResult (..)
+  , SkippedOrder (..)
+  , OrderFailure (..)
   , ImportOutcome (..)
+  , ImportReport (..)
   , ImportMode (..)
   , ImportOptions (..)
   , SetupConfig (..)
@@ -40,12 +43,34 @@ data ImportResult = ImportResult
   , irActions :: [ExecutedAction]
   } deriving stock (Show)
 
--- | A dry run stops at the plans; only a real run has results to
--- record in the state file.
+-- | An order whose details could not be fetched from Walmart; the
+-- import continues without it.
+data SkippedOrder = SkippedOrder
+  { soOrderId :: OrderId
+  , soError   :: WalmartError
+  } deriving stock (Show)
+
+-- | An order whose execution stopped partway: everything in ofStocked
+-- reached Grocy before ofError hit, and ofNotExecuted (headed by the
+-- failing item) did not.
+data OrderFailure = OrderFailure
+  { ofOrderId     :: OrderId
+  , ofStocked     :: [ExecutedAction]
+  , ofNotExecuted :: [Action]
+  , ofError       :: GrocyError
+  } deriving stock (Show)
+
+-- | A dry run stops at the plans; only a real run has results and
+-- failures to record in the state file.
 data ImportOutcome
   = PlannedOnly [ImportPlan]
-  | Imported [ImportResult]
+  | Imported [ImportResult] [OrderFailure]
   deriving stock (Show)
+
+data ImportReport = ImportReport
+  { reportSkipped :: [SkippedOrder]
+  , reportOutcome :: ImportOutcome
+  } deriving stock (Show)
 
 data ImportMode = DryRun | Execute
   deriving stock (Show, Eq)

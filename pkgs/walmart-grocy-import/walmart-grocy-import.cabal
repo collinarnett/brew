@@ -46,6 +46,7 @@ executable walmart-grocy-import
                   , filepath
                   , grocy
                   , optparse-applicative
+                  , safe-money
                   , text
                   , time
                   , walmart

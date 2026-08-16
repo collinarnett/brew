@@ -35,17 +35,16 @@ matchThreshold = 75
 
 bestMatch :: Text -> [Product] -> Maybe Product
 bestMatch name products =
-  let scored = [(fuzzyScore name (productName p), p) | p <- products]
-      above  = filter ((>= matchThreshold) . fst) scored
-  in case sortOn (Down . fst) above of
+  let candidates =
+        [ (Fuzzy.score matched, p)
+        | p <- products
+        , Just matched <-
+            [Fuzzy.match (T.toLower name) (T.toLower (productName p)) T.empty T.empty id False]
+        , Fuzzy.score matched >= matchThreshold
+        ]
+  in case sortOn (Down . fst) candidates of
     ((_, p) : _) -> Just p
     []           -> Nothing
-
-fuzzyScore :: Text -> Text -> Int
-fuzzyScore a b =
-  case Fuzzy.match (T.toLower a) (T.toLower b) T.empty T.empty id False of
-    Just fuzzyResult -> Fuzzy.score fuzzyResult
-    Nothing          -> 0
 
 deduplicateBy :: Ord k => (a -> k) -> [a] -> [a]
 deduplicateBy f = go Set.empty

@@ -14,11 +14,11 @@ import Control.Monad.Trans.Except (ExceptT (..), runExceptT)
 import Data.Aeson qualified as Aeson
 import Data.Bifunctor (first)
 import Data.ByteString.Lazy qualified as LBS
+import Data.Either (partitionEithers)
 import Data.Set (Set)
 import Data.Set qualified as Set
 import Data.Time (Day, UTCTime, utctDay)
 import System.Directory (doesFileExist)
-import System.IO (hPutStrLn, stderr)
 
 import Grocy (GrocyError, LocationId, Product, QuantityUnitId, ShoppingLocationId)
 import Grocy qualified
@@ -55,15 +55,30 @@ saveImportedOrders :: FilePath -> Set OrderId -> IO ()
 saveImportedOrders path ids =
   LBS.writeFile path (Aeson.encode (map unOrderId (Set.toList ids)))
 
-executePlan :: Grocy.Env -> GrocySetup -> ImportPlan -> IO (Either AppError ImportResult)
-executePlan grocy setup plan = runExceptT $ do
-  executed <- traverse
-    (\a -> ExceptT $ first AppGrocyError <$> executeAction grocy setup (utctDay (ipOrderDate plan)) a)
-    (ipActions plan)
-  pure ImportResult
-    { irOrderId = ipOrderId plan
-    , irActions = executed
-    }
+fetchOrders :: Walmart.Env -> [OrderSummary] -> IO ([SkippedOrder], [Walmart.WalmartOrder])
+fetchOrders walmart = fmap partitionEithers . traverse fetch
+  where
+    fetch summary =
+      first (SkippedOrder (osOrderId summary)) <$> Walmart.getOrder walmart summary
+
+executePlan :: Grocy.Env -> GrocySetup -> ImportPlan -> IO (Either OrderFailure ImportResult)
+executePlan grocy setup plan = go [] (ipActions plan)
+  where
+    purchaseDate = utctDay (ipOrderDate plan)
+    go done [] = pure $ Right ImportResult
+      { irOrderId = ipOrderId plan
+      , irActions = reverse done
+      }
+    go done remaining@(action : rest) = do
+      result <- executeAction grocy setup purchaseDate action
+      case result of
+        Right executed -> go (executed : done) rest
+        Left err -> pure $ Left OrderFailure
+          { ofOrderId     = ipOrderId plan
+          , ofStocked     = reverse done
+          , ofNotExecuted = remaining
+          , ofError       = err
+          }
 
 executeAction :: Grocy.Env -> GrocySetup -> Day -> Action -> IO (Either GrocyError ExecutedAction)
 executeAction grocy setup purchaseDate action = case action of
@@ -91,7 +106,7 @@ stockItem grocy item product_ purchaseDate =
 
 runImport
   :: Walmart.Env -> Grocy.Env -> SetupConfig -> FilePath -> ImportOptions
-  -> IO (Either AppError ImportOutcome)
+  -> IO (Either AppError ImportReport)
 runImport walmart grocy setupCfg stateFile opts = runExceptT $ do
   products  <- ExceptT $ first AppGrocyError <$> Grocy.getProducts grocy
   imported  <- ExceptT $ loadImportedOrders stateFile
@@ -103,35 +118,31 @@ runImport walmart grocy setupCfg stateFile opts = runExceptT $ do
         | ioForce opts = unique
         | otherwise    = filter (\s -> not (Set.member (osOrderId s) imported)) unique
 
-  orders <- lift $ traverseWithErrors
-    (\s -> first AppWalmartError <$> Walmart.getOrder walmart s) unimported
+  (skipped, orders) <- lift $ fetchOrders walmart unimported
 
   let plans = map (reconcile products) orders
   case ioMode opts of
-    DryRun  -> pure (PlannedOnly plans)
+    DryRun -> pure ImportReport
+      { reportSkipped = skipped
+      , reportOutcome = PlannedOnly plans
+      }
     Execute -> do
-      setup   <- ExceptT $ first AppGrocyError <$> ensureSetup grocy setupCfg
-      results <- traverse (ExceptT . executePlan grocy setup) plans
-      let newIds = Set.fromList (map irOrderId results)
-      lift $ saveImportedOrders stateFile (Set.union imported newIds)
-      pure (Imported results)
+      setup <- ExceptT $ first AppGrocyError <$> ensureSetup grocy setupCfg
+      (failures, results) <- lift $ partitionEithers <$> traverse (executePlan grocy setup) plans
+      -- An order with any stocked item is recorded as imported so a
+      -- retry cannot stock those items twice; its remaining items are
+      -- reported in the failure instead.
+      let touched  = [ofOrderId f | f <- failures, not (null (ofStocked f))]
+          recorded = Set.unions
+            [imported, Set.fromList (map irOrderId results), Set.fromList touched]
+      lift $ saveImportedOrders stateFile recorded
+      pure ImportReport
+        { reportSkipped = skipped
+        , reportOutcome = Imported results failures
+        }
 
 runList
   :: Walmart.Env -> Maybe UTCTime -> Int
   -> IO (Either AppError [OrderSummary])
 runList walmart mSince limit =
   first AppWalmartError <$> Walmart.getOrders walmart mSince limit
-
--- | Fetch each order, warning on stderr and continuing when one fails;
--- a single unfetchable order should not abort the whole import.
-traverseWithErrors :: (a -> IO (Either AppError b)) -> [a] -> IO [b]
-traverseWithErrors f = go []
-  where
-    go acc [] = pure (reverse acc)
-    go acc (x : xs) = do
-      result <- f x
-      case result of
-        Right val -> go (val : acc) xs
-        Left err  -> do
-          hPutStrLn stderr ("  Skipping: " <> show err)
-          go acc xs

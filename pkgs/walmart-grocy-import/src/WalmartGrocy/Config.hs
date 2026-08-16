@@ -4,8 +4,8 @@
 --
 -- The config file names the Grocy endpoint and the Grocy objects an
 -- import stocks into. The API key enters as a path to a file holding
--- the secret, never as an inline value, and is resolved here so the
--- rest of the program only ever sees a proven 'Grocy.ApiKey'.
+-- the secret and is resolved here, so the rest of the program only
+-- ever sees a proven 'Grocy.ApiKey'.
 module WalmartGrocy.Config
   ( Config (..)
   , ConfigError (..)
@@ -89,7 +89,11 @@ loadConfig path = do
       contents <- T.IO.readFile path
       case Toml.decode contents of
         Toml.Failure errs -> pure (Left (ConfigInvalid path errs))
-        Toml.Success _warnings raw -> resolveApiKey raw
+        -- toml-parser warns about keys the schema never consumed; in a
+        -- config file an unconsumed key is a typo, so it fails the load.
+        Toml.Success warnings raw
+          | not (null warnings) -> pure (Left (ConfigInvalid path warnings))
+          | otherwise           -> resolveApiKey raw
 
 resolveApiKey :: RawConfig -> IO (Either ConfigError Config)
 resolveApiKey raw = do
