@@ -21,6 +21,7 @@ module Grocy
   , StockPurchase (..)
   , neverExpires
   , ObjectCollection (..)
+  , ApiPath (..)
   , GrocyError (..)
     -- * Operations
   , getProducts
@@ -106,9 +107,12 @@ neverExpires = fromGregorian 2999 12 31
 data ObjectCollection = Locations | ShoppingLocations | QuantityUnits
   deriving stock (Show, Eq)
 
+newtype ApiPath = ApiPath { unApiPath :: Text }
+  deriving stock (Show, Eq)
+
 data GrocyError
-  = GrocyHttpError Text Int
-  | GrocyParseError Text Text
+  = GrocyHttpError ApiPath Int Text
+  | GrocyParseError ApiPath Text
   | GrocyObjectNotFound ObjectCollection Text
   deriving stock (Show, Eq)
 
@@ -143,7 +147,7 @@ addStock env pid purchase = do
   let code = statusCode (responseStatus resp)
   pure $ if code == 200
     then Right ()
-    else Left (GrocyHttpError path code)
+    else Left (GrocyHttpError (ApiPath path) code (bodyPreview resp))
 
 ensureLocation :: Env -> Text -> IO (Either GrocyError LocationId)
 ensureLocation env name = fmap LocationId <$> ensureObject env Locations name
@@ -210,15 +214,19 @@ request env method path mBody = do
         }
   httpLbs req (envManager env)
 
+-- | The first 200 characters of a response body, kept for diagnostics.
+bodyPreview :: Response LBS.ByteString -> Text
+bodyPreview = T.take 200 . TE.decodeUtf8Lenient . LBS.toStrict . responseBody
+
 getJson :: Aeson.FromJSON a => Env -> Text -> IO (Either GrocyError a)
 getJson env path = do
   resp <- request env "GET" path Nothing
   let code = statusCode (responseStatus resp)
   pure $ if code == 200
     then case Aeson.eitherDecode (responseBody resp) of
-      Left err  -> Left (GrocyParseError path (T.pack err))
+      Left err  -> Left (GrocyParseError (ApiPath path) (T.pack err))
       Right val -> Right val
-    else Left (GrocyHttpError path code)
+    else Left (GrocyHttpError (ApiPath path) code (bodyPreview resp))
 
 -- | Grocy reports a created object's id as a decimal string.
 newtype CreatedObjectId = CreatedObjectId Text
@@ -233,11 +241,11 @@ postForId env path payload = do
   let code = statusCode (responseStatus resp)
   pure $ if code == 200
     then case Aeson.eitherDecode (responseBody resp) of
-      Left err -> Left (GrocyParseError path (T.pack err))
+      Left err -> Left (GrocyParseError (ApiPath path) (T.pack err))
       Right (CreatedObjectId idText) -> case readMaybe (T.unpack idText) of
         Just oid -> Right oid
-        Nothing  -> Left (GrocyParseError path ("created_object_id is not a number: " <> idText))
-    else Left (GrocyHttpError path code)
+        Nothing  -> Left (GrocyParseError (ApiPath path) ("created_object_id is not a number: " <> idText))
+    else Left (GrocyHttpError (ApiPath path) code (bodyPreview resp))
 
 centsToDollars :: Discrete "USD" "cent" -> Scientific
 centsToDollars cents = scientific (toInteger cents) (-2)

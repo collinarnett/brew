@@ -12,7 +12,7 @@ import System.FilePath ((</>))
 import Text.Read (readMaybe)
 
 import BrowserCookies (CookieError (..), getFirefoxCookies)
-import Grocy (GrocyError (..), ObjectCollection (..))
+import Grocy (ApiPath (..), GrocyError (..), ObjectCollection (..))
 import Grocy qualified
 import Walmart qualified
 import Walmart.Types (BodyPreview (..), OrderId (..), OrderSummary (..), WalmartError (..), WalmartItem (..))
@@ -195,12 +195,7 @@ renderAppError (AppCookieError (NoCookiesFound d p)) =
 renderAppError (AppCookieError (NoDefaultProfile p)) =
   "Could not find default Firefox profile in " <> p
 renderAppError (AppWalmartError walmartErr) = renderWalmartError walmartErr
-renderAppError (AppGrocyError (GrocyHttpError path code)) =
-  "Grocy " <> T.unpack path <> " returned HTTP " <> show code
-renderAppError (AppGrocyError (GrocyParseError path msg)) =
-  "Failed to parse Grocy response from " <> T.unpack path <> ": " <> T.unpack msg
-renderAppError (AppGrocyError (GrocyObjectNotFound collection name)) =
-  "Required Grocy " <> collectionNoun collection <> " not found: " <> T.unpack name
+renderAppError (AppGrocyError grocyErr) = renderGrocyError grocyErr
 renderAppError (AppStateCorrupt path err) =
   "State file " <> path <> " is corrupt: " <> err
   <> "\nFix or remove it; removing it will re-import every order on the next run."
@@ -218,6 +213,15 @@ renderWalmartError (WalmartParseError op err) =
   "Failed to parse " <> T.unpack op <> ": " <> err
 renderWalmartError (WalmartJsonDecodeError err preview) =
   "JSON decode failed: " <> err <> "\nResponse: " <> unBodyPreview preview
+
+renderGrocyError :: GrocyError -> String
+renderGrocyError (GrocyHttpError path code preview) =
+  "Grocy " <> T.unpack (unApiPath path) <> " returned HTTP " <> show code
+  <> ": " <> T.unpack preview
+renderGrocyError (GrocyParseError path msg) =
+  "Failed to parse Grocy response from " <> T.unpack (unApiPath path) <> ": " <> T.unpack msg
+renderGrocyError (GrocyObjectNotFound collection name) =
+  "Required Grocy " <> collectionNoun collection <> " not found: " <> T.unpack name
 
 collectionNoun :: ObjectCollection -> String
 collectionNoun Locations         = "location"
