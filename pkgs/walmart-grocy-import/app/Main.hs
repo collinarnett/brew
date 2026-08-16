@@ -12,10 +12,11 @@ import System.FilePath ((</>))
 import Text.Read (readMaybe)
 
 import BrowserCookies (CookieError (..), getFirefoxCookies)
+import Grocy (GrocyError (..), ObjectCollection (..))
+import Grocy qualified
 import Walmart qualified
 import Walmart.Types (OrderId (..), OrderSummary (..), WalmartError (..), WalmartItem (..))
-import WalmartGrocy.App (runImport, runList)
-import WalmartGrocy.Grocy (GrocyConfig (..), SetupConfig (..))
+import WalmartGrocy.App (SetupConfig (..), runImport, runList)
 import WalmartGrocy.Types
 
 data Command
@@ -103,11 +104,8 @@ main = do
 
     Import io -> do
       mSince <- traverse requireParseSince (imSince io)
-      let gc = GrocyConfig
-            { gcBaseUrl = imGrocyUrl io
-            , gcApiKey  = imGrocyKey io
-            }
-          stateFile = dataDir </> "state.json"
+      grocy <- Grocy.newEnv (Grocy.BaseUrl (imGrocyUrl io)) (Grocy.ApiKey (imGrocyKey io))
+      let stateFile = dataDir </> "state.json"
           setupCfg = SetupConfig
             { scLocationName         = "Pantry"
             , scShoppingLocationName = "Walmart"
@@ -120,7 +118,7 @@ main = do
             , ioForce  = imForce io
             }
           verbosity = if verbose then Verbose else Quiet
-      result <- runImport walmartEnv gc setupCfg stateFile verbosity opts
+      result <- runImport walmartEnv grocy setupCfg stateFile verbosity opts
       results <- either (die . renderAppError) pure result
       mapM_ printResult results
       let totalMatched = sum (map (length . irMatched) results)
@@ -147,12 +145,12 @@ printResult r = do
   mapM_ printMatched (irMatched r)
   mapM_ printCreated (irCreated r)
 
-printMatched :: (WalmartItem, GrocyProduct) -> IO ()
-printMatched (item, (_, name)) =
+printMatched :: (WalmartItem, Grocy.Product) -> IO ()
+printMatched (item, matched) =
   putStrLn ("    = " <> T.unpack (wiName item) <> priceStr item
-    <> " -> " <> T.unpack name)
+    <> " -> " <> T.unpack (Grocy.productName matched))
 
-printCreated :: (WalmartItem, GrocyProduct) -> IO ()
+printCreated :: (WalmartItem, Grocy.Product) -> IO ()
 printCreated (item, _) =
   putStrLn ("    + " <> T.unpack (wiName item) <> priceStr item)
 
@@ -193,11 +191,12 @@ renderAppError (AppWalmartError (WalmartJsonDecodeError err preview)) =
   "JSON decode failed: " <> err <> "\nResponse: " <> preview
 renderAppError (AppGrocyError (GrocyHttpError path code)) =
   "Grocy " <> T.unpack path <> " returned HTTP " <> show code
-renderAppError (AppGrocyError (GrocyParseError msg)) =
-  "Failed to parse Grocy response: " <> T.unpack msg
-renderAppError (AppGrocyError (GrocyEntityNotFound typ name)) =
-  "Required Grocy entity not found: " <> T.unpack typ <> "/" <> T.unpack name
-renderAppError (AppGrocyError (GrocyProductNotFound name)) =
-  "Product not found and could not be created: " <> T.unpack name
-renderAppError (AppGrocyError (GrocyCreateError typ err)) =
-  "Failed to create " <> T.unpack typ <> ": " <> err
+renderAppError (AppGrocyError (GrocyParseError path msg)) =
+  "Failed to parse Grocy response from " <> T.unpack path <> ": " <> T.unpack msg
+renderAppError (AppGrocyError (GrocyObjectNotFound collection name)) =
+  "Required Grocy " <> collectionNoun collection <> " not found: " <> T.unpack name
+
+collectionNoun :: ObjectCollection -> String
+collectionNoun Locations         = "location"
+collectionNoun ShoppingLocations = "shopping location"
+collectionNoun QuantityUnits     = "quantity unit"

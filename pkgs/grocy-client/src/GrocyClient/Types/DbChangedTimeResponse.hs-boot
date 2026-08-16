@@ -1,8 +1,0 @@
-module GrocyClient.Types.DbChangedTimeResponse where
-import qualified Data.Aeson
-import qualified GrocyClient.Common
-data DbChangedTimeResponse
-instance Show DbChangedTimeResponse
-instance Eq DbChangedTimeResponse
-instance Data.Aeson.FromJSON DbChangedTimeResponse
-instance Data.Aeson.ToJSON DbChangedTimeResponse

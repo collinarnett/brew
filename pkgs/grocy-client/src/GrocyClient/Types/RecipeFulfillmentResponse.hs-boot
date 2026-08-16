@@ -1,8 +1,0 @@
-module GrocyClient.Types.RecipeFulfillmentResponse where
-import qualified Data.Aeson
-import qualified GrocyClient.Common
-data RecipeFulfillmentResponse
-instance Show RecipeFulfillmentResponse
-instance Eq RecipeFulfillmentResponse
-instance Data.Aeson.FromJSON RecipeFulfillmentResponse
-instance Data.Aeson.ToJSON RecipeFulfillmentResponse

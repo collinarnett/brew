@@ -1,8 +1,0 @@
-module GrocyClient.Types.ExternalBarcodeLookupResponse where
-import qualified Data.Aeson
-import qualified GrocyClient.Common
-data ExternalBarcodeLookupResponse
-instance Show ExternalBarcodeLookupResponse
-instance Eq ExternalBarcodeLookupResponse
-instance Data.Aeson.FromJSON ExternalBarcodeLookupResponse
-instance Data.Aeson.ToJSON ExternalBarcodeLookupResponse

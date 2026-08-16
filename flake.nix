@@ -180,7 +180,7 @@
                   "clan-mcp"
                   "walmart"
                   "walmart-extractor"
-                  "grocy-client"
+                  "grocy"
                   "walmart-grocy-import"
                 ];
                 hsPkgs = pkgs.haskellPackages.override {

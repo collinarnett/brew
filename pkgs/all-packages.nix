@@ -6,7 +6,7 @@ let
     "clan-mcp"
     "walmart"
     "walmart-extractor"
-    "grocy-client"
+    "grocy"
     "walmart-grocy-import"
   ];
 in

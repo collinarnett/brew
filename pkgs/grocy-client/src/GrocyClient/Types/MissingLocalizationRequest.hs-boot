@@ -1,8 +1,0 @@
-module GrocyClient.Types.MissingLocalizationRequest where
-import qualified Data.Aeson
-import qualified GrocyClient.Common
-data MissingLocalizationRequest
-instance Show MissingLocalizationRequest
-instance Eq MissingLocalizationRequest
-instance Data.Aeson.FromJSON MissingLocalizationRequest
-instance Data.Aeson.ToJSON MissingLocalizationRequest

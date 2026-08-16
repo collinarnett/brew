@@ -1,8 +1,0 @@
-module GrocyClient.Types.BatteryDetailsResponse where
-import qualified Data.Aeson
-import qualified GrocyClient.Common
-data BatteryDetailsResponse
-instance Show BatteryDetailsResponse
-instance Eq BatteryDetailsResponse
-instance Data.Aeson.FromJSON BatteryDetailsResponse
-instance Data.Aeson.ToJSON BatteryDetailsResponse

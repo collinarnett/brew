@@ -12,29 +12,32 @@ import Data.Text (Text)
 import Data.Text qualified as T
 import Text.Fuzzy qualified as Fuzzy
 
+import Grocy (Product, productName)
 import Walmart.Types (WalmartItem (..), WalmartOrder (..))
 import WalmartGrocy.Types
 
-reconcile :: [GrocyProduct] -> WalmartOrder -> ImportPlan
+reconcile :: [Product] -> WalmartOrder -> ImportPlan
 reconcile products order = ImportPlan
   { ipOrderId   = woOrderId order
   , ipOrderDate = woOrderDate order
   , ipActions   = map (matchOrCreate products) (woItems order)
   }
 
-matchOrCreate :: [GrocyProduct] -> WalmartItem -> Action
+matchOrCreate :: [Product] -> WalmartItem -> Action
 matchOrCreate products item =
   case bestMatch (wiName item) products of
     Just p  -> StockExisting item p
     Nothing -> CreateAndStock item
 
-bestMatch :: Text -> [GrocyProduct] -> Maybe GrocyProduct
+-- | Fuzzy scores at or above this count as the same product.
+matchThreshold :: Int
+matchThreshold = 75
+
+bestMatch :: Text -> [Product] -> Maybe Product
 bestMatch name products =
-  let threshold = 75
-      scored = [(fuzzyScore name (snd p), p) | p <- products]
-      above  = filter ((>= threshold) . fst) scored
-      sorted = sortOn (Down . fst) above
-  in case sorted of
+  let scored = [(fuzzyScore name (productName p), p) | p <- products]
+      above  = filter ((>= matchThreshold) . fst) scored
+  in case sortOn (Down . fst) above of
     ((_, p) : _) -> Just p
     []           -> Nothing
 

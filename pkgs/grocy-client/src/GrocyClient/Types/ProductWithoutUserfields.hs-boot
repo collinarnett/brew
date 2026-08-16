@@ -1,8 +1,0 @@
-module GrocyClient.Types.ProductWithoutUserfields where
-import qualified Data.Aeson
-import qualified GrocyClient.Common
-data ProductWithoutUserfields
-instance Show ProductWithoutUserfields
-instance Eq ProductWithoutUserfields
-instance Data.Aeson.FromJSON ProductWithoutUserfields
-instance Data.Aeson.ToJSON ProductWithoutUserfields
