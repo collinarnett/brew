@@ -3,41 +3,32 @@
 -- | Firefox cookie extraction via SQLite.
 module BrowserCookies
   ( getFirefoxCookies
-  , CookieConfig (..)
-  , defaultConfig
   , CookieError (..)
   ) where
 
-import Control.Monad (when)
-import Data.ByteString.Char8 qualified as BS
+import Control.Exception (finally)
 import Data.Text (Text)
 import Data.Text qualified as T
+import Data.Text.Encoding qualified as TE
 import Data.Text.IO qualified as T.IO
 import Data.Time.Clock (UTCTime)
 import Data.Time.Clock.POSIX (posixSecondsToUTCTime)
 import Database.SQLite.Simple
 import Network.HTTP.Client (Cookie (..), CookieJar, createCookieJar)
-import System.Directory (copyFile, getHomeDirectory, removeFile)
+import System.Directory (copyFile, doesFileExist, getHomeDirectory, removeFile)
 import System.FilePath ((</>))
-import System.IO (hPutStrLn, stderr)
-
-data CookieConfig = CookieConfig
-  { ccVerbose :: Bool
-  } deriving stock (Show, Eq)
-
-defaultConfig :: CookieConfig
-defaultConfig = CookieConfig { ccVerbose = False }
 
 data CookieError
-  = NoCookiesFound Text FilePath
+  = NoProfilesIni FilePath
   | NoDefaultProfile FilePath
+  | NoCookiesFound Text FilePath
   deriving stock (Show, Eq)
 
 data CookieRow = CookieRow
-  { crName   :: String
-  , crValue  :: String
-  , crHost   :: String
-  , crPath   :: String
+  { crName   :: Text
+  , crValue  :: Text
+  , crHost   :: Text
+  , crPath   :: Text
   , crSecure :: Int
   , crExpiry :: Int
   }
@@ -45,38 +36,37 @@ data CookieRow = CookieRow
 instance FromRow CookieRow where
   fromRow = CookieRow <$> field <*> field <*> field <*> field <*> field <*> field
 
--- | Read cookies for a domain from Firefox's SQLite cookie database.
-getFirefoxCookies :: CookieConfig -> Text -> IO (Either CookieError CookieJar)
-getFirefoxCookies cfg domain = do
-  let verbose = ccVerbose cfg
-  result <- findCookieDb
-  case result of
+-- | Read cookies for a domain from the default Firefox profile's SQLite
+-- cookie database.
+getFirefoxCookies :: Text -> IO (Either CookieError CookieJar)
+getFirefoxCookies domain = do
+  found <- findCookieDb
+  case found of
     Left err -> pure (Left err)
     Right dbPath -> do
-      when verbose $
-        hPutStrLn stderr ("Reading cookies from: " <> dbPath)
-      let tmpPath = dbPath <> ".wgi-copy"
-      copyFile dbPath tmpPath
-      conn <- open tmpPath
-      rows <- query conn
-        "SELECT name, value, host, path, isSecure, expiry \
-        \FROM moz_cookies WHERE host LIKE ?"
-        (Only ("%" <> T.unpack domain))
-        :: IO [CookieRow]
-      close conn
-      removeFile tmpPath
-      when verbose $
-        hPutStrLn stderr ("Loaded " <> show (length rows) <> " cookies for " <> T.unpack domain)
-      if null rows
-        then pure (Left (NoCookiesFound domain dbPath))
-        else pure (Right (createCookieJar (map toCookie rows)))
+      -- Firefox holds a WAL lock on the live database while running,
+      -- so query a throwaway copy.
+      let copyPath = dbPath <> ".browser-cookies-copy"
+      copyFile dbPath copyPath
+      rows <- queryCookies copyPath domain `finally` removeFile copyPath
+      pure $ if null rows
+        then Left (NoCookiesFound domain dbPath)
+        else Right (createCookieJar (map toCookie rows))
+
+queryCookies :: FilePath -> Text -> IO [CookieRow]
+queryCookies dbPath domain =
+  withConnection dbPath $ \conn ->
+    query conn
+      "SELECT name, value, host, path, isSecure, expiry \
+      \FROM moz_cookies WHERE host LIKE ?"
+      (Only ("%" <> T.unpack domain))
 
 toCookie :: CookieRow -> Cookie
 toCookie row = Cookie
-  { cookie_name             = BS.pack (crName row)
-  , cookie_value            = BS.pack (crValue row)
-  , cookie_domain           = BS.pack (crHost row)
-  , cookie_path             = BS.pack (crPath row)
+  { cookie_name             = TE.encodeUtf8 (crName row)
+  , cookie_value            = TE.encodeUtf8 (crValue row)
+  , cookie_domain           = TE.encodeUtf8 (crHost row)
+  , cookie_path             = TE.encodeUtf8 (crPath row)
   , cookie_secure_only      = crSecure row /= 0
   , cookie_http_only        = False
   , cookie_host_only        = False
@@ -94,11 +84,14 @@ findCookieDb = do
   home <- getHomeDirectory
   let ffDir = home </> ".mozilla" </> "firefox"
       iniPath = ffDir </> "profiles.ini"
-  contents <- T.IO.readFile iniPath
-  let profilePath = parseDefaultProfile (T.lines contents)
-  case profilePath of
-    Just relPath -> pure (Right (ffDir </> relPath </> "cookies.sqlite"))
-    Nothing -> pure (Left (NoDefaultProfile iniPath))
+  iniExists <- doesFileExist iniPath
+  if not iniExists
+    then pure (Left (NoProfilesIni iniPath))
+    else do
+      contents <- T.IO.readFile iniPath
+      pure $ case parseDefaultProfile (T.lines contents) of
+        Just relPath -> Right (ffDir </> relPath </> "cookies.sqlite")
+        Nothing      -> Left (NoDefaultProfile iniPath)
 
 parseDefaultProfile :: [Text] -> Maybe FilePath
 parseDefaultProfile = go Nothing False

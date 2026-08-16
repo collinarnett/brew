@@ -13,7 +13,6 @@ library
   hs-source-dirs:   src
   exposed-modules:  BrowserCookies
   build-depends:    base >= 4.17 && < 5
-                  , bytestring
                   , directory
                   , filepath
                   , http-client

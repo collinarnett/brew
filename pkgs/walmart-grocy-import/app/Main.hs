@@ -11,7 +11,7 @@ import System.Exit (die)
 import System.FilePath ((</>))
 import Text.Read (readMaybe)
 
-import BrowserCookies (CookieConfig (..), CookieError (..), getFirefoxCookies)
+import BrowserCookies (CookieError (..), getFirefoxCookies)
 import Walmart qualified
 import Walmart.Types (OrderId (..), OrderSummary (..), WalmartError (..), WalmartItem (..))
 import WalmartGrocy.App (runImport, runList)
@@ -86,8 +86,7 @@ main = do
     (info (globalParser <**> helper)
       (fullDesc <> progDesc "Import Walmart order history into Grocy"))
 
-  let cookieCfg = CookieConfig { ccVerbose = verbose }
-  cookieResult <- getFirefoxCookies cookieCfg ".walmart.com"
+  cookieResult <- getFirefoxCookies ".walmart.com"
   cookies <- either (die . renderAppError . AppCookieError) pure cookieResult
 
   walmartEnv <- Walmart.newEnv cookies
@@ -176,6 +175,8 @@ renderAppError :: AppError -> String
 renderAppError (AppCookieError (NoCookiesFound d p)) =
   "No cookies found for " <> T.unpack d <> " in " <> p
   <> ". Log into walmart.com in Firefox first."
+renderAppError (AppCookieError (NoProfilesIni p)) =
+  "No Firefox profiles.ini at " <> p <> ". Is Firefox set up on this machine?"
 renderAppError (AppCookieError (NoDefaultProfile p)) =
   "Could not find default Firefox profile in " <> p
 renderAppError (AppWalmartError WalmartHashRotated) =

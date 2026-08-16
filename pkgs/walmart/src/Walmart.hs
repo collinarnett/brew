@@ -2,11 +2,11 @@
 --
 -- @
 -- import qualified Walmart
--- import BrowserCookies (getFirefoxCookies, defaultConfig)
+-- import BrowserCookies (getFirefoxCookies)
 --
 -- main :: IO ()
 -- main = do
---   Right cookies <- getFirefoxCookies defaultConfig ".walmart.com"
+--   Right cookies <- getFirefoxCookies ".walmart.com"
 --   env <- Walmart.newEnv cookies
 --   Right orders <- Walmart.getOrders env Nothing 10
 --   print orders
