@@ -16,6 +16,7 @@ library
   ghc-options:      -Werror
   hs-source-dirs:   src
   exposed-modules:  WalmartGrocy.Types
+                  , WalmartGrocy.Config
                   , WalmartGrocy.Reconcile
                   , WalmartGrocy.App
   build-depends:    base >= 4.17 && < 5
@@ -24,10 +25,12 @@ library
                   , bytestring
                   , containers
                   , directory
+                  , filepath
                   , fuzzy
                   , grocy
                   , text
                   , time
+                  , toml-parser
                   , transformers
                   , walmart
 

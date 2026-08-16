@@ -1,8 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 
 module WalmartGrocy.App
-  ( SetupConfig (..)
-  , GrocySetup (..)
+  ( GrocySetup (..)
   , ensureSetup
   , runImport
   , runList
@@ -10,7 +9,6 @@ module WalmartGrocy.App
   , saveImportedOrders
   ) where
 
-import Control.Monad (when)
 import Control.Monad.Trans.Class (lift)
 import Control.Monad.Trans.Except (ExceptT (..), runExceptT)
 import Data.Aeson qualified as Aeson
@@ -18,8 +16,7 @@ import Data.Bifunctor (first)
 import Data.ByteString.Lazy qualified as LBS
 import Data.Set (Set)
 import Data.Set qualified as Set
-import Data.Text (Text)
-import Data.Time (UTCTime, utctDay)
+import Data.Time (Day, UTCTime, utctDay)
 import System.Directory (doesFileExist)
 import System.IO (hPutStrLn, stderr)
 
@@ -30,14 +27,7 @@ import Walmart.Types (OrderId (..), OrderSummary (..), WalmartItem (..))
 import WalmartGrocy.Reconcile (deduplicateBy, reconcile)
 import WalmartGrocy.Types
 
--- | The Grocy object names an import run stocks into.
-data SetupConfig = SetupConfig
-  { scLocationName         :: Text
-  , scShoppingLocationName :: Text
-  , scQuantityUnitName     :: Text
-  } deriving stock (Show)
-
--- | The resolved ids of those objects.
+-- | The resolved ids of the Grocy objects an import stocks into.
 data GrocySetup = GrocySetup
   { gsLocation         :: LocationId
   , gsShoppingLocation :: ShoppingLocationId
@@ -50,73 +40,62 @@ ensureSetup grocy cfg = runExceptT $ GrocySetup
   <*> ExceptT (Grocy.ensureShoppingLocation grocy (scShoppingLocationName cfg))
   <*> ExceptT (Grocy.findQuantityUnit grocy (scQuantityUnitName cfg))
 
-loadImportedOrders :: FilePath -> IO (Set OrderId)
+loadImportedOrders :: FilePath -> IO (Either AppError (Set OrderId))
 loadImportedOrders path = do
   exists <- doesFileExist path
   if not exists
-    then pure Set.empty
+    then pure (Right Set.empty)
     else do
       contents <- LBS.readFile path
       case Aeson.eitherDecode contents of
-        Left _    -> pure Set.empty
-        Right ids -> pure (Set.fromList (map OrderId ids))
+        Left err  -> pure (Left (AppStateCorrupt path err))
+        Right ids -> pure (Right (Set.fromList (map OrderId ids)))
 
 saveImportedOrders :: FilePath -> Set OrderId -> IO ()
 saveImportedOrders path ids =
   LBS.writeFile path (Aeson.encode (map unOrderId (Set.toList ids)))
 
-executePlan
-  :: Grocy.Env -> GrocySetup -> UTCTime -> Bool -> ImportPlan
-  -> IO (Either AppError ImportResult)
-executePlan grocy setup orderDate dryRun plan = runExceptT $ do
-  results <- traverse
-    (\a -> ExceptT $ first AppGrocyError <$> executeAction grocy setup dryRun orderDate a)
+executePlan :: Grocy.Env -> GrocySetup -> ImportPlan -> IO (Either AppError ImportResult)
+executePlan grocy setup plan = runExceptT $ do
+  executed <- traverse
+    (\a -> ExceptT $ first AppGrocyError <$> executeAction grocy setup (utctDay (ipOrderDate plan)) a)
     (ipActions plan)
   pure ImportResult
     { irOrderId = ipOrderId plan
-    , irMatched = [(i, p) | (StockExisting i p, _) <- results]
-    , irCreated = [(i, p) | (CreateAndStock i, Just p) <- results]
+    , irActions = executed
     }
 
-executeAction
-  :: Grocy.Env -> GrocySetup -> Bool -> UTCTime -> Action
-  -> IO (Either GrocyError (Action, Maybe Product))
-executeAction grocy setup dryRun orderDate action = case action of
-  CreateAndStock item
-    | dryRun    -> pure (Right (action, Nothing))
-    | otherwise -> runExceptT $ do
-        created <- ExceptT $ Grocy.createProduct grocy Grocy.NewProduct
-          { Grocy.newProductName             = wiName item
-          , Grocy.newProductLocation         = gsLocation setup
-          , Grocy.newProductQuantityUnit     = gsQuantityUnit setup
-          , Grocy.newProductShoppingLocation = gsShoppingLocation setup
-          }
-        ExceptT $ stockItem grocy item created orderDate
-        pure (action, Just created)
-  StockExisting item existing
-    | dryRun    -> pure (Right (action, Nothing))
-    | otherwise -> runExceptT $ do
-        ExceptT $ stockItem grocy item existing orderDate
-        pure (action, Nothing)
+executeAction :: Grocy.Env -> GrocySetup -> Day -> Action -> IO (Either GrocyError ExecutedAction)
+executeAction grocy setup purchaseDate action = case action of
+  CreateAndStock item -> runExceptT $ do
+    created <- ExceptT $ Grocy.createProduct grocy Grocy.NewProduct
+      { Grocy.newProductName             = wiName item
+      , Grocy.newProductLocation         = gsLocation setup
+      , Grocy.newProductQuantityUnit     = gsQuantityUnit setup
+      , Grocy.newProductShoppingLocation = gsShoppingLocation setup
+      }
+    ExceptT $ stockItem grocy item created purchaseDate
+    pure (Created item created)
+  StockExisting item existing -> runExceptT $ do
+    ExceptT $ stockItem grocy item existing purchaseDate
+    pure (Stocked item existing)
 
-stockItem :: Grocy.Env -> WalmartItem -> Product -> UTCTime -> IO (Either GrocyError ())
-stockItem grocy item product_ orderDate =
+stockItem :: Grocy.Env -> WalmartItem -> Product -> Day -> IO (Either GrocyError ())
+stockItem grocy item product_ purchaseDate =
   Grocy.addStock grocy (Grocy.productId product_) Grocy.StockPurchase
     { Grocy.purchaseAmount     = wiQuantity item
     , Grocy.purchasePrice      = wiLinePrice item
-    , Grocy.purchasedOn        = utctDay orderDate
+    , Grocy.purchasedOn        = purchaseDate
     , Grocy.purchaseBestBefore = Grocy.neverExpires
     }
 
 runImport
-  :: Walmart.Env -> Grocy.Env -> SetupConfig -> FilePath
-  -> Verbosity -> ImportOptions
-  -> IO (Either AppError [ImportResult])
-runImport walmart grocy setupCfg stateFile verbosity opts = runExceptT $ do
-  setup      <- ExceptT $ first AppGrocyError <$> ensureSetup grocy setupCfg
-  products   <- ExceptT $ first AppGrocyError <$> Grocy.getProducts grocy
-  imported   <- lift $ loadImportedOrders stateFile
-  summaries  <- ExceptT $ first AppWalmartError <$>
+  :: Walmart.Env -> Grocy.Env -> SetupConfig -> FilePath -> ImportOptions
+  -> IO (Either AppError ImportOutcome)
+runImport walmart grocy setupCfg stateFile opts = runExceptT $ do
+  products  <- ExceptT $ first AppGrocyError <$> Grocy.getProducts grocy
+  imported  <- ExceptT $ loadImportedOrders stateFile
+  summaries <- ExceptT $ first AppWalmartError <$>
     Walmart.getOrders walmart (ioSince opts) (ioLimit opts)
 
   let unique = deduplicateBy osOrderId summaries
@@ -124,19 +103,18 @@ runImport walmart grocy setupCfg stateFile verbosity opts = runExceptT $ do
         | ioForce opts = unique
         | otherwise    = filter (\s -> not (Set.member (osOrderId s) imported)) unique
 
-  orders <- lift $ traverseWithErrors verbosity
+  orders <- lift $ traverseWithErrors
     (\s -> first AppWalmartError <$> Walmart.getOrder walmart s) unimported
 
   let plans = map (reconcile products) orders
-  results <- traverse
-    (\p -> ExceptT $ executePlan grocy setup (ipOrderDate p) (ioDryRun opts) p)
-    plans
-
-  when (not (ioDryRun opts)) $ lift $ do
-    let newIds = Set.fromList (map irOrderId results)
-    saveImportedOrders stateFile (Set.union imported newIds)
-
-  pure results
+  case ioMode opts of
+    DryRun  -> pure (PlannedOnly plans)
+    Execute -> do
+      setup   <- ExceptT $ first AppGrocyError <$> ensureSetup grocy setupCfg
+      results <- traverse (ExceptT . executePlan grocy setup) plans
+      let newIds = Set.fromList (map irOrderId results)
+      lift $ saveImportedOrders stateFile (Set.union imported newIds)
+      pure (Imported results)
 
 runList
   :: Walmart.Env -> Maybe UTCTime -> Int
@@ -144,8 +122,10 @@ runList
 runList walmart mSince limit =
   first AppWalmartError <$> Walmart.getOrders walmart mSince limit
 
-traverseWithErrors :: Verbosity -> (a -> IO (Either AppError b)) -> [a] -> IO [b]
-traverseWithErrors verbosity f = go []
+-- | Fetch each order, warning on stderr and continuing when one fails;
+-- a single unfetchable order should not abort the whole import.
+traverseWithErrors :: (a -> IO (Either AppError b)) -> [a] -> IO [b]
+traverseWithErrors f = go []
   where
     go acc [] = pure (reverse acc)
     go acc (x : xs) = do
@@ -153,6 +133,5 @@ traverseWithErrors verbosity f = go []
       case result of
         Right val -> go (val : acc) xs
         Left err  -> do
-          when (verbosity >= Normal) $
-            hPutStrLn stderr ("  Skipping: " <> show err)
+          hPutStrLn stderr ("  Skipping: " <> show err)
           go acc xs

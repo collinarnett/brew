@@ -1,21 +1,32 @@
 module WalmartGrocy.Types
   ( Action (..)
+  , ExecutedAction (..)
   , ImportPlan (..)
   , ImportResult (..)
+  , ImportOutcome (..)
+  , ImportMode (..)
   , ImportOptions (..)
-  , Verbosity (..)
+  , SetupConfig (..)
   , AppError (..)
   ) where
 
+import Data.Text (Text)
 import Data.Time (UTCTime)
 
 import BrowserCookies (CookieError)
 import Grocy (GrocyError, Product)
 import Walmart.Types (OrderId, WalmartError, WalmartItem)
 
+-- | What reconciliation decided for one order item.
 data Action
   = CreateAndStock WalmartItem
   | StockExisting  WalmartItem Product
+  deriving stock (Show, Eq)
+
+-- | What actually happened to one order item in Grocy.
+data ExecutedAction
+  = Stocked WalmartItem Product
+  | Created WalmartItem Product
   deriving stock (Show, Eq)
 
 data ImportPlan = ImportPlan
@@ -26,22 +37,36 @@ data ImportPlan = ImportPlan
 
 data ImportResult = ImportResult
   { irOrderId :: OrderId
-  , irMatched :: [(WalmartItem, Product)]
-  , irCreated :: [(WalmartItem, Product)]
+  , irActions :: [ExecutedAction]
   } deriving stock (Show)
+
+-- | A dry run stops at the plans; only a real run has results to
+-- record in the state file.
+data ImportOutcome
+  = PlannedOnly [ImportPlan]
+  | Imported [ImportResult]
+  deriving stock (Show)
+
+data ImportMode = DryRun | Execute
+  deriving stock (Show, Eq)
 
 data ImportOptions = ImportOptions
-  { ioSince  :: Maybe UTCTime
-  , ioLimit  :: Int
-  , ioDryRun :: Bool
-  , ioForce  :: Bool
+  { ioSince :: Maybe UTCTime
+  , ioLimit :: Int
+  , ioMode  :: ImportMode
+  , ioForce :: Bool
   } deriving stock (Show)
 
-data Verbosity = Quiet | Normal | Verbose | Debug
-  deriving stock (Show, Eq, Ord)
+-- | The Grocy object names an import run stocks into.
+data SetupConfig = SetupConfig
+  { scLocationName         :: Text
+  , scShoppingLocationName :: Text
+  , scQuantityUnitName     :: Text
+  } deriving stock (Show, Eq)
 
 data AppError
   = AppCookieError CookieError
   | AppWalmartError WalmartError
   | AppGrocyError GrocyError
+  | AppStateCorrupt FilePath String
   deriving stock (Show, Eq)

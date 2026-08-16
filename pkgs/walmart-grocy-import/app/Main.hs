@@ -16,7 +16,8 @@ import Grocy (GrocyError (..), ObjectCollection (..))
 import Grocy qualified
 import Walmart qualified
 import Walmart.Types (OrderId (..), OrderSummary (..), WalmartError (..), WalmartItem (..))
-import WalmartGrocy.App (SetupConfig (..), runImport, runList)
+import WalmartGrocy.App (runImport, runList)
+import WalmartGrocy.Config (Config (..), defaultConfigPath, loadConfig, renderConfigError)
 import WalmartGrocy.Types
 
 data Command
@@ -29,12 +30,11 @@ data ListOpts = ListOpts
   }
 
 data ImportOpts = ImportOpts
-  { imSince    :: Maybe Text
-  , imLimit    :: Int
-  , imDryRun   :: Bool
-  , imForce    :: Bool
-  , imGrocyUrl :: Text
-  , imGrocyKey :: Text
+  { imSince      :: Maybe Text
+  , imLimit      :: Int
+  , imDryRun     :: Bool
+  , imForce      :: Bool
+  , imConfigPath :: Maybe FilePath
   }
 
 data CliError
@@ -45,7 +45,7 @@ parseSince :: Text -> IO (Either CliError UTCTime)
 parseSince input = do
   now <- getCurrentTime
   pure $ case T.words (T.toLower input) of
-    [nStr, unitStr, _] ->
+    [nStr, unitStr, "ago"] ->
       case readMaybe (T.unpack nStr) :: Maybe Int of
         Nothing -> Left (InvalidSinceFormat input)
         Just n ->
@@ -55,17 +55,15 @@ parseSince input = do
             "hour" -> Right (addUTCTime (negate (fromIntegral n * 3600)) now)
             "week" -> Right (addUTCTime (negate (fromIntegral n * 7 * nominalDay)) now)
             _otherUnit -> Left (UnknownTimeUnit unitStr)
-    _otherWordCount -> Left (InvalidSinceFormat input)
+    _otherShape -> Left (InvalidSinceFormat input)
 
-globalParser :: Parser (Bool, Command)
-globalParser = (,)
-  <$> switch (long "verbose" <> short 'v' <> help "Enable verbose logging")
-  <*> subparser
-    ( command "list"
-        (info (List <$> listParser) (progDesc "List recent Walmart orders"))
-   <> command "import"
-        (info (Import <$> importParser) (progDesc "Import orders into Grocy"))
-    )
+commandParser :: Parser Command
+commandParser = subparser
+  ( command "list"
+      (info (List <$> listParser) (progDesc "List recent Walmart orders"))
+ <> command "import"
+      (info (Import <$> importParser) (progDesc "Import orders into Grocy"))
+  )
 
 listParser :: Parser ListOpts
 listParser = ListOpts
@@ -76,15 +74,16 @@ importParser :: Parser ImportOpts
 importParser = ImportOpts
   <$> optional (strOption (long "since" <> help "Time filter, e.g. '3 days ago'"))
   <*> option auto (long "limit" <> value 10 <> help "Max orders to fetch")
-  <*> switch (long "dry-run" <> help "Show what would be imported")
+  <*> switch (long "dry-run" <> help "Show what would be imported without touching Grocy")
   <*> switch (long "force" <> help "Re-import already imported orders")
-  <*> strOption (long "grocy-url" <> help "Grocy instance URL")
-  <*> strOption (long "grocy-api-key" <> help "Grocy API key")
+  <*> optional (strOption
+        (long "config" <> metavar "FILE"
+         <> help "Config file (default: $XDG_CONFIG_HOME/walmart-grocy-import/config.toml)"))
 
 main :: IO ()
 main = do
-  (verbose, cmd) <- execParser
-    (info (globalParser <**> helper)
+  cmd <- execParser
+    (info (commandParser <**> helper)
       (fullDesc <> progDesc "Import Walmart order history into Grocy"))
 
   cookieResult <- getFirefoxCookies ".walmart.com"
@@ -104,29 +103,20 @@ main = do
 
     Import io -> do
       mSince <- traverse requireParseSince (imSince io)
-      grocy <- Grocy.newEnv (Grocy.BaseUrl (imGrocyUrl io)) (Grocy.ApiKey (imGrocyKey io))
+      configPath <- maybe defaultConfigPath pure (imConfigPath io)
+      configResult <- loadConfig configPath
+      config <- either (die . renderConfigError) pure configResult
+      grocy <- Grocy.newEnv (cfgGrocyUrl config) (cfgGrocyApiKey config)
       let stateFile = dataDir </> "state.json"
-          setupCfg = SetupConfig
-            { scLocationName         = "Pantry"
-            , scShoppingLocationName = "Walmart"
-            , scQuantityUnitName     = "Piece"
-            }
           opts = ImportOptions
-            { ioSince  = mSince
-            , ioLimit  = imLimit io
-            , ioDryRun = imDryRun io
-            , ioForce  = imForce io
+            { ioSince = mSince
+            , ioLimit = imLimit io
+            , ioMode  = if imDryRun io then DryRun else Execute
+            , ioForce = imForce io
             }
-          verbosity = if verbose then Verbose else Quiet
-      result <- runImport walmartEnv grocy setupCfg stateFile verbosity opts
-      results <- either (die . renderAppError) pure result
-      mapM_ printResult results
-      let totalMatched = sum (map (length . irMatched) results)
-          totalCreated = sum (map (length . irCreated) results)
-          prefix = if imDryRun io then "[DRY RUN] " else "" :: String
-      putStrLn (prefix <> "Import complete: "
-        <> show totalMatched <> " matched, "
-        <> show totalCreated <> " created")
+      result <- runImport walmartEnv grocy (cfgSetup config) stateFile opts
+      outcome <- either (die . renderAppError) pure result
+      printOutcome outcome
 
 requireParseSince :: Text -> IO UTCTime
 requireParseSince input = do
@@ -139,19 +129,46 @@ printSummary s =
     <> "  " <> show (osItemCount s) <> " items"
     <> maybe "" (\status -> "  " <> T.unpack status) (osStatus s))
 
-printResult :: ImportResult -> IO ()
-printResult r = do
-  putStrLn ("\n  Order " <> T.unpack (unOrderId (irOrderId r)) <> ":")
-  mapM_ printMatched (irMatched r)
-  mapM_ printCreated (irCreated r)
+printOutcome :: ImportOutcome -> IO ()
+printOutcome (PlannedOnly plans) = do
+  mapM_ printPlan plans
+  let actions = concatMap ipActions plans
+      matched = length [() | StockExisting _ _ <- actions]
+      created = length [() | CreateAndStock _ <- actions]
+  putStrLn (summaryLine "[DRY RUN] Would import" matched created)
+printOutcome (Imported results) = do
+  mapM_ printResult results
+  let executed = concatMap irActions results
+      matched = length [() | Stocked _ _ <- executed]
+      created = length [() | Created _ _ <- executed]
+  putStrLn (summaryLine "Import complete" matched created)
 
-printMatched :: (WalmartItem, Grocy.Product) -> IO ()
-printMatched (item, matched) =
+summaryLine :: String -> Int -> Int -> String
+summaryLine prefix matched created =
+  prefix <> ": " <> show matched <> " matched, " <> show created <> " created"
+
+printPlan :: ImportPlan -> IO ()
+printPlan plan = do
+  putStrLn ("\n  Order " <> T.unpack (unOrderId (ipOrderId plan)) <> ":")
+  mapM_ printAction (ipActions plan)
+
+printAction :: Action -> IO ()
+printAction (StockExisting item matched) =
   putStrLn ("    = " <> T.unpack (wiName item) <> priceStr item
     <> " -> " <> T.unpack (Grocy.productName matched))
+printAction (CreateAndStock item) =
+  putStrLn ("    + " <> T.unpack (wiName item) <> priceStr item)
 
-printCreated :: (WalmartItem, Grocy.Product) -> IO ()
-printCreated (item, _) =
+printResult :: ImportResult -> IO ()
+printResult result = do
+  putStrLn ("\n  Order " <> T.unpack (unOrderId (irOrderId result)) <> ":")
+  mapM_ printExecuted (irActions result)
+
+printExecuted :: ExecutedAction -> IO ()
+printExecuted (Stocked item matched) =
+  putStrLn ("    = " <> T.unpack (wiName item) <> priceStr item
+    <> " -> " <> T.unpack (Grocy.productName matched))
+printExecuted (Created item _) =
   putStrLn ("    + " <> T.unpack (wiName item) <> priceStr item)
 
 priceStr :: WalmartItem -> String
@@ -170,11 +187,11 @@ renderCliError (InvalidSinceFormat input) =
   "Cannot parse --since value: " <> T.unpack input <> ". Expected format: '7 days ago'"
 
 renderAppError :: AppError -> String
+renderAppError (AppCookieError (NoProfilesIni p)) =
+  "No Firefox profiles.ini at " <> p <> ". Is Firefox set up on this machine?"
 renderAppError (AppCookieError (NoCookiesFound d p)) =
   "No cookies found for " <> T.unpack d <> " in " <> p
   <> ". Log into walmart.com in Firefox first."
-renderAppError (AppCookieError (NoProfilesIni p)) =
-  "No Firefox profiles.ini at " <> p <> ". Is Firefox set up on this machine?"
 renderAppError (AppCookieError (NoDefaultProfile p)) =
   "Could not find default Firefox profile in " <> p
 renderAppError (AppWalmartError WalmartHashRotated) =
@@ -195,6 +212,9 @@ renderAppError (AppGrocyError (GrocyParseError path msg)) =
   "Failed to parse Grocy response from " <> T.unpack path <> ": " <> T.unpack msg
 renderAppError (AppGrocyError (GrocyObjectNotFound collection name)) =
   "Required Grocy " <> collectionNoun collection <> " not found: " <> T.unpack name
+renderAppError (AppStateCorrupt path err) =
+  "State file " <> path <> " is corrupt: " <> err
+  <> "\nFix or remove it; removing it will re-import every order on the next run."
 
 collectionNoun :: ObjectCollection -> String
 collectionNoun Locations         = "location"
