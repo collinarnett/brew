@@ -8,7 +8,7 @@ walmart-extractor > pkgs/walmart/src/Walmart/Internal/Endpoints.hs
 
 ## When to run
 
-The `walmart` library will return `WalmartHashRotated` (HTTP 400) when Walmart deploys new persisted query hashes. Run `walmart-extractor`, pipe the output to the Endpoints module, and rebuild `walmart`.
+The `walmart` library will return `WalmartBadRequest` (HTTP 400) when Walmart deploys new persisted query hashes. Run `walmart-extractor`, pipe the output to the Endpoints module, and rebuild `walmart`.
 
 ## How it works
 

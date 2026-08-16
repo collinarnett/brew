@@ -30,11 +30,12 @@ import System.Process (readProcess)
 walmartBase :: Text
 walmartBase = "https://www.walmart.com"
 
--- | Known GraphQL operations and their URL path prefixes.
-operationPaths :: Map Text Text
-operationPaths = Map.fromList
-  [ ("PurchaseHistoryV2", "/orchestra/cph/graphql/PurchaseHistoryV2/")
-  ]
+-- | The one operation whose hash lives in the frontend JS.
+purchaseHistoryOp :: Text
+purchaseHistoryOp = "PurchaseHistoryV2"
+
+purchaseHistoryPath :: Text
+purchaseHistoryPath = "/orchestra/cph/graphql/PurchaseHistoryV2/"
 
 -- | Seed hash for getOrder (server-side persisted query, not in frontend JS).
 seedGetOrderHash :: Text
@@ -56,11 +57,11 @@ discoverEndpoints :: Manager -> IO (Either DiscoveryError Endpoints)
 discoverEndpoints mgr = do
   html <- T.pack <$> renderOrdersPage
   let scriptUrls = parseScriptUrls html
-  hashes <- scanChunks mgr scriptUrls (Map.keysSet operationPaths)
-  pure $ case Map.lookup "PurchaseHistoryV2" hashes of
-    Nothing -> Left (HashNotFound "PurchaseHistoryV2")
+  hashes <- scanChunks mgr scriptUrls (Set.singleton purchaseHistoryOp)
+  pure $ case Map.lookup purchaseHistoryOp hashes of
+    Nothing -> Left (HashNotFound purchaseHistoryOp)
     Just purchaseHash -> Right Endpoints
-      { epPurchaseHistory = walmartBase <> "/orchestra/cph/graphql/PurchaseHistoryV2/" <> purchaseHash
+      { epPurchaseHistory = walmartBase <> purchaseHistoryPath <> purchaseHash
       , epGetOrder = walmartBase <> "/orchestra/orders/graphql/getOrder/" <> seedGetOrderHash
       }
 

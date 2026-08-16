@@ -31,6 +31,9 @@ parseOrderGroup = withObject "orderGroup" $ \obj -> do
   status    <- parseStatusText obj
   pure OrderSummary
     { osOrderId   = orderId
+    -- Walmart's type field carries many fulfillment values (delivery,
+    -- pickup, shipping, ...); getOrder only needs to know whether the
+    -- order was placed in store, so everything else is Online.
     , osChannel   = if orderType == "IN_STORE" then InStore else Online
     , osItemCount = itemCount
     , osStatus    = status

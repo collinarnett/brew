@@ -67,10 +67,10 @@ walmartRequest mgr cookies endpoint variables = do
       bodyPreview = take 200 (show (responseBody resp))
   case code of
     200 -> case Aeson.eitherDecode (responseBody resp) of
-      Left err  -> pure (Left (WalmartJsonDecodeError err bodyPreview))
+      Left err  -> pure (Left (WalmartJsonDecodeError err (BodyPreview bodyPreview)))
       Right val -> pure (Right val)
-    400 -> pure (Left WalmartHashRotated)
+    400 -> pure (Left WalmartBadRequest)
     429 -> pure (Left WalmartRateLimited)
-    403 -> pure (Left (WalmartAccessDenied 403))
-    418 -> pure (Left (WalmartAccessDenied 418))
+    403 -> pure (Left WalmartAccessDenied)
+    418 -> pure (Left WalmartAccessDenied)
     _   -> pure (Left (WalmartHttpError code))

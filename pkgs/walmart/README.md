@@ -38,4 +38,4 @@ Walmart's API requires session cookies from a logged-in browser. The `browser-co
 
 ## Endpoint management
 
-Walmart uses GraphQL persisted queries with hashes that rotate when they deploy. The endpoint URLs are compiled into the library as constants. When they rotate (you'll see `WalmartHashRotated` errors), use `walmart-extractor` to discover the new hashes and rebuild.
+Walmart uses GraphQL persisted queries with hashes that rotate when they deploy. The endpoint URLs are compiled into the library as constants. When they rotate (you'll see `WalmartBadRequest` errors), use `walmart-extractor` to discover the new hashes and rebuild.

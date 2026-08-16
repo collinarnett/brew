@@ -15,7 +15,7 @@ import BrowserCookies (CookieError (..), getFirefoxCookies)
 import Grocy (GrocyError (..), ObjectCollection (..))
 import Grocy qualified
 import Walmart qualified
-import Walmart.Types (OrderId (..), OrderSummary (..), WalmartError (..), WalmartItem (..))
+import Walmart.Types (BodyPreview (..), OrderId (..), OrderSummary (..), WalmartError (..), WalmartItem (..))
 import WalmartGrocy.App (runImport, runList)
 import WalmartGrocy.Config (Config (..), defaultConfigPath, loadConfig, renderConfigError)
 import WalmartGrocy.Types
@@ -194,18 +194,7 @@ renderAppError (AppCookieError (NoCookiesFound d p)) =
   <> ". Log into walmart.com in Firefox first."
 renderAppError (AppCookieError (NoDefaultProfile p)) =
   "Could not find default Firefox profile in " <> p
-renderAppError (AppWalmartError WalmartHashRotated) =
-  "Walmart returned 400 -- hash may have rotated. Run walmart-extractor to update endpoints."
-renderAppError (AppWalmartError WalmartRateLimited) =
-  "Rate limited -- log into walmart.com in Firefox to refresh cookies."
-renderAppError (AppWalmartError (WalmartAccessDenied code)) =
-  "Access denied (HTTP " <> show code <> ") -- cookies expired. Log into walmart.com."
-renderAppError (AppWalmartError (WalmartHttpError code)) =
-  "Walmart API returned HTTP " <> show code
-renderAppError (AppWalmartError (WalmartParseError op err)) =
-  "Failed to parse " <> T.unpack op <> ": " <> err
-renderAppError (AppWalmartError (WalmartJsonDecodeError err preview)) =
-  "JSON decode failed: " <> err <> "\nResponse: " <> preview
+renderAppError (AppWalmartError walmartErr) = renderWalmartError walmartErr
 renderAppError (AppGrocyError (GrocyHttpError path code)) =
   "Grocy " <> T.unpack path <> " returned HTTP " <> show code
 renderAppError (AppGrocyError (GrocyParseError path msg)) =
@@ -215,6 +204,20 @@ renderAppError (AppGrocyError (GrocyObjectNotFound collection name)) =
 renderAppError (AppStateCorrupt path err) =
   "State file " <> path <> " is corrupt: " <> err
   <> "\nFix or remove it; removing it will re-import every order on the next run."
+
+renderWalmartError :: WalmartError -> String
+renderWalmartError WalmartBadRequest =
+  "Walmart rejected the request (HTTP 400) -- the endpoint hash may have rotated. Run walmart-extractor to update endpoints."
+renderWalmartError WalmartRateLimited =
+  "Rate limited -- log into walmart.com in Firefox to refresh cookies."
+renderWalmartError WalmartAccessDenied =
+  "Access denied -- cookies expired. Log into walmart.com."
+renderWalmartError (WalmartHttpError code) =
+  "Walmart API returned HTTP " <> show code
+renderWalmartError (WalmartParseError op err) =
+  "Failed to parse " <> T.unpack op <> ": " <> err
+renderWalmartError (WalmartJsonDecodeError err preview) =
+  "JSON decode failed: " <> err <> "\nResponse: " <> unBodyPreview preview
 
 collectionNoun :: ObjectCollection -> String
 collectionNoun Locations         = "location"

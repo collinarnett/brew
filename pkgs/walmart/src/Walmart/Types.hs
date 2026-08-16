@@ -9,6 +9,7 @@ module Walmart.Types
   , WalmartOrder (..)
   , OrderSummary (..)
   , WalmartError (..)
+  , BodyPreview (..)
   ) where
 
 import Data.Scientific (Scientific)
@@ -51,11 +52,15 @@ data OrderSummary = OrderSummary
   , osStatus    :: Maybe Text
   } deriving stock (Show)
 
+-- | The first 200 characters of a response body, kept for diagnostics.
+newtype BodyPreview = BodyPreview { unBodyPreview :: String }
+  deriving stock (Show, Eq)
+
 data WalmartError
   = WalmartParseError Text String
-  | WalmartHashRotated
+  | WalmartBadRequest
   | WalmartRateLimited
-  | WalmartAccessDenied Int
+  | WalmartAccessDenied
   | WalmartHttpError Int
-  | WalmartJsonDecodeError String String
+  | WalmartJsonDecodeError String BodyPreview
   deriving stock (Show, Eq)
