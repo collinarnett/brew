@@ -50,12 +50,25 @@
           };
         };
 
+        clan.core.vars.generators.tmdb_api_key = {
+          share = true;
+          files.tmdb_api_key = {
+            owner = config.brew.user;
+          };
+          prompts.tmdb_api_key = {
+            description = "TMDb API key (v3 auth)";
+            type = "hidden";
+            persist = true;
+          };
+        };
+
         home-manager.sharedModules = [
           {
             brew.toenail = {
               enable = true;
               opensubtitlesKeyFile =
                 config.clan.core.vars.generators.opensubtitles_api_key.files.opensubtitles_api_key.path;
+              tmdbKeyFile = config.clan.core.vars.generators.tmdb_api_key.files.tmdb_api_key.path;
             };
           }
         ];
