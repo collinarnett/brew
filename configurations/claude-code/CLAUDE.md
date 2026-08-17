@@ -10,6 +10,9 @@ Always inspect the live environment, actual config files, and real data before a
 ## When Corrected, Fix Everything
 When the user corrects your approach, apply the fix to ALL affected locations across the repo, not just the immediate spot. Do not circle back to a rejected approach.
 
+## Design Decisions Conform to the Principles and Skills
+Every design decision — new code, refactors, and recommendations alike — must conform to the Software Engineering Design Principles in this file and to the review skills under configurations/claude-code/skills/. Check a proposal against both before presenting it: one that reverses a confirmed review finding or makes an invalid state representable again is wrong even when it improves another metric, such as line count or the number of types. When principles pull in opposite directions, name the tension and resolve it by deepening the domain model rather than dropping a principle.
+
 ## No Shortcuts
 No blanket ruff ignores, no `type: ignore` comments, no `or []` defaults to silence errors. Read project config files (`pyproject.toml`, `flake.nix`, etc.) before proposing solutions. This rule persists under pressure — when a build fails, a hardening directive misbehaves, or a CLI seems to need a TTY, fix it at the right layer (correct option type, real flag, documented helper). Do not invent workarounds, hand-install files into system dirs, `bash -lc` PATH tricks, `script -qc` TTY shims, or any other "just to make it work" hack. When the proper path isn't obvious, look it up (NixOS manual, home-manager options, upstream source) or ask.
 
@@ -45,6 +48,11 @@ Before writing new code, check if a dependency already solves the problem. Don't
 ### Fix Root Causes, Not Symptoms
 Don't use `or []` to hide missing values — surface the actual error. Don't use retry loops to work around timeouts — configure the timeout correctly. Don't add restart commands — make the service not die.
 
+### Solve the Class, Not the Case
+A fix that handles the input in front of you and nothing else is not a fix. When a case defeats the current approach, find the property that separates the cases and encode that, so every future input of the same kind is handled by construction. Special-casing the failing input, hardcoding its identifier, or resolving it by hand outside the program are all the same mistake wearing different clothes: the work does not survive the next input.
+
+The bar is what the program can do unaided, never what you can figure out. Determining the answer through your own investigation and then writing it into the code as a constant is a report on one input, not a capability. If a human can determine the answer from the data available, the program can be made to determine it from the same data; find the signal they used and implement that.
+
 ## Architecture
 
 ### Onion Architecture
@@ -52,6 +60,11 @@ Pure core inside (models, config, constants), I/O adapters around it (auth, clie
 
 ### Put Logic Where It Belongs
 Not where it's convenient. If both presentation layers use it, it goes in the services layer, not in either presentation layer.
+
+### Push Logic Toward the Pure Core
+The onion has a size rule as well as a direction rule: as much of the program as possible belongs in the innermost layer, where functions take data and return data. Effects belong at the edges, and an effectful function that computes something should be split into a pure function that computes it and a thin caller that supplies the input and writes the output. The pure core is the part that can be tested exhaustively, and a thick I/O layer wrapped around a thin core is the shape that makes a codebase untestable no matter how many tests are written against it.
+
+Judge each layer by what it would take to test it. Operational concerns — connections, concurrency, configuration loading, process lifetime — are the outermost layer and stay small. Adapters to external services sit between. Everything that decides anything goes inside. This is Matt Parsons' three-layer cake, and it is the concrete allocation rule behind the onion: <https://www.parsonsmatt.org/2018/03/22/three_layer_haskell_cake.html>
 
 ### Client vs Service Distinction
 A **client** wraps a single external API. A **service** orchestrates multiple clients to produce a business result. Don't create services for single-API-call operations.
@@ -73,6 +86,18 @@ No bash restart loops, no workarounds. Solve problems at the right layer.
 ### Explicit Behavior
 Functions should do what they say, nothing more. No hidden side effects. No implicit fallbacks that surprise the caller.
 
+### Interfaces Do Not Hide Work
+What a command does is what its name says, and every expensive or destructive step it performs is a step the user asked for. A verb that silently also acquires, converts, uploads, or deletes is lying, and the user discovers the lie at the worst moment: when the hidden step fails, or when they wanted to run the later stage alone and find they cannot. Expensive stages get their own verbs, run in sequence, with each stage's output persisted so the next can start from it. Prompts follow the same rule — a menu that omits the option the user needs, or that presents a choice whose consequences are not visible in the menu, is hiding the same way.
+
+### The Tool Is Self-Sufficient
+A user holding only the tool can complete the task. If finishing requires consulting a wiki, running a second program by hand, reading a forum thread, or knowing a value that the tool could have discovered, the tool is unfinished. When weighing designs, reject any option whose usability depends on knowledge the tool does not surface, and prefer the option that puts the discovery inside the program.
+
+### Diffs Justify Their Size
+Volume is a cost the reader pays. A refactor that grows total line count, a fix that touches files unrelated to the fault, or a feature whose diff dwarfs the behaviour it adds needs a reason stated up front, before the diff is presented. Simplification work that adds lines has usually failed at something; say what and why rather than letting the number speak. Mechanical changes (formatting, renames, generated code) go in their own commit so the reviewable part stays small.
+
+### Signatures and Names Must Self-Explain
+A reader with only the function signature — type names and parameter names — must be able to tell what each argument is and why the function needs it. Never thread a grab-bag record (CLI flag bundles, "Common", "Opts") into functions that use one field of it: derive the precise value once at the boundary and pass a type named for what it answers. The same bar applies to parameter names: `progressStyle`, not `style`; `flaggedSource`, not `flagged`. If explaining an argument takes a sentence the name could have carried, rename it.
+
 ### Consistency
 Similar operations should work the same way everywhere. Naming, structure, patterns should be predictable across the codebase.
 
@@ -81,6 +106,30 @@ A code comment is read by someone who has only the code, never the conversation 
 
 ### Comments Inform, They Never Defend
 A comment earns its place by telling that reader something the code cannot: an external constraint, the consequence of getting it wrong, or a line that looks removable but is load-bearing. Do not justify a choice, pre-empt an objection, or record why some other approach was rejected. Nobody reading the line is asking, and a self-contained sentence is still noise if it exists only to defend the code from review. Keep that reasoning in the commit message.
+
+## Testing
+
+### Tests Must Be Able to Fail
+A test written by the same pass that wrote the code tends to assert the shape of what was just built, so it passes forever and detects nothing. Before adding a test, name the bug it would catch and confirm the test fails when that bug is present — break the implementation, watch it go red, restore it. A test whose failure mode you cannot state does not belong in the suite.
+
+Default to properties and golden files. Reach for a hand-written example test only to pin a specific bug that was actually observed, and name that bug in the test.
+
+### Derive Properties Systematically
+"Write property tests" is not a plan. Work through the five sources of properties from John Hughes' *How to Specify It!* (<https://research.chalmers.se/publication/517894/file/517894_Fulltext.pdf>) and record which ones apply and which do not:
+
+1. **Invariants** — what stays true of every value the code produces.
+2. **Postconditions** — what the output satisfies given the input.
+3. **Metamorphic properties** — how the output changes when the input changes in a known way. These are the highest-yield and the most often skipped.
+4. **Algebraic laws** — identities, inverses, idempotence, commuting operations.
+5. **Model-based** — the operation agrees with a simpler reference model.
+
+Stateful interfaces get command-sequence testing against a model rather than one test per operation, so orderings nobody thought of are covered.
+
+### Verify Against a Reference
+When a reimplementation replaces an existing library or tool, correctness means agreeing with the original, and the only honest way to establish that is to run both over generated inputs and compare. Build the differential harness before porting behaviour, not after the bugs surface. A corpus of real files is a smoke test, not a specification — it samples the inputs somebody happened to collect and says nothing about the rules.
+
+### Measure the Suite, Not the Coverage Percentage
+Line coverage says the code ran, never that a mistake would have been caught. Mutation testing answers the real question by breaking the code deliberately and asserting the suite goes red; a surviving mutant is a proven gap. Treat surviving mutants as findings and either kill them with a test or record why the mutation is meaningless.
 
 ## Error Handling
 
@@ -94,6 +143,30 @@ Don't catch exceptions and return empty results. If something fails, the caller 
 
 ### Verify After Actions
 Run `git show HEAD` after committing. Run the actual command after changing it. Don't assume — verify.
+
+### Mechanical Gates Come First
+A rule a tool can check is not a rule to remember. Whenever a preference in this file can be expressed as a compiler flag, a lint rule, a formatter, or a test, express it there and let the gate be the enforcement. Reviews and audits are for the judgment calls that survive after the gates are green, and a finding a gate could have caught is a gate that was missing.
+
+Haskell projects carry this baseline, and new ones start with it:
+
+- `ghc-options: -Wall -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wpartial-fields -Wmissing-export-lists -Wmissing-deriving-strategies -Wredundant-constraints -Wunused-packages` in a `common` stanza every component imports.
+- `-Werror` in `cabal.project`, never in the `.cabal` file. Development builds treat warnings as fatal; a released tarball built by someone else on a newer GHC must not break on a warning that GHC invented after the release.
+- `-fwrite-ide-info` under `program-options` in `cabal.project`, so weeder and stan have HIE files. Setting an explicit `-hiedir` instead collides: the executable's `Main` and the test suite's `Main` write the same file, and weeder then reports the whole library as dead.
+- `.hlint.yaml` restricting the partial and unsafe functions, extending the catalog at <https://github.com/NorfairKing/haskell-dangerous-functions>.
+- `weeder.toml` for cross-module dead code, and `stan` for HIE-based anti-patterns.
+- git-hooks.nix wiring formatter and linter into pre-commit from the flake.
+- A mutation check where the test suite can support one. sydtest's `mutationCheck` is the Haskell implementation: it instruments the library through a GHC plugin, which is framework-agnostic, but its coverage phase runs the test binary with `--mutation-coverage-list`, which is a sydtest flag. A tasty suite builds instrumented and then fails that phase, so a project that wants mutation testing writes its tests with sydtest from the start.
+
+An audit round ends by running the gates, never by declaring the findings fixed.
+
+### Ship for Everyone
+Anything that leaves this machine — a public repo, a tool published to others, a module in a shared codebase — works for someone who is not Collin, on hardware that is not azathoth. No hardcoded hostnames, home directories, usernames, keys, mount points, or paths into `~/brew`, and no dependency on services that only exist on this network. Secrets come from configuration the user supplies. A repo that cannot be cloned and built by a stranger is not finished, and self-containment beats deduplication when the two conflict across repository boundaries.
+
+### Versioning Follows the Ecosystem
+Use the versioning scheme the ecosystem expects, not a general-purpose habit. Haskell packages follow the PVP: versions are `A.B.C.D`, where `A.B` together are the major version that any breaking API change must bump, `C` covers additions, and `D` is for changes no dependent can observe. Dependency bounds follow from the same reading, so `>= 1.2 && < 1.3` is what pinning to a major version looks like.
+
+### Reviews Verify Fixes, Never Assume Them
+When briefing a reviewer (human, agent, or workflow) on code that was already partly fixed, describe what changed and have them verify it — never declare items settled or exclude them from scope. A partial fix hides perfectly behind an "already done" claim, and a refute-biased verifier fed the same claim will kill the finding twice.
 
 ### Atomic Commits
 Each commit is one logical change. Use surgical staging when a file has mixed changes.
