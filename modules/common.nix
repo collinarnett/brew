@@ -79,7 +79,35 @@
         environment.enableAllTerminfo = true;
 
         # Persistent terminal sessions for reattaching over SSH.
-        programs.tmux.enable = true;
+        programs.tmux = {
+          enable = true;
+          # screen advertises 8 colours and no italics; tmux-256color plus the
+          # RGB feature below gets 24-bit colour through to the outer terminal.
+          terminal = "tmux-256color";
+          escapeTime = 10;
+          historyLimit = 50000;
+          # Clamp only the current window to the smallest attached client, so a
+          # session attached from several clients at once stays usable.
+          aggressiveResize = true;
+          # Bare `tmux` attaches to session 0 rather than creating a duplicate.
+          newSession = true;
+          extraConfig = ''
+            # Without this tmux never requests mouse reporting from the outer
+            # terminal, which then falls back to alternate-scroll and delivers
+            # the wheel as cursor up/down to full-screen applications.
+            set -g mouse on
+
+            set -as terminal-features ",xterm-ghostty:RGB,xterm-256color:RGB"
+            set -as terminal-features ",xterm-ghostty:extkeys,xterm-256color:extkeys"
+
+            # Applications requesting extended keys get CSI-u encoding; without
+            # it tmux discards Shift-Enter and Ctrl-Enter entirely.
+            set -g extended-keys always
+            set -g extended-keys-format csi-u
+
+            set -g allow-passthrough on
+          '';
+        };
 
         # NixOS-level enables for mixed modules
         brew.keychain.enable = true;
