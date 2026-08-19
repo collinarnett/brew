@@ -745,7 +745,10 @@ there has no effect for this launch.  An absolute path sidesteps all of it.
 
 ;; setup pinentry for gpg signing
 (use-package pinentry)
-(pinentry-start)
+;; pinentry-gtk-2 diverts to $TMPDIR/emacs$UID/pinentry when INSIDE_EMACS is set,
+;; and pinentry-start deletes whatever socket is bound there. Answering the
+;; prompt needs a frame, so the interactive instance claims the path.
+(unless (daemonp) (pinentry-start))
 
 ;; direnv intergration
 (use-package envrc
