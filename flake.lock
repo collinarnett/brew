@@ -461,11 +461,11 @@
         "uv2nix": "uv2nix_2"
       },
       "locked": {
-        "lastModified": 1783533021,
-        "narHash": "sha256-2SkBAtsCNpr/lPSEtEuQRWElVeXVmm/j47gyRN76NB0=",
+        "lastModified": 1786371645,
+        "narHash": "sha256-TMS/gv2Qkb8laOGSFXFn4C/fcnyvK+UpQEQdxqFzCK8=",
         "ref": "refs/heads/master",
-        "rev": "b4439bc5ab5ed72fbfcc9d2aaf18dd815ec2d47c",
-        "revCount": 30,
+        "rev": "46e893efd69e68d0b1061435dcf70508e968a4aa",
+        "revCount": 32,
         "type": "git",
         "url": "file:///home/collin/newt"
       },
