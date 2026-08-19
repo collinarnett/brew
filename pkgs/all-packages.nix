@@ -36,6 +36,7 @@ in
   mcp-conformance = prev.callPackage ./mcp-conformance { };
   recap-triage = prev.callPackage ./recap-triage { };
   tangaria = prev.callPackage ./tangaria { };
+  widevine-firefox = prev.callPackage ./widevine-firefox.nix { };
   haskellPackages = prev.haskellPackages.override {
     overrides =
       hfinal: hprev:
