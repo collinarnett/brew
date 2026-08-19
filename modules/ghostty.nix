@@ -115,6 +115,7 @@
             font-family = "Fira Code";
             font-size = cfg.fontSize;
             background-opacity = 0.8;
+            confirm-close-surface = false;
             # Tab bar: bottom, compact tabs, thinned via CSS.
             gtk-tabs-location = "bottom";
             gtk-wide-tabs = false;
