@@ -4,23 +4,39 @@ version:         0.1.0
 synopsis:        Walmart GraphQL API client
 license:         MIT
 build-type:      Simple
+extra-source-files:
+  test/corpus/builds/*.html
+  test/corpus/builds/*.json
+  test/corpus/chunks/*.js
+  test/corpus/search/*.json
 
-library
+common opts
   default-language: GHC2021
   default-extensions: DataKinds DerivingStrategies StrictData
   ghc-options:      -Wall -Wcompat -Wextra -Wunused-packages -Werror
                     -fwrite-ide-info -hiedir=.hie
+
+library
+  import:           opts
   hs-source-dirs:   src
   exposed-modules:  Walmart
+                  , Walmart.Catalog
+                  , Walmart.Discovery
+                  , Walmart.Discovery.Parse
                   , Walmart.Env
+                  , Walmart.Operation
+                  , Walmart.Response
                   , Walmart.Types
-  other-modules:    Walmart.Internal.JSON
-                  , Walmart.Internal.HTTP
-                  , Walmart.Internal.Endpoints
+  other-modules:    Walmart.Internal.HTTP
   build-depends:    base >= 4.17 && < 5
                   , aeson
+                  , async
+                  , attoparsec
                   , bytestring
                   , case-insensitive
+                  , containers
+                  , directory
+                  , filepath
                   , http-client
                   , http-client-tls
                   , http-types
@@ -29,3 +45,21 @@ library
                   , text
                   , time
                   , vector
+
+test-suite tests
+  import:           opts
+  ghc-options:      -threaded
+  type:             exitcode-stdio-1.0
+  main-is:          Main.hs
+  hs-source-dirs:   test
+  other-modules:    Corpus
+  build-depends:    base >= 4.17 && < 5
+                  , QuickCheck
+                  , aeson
+                  , bytestring
+                  , filepath
+                  , tasty
+                  , tasty-hunit
+                  , tasty-quickcheck
+                  , text
+                  , walmart

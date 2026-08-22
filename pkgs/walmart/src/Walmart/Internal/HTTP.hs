@@ -1,7 +1,13 @@
 {-# LANGUAGE OverloadedStrings #-}
 
+-- | Talking to Walmart's orchestra gateways.
+--
+-- An 'Endpoint' cannot be written down: 'resolve' is the only way to
+-- obtain one, and it needs a catalogued hash. A persisted query id
+-- therefore never enters this library as source.
 module Walmart.Internal.HTTP
-  ( Endpoint (..)
+  ( Endpoint
+  , resolve
   , walmartRequest
   ) where
 
@@ -17,14 +23,31 @@ import Network.HTTP.Client
 import Network.HTTP.Types.Header (Header)
 import Network.HTTP.Types.Status (statusCode)
 
+import Walmart.Catalog (Catalog, entryHash, lookupOperation)
+import Walmart.Operation
+  ( Operation
+  , Route
+  , operationName
+  , routeOperation
+  , routeUrl
+  )
 import Walmart.Types
 
--- | A Walmart GraphQL persisted query: the hashed URL it is served from
--- and the operation name the API expects in the request headers.
+-- | A request target with a hash the catalog vouches for.
 data Endpoint = Endpoint
   { endpointUrl       :: Text
-  , endpointOperation :: Text
-  } deriving stock (Show)
+  , endpointOperation :: Operation
+  }
+
+resolve :: Catalog -> Route -> Either WalmartError Endpoint
+resolve catalog route =
+  let op = routeOperation route
+  in case lookupOperation catalog op of
+    Nothing -> Left (WalmartOperationUnresolved (operationName op))
+    Just entry -> Right Endpoint
+      { endpointUrl       = routeUrl (entryHash entry) route
+      , endpointOperation = op
+      }
 
 mkHeaders :: Text -> [Header]
 mkHeaders opName = map (\(k, v) -> (CI.mk (TE.encodeUtf8 k), TE.encodeUtf8 v))
@@ -59,23 +82,23 @@ walmartRequest mgr cookies endpoint variables = do
     let varsBS = LBS.toStrict (Aeson.encode variables)
         req0 = setQueryString [("variables", Just varsBS)] initReq
         cookieBS = cookieHeader cookies
+        opName = unOperationName (operationName (endpointOperation endpoint))
         req = req0
           { method = "GET"
-          , requestHeaders =
-              ("Cookie", cookieBS) : mkHeaders (endpointOperation endpoint)
+          , requestHeaders = ("Cookie", cookieBS) : mkHeaders opName
           }
     httpLbs req mgr
   pure $ case attempt of
     Left err -> Left (WalmartNetworkError (T.pack (displayException (err :: HttpException))))
     Right resp ->
       let code = statusCode (responseStatus resp)
-          preview = T.take 200 (TE.decodeUtf8Lenient (LBS.toStrict (responseBody resp)))
+          preview = T.take 8000 (TE.decodeUtf8Lenient (LBS.toStrict (responseBody resp)))
       in case code of
         200 -> case Aeson.eitherDecode (responseBody resp) of
           Left err  -> Left (WalmartJsonDecodeError err (BodyPreview preview))
           Right val -> Right val
-        400 -> Left WalmartBadRequest
+        400 -> Left (WalmartBadRequest (BodyPreview preview))
         429 -> Left WalmartRateLimited
         403 -> Left WalmartAccessDenied
         418 -> Left WalmartAccessDenied
-        _   -> Left (WalmartHttpError code)
+        _   -> Left (WalmartHttpError code (BodyPreview preview))

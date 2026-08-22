@@ -306,7 +306,7 @@
 
     # Reads Walmart cookies from this machine's Firefox profile, so it
     # only works where that session lives.
-    programs.mcp.servers.walmart.command = lib.getExe pkgs.walmart-mcp;
+    brew.walmart-mcp.enable = true;
 
     home.packages = with pkgs; [
       alejandra

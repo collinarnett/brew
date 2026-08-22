@@ -15,13 +15,17 @@ library
   import:           opts
   hs-source-dirs:   src
   exposed-modules:  WalmartMcp
+                  , WalmartMcp.Config
   build-depends:    base >= 4.17 && < 5
                   , aeson
                   , browser-cookies
                   , bytestring
+                  , directory
+                  , filepath
                   , mcp-server
                   , text
                   , time
+                  , toml-parser
                   , walmart
 
 executable walmart-mcp
