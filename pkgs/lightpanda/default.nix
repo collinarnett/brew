@@ -5,15 +5,15 @@
   autoPatchelfHook,
 }:
 let
-  version = "0.2.7";
+  version = "0.3.7";
   platforms = {
     x86_64-linux = {
       binary = "lightpanda-x86_64-linux";
-      hash = "sha256-cGrMzVDnChi4IG/Js8Fvy4V0uYS21prgWppCYv7KvxI=";
+      hash = "sha256-iVM5sCIFFxoYHd50OuAGi7RWSIQHb+rISCusqcISqlo=";
     };
     aarch64-linux = {
       binary = "lightpanda-aarch64-linux";
-      hash = "sha256-C0LCBkVxnjzfYCKUrIH7zcEMi7NhBL4IbPMoTax4gAs=";
+      hash = "sha256-TA7LKLT8+21bzoLshuFfxs3onOoWjPOEBJTw7iZ1WFI=";
     };
   };
   platform =
