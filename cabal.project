@@ -6,3 +6,4 @@ packages:
   pkgs/grocy
   pkgs/grocy-mcp
   pkgs/openfoodfacts
+  pkgs/nutrition-mcp

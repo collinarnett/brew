@@ -10,6 +10,7 @@ let
     "grocy"
     "grocy-mcp"
     "openfoodfacts"
+    "nutrition-mcp"
   ];
 in
 {
@@ -53,5 +54,6 @@ in
   };
   walmart-mcp = prev.haskell.lib.compose.justStaticExecutables final.haskellPackages.walmart-mcp;
   grocy-mcp = prev.haskell.lib.compose.justStaticExecutables final.haskellPackages.grocy-mcp;
+  nutrition-mcp = prev.haskell.lib.compose.justStaticExecutables final.haskellPackages.nutrition-mcp;
   walmart-extractor = prev.haskell.lib.compose.justStaticExecutables final.haskellPackages.walmart-extractor;
 }

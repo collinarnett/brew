@@ -1,0 +1,37 @@
+cabal-version:   3.0
+name:            nutrition-mcp
+version:         0.1.0
+synopsis:        MCP server exposing nutrition lookup by barcode
+license:         MIT
+build-type:      Simple
+
+common opts
+  default-language: GHC2021
+  default-extensions: DerivingStrategies OverloadedStrings StrictData
+  ghc-options:      -Wall -Wcompat -Wextra -Wunused-packages -Werror
+                    -fwrite-ide-info -hiedir=.hie
+
+library
+  import:           opts
+  hs-source-dirs:   src
+  exposed-modules:  NutritionMcp
+                  , NutritionMcp.Config
+  build-depends:    base >= 4.17 && < 5
+                  , aeson
+                  , bytestring
+                  , directory
+                  , filepath
+                  , mcp-server
+                  , openfoodfacts
+                  , text
+                  , toml-parser
+
+executable nutrition-mcp
+  import:           opts
+  main-is:          Main.hs
+  hs-source-dirs:   app
+  ghc-options:      -threaded
+  build-depends:    base >= 4.17 && < 5
+                  , nutrition-mcp
+                  , openfoodfacts
+                  , mcp-server

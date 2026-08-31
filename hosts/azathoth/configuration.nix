@@ -307,6 +307,7 @@
     # Reads Walmart cookies from this machine's Firefox profile, so it
     # only works where that session lives.
     brew.walmart-mcp.enable = true;
+    brew.nutrition-mcp.enable = true;
 
     home.packages = with pkgs; [
       alejandra
