@@ -1,0 +1,38 @@
+cabal-version:   3.0
+name:            openfoodfacts
+version:         0.1.0
+synopsis:        Client for the Open Food Facts product database
+license:         MIT
+build-type:      Simple
+extra-source-files: test/corpus/*.json
+
+common opts
+  default-language: GHC2021
+  default-extensions: DerivingStrategies OverloadedStrings StrictData
+  ghc-options:      -Wall -Wcompat -Wextra -Wunused-packages -Werror
+                    -fwrite-ide-info -hiedir=.hie
+
+library
+  import:           opts
+  hs-source-dirs:   src
+  exposed-modules:  OpenFoodFacts
+  build-depends:    base >= 4.17 && < 5
+                  , aeson
+                  , bytestring
+                  , http-client
+                  , http-client-tls
+                  , http-types
+                  , scientific
+                  , text
+
+test-suite tests
+  import:           opts
+  type:             exitcode-stdio-1.0
+  main-is:          Main.hs
+  hs-source-dirs:   test
+  build-depends:    base >= 4.17 && < 5
+                  , aeson
+                  , openfoodfacts
+                  , tasty
+                  , tasty-hunit
+                  , filepath

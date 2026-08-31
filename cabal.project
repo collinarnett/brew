@@ -5,3 +5,4 @@ packages:
   pkgs/walmart-mcp
   pkgs/grocy
   pkgs/grocy-mcp
+  pkgs/openfoodfacts

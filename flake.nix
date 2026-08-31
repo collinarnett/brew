@@ -186,6 +186,7 @@
                   "walmart-mcp"
                   "grocy"
                   "grocy-mcp"
+                  "openfoodfacts"
                 ];
               in
               brewPkgs.haskellPackages.shellFor {

@@ -9,6 +9,7 @@ let
     "walmart-mcp"
     "grocy"
     "grocy-mcp"
+    "openfoodfacts"
   ];
 in
 {
