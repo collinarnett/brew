@@ -153,6 +153,15 @@ inputs: final: prev: {
             license = prev.lib.licenses.mit;
           };
         };
+        # evil-ghostel ships in the ghostel repository and advises ghostel
+        # functions that the native module implements, so a mismatched pair
+        # signals wrong-number-of-arguments on every redraw.  MELPA versions
+        # the two independently, while ghostel is a manual nixpkgs package:
+        # build evil-ghostel from ghostel's source so the elisp and the
+        # module always come from one tree.
+        evil-ghostel = epkgs.melpaPackages.evil-ghostel.overrideAttrs {
+          inherit (epkgs.ghostel) src version;
+        };
         claude-code = epkgs.melpaPackages.claude-code.overrideAttrs (old: {
           src = prev.fetchFromGitHub {
             owner = "stevemolitor";
@@ -176,6 +185,7 @@ inputs: final: prev: {
           org-fc
           monet
           claude-code
+          evil-ghostel
           ;
       };
     extraEmacsPackages =
