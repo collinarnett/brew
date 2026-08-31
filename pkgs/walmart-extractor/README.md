@@ -5,7 +5,10 @@ resolves endpoints against.
 
 ```
 walmart-extractor refresh [catalog-file]   # scan the current build, update the catalog
-walmart-extractor show    [catalog-file]   # list what is known, with where each hash came from
+walmart-extractor show [catalog-file]      # list what is known, with where each hash came from
+walmart-extractor probe <operation> <gateway> <query|mutation> <variables.json> [path-suffix]
+                                           # send one catalogued operation with the
+                                           # Firefox session and print the response
 ```
 
 The catalog defaults to `$XDG_STATE_HOME/walmart/catalog.json`.

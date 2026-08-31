@@ -13,6 +13,10 @@ executable walmart-extractor
   main-is:          Main.hs
   hs-source-dirs:   app
   build-depends:    base >= 4.17 && < 5
+                  , aeson
+                  , aeson-pretty
+                  , browser-cookies
+                  , bytestring
                   , http-client
                   , http-client-tls
                   , text

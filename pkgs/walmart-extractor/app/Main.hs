@@ -8,12 +8,20 @@
 -- and for seeing what is known.
 module Main (main) where
 
+import Data.Aeson qualified as Aeson
+import Data.Aeson.Encode.Pretty (encodePretty)
+import Data.ByteString.Lazy.Char8 qualified as LBS
 import Data.Text qualified as T
 import Data.Text.IO qualified as T.IO
 import Network.HTTP.Client (newManager)
 import Network.HTTP.Client.TLS (tlsManagerSettings)
 import System.Environment (getArgs)
 import System.Exit (die)
+
+import BrowserCookies (getFirefoxCookies)
+import System.IO (stderr)
+import Walmart (probe)
+import Walmart qualified
 
 import Walmart.Catalog
   ( BuildId (..)
@@ -37,6 +45,10 @@ usage = unlines
   , ""
   , "  refresh  Scan Walmart's current frontend build and update the catalog"
   , "  show     List the operations the catalog holds"
+  , "  probe <operation> <gateway> <query|mutation> <variables.json> [path-suffix]"
+  , "           Send one catalogued operation with the variables in the file,"
+  , "           using the Firefox Walmart session, and print the response."
+  , "           Gateways: " <> T.unpack (T.intercalate ", " (map Walmart.servicePath Walmart.allServices))
   , ""
   , "The catalog defaults to $XDG_STATE_HOME/walmart/catalog.json."
   ]
@@ -49,6 +61,8 @@ main = do
     ["refresh", path] -> refresh path
     ["show"]          -> defaultCatalogPath >>= list
     ["show", path]    -> list path
+    ["probe", op, gateway, kind, file] -> runProbe op gateway kind file ""
+    ["probe", op, gateway, kind, file, suffix] -> runProbe op gateway kind file suffix
     _                 -> die usage
 
 refresh :: FilePath -> IO ()
@@ -89,3 +103,24 @@ readCatalog path = do
   case loaded of
     Left err  -> die (T.unpack (renderCatalogError err))
     Right cat -> pure cat
+
+runProbe :: String -> String -> String -> FilePath -> String -> IO ()
+runProbe op gateway kind file suffix = do
+  service <- maybe (die ("unknown gateway: " <> gateway)) pure (Walmart.parseService (T.pack gateway))
+  opKind  <- maybe (die ("kind must be query or mutation, not " <> kind)) pure (Walmart.parseKind (T.pack kind))
+  variables <- either (\e -> die ("variables file: " <> e)) pure =<< Aeson.eitherDecodeFileStrict' file
+  cookies <- either (die . show) pure =<< getFirefoxCookies ".walmart.com"
+  catalogPath <- Walmart.defaultCatalogPath
+  env <- either (die . show) pure =<< Walmart.newEnv cookies catalogPath (Walmart.seededCatalog [])
+  let target = Walmart.Target
+        { Walmart.targetName    = OperationName (T.pack op)
+        , Walmart.targetService = service
+        , Walmart.targetKind    = opKind
+        , Walmart.targetSuffix  = T.pack suffix
+        }
+  result <- probe env target variables
+  notices <- Walmart.takeNotices env
+  mapM_ (T.IO.hPutStrLn stderr) notices
+  case result of
+    Left err -> die (show err)
+    Right val -> LBS.putStrLn (encodePretty val)
