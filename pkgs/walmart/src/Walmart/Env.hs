@@ -16,13 +16,23 @@ module Walmart.Env
   , getOrders
   , getOrderDetails
   , searchProducts
+  , findStores
+  , getCart
+  , getSlots
+  , updateCart
+  , reserveSlot
+  , cancelReservation
+  , setDeliveryStore
+  , probe
   ) where
 
 import Data.Aeson qualified as Aeson
+import Control.Concurrent (threadDelay)
+import Control.Concurrent.MVar (MVar, modifyMVar_, newMVar)
 import Data.IORef (IORef, atomicModifyIORef', newIORef, readIORef)
 import Data.Text (Text)
 import Data.Text qualified as T
-import Data.Time (UTCTime)
+import Data.Time (UTCTime, diffUTCTime, getCurrentTime)
 import Data.Time.Clock.POSIX (utcTimeToPOSIXSeconds)
 import Network.HTTP.Client (CookieJar, Manager, newManager)
 import Network.HTTP.Client.TLS (tlsManagerSettings)
@@ -38,12 +48,20 @@ import Walmart.Catalog
 import Walmart.Discovery (discover, renderDiscoveryError)
 import Walmart.Internal.HTTP (resolve, walmartRequest)
 import Walmart.Response
-  ( graphQLRejection
+  ( Rejection (..)
+  , graphQLRejection
+  , parseCart
+  , parseCartUpdate
+  , parseCancelledCart
   , parseOrderSummaries
+  , parseReservedCart
+  , parseStoreSwitchedCart
   , parseSearchResult
+  , parseSlotSchedule
+  , parseStores
   , parseWalmartOrder
   )
-import Walmart.Operation (Route (..), operationName, routeOperation)
+import Walmart.Operation (Route (..), Target (..), routeTarget)
 import Walmart.Types
 
 data Env = Env
@@ -53,7 +71,24 @@ data Env = Env
   , envCatalog     :: IORef Catalog
   , envSeeds       :: Catalog
   , envNotices     :: IORef [Text]
+    -- | When the last request went out, so the next one can wait its
+    -- turn. Walmart's bot protection is triggered by bursts, and one
+    -- trip blocks every gateway for half an hour.
+  , envLastRequest :: MVar (Maybe UTCTime)
   }
+
+-- | The least time between two requests to Walmart.
+requestSpacing :: Double
+requestSpacing = 1
+
+-- | Block until 'requestSpacing' has passed since the previous request.
+awaitTurn :: Env -> IO ()
+awaitTurn env = modifyMVar_ (envLastRequest env) $ \previous -> do
+  now <- getCurrentTime
+  let elapsed = maybe requestSpacing (realToFrac . diffUTCTime now) previous
+      wait = requestSpacing - elapsed
+  if wait > 0 then threadDelay (round (wait * 1e6)) else pure ()
+  Just <$> getCurrentTime
 
 -- | Build an environment around a browser session, the catalog file the
 -- program keeps discovered hashes in, and the hashes configuration
@@ -67,6 +102,7 @@ newEnv cookies catalogPath seeds = do
       mgr <- newManager tlsManagerSettings
       ref <- newIORef catalog
       notices <- newIORef []
+      lastRequest <- newMVar Nothing
       pure $ Right Env
         { envManager     = mgr
         , envCookieJar   = cookies
@@ -74,6 +110,7 @@ newEnv cookies catalogPath seeds = do
         , envCatalog     = ref
         , envSeeds       = seeds
         , envNotices     = notices
+        , envLastRequest = lastRequest
         }
 
 -- | Take and clear everything worth telling the caller about.
@@ -119,8 +156,9 @@ data Attempt
 classify :: Either WalmartError Aeson.Value -> Attempt
 classify (Left (WalmartBadRequest preview)) = Rejected preview
 classify outcome@(Right body) = case graphQLRejection body of
-  Just messages -> Rejected (BodyPreview messages)
-  Nothing       -> Settled outcome
+  Just (QueryRejected messages)     -> Rejected (BodyPreview messages)
+  Just (VariablesRejected messages) -> Settled (Left (WalmartInvalidVariables messages))
+  Nothing                           -> Settled outcome
 classify outcome = Settled outcome
 
 -- | Run a route, refreshing the catalog if the hash is missing or
@@ -128,16 +166,18 @@ classify outcome = Settled outcome
 runRoute :: Env -> Route -> Aeson.Value -> IO (Either WalmartError Aeson.Value)
 runRoute env route variables = attempt False
   where
-    opName = operationName (routeOperation route)
+    target = routeTarget route
+    opName = targetName target
 
     attempt refreshedAlready = do
       catalog <- effectiveCatalog env
-      case resolve catalog route of
+      case resolve catalog target of
         Left (WalmartOperationUnresolved name)
           | refreshedAlready -> pure (Left (WalmartOperationUnresolved name))
           | otherwise        -> refreshAndRetry
         Left err -> pure (Left err)
         Right endpoint -> do
+          awaitTurn env
           result <- walmartRequest (envManager env) (envCookieJar env) endpoint variables
           case classify result of
             Settled outcome -> pure outcome
@@ -259,3 +299,108 @@ searchVariables query = Aeson.object
   , "enableAdditionalSearchDepartmentAnalytics" Aeson..= False
   , "pageType"              Aeson..= ("SearchPage" :: Text)
   ]
+
+-- | Run any catalogued operation with hand-built variables and return
+-- the raw response. This is how a gateway's expectations are learned
+-- before an operation is modelled: the gateway answers a wrong
+-- variables object by naming what it wanted.
+probe :: Env -> Target -> Aeson.Value -> IO (Either WalmartError Aeson.Value)
+probe env target = runRoute env (ProbeRoute target)
+
+findStores :: Env -> StoreSearch -> IO (Either WalmartError [Store])
+findStores env search = do
+  let variables = Aeson.object
+        [ "input" Aeson..= Aeson.object
+            [ "postalCode"  Aeson..= unPostalCode (ssPostalCode search)
+            , "nodeTypes"   Aeson..= (["STORE"] :: [Text])
+            , "accessTypes" Aeson..= (["PICKUP_INSTORE", "PICKUP_CURBSIDE", "DELIVERY_ADDRESS"] :: [Text])
+            , "radius"      Aeson..= ssRadiusMiles search
+            ]
+        ]
+  parsed "storeFinderNearbyNodesQuery" parseStores <$> runRoute env FindStoresRoute variables
+
+getCart :: Env -> IO (Either WalmartError Cart)
+getCart env = do
+  let variables = Aeson.object
+        [ "cartInput" Aeson..= Aeson.object
+            [ "forceRefresh"           Aeson..= False
+            , "enableLiquorBox"        Aeson..= False
+            , "enableCartSplitClarity" Aeson..= False
+            , "features"               Aeson..= ([] :: [Text])
+            ]
+        ]
+  parsed "getCart" parseCart <$> runRoute env GetCartRoute variables
+
+-- | The slots Walmart offers the session's cart. The gateway validates
+-- every flag it branches on, so each one is stated.
+getSlots :: Env -> FulfillmentIntent -> IO (Either WalmartError SlotSchedule)
+getSlots env intent = do
+  let variables = Aeson.object
+        [ "cartId"                                 Aeson..= ("" :: Text)
+        , "fulfillmentOption"                      Aeson..= intentLabel intent
+        , "isGuest"                                Aeson..= False
+        , "isExpressSla"                           Aeson..= False
+        , "maxAvailableSlotsCount"                 Aeson..= (10 :: Int)
+        , "enableWalmartPlusFreeDiscountedExpress" Aeson..= False
+        , "enableDeliveryAddressFromSlotData"      Aeson..= False
+        ]
+  parsed "getSlots" parseSlotSchedule <$> runRoute env GetSlotsRoute variables
+
+-- | Set line quantities in the cart and return what Walmart left in it.
+-- A quantity of zero removes the line.
+updateCart :: Env -> CartId -> [CartUpdate] -> IO (Either WalmartError CartReceipt)
+updateCart env cid updates = do
+  let item u = Aeson.object
+        [ "offerId"  Aeson..= unOfferId (cuOfferId u)
+        , "quantity" Aeson..= cuQuantity u
+        ]
+      variables = Aeson.object
+        [ "input" Aeson..= Aeson.object
+            [ "items"                  Aeson..= map item updates
+            , "cartId"                 Aeson..= unCartId cid
+            , "enableLiquorBox"        Aeson..= False
+            , "enableCartSplitClarity" Aeson..= False
+            , "features"               Aeson..= ([] :: [Text])
+            ]
+        ]
+  parsed "updateItems" parseCartUpdate <$> runRoute env UpdateItemsRoute variables
+
+-- | Hold a slot for the cart. The metadata is the blob a listed slot
+-- carried; Walmart reads the slot, store and fulfillment from it.
+reserveSlot :: Env -> CartId -> SlotMetadata -> IO (Either WalmartError Reservation)
+reserveSlot env cid metadata = do
+  let variables = Aeson.object
+        [ "cartId"          Aeson..= unCartId cid
+        , "slotMetadata"    Aeson..= unSlotMetadata metadata
+        , "enableLiquorBox" Aeson..= False
+        , "features"        Aeson..= ([] :: [Text])
+        ]
+  answer <- parsed "reserveSlotMutation" parseReservedCart <$> runRoute env ReserveSlotRoute variables
+  pure $ case answer of
+    Left err -> Left err
+    Right cart -> case cartReservation cart of
+      Just reservation -> Right reservation
+      Nothing -> Left (WalmartParseError "reserveSlotMutation" "Walmart answered without a reservation")
+
+-- | Release a held slot and return the cart as it stands.
+cancelReservation :: Env -> ReservationId -> IO (Either WalmartError Cart)
+cancelReservation env rid = do
+  let variables = Aeson.object
+        [ "input" Aeson..= Aeson.object [ "reservationId" Aeson..= unReservationId rid ] ]
+  parsed "cancelReservation" parseCancelledCart <$> runRoute env CancelReservationRoute variables
+
+-- | Point the session's cart, and with it every stock answer, at a
+-- store. Walmart drops any held slot when the store changes.
+setDeliveryStore :: Env -> CartId -> StoreId -> IO (Either WalmartError Cart)
+setDeliveryStore env cid sid = do
+  let variables = Aeson.object
+        [ "input" Aeson..= Aeson.object
+            [ "cartId"  Aeson..= unCartId cid
+            , "storeId" Aeson..= storeNumber
+            ]
+        , "includePartialFulfillmentSwitching" Aeson..= False
+        ]
+      storeNumber = case reads (T.unpack (unStoreId sid)) :: [(Int, String)] of
+        [(n, "")] -> Aeson.toJSON n
+        _notNumeric -> Aeson.toJSON (unStoreId sid)
+  parsed "setDeliveryStore" parseStoreSwitchedCart <$> runRoute env SetDeliveryStoreRoute variables

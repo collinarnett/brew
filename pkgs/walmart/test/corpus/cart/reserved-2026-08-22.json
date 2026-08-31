@@ -1,0 +1,31 @@
+{
+  "data": {
+    "reserveSlot": {
+      "id": "00000000-0000-0000-0000-000000000000",
+      "fulfillment": {
+        "storeId": 1234,
+        "intent": "DELIVERY",
+        "isExplicitIntent": true,
+        "reservation": {
+          "id": "res-0",
+          "expiryTime": "2026-08-22T19:35:34-04:00",
+          "reservedSlot": {
+            "__typename": "RegularSlot",
+            "id": "9b3a1f06-2f37-4ed9-b974-e5263c3def9d-2026-08-23",
+            "accessPointId": "ap-0",
+            "startTime": "2026-08-23T06:00:00-04:00",
+            "endTime": "2026-08-23T08:00:00-04:00",
+            "slaInMins": null,
+            "price": {
+              "total": {
+                "value": 0
+              }
+            }
+          }
+        }
+      },
+      "lineItems": [],
+      "priceDetails": null
+    }
+  }
+}

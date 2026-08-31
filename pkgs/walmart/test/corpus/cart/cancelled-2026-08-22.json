@@ -1,0 +1,15 @@
+{
+  "data": {
+    "cancelReservation": {
+      "id": "00000000-0000-0000-0000-000000000000",
+      "fulfillment": {
+        "storeId": 1234,
+        "intent": "DELIVERY",
+        "isExplicitIntent": null,
+        "reservation": null
+      },
+      "lineItems": [],
+      "priceDetails": null
+    }
+  }
+}

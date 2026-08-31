@@ -26,6 +26,23 @@ module Walmart
   , getOrders
   , getOrderDetails
   , searchProducts
+  , findStores
+  , getCart
+  , getSlots
+  , updateCart
+  , reserveSlot
+  , cancelReservation
+  , setDeliveryStore
+  , probe
+  , getProduct
+  , Renderer (..)
+  , Target (..)
+  , Service (..)
+  , Kind (..)
+  , parseService
+  , parseKind
+  , allServices
+  , servicePath
     -- * Endpoint catalog
   , refreshCatalog
   , effectiveCatalog
@@ -50,4 +67,6 @@ import Walmart.Catalog
   , seededCatalog
   )
 import Walmart.Env
+import Walmart.Render (Renderer (..), getProduct)
+import Walmart.Operation (Kind (..), Service (..), Target (..), allServices, parseKind, parseService, servicePath)
 import Walmart.Types

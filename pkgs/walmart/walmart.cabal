@@ -25,6 +25,7 @@ library
                   , Walmart.Discovery.Parse
                   , Walmart.Env
                   , Walmart.Operation
+                  , Walmart.Render
                   , Walmart.Response
                   , Walmart.Types
   other-modules:    Walmart.Internal.HTTP
@@ -40,6 +41,7 @@ library
                   , http-client
                   , http-client-tls
                   , http-types
+                  , process-extras
                   , safe-money
                   , scientific
                   , text
@@ -62,4 +64,5 @@ test-suite tests
                   , tasty-hunit
                   , tasty-quickcheck
                   , text
+                  , time
                   , walmart

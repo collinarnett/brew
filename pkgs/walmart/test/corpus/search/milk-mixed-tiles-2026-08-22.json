@@ -1,1 +1,1756 @@
-{"data":{"search":{"searchResult":{"itemStacks":[{"itemsV2":[{"__typename":"Product","usItemId":"10450114","name":"Great Value Whole Vitamin D Milk, Gallon","brand":null,"shortDescription":"<li>Great Value Whole Vitamin D Milk, Gallon</li><li>Rich and creamy whole milk taste</li><li>Fortified with vitamin D</li>","departmentName":"Food","category":{"categoryPathId":"0:976759:9176907:4405816:6541475:6877499","path":null},"availabilityStatusV2":{"display":"In stock","value":"IN_STOCK"},"fulfillmentType":"STORE","fulfillmentTitle":"title_store_not_available","productLocation":null,"fulfillmentSummary":[{"fulfillment":"DELIVERY","fulfillmentMethods":["SCHEDULED"],"deliveryDate":null},{"fulfillment":"DELIVERY","fulfillmentMethods":["SCHEDULED"],"deliveryDate":null},{"fulfillment":"DELIVERY","fulfillmentMethods":["SCHEDULED"],"deliveryDate":"2026-08-22T23:00:00.000Z"},{"fulfillment":"PICKUP","fulfillmentMethods":["SCHEDULED"],"deliveryDate":"2026-08-22T23:00:00.000Z"}],"priceInfo":{"currentPrice":{"currencyUnit":null,"price":3.46,"priceDisplay":"$3.46","priceString":"$3.46","priceType":null,"supportText":null,"variantPriceString":"$3.46"},"unitPrice":{"currencyUnit":null,"price":0.027,"priceDisplay":null,"priceString":"2.7 ¢/fl oz","priceType":null,"supportText":null,"variantPriceString":null}}},{"__typename":"Product","usItemId":"11979180","name":"Great Value Lactose Free Whole Vitamin D Milk, Half Gallon, 64 fl oz","brand":null,"shortDescription":null,"departmentName":"Food","category":{"categoryPathId":"0:976759:9176907:4405816:6541475:2705308:7780162","path":null},"availabilityStatusV2":{"display":"In stock","value":"IN_STOCK"},"fulfillmentType":"STORE","fulfillmentTitle":"title_store_not_available","productLocation":null,"fulfillmentSummary":[{"fulfillment":"DELIVERY","fulfillmentMethods":["SCHEDULED"],"deliveryDate":null},{"fulfillment":"DELIVERY","fulfillmentMethods":["SCHEDULED"],"deliveryDate":null},{"fulfillment":"DELIVERY","fulfillmentMethods":["SCHEDULED"],"deliveryDate":"2026-08-22T23:00:00.000Z"},{"fulfillment":"PICKUP","fulfillmentMethods":["SCHEDULED"],"deliveryDate":"2026-08-22T23:00:00.000Z"}],"priceInfo":{"currentPrice":{"currencyUnit":null,"price":3.08,"priceDisplay":"$3.08","priceString":"$3.08","priceType":null,"supportText":null,"variantPriceString":"$3.08"},"unitPrice":{"currencyUnit":null,"price":0.048,"priceDisplay":null,"priceString":"4.8 ¢/fl oz","priceType":null,"supportText":null,"variantPriceString":null}}},{"__typename":"Product","usItemId":"10450115","name":"Great Value, 2% Reduced Fat Milk, Gallon","brand":null,"shortDescription":"<li>Great Value, 2% Reduced Fat Milk, Gallon</li><li>2% reduced fat milk with smooth, creamy taste</li><li>Fortified with vitamins A and D</li>","departmentName":"Food","category":{"categoryPathId":"0:976759:9176907:4405816:4288431","path":null},"availabilityStatusV2":{"display":"In stock","value":"IN_STOCK"},"fulfillmentType":"STORE","fulfillmentTitle":"title_store_not_available","productLocation":null,"fulfillmentSummary":[{"fulfillment":"DELIVERY","fulfillmentMethods":["SCHEDULED"],"deliveryDate":null},{"fulfillment":"DELIVERY","fulfillmentMethods":["SCHEDULED"],"deliveryDate":null},{"fulfillment":"DELIVERY","fulfillmentMethods":["SCHEDULED"],"deliveryDate":"2026-08-22T23:00:00.000Z"},{"fulfillment":"PICKUP","fulfillmentMethods":["SCHEDULED"],"deliveryDate":"2026-08-22T23:00:00.000Z"}],"priceInfo":{"currentPrice":{"currencyUnit":null,"price":3.26,"priceDisplay":"$3.26","priceString":"$3.26","priceType":null,"supportText":null,"variantPriceString":"$3.26"},"unitPrice":{"currencyUnit":null,"price":0.025,"priceDisplay":null,"priceString":"2.5 ¢/fl oz","priceType":null,"supportText":null,"variantPriceString":null}}},{"__typename":"Product","usItemId":"10450118","name":"Great Value Milk Whole Vitamin D, Half Gallon, , 64 fl oz","brand":null,"shortDescription":null,"departmentName":"Food","category":{"categoryPathId":"0:976759:9176907:4405816:6541475:6877499","path":null},"availabilityStatusV2":{"display":"In stock","value":"IN_STOCK"},"fulfillmentType":"STORE","fulfillmentTitle":"title_store_not_available","productLocation":null,"fulfillmentSummary":[{"fulfillment":"DELIVERY","fulfillmentMethods":["SCHEDULED"],"deliveryDate":null},{"fulfillment":"DELIVERY","fulfillmentMethods":["SCHEDULED"],"deliveryDate":null},{"fulfillment":"DELIVERY","fulfillmentMethods":["SCHEDULED"],"deliveryDate":"2026-08-22T23:00:00.000Z"},{"fulfillment":"PICKUP","fulfillmentMethods":["SCHEDULED"],"deliveryDate":"2026-08-22T23:00:00.000Z"}],"priceInfo":{"currentPrice":{"currencyUnit":null,"price":1.85,"priceDisplay":"$1.85","priceString":"$1.85","priceType":null,"supportText":null,"variantPriceString":"$1.85"},"unitPrice":{"currencyUnit":null,"price":0.029,"priceDisplay":null,"priceString":"2.9 ¢/fl oz","priceType":null,"supportText":null,"variantPriceString":null}}},{"__typename":"Product","usItemId":"10450119","name":"Great Value , 2% Reduced Fat Milk, Half Gallon, 64 fl oz","brand":null,"shortDescription":"<li>Added vitamins A and D</li><li>37% less fat than whole milk</li><li>Grade A</li><li>Pasteurized</li><li>Homogenized</li><li>Excellent source of protein and calcium</li>","departmentName":"Food","category":{"categoryPathId":"0:976759:9176907:4405816:4288431","path":null},"availabilityStatusV2":{"display":"In stock","value":"IN_STOCK"},"fulfillmentType":"STORE","fulfillmentTitle":"title_store_not_available","productLocation":null,"fulfillmentSummary":[{"fulfillment":"DELIVERY","fulfillmentMethods":["SCHEDULED"],"deliveryDate":null},{"fulfillment":"DELIVERY","fulfillmentMethods":["SCHEDULED"],"deliveryDate":null},{"fulfillment":"DELIVERY","fulfillmentMethods":["SCHEDULED"],"deliveryDate":"2026-08-22T23:00:00.000Z"},{"fulfillment":"PICKUP","fulfillmentMethods":["SCHEDULED"],"deliveryDate":"2026-08-22T23:00:00.000Z"}],"priceInfo":{"currentPrice":{"currencyUnit":null,"price":1.75,"priceDisplay":"$1.75","priceString":"$1.75","priceType":null,"supportText":null,"variantPriceString":"$1.75"},"unitPrice":{"currencyUnit":null,"price":0.027,"priceDisplay":null,"priceString":"2.7 ¢/fl oz","priceType":null,"supportText":null,"variantPriceString":null}}},{"__typename":"Product","usItemId":"43984343","name":"fairlife Lactose Free 2% Reduced Fat Ultra Filtered Milk, 52 fl oz","brand":null,"shortDescription":"<li>50% more protein and 50% less sugar than regular milk</li><li>13g of protein per serving</li><li>Delicious, satisfying and lactose-free</li>","departmentName":"Food","category":{"categoryPathId":"0:976759:9176907:4405816:6541475:2705308:7780162","path":null},"availabilityStatusV2":{"display":"In stock","value":"IN_STOCK"},"fulfillmentType":"STORE","fulfillmentTitle":"title_store_not_available","productLocation":null,"fulfillmentSummary":[{"fulfillment":"DELIVERY","fulfillmentMethods":["SCHEDULED"],"deliveryDate":null},{"fulfillment":"DELIVERY","fulfillmentMethods":["SCHEDULED"],"deliveryDate":null},{"fulfillment":"DELIVERY","fulfillmentMethods":["SCHEDULED"],"deliveryDate":"2026-08-22T23:00:00.000Z"},{"fulfillment":"PICKUP","fulfillmentMethods":["SCHEDULED"],"deliveryDate":"2026-08-22T23:00:00.000Z"}],"priceInfo":{"currentPrice":{"currencyUnit":null,"price":4.78,"priceDisplay":"Now $4.78","priceString":"$4.78","priceType":null,"supportText":null,"variantPriceString":"$4.78"},"unitPrice":{"currencyUnit":null,"price":0.092,"priceDisplay":null,"priceString":"9.2 ¢/fl oz","priceType":null,"supportText":null,"variantPriceString":null}}},{"__typename":"Product","usItemId":"43984342","name":"fairlife Lactose Free Fat Free Ultra Filtered Milk, 52 fl oz","brand":null,"shortDescription":"<li>50% more protein and 50% less sugar than regular milk</li><li>13g of protein per serving</li><li>Delicious, satisfying and lactose-free</li>","departmentName":"Food","category":{"categoryPathId":"0:976759:9176907:4405816:9963997","path":null},"availabilityStatusV2":{"display":"In stock","value":"IN_STOCK"},"fulfillmentType":"STORE","fulfillmentTitle":"title_store_not_available","productLocation":null,"fulfillmentSummary":[{"fulfillment":"DELIVERY","fulfillmentMethods":["SCHEDULED"],"deliveryDate":null},{"fulfillment":"DELIVERY","fulfillmentMethods":["SCHEDULED"],"deliveryDate":null},{"fulfillment":"DELIVERY","fulfillmentMethods":["SCHEDULED"],"deliveryDate":"2026-08-22T23:00:00.000Z"},{"fulfillment":"PICKUP","fulfillmentMethods":["SCHEDULED"],"deliveryDate":"2026-08-22T23:00:00.000Z"}],"priceInfo":{"currentPrice":{"currencyUnit":null,"price":4.78,"priceDisplay":"Now $4.78","priceString":"$4.78","priceType":null,"supportText":null,"variantPriceString":"$4.78"},"unitPrice":{"currencyUnit":null,"price":0.092,"priceDisplay":null,"priceString":"9.2 ¢/fl oz","priceType":null,"supportText":null,"variantPriceString":null}}},{"__typename":"Product","usItemId":"10450116","name":"Great Value 1% Low-Fat Milk, Gallon","brand":null,"shortDescription":"<li>Great Value 1% Low-Fat Milk, Gallon</li><li>1% low-fat milk with smooth, fresh taste</li><li>Fortified with vitamins A and D</li>","departmentName":"Food","category":{"categoryPathId":"0:976759:9176907:4405816:2534265","path":null},"availabilityStatusV2":{"display":"In stock","value":"IN_STOCK"},"fulfillmentType":"STORE","fulfillmentTitle":"title_store_not_available","productLocation":null,"fulfillmentSummary":[{"fulfillment":"DELIVERY","fulfillmentMethods":["SCHEDULED"],"deliveryDate":null},{"fulfillment":"DELIVERY","fulfillmentMethods":["SCHEDULED"],"deliveryDate":null},{"fulfillment":"DELIVERY","fulfillmentMethods":["SCHEDULED"],"deliveryDate":"2026-08-22T23:00:00.000Z"},{"fulfillment":"PICKUP","fulfillmentMethods":["SCHEDULED"],"deliveryDate":"2026-08-22T23:00:00.000Z"}],"priceInfo":{"currentPrice":{"currencyUnit":null,"price":3.09,"priceDisplay":"$3.09","priceString":"$3.09","priceType":null,"supportText":null,"variantPriceString":"$3.09"},"unitPrice":{"currencyUnit":null,"price":0.024,"priceDisplay":null,"priceString":"2.4 ¢/fl oz","priceType":null,"supportText":null,"variantPriceString":null}}},{"__typename":"AdPlaceholder","usItemId":null,"name":null,"brand":null,"shortDescription":null,"departmentName":null,"category":null,"availabilityStatusV2":null,"fulfillmentType":null,"fulfillmentTitle":null,"productLocation":null,"fulfillmentSummary":[],"priceInfo":{"currentPrice":null,"unitPrice":null}},{"__typename":"Product","usItemId":"10309701","name":"Horizon Organic Vitamin D Whole Milk, Vitamin D Whole, 64 fl oz Carton","brand":null,"shortDescription":"<li>Whole milk with high vitamin D</li><li>Certified USDA Organic</li><li>Non-GMO</li>","departmentName":"Food","category":{"categoryPathId":"0:976759:9176907:4405816:3153553","path":null},"availabilityStatusV2":{"display":"In stock","value":"IN_STOCK"},"fulfillmentType":"STORE","fulfillmentTitle":"title_store_not_available","productLocation":null,"fulfillmentSummary":[{"fulfillment":"DELIVERY","fulfillmentMethods":["SCHEDULED"],"deliveryDate":null},{"fulfillment":"DELIVERY","fulfillmentMethods":["SCHEDULED"],"deliveryDate":null},{"fulfillment":"DELIVERY","fulfillmentMethods":["SCHEDULED"],"deliveryDate":"2026-08-22T23:00:00.000Z"},{"fulfillment":"PICKUP","fulfillmentMethods":["SCHEDULED"],"deliveryDate":"2026-08-22T23:00:00.000Z"}],"priceInfo":{"currentPrice":{"currencyUnit":null,"price":5.96,"priceDisplay":"$5.96","priceString":"$5.96","priceType":null,"supportText":null,"variantPriceString":"$5.96"},"unitPrice":{"currencyUnit":null,"price":0.093,"priceDisplay":null,"priceString":"9.3 ¢/fl oz","priceType":null,"supportText":null,"variantPriceString":null}}},{"__typename":"TileTakeOverProductPlaceholder","usItemId":null,"name":null,"brand":null,"shortDescription":null,"departmentName":null,"category":null,"availabilityStatusV2":null,"fulfillmentType":null,"fulfillmentTitle":null,"productLocation":null,"fulfillmentSummary":[],"priceInfo":{"currentPrice":null,"unitPrice":null}},{"__typename":"Product","usItemId":"350048336","name":"Horizon Organic Vitamin D Whole Milk, Vitamin D Whole, 128 fl oz Jug","brand":null,"shortDescription":"<li>Whole milk with high vitamin D</li><li>Certified USDA Organic</li><li>Non-GMO</li>","departmentName":"Food","category":{"categoryPathId":"0:976759:9176907:4405816:6541475:6877499","path":null},"availabilityStatusV2":{"display":"In stock","value":"IN_STOCK"},"fulfillmentType":"STORE","fulfillmentTitle":"title_store_not_available","productLocation":null,"fulfillmentSummary":[{"fulfillment":"DELIVERY","fulfillmentMethods":["SCHEDULED"],"deliveryDate":null},{"fulfillment":"DELIVERY","fulfillmentMethods":["SCHEDULED"],"deliveryDate":null},{"fulfillment":"DELIVERY","fulfillmentMethods":["SCHEDULED"],"deliveryDate":"2026-08-22T23:00:00.000Z"},{"fulfillment":"PICKUP","fulfillmentMethods":["SCHEDULED"],"deliveryDate":"2026-08-22T23:00:00.000Z"}],"priceInfo":{"currentPrice":{"currencyUnit":null,"price":9.97,"priceDisplay":"$9.97","priceString":"$9.97","priceType":null,"supportText":null,"variantPriceString":"$9.97"},"unitPrice":{"currencyUnit":null,"price":0.078,"priceDisplay":null,"priceString":"7.8 ¢/fl oz","priceType":null,"supportText":null,"variantPriceString":null}}},{"__typename":"Product","usItemId":"10315798","name":"Great Value Organic Whole Vitamin D Milk, Half Gallon, 64 fl oz","brand":null,"shortDescription":"<li>Organic whole milk</li><li>Gluten-free and USDA organic certified</li><li>8g of protein per serving</li>","departmentName":"Food","category":{"categoryPathId":"0:976759:9176907:4405816:6541475:6877499","path":null},"availabilityStatusV2":{"display":"In stock","value":"IN_STOCK"},"fulfillmentType":"STORE","fulfillmentTitle":"title_store_not_available","productLocation":null,"fulfillmentSummary":[{"fulfillment":"DELIVERY","fulfillmentMethods":["SCHEDULED"],"deliveryDate":null},{"fulfillment":"DELIVERY","fulfillmentMethods":["SCHEDULED"],"deliveryDate":null},{"fulfillment":"DELIVERY","fulfillmentMethods":["SCHEDULED"],"deliveryDate":"2026-08-22T23:00:00.000Z"},{"fulfillment":"PICKUP","fulfillmentMethods":["SCHEDULED"],"deliveryDate":"2026-08-22T23:00:00.000Z"}],"priceInfo":{"currentPrice":{"currencyUnit":null,"price":3.97,"priceDisplay":"$3.97","priceString":"$3.97","priceType":null,"supportText":null,"variantPriceString":"$3.97"},"unitPrice":{"currencyUnit":null,"price":0.062,"priceDisplay":null,"priceString":"6.2 ¢/fl oz","priceType":null,"supportText":null,"variantPriceString":null}}},{"__typename":"Product","usItemId":"10804537","name":"Great Value Milk 1% Low-fat, Half Gallon, 64 fl oz","brand":null,"shortDescription":"<li>Low fat milk, Vitamin A palmitate, Vitamin D3</li><li>No artificial growth hormones</li><li>Grade A, pasteurized, homogenized</li><li>1% milkfat</li>","departmentName":"Food","category":{"categoryPathId":"0:976759:9176907:4405816:2534265","path":null},"availabilityStatusV2":{"display":"In stock","value":"IN_STOCK"},"fulfillmentType":"STORE","fulfillmentTitle":"title_store_not_available","productLocation":null,"fulfillmentSummary":[{"fulfillment":"DELIVERY","fulfillmentMethods":["SCHEDULED"],"deliveryDate":null},{"fulfillment":"DELIVERY","fulfillmentMethods":["SCHEDULED"],"deliveryDate":null},{"fulfillment":"DELIVERY","fulfillmentMethods":["SCHEDULED"],"deliveryDate":"2026-08-22T23:00:00.000Z"},{"fulfillment":"PICKUP","fulfillmentMethods":["SCHEDULED"],"deliveryDate":"2026-08-22T23:00:00.000Z"}],"priceInfo":{"currentPrice":{"currencyUnit":null,"price":1.66,"priceDisplay":"$1.66","priceString":"$1.66","priceType":null,"supportText":null,"variantPriceString":"$1.66"},"unitPrice":{"currencyUnit":null,"price":0.026,"priceDisplay":null,"priceString":"2.6 ¢/fl oz","priceType":null,"supportText":null,"variantPriceString":null}}},{"__typename":"Product","usItemId":"10450117","name":"Great Value Fat-Free Milk, Gallon, 128 fl oz","brand":null,"shortDescription":"<b>Great Value Skim Milk Gallon:</b><li>Fat free milk, vitamin A palmitate, vitamin D3</li><li>No artificial growth hormones</li><li>Grade A, pasteurized, homogenized</li><li>0% milkfat</li><li>Use in</li>","departmentName":"Food","category":{"categoryPathId":"0:976759:9176907:4405816:5898313","path":null},"availabilityStatusV2":{"display":"In stock","value":"IN_STOCK"},"fulfillmentType":"STORE","fulfillmentTitle":"title_store_not_available","productLocation":null,"fulfillmentSummary":[{"fulfillment":"DELIVERY","fulfillmentMethods":["SCHEDULED"],"deliveryDate":null},{"fulfillment":"DELIVERY","fulfillmentMethods":["SCHEDULED"],"deliveryDate":null},{"fulfillment":"DELIVERY","fulfillmentMethods":["SCHEDULED"],"deliveryDate":"2026-08-22T23:00:00.000Z"},{"fulfillment":"PICKUP","fulfillmentMethods":["SCHEDULED"],"deliveryDate":"2026-08-22T23:00:00.000Z"}],"priceInfo":{"currentPrice":{"currencyUnit":null,"price":3,"priceDisplay":"$3.00","priceString":"$3.00","priceType":null,"supportText":null,"variantPriceString":"$3.00"},"unitPrice":{"currencyUnit":null,"price":0.023,"priceDisplay":null,"priceString":"2.3 ¢/fl oz","priceType":null,"supportText":null,"variantPriceString":null}}},{"__typename":"Product","usItemId":"11979181","name":"Great Value Lactose Free 2% Reduced Fat Milk, Half Gallon, 64 fl oz","brand":null,"shortDescription":"<li>Rich in Calcium</li><li>Good source of Vitamin A and Vitamin D</li><li>2% Milkfat</li><li>1/2 gallon</li>","departmentName":"Food","category":{"categoryPathId":"0:976759:9176907:4405816:6541475:2705308:7780162","path":null},"availabilityStatusV2":{"display":"In stock","value":"IN_STOCK"},"fulfillmentType":"STORE","fulfillmentTitle":"title_store_not_available","productLocation":null,"fulfillmentSummary":[{"fulfillment":"DELIVERY","fulfillmentMethods":["SCHEDULED"],"deliveryDate":null},{"fulfillment":"DELIVERY","fulfillmentMethods":["SCHEDULED"],"deliveryDate":null},{"fulfillment":"DELIVERY","fulfillmentMethods":["SCHEDULED"],"deliveryDate":"2026-08-22T23:00:00.000Z"},{"fulfillment":"PICKUP","fulfillmentMethods":["SCHEDULED"],"deliveryDate":"2026-08-22T23:00:00.000Z"}],"priceInfo":{"currentPrice":{"currencyUnit":null,"price":3.08,"priceDisplay":"$3.08","priceString":"$3.08","priceType":null,"supportText":null,"variantPriceString":"$3.08"},"unitPrice":{"currencyUnit":null,"price":0.048,"priceDisplay":null,"priceString":"4.8 ¢/fl oz","priceType":null,"supportText":null,"variantPriceString":null}}},{"__typename":"Product","usItemId":"10309700","name":"Horizon Organic Vitamin D 2 Percent Milk, Vitamin D Reduced Fat, 64 fl oz Carton","brand":null,"shortDescription":"<li>2% reduced fat milk with high vitamin D</li><li>Certified USDA Organic</li><li>Non-GMO</li>","departmentName":"Food","category":{"categoryPathId":"0:976759:9176907:4405816:3153553","path":null},"availabilityStatusV2":{"display":"In stock","value":"IN_STOCK"},"fulfillmentType":"STORE","fulfillmentTitle":"title_store_not_available","productLocation":null,"fulfillmentSummary":[{"fulfillment":"DELIVERY","fulfillmentMethods":["SCHEDULED"],"deliveryDate":null},{"fulfillment":"DELIVERY","fulfillmentMethods":["SCHEDULED"],"deliveryDate":null},{"fulfillment":"DELIVERY","fulfillmentMethods":["SCHEDULED"],"deliveryDate":"2026-08-22T23:00:00.000Z"},{"fulfillment":"PICKUP","fulfillmentMethods":["SCHEDULED"],"deliveryDate":"2026-08-22T23:00:00.000Z"}],"priceInfo":{"currentPrice":{"currencyUnit":null,"price":5.48,"priceDisplay":"$5.48","priceString":"$5.48","priceType":null,"supportText":null,"variantPriceString":"$5.48"},"unitPrice":{"currencyUnit":null,"price":0.086,"priceDisplay":null,"priceString":"8.6 ¢/fl oz","priceType":null,"supportText":null,"variantPriceString":null}}},{"__typename":"Product","usItemId":"14244869","name":"Horizon Organic DHA Omega-3 Whole Milk, DHA Whole, 64 fl oz Carton","brand":null,"shortDescription":"<li>Whole milk with DHA Omega-3</li><li>Certified USDA Organic</li><li>Non-GMO</li>","departmentName":"Food","category":{"categoryPathId":"0:976759:9176907:4405816:6541475:6877499","path":null},"availabilityStatusV2":{"display":"In stock","value":"IN_STOCK"},"fulfillmentType":"STORE","fulfillmentTitle":"title_store_not_available","productLocation":null,"fulfillmentSummary":[{"fulfillment":"DELIVERY","fulfillmentMethods":["SCHEDULED"],"deliveryDate":null},{"fulfillment":"DELIVERY","fulfillmentMethods":["SCHEDULED"],"deliveryDate":null},{"fulfillment":"DELIVERY","fulfillmentMethods":["SCHEDULED"],"deliveryDate":"2026-08-22T23:00:00.000Z"},{"fulfillment":"PICKUP","fulfillmentMethods":["SCHEDULED"],"deliveryDate":"2026-08-22T23:00:00.000Z"}],"priceInfo":{"currentPrice":{"currencyUnit":null,"price":5.97,"priceDisplay":"$5.97","priceString":"$5.97","priceType":null,"supportText":null,"variantPriceString":"$5.97"},"unitPrice":{"currencyUnit":null,"price":0.093,"priceDisplay":null,"priceString":"9.3 ¢/fl oz","priceType":null,"supportText":null,"variantPriceString":null}}},{"__typename":"Product","usItemId":"12598368729","name":"Horizon Organic Growing Years Organic Whole Milk for Kids, 59 fl oz Carton","brand":null,"shortDescription":"Horizon Organic Growing Years Whole Milk with DHA Omega-3, 59 fl oz Carton","departmentName":"Food","category":{"categoryPathId":"0:976759:9176907:4405816:3153553","path":null},"availabilityStatusV2":{"display":"In stock","value":"IN_STOCK"},"fulfillmentType":"STORE","fulfillmentTitle":"title_store_not_available","productLocation":null,"fulfillmentSummary":[{"fulfillment":"DELIVERY","fulfillmentMethods":["SCHEDULED"],"deliveryDate":null},{"fulfillment":"DELIVERY","fulfillmentMethods":["SCHEDULED"],"deliveryDate":null},{"fulfillment":"DELIVERY","fulfillmentMethods":["SCHEDULED"],"deliveryDate":"2026-08-22T23:00:00.000Z"},{"fulfillment":"PICKUP","fulfillmentMethods":["SCHEDULED"],"deliveryDate":"2026-08-22T23:00:00.000Z"}],"priceInfo":{"currentPrice":{"currencyUnit":null,"price":7.47,"priceDisplay":"$7.47","priceString":"$7.47","priceType":null,"supportText":null,"variantPriceString":"$7.47"},"unitPrice":{"currencyUnit":null,"price":0.127,"priceDisplay":null,"priceString":"12.7 ¢/fl oz","priceType":null,"supportText":null,"variantPriceString":null}}},{"__typename":"Product","usItemId":"10801613","name":"Lactaid Whole Milk, 64 oz","brand":null,"shortDescription":"<li>Lactose free</li><li>Easy to digest</li><li>Vitamins A and D</li>","departmentName":"Food","category":{"categoryPathId":"0:976759:9176907:4405816:6541475:6877499","path":null},"availabilityStatusV2":{"display":"In stock","value":"IN_STOCK"},"fulfillmentType":"STORE","fulfillmentTitle":"title_store_not_available","productLocation":null,"fulfillmentSummary":[{"fulfillment":"DELIVERY","fulfillmentMethods":["SCHEDULED"],"deliveryDate":null},{"fulfillment":"DELIVERY","fulfillmentMethods":["SCHEDULED"],"deliveryDate":null},{"fulfillment":"DELIVERY","fulfillmentMethods":["SCHEDULED"],"deliveryDate":"2026-08-22T23:00:00.000Z"},{"fulfillment":"PICKUP","fulfillmentMethods":["SCHEDULED"],"deliveryDate":"2026-08-22T23:00:00.000Z"}],"priceInfo":{"currentPrice":{"currencyUnit":null,"price":4.48,"priceDisplay":"$4.48","priceString":"$4.48","priceType":null,"supportText":null,"variantPriceString":"$4.48"},"unitPrice":{"currencyUnit":null,"price":0.070,"priceDisplay":null,"priceString":"7.0 ¢/fl oz","priceType":null,"supportText":null,"variantPriceString":null}}},{"__typename":"Product","usItemId":"230953422","name":"Horizon Organic Grassfed Whole Milk, Vitamin D Whole, 59 fl oz Carton","brand":null,"shortDescription":"<li>Whole Milk</li><li>From grassfed cows</li><li>Certified USDA Organic</li>","departmentName":"Food","category":{"categoryPathId":"0:976759:9176907:4405816:6541475:6877499","path":null},"availabilityStatusV2":{"display":"In stock","value":"IN_STOCK"},"fulfillmentType":"STORE","fulfillmentTitle":"title_store_not_available","productLocation":null,"fulfillmentSummary":[{"fulfillment":"DELIVERY","fulfillmentMethods":["SCHEDULED"],"deliveryDate":null},{"fulfillment":"DELIVERY","fulfillmentMethods":["SCHEDULED"],"deliveryDate":null},{"fulfillment":"DELIVERY","fulfillmentMethods":["SCHEDULED"],"deliveryDate":"2026-08-22T23:00:00.000Z"},{"fulfillment":"PICKUP","fulfillmentMethods":["SCHEDULED"],"deliveryDate":"2026-08-22T23:00:00.000Z"}],"priceInfo":{"currentPrice":{"currencyUnit":null,"price":7.47,"priceDisplay":"$7.47","priceString":"$7.47","priceType":null,"supportText":null,"variantPriceString":"$7.47"},"unitPrice":{"currencyUnit":null,"price":0.117,"priceDisplay":null,"priceString":"11.7 ¢/fl oz","priceType":null,"supportText":null,"variantPriceString":null}}},{"__typename":"Product","usItemId":"10450120","name":"Great Value Milk, Fat Free, Unflavored, Half Gallon, 64 oz Jug","brand":null,"shortDescription":"<li>Fat free milk, Vitamin A palmitate, Vitamin D3</li><li>No artificial growth hormones</li><li>Grade A, pasteurized, homogenized</li><li>0% milkfat</li>","departmentName":"Food","category":{"categoryPathId":"0:976759:9176907:4405816:5898313","path":null},"availabilityStatusV2":{"display":"In stock","value":"IN_STOCK"},"fulfillmentType":"STORE","fulfillmentTitle":"title_store_not_available","productLocation":null,"fulfillmentSummary":[{"fulfillment":"DELIVERY","fulfillmentMethods":["SCHEDULED"],"deliveryDate":null},{"fulfillment":"DELIVERY","fulfillmentMethods":["SCHEDULED"],"deliveryDate":null},{"fulfillment":"DELIVERY","fulfillmentMethods":["SCHEDULED"],"deliveryDate":"2026-08-22T23:00:00.000Z"},{"fulfillment":"PICKUP","fulfillmentMethods":["SCHEDULED"],"deliveryDate":"2026-08-22T23:00:00.000Z"}],"priceInfo":{"currentPrice":{"currencyUnit":null,"price":1.62,"priceDisplay":"$1.62","priceString":"$1.62","priceType":null,"supportText":null,"variantPriceString":"$1.62"},"unitPrice":{"currencyUnit":null,"price":0.025,"priceDisplay":null,"priceString":"2.5 ¢/fl oz","priceType":null,"supportText":null,"variantPriceString":null}}},{"__typename":"Product","usItemId":"124314525","name":"Maola Whole Milk, Vitamin D, Half Gallon","brand":null,"shortDescription":"Maola Vitamin D Milk HG","departmentName":"Food","category":{"categoryPathId":"0:976759:9176907:4405816:6541475:6877499","path":null},"availabilityStatusV2":{"display":"In stock","value":"IN_STOCK"},"fulfillmentType":"STORE","fulfillmentTitle":"title_store_not_available","productLocation":null,"fulfillmentSummary":[{"fulfillment":"DELIVERY","fulfillmentMethods":["SCHEDULED"],"deliveryDate":null},{"fulfillment":"DELIVERY","fulfillmentMethods":["SCHEDULED"],"deliveryDate":null},{"fulfillment":"DELIVERY","fulfillmentMethods":["SCHEDULED"],"deliveryDate":"2026-08-22T23:00:00.000Z"},{"fulfillment":"PICKUP","fulfillmentMethods":["SCHEDULED"],"deliveryDate":"2026-08-22T23:00:00.000Z"}],"priceInfo":{"currentPrice":{"currencyUnit":null,"price":3.98,"priceDisplay":"$3.98","priceString":"$3.98","priceType":null,"supportText":null,"variantPriceString":"$3.98"},"unitPrice":{"currencyUnit":null,"price":0.062,"priceDisplay":null,"priceString":"6.2 ¢/fl oz","priceType":null,"supportText":null,"variantPriceString":null}}},{"__typename":"Product","usItemId":"10801608","name":"Lactaid 2% Reduced Fat Milk, 64 oz","brand":null,"shortDescription":"<li>Lactose Free</li><li>Free From Gluten</li><li>Kosher</li>","departmentName":"Food","category":{"categoryPathId":"0:976759:9176907:4405816:4288431","path":null},"availabilityStatusV2":{"display":"In stock","value":"IN_STOCK"},"fulfillmentType":"STORE","fulfillmentTitle":"title_store_not_available","productLocation":null,"fulfillmentSummary":[{"fulfillment":"DELIVERY","fulfillmentMethods":["SCHEDULED"],"deliveryDate":null},{"fulfillment":"DELIVERY","fulfillmentMethods":["SCHEDULED"],"deliveryDate":null},{"fulfillment":"DELIVERY","fulfillmentMethods":["SCHEDULED"],"deliveryDate":"2026-08-22T23:00:00.000Z"},{"fulfillment":"PICKUP","fulfillmentMethods":["SCHEDULED"],"deliveryDate":"2026-08-22T23:00:00.000Z"}],"priceInfo":{"currentPrice":{"currencyUnit":null,"price":4.48,"priceDisplay":"$4.48","priceString":"$4.48","priceType":null,"supportText":null,"variantPriceString":"$4.48"},"unitPrice":{"currencyUnit":null,"price":0.070,"priceDisplay":null,"priceString":"7.0 ¢/fl oz","priceType":null,"supportText":null,"variantPriceString":null}}},{"__typename":"Product","usItemId":"10315797","name":"Great Value Organic 2% Reduced Fat Milk, Half Gallon, 64 fl oz","brand":null,"shortDescription":"<li>Organic 2% reduced fat milk</li><li>Gluten-free and USDA organic certified</li><li>38% less fat than whole milk</li><li>120 calories per serving</li>","departmentName":"Food","category":{"categoryPathId":"0:976759:9176907:4405816:3153553","path":null},"availabilityStatusV2":{"display":"In stock","value":"IN_STOCK"},"fulfillmentType":"STORE","fulfillmentTitle":"title_store_not_available","productLocation":null,"fulfillmentSummary":[{"fulfillment":"DELIVERY","fulfillmentMethods":["SCHEDULED"],"deliveryDate":null},{"fulfillment":"DELIVERY","fulfillmentMethods":["SCHEDULED"],"deliveryDate":null},{"fulfillment":"DELIVERY","fulfillmentMethods":["SCHEDULED"],"deliveryDate":"2026-08-22T23:00:00.000Z"},{"fulfillment":"PICKUP","fulfillmentMethods":["SCHEDULED"],"deliveryDate":"2026-08-22T23:00:00.000Z"}],"priceInfo":{"currentPrice":{"currencyUnit":null,"price":3.97,"priceDisplay":"$3.97","priceString":"$3.97","priceType":null,"supportText":null,"variantPriceString":"$3.97"},"unitPrice":{"currencyUnit":null,"price":0.062,"priceDisplay":null,"priceString":"6.2 ¢/fl oz","priceType":null,"supportText":null,"variantPriceString":null}}},{"__typename":"Product","usItemId":"911943820","name":"Horizon Organic Grassfed 2 Percent Milk, Reduced Fat, 59 fl oz Carton","brand":null,"shortDescription":"<li>2% reduced fat milk</li><li>From grassfed cows</li><li>Certified USDA Organic</li>","departmentName":"Food","category":{"categoryPathId":"0:976759:9176907:4405816:4288431","path":null},"availabilityStatusV2":{"display":"In stock","value":"IN_STOCK"},"fulfillmentType":"STORE","fulfillmentTitle":"title_store_not_available","productLocation":null,"fulfillmentSummary":[{"fulfillment":"DELIVERY","fulfillmentMethods":["SCHEDULED"],"deliveryDate":null},{"fulfillment":"DELIVERY","fulfillmentMethods":["SCHEDULED"],"deliveryDate":null},{"fulfillment":"DELIVERY","fulfillmentMethods":["SCHEDULED"],"deliveryDate":"2026-08-22T23:00:00.000Z"},{"fulfillment":"PICKUP","fulfillmentMethods":["SCHEDULED"],"deliveryDate":"2026-08-22T23:00:00.000Z"}],"priceInfo":{"currentPrice":{"currencyUnit":null,"price":7.47,"priceDisplay":"$7.47","priceString":"$7.47","priceType":null,"supportText":null,"variantPriceString":"$7.47"},"unitPrice":{"currencyUnit":null,"price":0.117,"priceDisplay":null,"priceString":"11.7 ¢/fl oz","priceType":null,"supportText":null,"variantPriceString":null}}}]}]}},"contentLayout":{"modules":[{"configs":{"allSortAndFilterFacets":[{"type":"cat_id","name":"Departments","values":[{"id":"976759","name":"Food","count":null},{"id":"976760","name":"Health and Medicine","count":null}]}]}}]}}}
+{
+  "data": {
+    "search": {
+      "searchResult": {
+        "itemStacks": [
+          {
+            "itemsV2": [
+              {
+                "__typename": "Product",
+                "usItemId": "10450114",
+                "name": "Great Value Whole Vitamin D Milk, Gallon",
+                "brand": null,
+                "shortDescription": "<li>Great Value Whole Vitamin D Milk, Gallon</li><li>Rich and creamy whole milk taste</li><li>Fortified with vitamin D</li>",
+                "departmentName": "Food",
+                "category": {
+                  "categoryPathId": "0:976759:9176907:4405816:6541475:6877499",
+                  "path": null
+                },
+                "availabilityStatusV2": {
+                  "display": "In stock",
+                  "value": "IN_STOCK"
+                },
+                "fulfillmentType": "STORE",
+                "fulfillmentTitle": "title_store_not_available",
+                "productLocation": null,
+                "fulfillmentSummary": [
+                  {
+                    "fulfillment": "DELIVERY",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": null
+                  },
+                  {
+                    "fulfillment": "DELIVERY",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": null
+                  },
+                  {
+                    "fulfillment": "DELIVERY",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": "2026-08-22T23:00:00.000Z"
+                  },
+                  {
+                    "fulfillment": "PICKUP",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": "2026-08-22T23:00:00.000Z"
+                  }
+                ],
+                "priceInfo": {
+                  "currentPrice": {
+                    "currencyUnit": null,
+                    "price": 3.46,
+                    "priceDisplay": "$3.46",
+                    "priceString": "$3.46",
+                    "priceType": null,
+                    "supportText": null,
+                    "variantPriceString": "$3.46"
+                  },
+                  "unitPrice": {
+                    "currencyUnit": null,
+                    "price": 0.027,
+                    "priceDisplay": null,
+                    "priceString": "2.7 ¢/fl oz",
+                    "priceType": null,
+                    "supportText": null,
+                    "variantPriceString": null
+                  }
+                },
+                "offerId": "E262E6B27BDE4ABA86CA2C1DF82ADEF4"
+              },
+              {
+                "__typename": "Product",
+                "usItemId": "11979180",
+                "name": "Great Value Lactose Free Whole Vitamin D Milk, Half Gallon, 64 fl oz",
+                "brand": null,
+                "shortDescription": null,
+                "departmentName": "Food",
+                "category": {
+                  "categoryPathId": "0:976759:9176907:4405816:6541475:2705308:7780162",
+                  "path": null
+                },
+                "availabilityStatusV2": {
+                  "display": "In stock",
+                  "value": "IN_STOCK"
+                },
+                "fulfillmentType": "STORE",
+                "fulfillmentTitle": "title_store_not_available",
+                "productLocation": null,
+                "fulfillmentSummary": [
+                  {
+                    "fulfillment": "DELIVERY",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": null
+                  },
+                  {
+                    "fulfillment": "DELIVERY",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": null
+                  },
+                  {
+                    "fulfillment": "DELIVERY",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": "2026-08-22T23:00:00.000Z"
+                  },
+                  {
+                    "fulfillment": "PICKUP",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": "2026-08-22T23:00:00.000Z"
+                  }
+                ],
+                "priceInfo": {
+                  "currentPrice": {
+                    "currencyUnit": null,
+                    "price": 3.08,
+                    "priceDisplay": "$3.08",
+                    "priceString": "$3.08",
+                    "priceType": null,
+                    "supportText": null,
+                    "variantPriceString": "$3.08"
+                  },
+                  "unitPrice": {
+                    "currencyUnit": null,
+                    "price": 0.048,
+                    "priceDisplay": null,
+                    "priceString": "4.8 ¢/fl oz",
+                    "priceType": null,
+                    "supportText": null,
+                    "variantPriceString": null
+                  }
+                },
+                "offerId": "OFFER-11979180"
+              },
+              {
+                "__typename": "Product",
+                "usItemId": "10450115",
+                "name": "Great Value, 2% Reduced Fat Milk, Gallon",
+                "brand": null,
+                "shortDescription": "<li>Great Value, 2% Reduced Fat Milk, Gallon</li><li>2% reduced fat milk with smooth, creamy taste</li><li>Fortified with vitamins A and D</li>",
+                "departmentName": "Food",
+                "category": {
+                  "categoryPathId": "0:976759:9176907:4405816:4288431",
+                  "path": null
+                },
+                "availabilityStatusV2": {
+                  "display": "In stock",
+                  "value": "IN_STOCK"
+                },
+                "fulfillmentType": "STORE",
+                "fulfillmentTitle": "title_store_not_available",
+                "productLocation": null,
+                "fulfillmentSummary": [
+                  {
+                    "fulfillment": "DELIVERY",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": null
+                  },
+                  {
+                    "fulfillment": "DELIVERY",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": null
+                  },
+                  {
+                    "fulfillment": "DELIVERY",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": "2026-08-22T23:00:00.000Z"
+                  },
+                  {
+                    "fulfillment": "PICKUP",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": "2026-08-22T23:00:00.000Z"
+                  }
+                ],
+                "priceInfo": {
+                  "currentPrice": {
+                    "currencyUnit": null,
+                    "price": 3.26,
+                    "priceDisplay": "$3.26",
+                    "priceString": "$3.26",
+                    "priceType": null,
+                    "supportText": null,
+                    "variantPriceString": "$3.26"
+                  },
+                  "unitPrice": {
+                    "currencyUnit": null,
+                    "price": 0.025,
+                    "priceDisplay": null,
+                    "priceString": "2.5 ¢/fl oz",
+                    "priceType": null,
+                    "supportText": null,
+                    "variantPriceString": null
+                  }
+                },
+                "offerId": "OFFER-10450115"
+              },
+              {
+                "__typename": "Product",
+                "usItemId": "10450118",
+                "name": "Great Value Milk Whole Vitamin D, Half Gallon, , 64 fl oz",
+                "brand": null,
+                "shortDescription": null,
+                "departmentName": "Food",
+                "category": {
+                  "categoryPathId": "0:976759:9176907:4405816:6541475:6877499",
+                  "path": null
+                },
+                "availabilityStatusV2": {
+                  "display": "In stock",
+                  "value": "IN_STOCK"
+                },
+                "fulfillmentType": "STORE",
+                "fulfillmentTitle": "title_store_not_available",
+                "productLocation": null,
+                "fulfillmentSummary": [
+                  {
+                    "fulfillment": "DELIVERY",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": null
+                  },
+                  {
+                    "fulfillment": "DELIVERY",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": null
+                  },
+                  {
+                    "fulfillment": "DELIVERY",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": "2026-08-22T23:00:00.000Z"
+                  },
+                  {
+                    "fulfillment": "PICKUP",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": "2026-08-22T23:00:00.000Z"
+                  }
+                ],
+                "priceInfo": {
+                  "currentPrice": {
+                    "currencyUnit": null,
+                    "price": 1.85,
+                    "priceDisplay": "$1.85",
+                    "priceString": "$1.85",
+                    "priceType": null,
+                    "supportText": null,
+                    "variantPriceString": "$1.85"
+                  },
+                  "unitPrice": {
+                    "currencyUnit": null,
+                    "price": 0.029,
+                    "priceDisplay": null,
+                    "priceString": "2.9 ¢/fl oz",
+                    "priceType": null,
+                    "supportText": null,
+                    "variantPriceString": null
+                  }
+                },
+                "offerId": "5FED3BE5BCEE4D8198A5FE2F34C5AC23"
+              },
+              {
+                "__typename": "Product",
+                "usItemId": "10450119",
+                "name": "Great Value , 2% Reduced Fat Milk, Half Gallon, 64 fl oz",
+                "brand": null,
+                "shortDescription": "<li>Added vitamins A and D</li><li>37% less fat than whole milk</li><li>Grade A</li><li>Pasteurized</li><li>Homogenized</li><li>Excellent source of protein and calcium</li>",
+                "departmentName": "Food",
+                "category": {
+                  "categoryPathId": "0:976759:9176907:4405816:4288431",
+                  "path": null
+                },
+                "availabilityStatusV2": {
+                  "display": "In stock",
+                  "value": "IN_STOCK"
+                },
+                "fulfillmentType": "STORE",
+                "fulfillmentTitle": "title_store_not_available",
+                "productLocation": null,
+                "fulfillmentSummary": [
+                  {
+                    "fulfillment": "DELIVERY",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": null
+                  },
+                  {
+                    "fulfillment": "DELIVERY",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": null
+                  },
+                  {
+                    "fulfillment": "DELIVERY",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": "2026-08-22T23:00:00.000Z"
+                  },
+                  {
+                    "fulfillment": "PICKUP",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": "2026-08-22T23:00:00.000Z"
+                  }
+                ],
+                "priceInfo": {
+                  "currentPrice": {
+                    "currencyUnit": null,
+                    "price": 1.75,
+                    "priceDisplay": "$1.75",
+                    "priceString": "$1.75",
+                    "priceType": null,
+                    "supportText": null,
+                    "variantPriceString": "$1.75"
+                  },
+                  "unitPrice": {
+                    "currencyUnit": null,
+                    "price": 0.027,
+                    "priceDisplay": null,
+                    "priceString": "2.7 ¢/fl oz",
+                    "priceType": null,
+                    "supportText": null,
+                    "variantPriceString": null
+                  }
+                },
+                "offerId": "OFFER-10450119"
+              },
+              {
+                "__typename": "Product",
+                "usItemId": "43984343",
+                "name": "fairlife Lactose Free 2% Reduced Fat Ultra Filtered Milk, 52 fl oz",
+                "brand": null,
+                "shortDescription": "<li>50% more protein and 50% less sugar than regular milk</li><li>13g of protein per serving</li><li>Delicious, satisfying and lactose-free</li>",
+                "departmentName": "Food",
+                "category": {
+                  "categoryPathId": "0:976759:9176907:4405816:6541475:2705308:7780162",
+                  "path": null
+                },
+                "availabilityStatusV2": {
+                  "display": "In stock",
+                  "value": "IN_STOCK"
+                },
+                "fulfillmentType": "STORE",
+                "fulfillmentTitle": "title_store_not_available",
+                "productLocation": null,
+                "fulfillmentSummary": [
+                  {
+                    "fulfillment": "DELIVERY",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": null
+                  },
+                  {
+                    "fulfillment": "DELIVERY",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": null
+                  },
+                  {
+                    "fulfillment": "DELIVERY",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": "2026-08-22T23:00:00.000Z"
+                  },
+                  {
+                    "fulfillment": "PICKUP",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": "2026-08-22T23:00:00.000Z"
+                  }
+                ],
+                "priceInfo": {
+                  "currentPrice": {
+                    "currencyUnit": null,
+                    "price": 4.78,
+                    "priceDisplay": "Now $4.78",
+                    "priceString": "$4.78",
+                    "priceType": null,
+                    "supportText": null,
+                    "variantPriceString": "$4.78"
+                  },
+                  "unitPrice": {
+                    "currencyUnit": null,
+                    "price": 0.092,
+                    "priceDisplay": null,
+                    "priceString": "9.2 ¢/fl oz",
+                    "priceType": null,
+                    "supportText": null,
+                    "variantPriceString": null
+                  }
+                },
+                "offerId": "OFFER-43984343"
+              },
+              {
+                "__typename": "Product",
+                "usItemId": "43984342",
+                "name": "fairlife Lactose Free Fat Free Ultra Filtered Milk, 52 fl oz",
+                "brand": null,
+                "shortDescription": "<li>50% more protein and 50% less sugar than regular milk</li><li>13g of protein per serving</li><li>Delicious, satisfying and lactose-free</li>",
+                "departmentName": "Food",
+                "category": {
+                  "categoryPathId": "0:976759:9176907:4405816:9963997",
+                  "path": null
+                },
+                "availabilityStatusV2": {
+                  "display": "In stock",
+                  "value": "IN_STOCK"
+                },
+                "fulfillmentType": "STORE",
+                "fulfillmentTitle": "title_store_not_available",
+                "productLocation": null,
+                "fulfillmentSummary": [
+                  {
+                    "fulfillment": "DELIVERY",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": null
+                  },
+                  {
+                    "fulfillment": "DELIVERY",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": null
+                  },
+                  {
+                    "fulfillment": "DELIVERY",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": "2026-08-22T23:00:00.000Z"
+                  },
+                  {
+                    "fulfillment": "PICKUP",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": "2026-08-22T23:00:00.000Z"
+                  }
+                ],
+                "priceInfo": {
+                  "currentPrice": {
+                    "currencyUnit": null,
+                    "price": 4.78,
+                    "priceDisplay": "Now $4.78",
+                    "priceString": "$4.78",
+                    "priceType": null,
+                    "supportText": null,
+                    "variantPriceString": "$4.78"
+                  },
+                  "unitPrice": {
+                    "currencyUnit": null,
+                    "price": 0.092,
+                    "priceDisplay": null,
+                    "priceString": "9.2 ¢/fl oz",
+                    "priceType": null,
+                    "supportText": null,
+                    "variantPriceString": null
+                  }
+                },
+                "offerId": "OFFER-43984342"
+              },
+              {
+                "__typename": "Product",
+                "usItemId": "10450116",
+                "name": "Great Value 1% Low-Fat Milk, Gallon",
+                "brand": null,
+                "shortDescription": "<li>Great Value 1% Low-Fat Milk, Gallon</li><li>1% low-fat milk with smooth, fresh taste</li><li>Fortified with vitamins A and D</li>",
+                "departmentName": "Food",
+                "category": {
+                  "categoryPathId": "0:976759:9176907:4405816:2534265",
+                  "path": null
+                },
+                "availabilityStatusV2": {
+                  "display": "In stock",
+                  "value": "IN_STOCK"
+                },
+                "fulfillmentType": "STORE",
+                "fulfillmentTitle": "title_store_not_available",
+                "productLocation": null,
+                "fulfillmentSummary": [
+                  {
+                    "fulfillment": "DELIVERY",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": null
+                  },
+                  {
+                    "fulfillment": "DELIVERY",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": null
+                  },
+                  {
+                    "fulfillment": "DELIVERY",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": "2026-08-22T23:00:00.000Z"
+                  },
+                  {
+                    "fulfillment": "PICKUP",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": "2026-08-22T23:00:00.000Z"
+                  }
+                ],
+                "priceInfo": {
+                  "currentPrice": {
+                    "currencyUnit": null,
+                    "price": 3.09,
+                    "priceDisplay": "$3.09",
+                    "priceString": "$3.09",
+                    "priceType": null,
+                    "supportText": null,
+                    "variantPriceString": "$3.09"
+                  },
+                  "unitPrice": {
+                    "currencyUnit": null,
+                    "price": 0.024,
+                    "priceDisplay": null,
+                    "priceString": "2.4 ¢/fl oz",
+                    "priceType": null,
+                    "supportText": null,
+                    "variantPriceString": null
+                  }
+                },
+                "offerId": "OFFER-10450116"
+              },
+              {
+                "__typename": "AdPlaceholder",
+                "usItemId": null,
+                "name": null,
+                "brand": null,
+                "shortDescription": null,
+                "departmentName": null,
+                "category": null,
+                "availabilityStatusV2": null,
+                "fulfillmentType": null,
+                "fulfillmentTitle": null,
+                "productLocation": null,
+                "fulfillmentSummary": [],
+                "priceInfo": {
+                  "currentPrice": null,
+                  "unitPrice": null
+                }
+              },
+              {
+                "__typename": "Product",
+                "usItemId": "10309701",
+                "name": "Horizon Organic Vitamin D Whole Milk, Vitamin D Whole, 64 fl oz Carton",
+                "brand": null,
+                "shortDescription": "<li>Whole milk with high vitamin D</li><li>Certified USDA Organic</li><li>Non-GMO</li>",
+                "departmentName": "Food",
+                "category": {
+                  "categoryPathId": "0:976759:9176907:4405816:3153553",
+                  "path": null
+                },
+                "availabilityStatusV2": {
+                  "display": "In stock",
+                  "value": "IN_STOCK"
+                },
+                "fulfillmentType": "STORE",
+                "fulfillmentTitle": "title_store_not_available",
+                "productLocation": null,
+                "fulfillmentSummary": [
+                  {
+                    "fulfillment": "DELIVERY",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": null
+                  },
+                  {
+                    "fulfillment": "DELIVERY",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": null
+                  },
+                  {
+                    "fulfillment": "DELIVERY",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": "2026-08-22T23:00:00.000Z"
+                  },
+                  {
+                    "fulfillment": "PICKUP",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": "2026-08-22T23:00:00.000Z"
+                  }
+                ],
+                "priceInfo": {
+                  "currentPrice": {
+                    "currencyUnit": null,
+                    "price": 5.96,
+                    "priceDisplay": "$5.96",
+                    "priceString": "$5.96",
+                    "priceType": null,
+                    "supportText": null,
+                    "variantPriceString": "$5.96"
+                  },
+                  "unitPrice": {
+                    "currencyUnit": null,
+                    "price": 0.093,
+                    "priceDisplay": null,
+                    "priceString": "9.3 ¢/fl oz",
+                    "priceType": null,
+                    "supportText": null,
+                    "variantPriceString": null
+                  }
+                },
+                "offerId": "OFFER-10309701"
+              },
+              {
+                "__typename": "TileTakeOverProductPlaceholder",
+                "usItemId": null,
+                "name": null,
+                "brand": null,
+                "shortDescription": null,
+                "departmentName": null,
+                "category": null,
+                "availabilityStatusV2": null,
+                "fulfillmentType": null,
+                "fulfillmentTitle": null,
+                "productLocation": null,
+                "fulfillmentSummary": [],
+                "priceInfo": {
+                  "currentPrice": null,
+                  "unitPrice": null
+                }
+              },
+              {
+                "__typename": "Product",
+                "usItemId": "350048336",
+                "name": "Horizon Organic Vitamin D Whole Milk, Vitamin D Whole, 128 fl oz Jug",
+                "brand": null,
+                "shortDescription": "<li>Whole milk with high vitamin D</li><li>Certified USDA Organic</li><li>Non-GMO</li>",
+                "departmentName": "Food",
+                "category": {
+                  "categoryPathId": "0:976759:9176907:4405816:6541475:6877499",
+                  "path": null
+                },
+                "availabilityStatusV2": {
+                  "display": "In stock",
+                  "value": "IN_STOCK"
+                },
+                "fulfillmentType": "STORE",
+                "fulfillmentTitle": "title_store_not_available",
+                "productLocation": null,
+                "fulfillmentSummary": [
+                  {
+                    "fulfillment": "DELIVERY",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": null
+                  },
+                  {
+                    "fulfillment": "DELIVERY",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": null
+                  },
+                  {
+                    "fulfillment": "DELIVERY",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": "2026-08-22T23:00:00.000Z"
+                  },
+                  {
+                    "fulfillment": "PICKUP",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": "2026-08-22T23:00:00.000Z"
+                  }
+                ],
+                "priceInfo": {
+                  "currentPrice": {
+                    "currencyUnit": null,
+                    "price": 9.97,
+                    "priceDisplay": "$9.97",
+                    "priceString": "$9.97",
+                    "priceType": null,
+                    "supportText": null,
+                    "variantPriceString": "$9.97"
+                  },
+                  "unitPrice": {
+                    "currencyUnit": null,
+                    "price": 0.078,
+                    "priceDisplay": null,
+                    "priceString": "7.8 ¢/fl oz",
+                    "priceType": null,
+                    "supportText": null,
+                    "variantPriceString": null
+                  }
+                },
+                "offerId": "OFFER-350048336"
+              },
+              {
+                "__typename": "Product",
+                "usItemId": "10315798",
+                "name": "Great Value Organic Whole Vitamin D Milk, Half Gallon, 64 fl oz",
+                "brand": null,
+                "shortDescription": "<li>Organic whole milk</li><li>Gluten-free and USDA organic certified</li><li>8g of protein per serving</li>",
+                "departmentName": "Food",
+                "category": {
+                  "categoryPathId": "0:976759:9176907:4405816:6541475:6877499",
+                  "path": null
+                },
+                "availabilityStatusV2": {
+                  "display": "In stock",
+                  "value": "IN_STOCK"
+                },
+                "fulfillmentType": "STORE",
+                "fulfillmentTitle": "title_store_not_available",
+                "productLocation": null,
+                "fulfillmentSummary": [
+                  {
+                    "fulfillment": "DELIVERY",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": null
+                  },
+                  {
+                    "fulfillment": "DELIVERY",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": null
+                  },
+                  {
+                    "fulfillment": "DELIVERY",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": "2026-08-22T23:00:00.000Z"
+                  },
+                  {
+                    "fulfillment": "PICKUP",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": "2026-08-22T23:00:00.000Z"
+                  }
+                ],
+                "priceInfo": {
+                  "currentPrice": {
+                    "currencyUnit": null,
+                    "price": 3.97,
+                    "priceDisplay": "$3.97",
+                    "priceString": "$3.97",
+                    "priceType": null,
+                    "supportText": null,
+                    "variantPriceString": "$3.97"
+                  },
+                  "unitPrice": {
+                    "currencyUnit": null,
+                    "price": 0.062,
+                    "priceDisplay": null,
+                    "priceString": "6.2 ¢/fl oz",
+                    "priceType": null,
+                    "supportText": null,
+                    "variantPriceString": null
+                  }
+                },
+                "offerId": "OFFER-10315798"
+              },
+              {
+                "__typename": "Product",
+                "usItemId": "10804537",
+                "name": "Great Value Milk 1% Low-fat, Half Gallon, 64 fl oz",
+                "brand": null,
+                "shortDescription": "<li>Low fat milk, Vitamin A palmitate, Vitamin D3</li><li>No artificial growth hormones</li><li>Grade A, pasteurized, homogenized</li><li>1% milkfat</li>",
+                "departmentName": "Food",
+                "category": {
+                  "categoryPathId": "0:976759:9176907:4405816:2534265",
+                  "path": null
+                },
+                "availabilityStatusV2": {
+                  "display": "In stock",
+                  "value": "IN_STOCK"
+                },
+                "fulfillmentType": "STORE",
+                "fulfillmentTitle": "title_store_not_available",
+                "productLocation": null,
+                "fulfillmentSummary": [
+                  {
+                    "fulfillment": "DELIVERY",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": null
+                  },
+                  {
+                    "fulfillment": "DELIVERY",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": null
+                  },
+                  {
+                    "fulfillment": "DELIVERY",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": "2026-08-22T23:00:00.000Z"
+                  },
+                  {
+                    "fulfillment": "PICKUP",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": "2026-08-22T23:00:00.000Z"
+                  }
+                ],
+                "priceInfo": {
+                  "currentPrice": {
+                    "currencyUnit": null,
+                    "price": 1.66,
+                    "priceDisplay": "$1.66",
+                    "priceString": "$1.66",
+                    "priceType": null,
+                    "supportText": null,
+                    "variantPriceString": "$1.66"
+                  },
+                  "unitPrice": {
+                    "currencyUnit": null,
+                    "price": 0.026,
+                    "priceDisplay": null,
+                    "priceString": "2.6 ¢/fl oz",
+                    "priceType": null,
+                    "supportText": null,
+                    "variantPriceString": null
+                  }
+                },
+                "offerId": "OFFER-10804537"
+              },
+              {
+                "__typename": "Product",
+                "usItemId": "10450117",
+                "name": "Great Value Fat-Free Milk, Gallon, 128 fl oz",
+                "brand": null,
+                "shortDescription": "<b>Great Value Skim Milk Gallon:</b><li>Fat free milk, vitamin A palmitate, vitamin D3</li><li>No artificial growth hormones</li><li>Grade A, pasteurized, homogenized</li><li>0% milkfat</li><li>Use in</li>",
+                "departmentName": "Food",
+                "category": {
+                  "categoryPathId": "0:976759:9176907:4405816:5898313",
+                  "path": null
+                },
+                "availabilityStatusV2": {
+                  "display": "In stock",
+                  "value": "IN_STOCK"
+                },
+                "fulfillmentType": "STORE",
+                "fulfillmentTitle": "title_store_not_available",
+                "productLocation": null,
+                "fulfillmentSummary": [
+                  {
+                    "fulfillment": "DELIVERY",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": null
+                  },
+                  {
+                    "fulfillment": "DELIVERY",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": null
+                  },
+                  {
+                    "fulfillment": "DELIVERY",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": "2026-08-22T23:00:00.000Z"
+                  },
+                  {
+                    "fulfillment": "PICKUP",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": "2026-08-22T23:00:00.000Z"
+                  }
+                ],
+                "priceInfo": {
+                  "currentPrice": {
+                    "currencyUnit": null,
+                    "price": 3,
+                    "priceDisplay": "$3.00",
+                    "priceString": "$3.00",
+                    "priceType": null,
+                    "supportText": null,
+                    "variantPriceString": "$3.00"
+                  },
+                  "unitPrice": {
+                    "currencyUnit": null,
+                    "price": 0.023,
+                    "priceDisplay": null,
+                    "priceString": "2.3 ¢/fl oz",
+                    "priceType": null,
+                    "supportText": null,
+                    "variantPriceString": null
+                  }
+                },
+                "offerId": "OFFER-10450117"
+              },
+              {
+                "__typename": "Product",
+                "usItemId": "11979181",
+                "name": "Great Value Lactose Free 2% Reduced Fat Milk, Half Gallon, 64 fl oz",
+                "brand": null,
+                "shortDescription": "<li>Rich in Calcium</li><li>Good source of Vitamin A and Vitamin D</li><li>2% Milkfat</li><li>1/2 gallon</li>",
+                "departmentName": "Food",
+                "category": {
+                  "categoryPathId": "0:976759:9176907:4405816:6541475:2705308:7780162",
+                  "path": null
+                },
+                "availabilityStatusV2": {
+                  "display": "In stock",
+                  "value": "IN_STOCK"
+                },
+                "fulfillmentType": "STORE",
+                "fulfillmentTitle": "title_store_not_available",
+                "productLocation": null,
+                "fulfillmentSummary": [
+                  {
+                    "fulfillment": "DELIVERY",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": null
+                  },
+                  {
+                    "fulfillment": "DELIVERY",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": null
+                  },
+                  {
+                    "fulfillment": "DELIVERY",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": "2026-08-22T23:00:00.000Z"
+                  },
+                  {
+                    "fulfillment": "PICKUP",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": "2026-08-22T23:00:00.000Z"
+                  }
+                ],
+                "priceInfo": {
+                  "currentPrice": {
+                    "currencyUnit": null,
+                    "price": 3.08,
+                    "priceDisplay": "$3.08",
+                    "priceString": "$3.08",
+                    "priceType": null,
+                    "supportText": null,
+                    "variantPriceString": "$3.08"
+                  },
+                  "unitPrice": {
+                    "currencyUnit": null,
+                    "price": 0.048,
+                    "priceDisplay": null,
+                    "priceString": "4.8 ¢/fl oz",
+                    "priceType": null,
+                    "supportText": null,
+                    "variantPriceString": null
+                  }
+                },
+                "offerId": "OFFER-11979181"
+              },
+              {
+                "__typename": "Product",
+                "usItemId": "10309700",
+                "name": "Horizon Organic Vitamin D 2 Percent Milk, Vitamin D Reduced Fat, 64 fl oz Carton",
+                "brand": null,
+                "shortDescription": "<li>2% reduced fat milk with high vitamin D</li><li>Certified USDA Organic</li><li>Non-GMO</li>",
+                "departmentName": "Food",
+                "category": {
+                  "categoryPathId": "0:976759:9176907:4405816:3153553",
+                  "path": null
+                },
+                "availabilityStatusV2": {
+                  "display": "In stock",
+                  "value": "IN_STOCK"
+                },
+                "fulfillmentType": "STORE",
+                "fulfillmentTitle": "title_store_not_available",
+                "productLocation": null,
+                "fulfillmentSummary": [
+                  {
+                    "fulfillment": "DELIVERY",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": null
+                  },
+                  {
+                    "fulfillment": "DELIVERY",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": null
+                  },
+                  {
+                    "fulfillment": "DELIVERY",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": "2026-08-22T23:00:00.000Z"
+                  },
+                  {
+                    "fulfillment": "PICKUP",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": "2026-08-22T23:00:00.000Z"
+                  }
+                ],
+                "priceInfo": {
+                  "currentPrice": {
+                    "currencyUnit": null,
+                    "price": 5.48,
+                    "priceDisplay": "$5.48",
+                    "priceString": "$5.48",
+                    "priceType": null,
+                    "supportText": null,
+                    "variantPriceString": "$5.48"
+                  },
+                  "unitPrice": {
+                    "currencyUnit": null,
+                    "price": 0.086,
+                    "priceDisplay": null,
+                    "priceString": "8.6 ¢/fl oz",
+                    "priceType": null,
+                    "supportText": null,
+                    "variantPriceString": null
+                  }
+                },
+                "offerId": "OFFER-10309700"
+              },
+              {
+                "__typename": "Product",
+                "usItemId": "14244869",
+                "name": "Horizon Organic DHA Omega-3 Whole Milk, DHA Whole, 64 fl oz Carton",
+                "brand": null,
+                "shortDescription": "<li>Whole milk with DHA Omega-3</li><li>Certified USDA Organic</li><li>Non-GMO</li>",
+                "departmentName": "Food",
+                "category": {
+                  "categoryPathId": "0:976759:9176907:4405816:6541475:6877499",
+                  "path": null
+                },
+                "availabilityStatusV2": {
+                  "display": "In stock",
+                  "value": "IN_STOCK"
+                },
+                "fulfillmentType": "STORE",
+                "fulfillmentTitle": "title_store_not_available",
+                "productLocation": null,
+                "fulfillmentSummary": [
+                  {
+                    "fulfillment": "DELIVERY",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": null
+                  },
+                  {
+                    "fulfillment": "DELIVERY",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": null
+                  },
+                  {
+                    "fulfillment": "DELIVERY",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": "2026-08-22T23:00:00.000Z"
+                  },
+                  {
+                    "fulfillment": "PICKUP",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": "2026-08-22T23:00:00.000Z"
+                  }
+                ],
+                "priceInfo": {
+                  "currentPrice": {
+                    "currencyUnit": null,
+                    "price": 5.97,
+                    "priceDisplay": "$5.97",
+                    "priceString": "$5.97",
+                    "priceType": null,
+                    "supportText": null,
+                    "variantPriceString": "$5.97"
+                  },
+                  "unitPrice": {
+                    "currencyUnit": null,
+                    "price": 0.093,
+                    "priceDisplay": null,
+                    "priceString": "9.3 ¢/fl oz",
+                    "priceType": null,
+                    "supportText": null,
+                    "variantPriceString": null
+                  }
+                },
+                "offerId": "OFFER-14244869"
+              },
+              {
+                "__typename": "Product",
+                "usItemId": "12598368729",
+                "name": "Horizon Organic Growing Years Organic Whole Milk for Kids, 59 fl oz Carton",
+                "brand": null,
+                "shortDescription": "Horizon Organic Growing Years Whole Milk with DHA Omega-3, 59 fl oz Carton",
+                "departmentName": "Food",
+                "category": {
+                  "categoryPathId": "0:976759:9176907:4405816:3153553",
+                  "path": null
+                },
+                "availabilityStatusV2": {
+                  "display": "In stock",
+                  "value": "IN_STOCK"
+                },
+                "fulfillmentType": "STORE",
+                "fulfillmentTitle": "title_store_not_available",
+                "productLocation": null,
+                "fulfillmentSummary": [
+                  {
+                    "fulfillment": "DELIVERY",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": null
+                  },
+                  {
+                    "fulfillment": "DELIVERY",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": null
+                  },
+                  {
+                    "fulfillment": "DELIVERY",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": "2026-08-22T23:00:00.000Z"
+                  },
+                  {
+                    "fulfillment": "PICKUP",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": "2026-08-22T23:00:00.000Z"
+                  }
+                ],
+                "priceInfo": {
+                  "currentPrice": {
+                    "currencyUnit": null,
+                    "price": 7.47,
+                    "priceDisplay": "$7.47",
+                    "priceString": "$7.47",
+                    "priceType": null,
+                    "supportText": null,
+                    "variantPriceString": "$7.47"
+                  },
+                  "unitPrice": {
+                    "currencyUnit": null,
+                    "price": 0.127,
+                    "priceDisplay": null,
+                    "priceString": "12.7 ¢/fl oz",
+                    "priceType": null,
+                    "supportText": null,
+                    "variantPriceString": null
+                  }
+                },
+                "offerId": "OFFER-12598368729"
+              },
+              {
+                "__typename": "Product",
+                "usItemId": "10801613",
+                "name": "Lactaid Whole Milk, 64 oz",
+                "brand": null,
+                "shortDescription": "<li>Lactose free</li><li>Easy to digest</li><li>Vitamins A and D</li>",
+                "departmentName": "Food",
+                "category": {
+                  "categoryPathId": "0:976759:9176907:4405816:6541475:6877499",
+                  "path": null
+                },
+                "availabilityStatusV2": {
+                  "display": "In stock",
+                  "value": "IN_STOCK"
+                },
+                "fulfillmentType": "STORE",
+                "fulfillmentTitle": "title_store_not_available",
+                "productLocation": null,
+                "fulfillmentSummary": [
+                  {
+                    "fulfillment": "DELIVERY",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": null
+                  },
+                  {
+                    "fulfillment": "DELIVERY",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": null
+                  },
+                  {
+                    "fulfillment": "DELIVERY",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": "2026-08-22T23:00:00.000Z"
+                  },
+                  {
+                    "fulfillment": "PICKUP",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": "2026-08-22T23:00:00.000Z"
+                  }
+                ],
+                "priceInfo": {
+                  "currentPrice": {
+                    "currencyUnit": null,
+                    "price": 4.48,
+                    "priceDisplay": "$4.48",
+                    "priceString": "$4.48",
+                    "priceType": null,
+                    "supportText": null,
+                    "variantPriceString": "$4.48"
+                  },
+                  "unitPrice": {
+                    "currencyUnit": null,
+                    "price": 0.070,
+                    "priceDisplay": null,
+                    "priceString": "7.0 ¢/fl oz",
+                    "priceType": null,
+                    "supportText": null,
+                    "variantPriceString": null
+                  }
+                },
+                "offerId": "OFFER-10801613"
+              },
+              {
+                "__typename": "Product",
+                "usItemId": "230953422",
+                "name": "Horizon Organic Grassfed Whole Milk, Vitamin D Whole, 59 fl oz Carton",
+                "brand": null,
+                "shortDescription": "<li>Whole Milk</li><li>From grassfed cows</li><li>Certified USDA Organic</li>",
+                "departmentName": "Food",
+                "category": {
+                  "categoryPathId": "0:976759:9176907:4405816:6541475:6877499",
+                  "path": null
+                },
+                "availabilityStatusV2": {
+                  "display": "In stock",
+                  "value": "IN_STOCK"
+                },
+                "fulfillmentType": "STORE",
+                "fulfillmentTitle": "title_store_not_available",
+                "productLocation": null,
+                "fulfillmentSummary": [
+                  {
+                    "fulfillment": "DELIVERY",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": null
+                  },
+                  {
+                    "fulfillment": "DELIVERY",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": null
+                  },
+                  {
+                    "fulfillment": "DELIVERY",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": "2026-08-22T23:00:00.000Z"
+                  },
+                  {
+                    "fulfillment": "PICKUP",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": "2026-08-22T23:00:00.000Z"
+                  }
+                ],
+                "priceInfo": {
+                  "currentPrice": {
+                    "currencyUnit": null,
+                    "price": 7.47,
+                    "priceDisplay": "$7.47",
+                    "priceString": "$7.47",
+                    "priceType": null,
+                    "supportText": null,
+                    "variantPriceString": "$7.47"
+                  },
+                  "unitPrice": {
+                    "currencyUnit": null,
+                    "price": 0.117,
+                    "priceDisplay": null,
+                    "priceString": "11.7 ¢/fl oz",
+                    "priceType": null,
+                    "supportText": null,
+                    "variantPriceString": null
+                  }
+                },
+                "offerId": "OFFER-230953422"
+              },
+              {
+                "__typename": "Product",
+                "usItemId": "10450120",
+                "name": "Great Value Milk, Fat Free, Unflavored, Half Gallon, 64 oz Jug",
+                "brand": null,
+                "shortDescription": "<li>Fat free milk, Vitamin A palmitate, Vitamin D3</li><li>No artificial growth hormones</li><li>Grade A, pasteurized, homogenized</li><li>0% milkfat</li>",
+                "departmentName": "Food",
+                "category": {
+                  "categoryPathId": "0:976759:9176907:4405816:5898313",
+                  "path": null
+                },
+                "availabilityStatusV2": {
+                  "display": "In stock",
+                  "value": "IN_STOCK"
+                },
+                "fulfillmentType": "STORE",
+                "fulfillmentTitle": "title_store_not_available",
+                "productLocation": null,
+                "fulfillmentSummary": [
+                  {
+                    "fulfillment": "DELIVERY",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": null
+                  },
+                  {
+                    "fulfillment": "DELIVERY",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": null
+                  },
+                  {
+                    "fulfillment": "DELIVERY",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": "2026-08-22T23:00:00.000Z"
+                  },
+                  {
+                    "fulfillment": "PICKUP",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": "2026-08-22T23:00:00.000Z"
+                  }
+                ],
+                "priceInfo": {
+                  "currentPrice": {
+                    "currencyUnit": null,
+                    "price": 1.62,
+                    "priceDisplay": "$1.62",
+                    "priceString": "$1.62",
+                    "priceType": null,
+                    "supportText": null,
+                    "variantPriceString": "$1.62"
+                  },
+                  "unitPrice": {
+                    "currencyUnit": null,
+                    "price": 0.025,
+                    "priceDisplay": null,
+                    "priceString": "2.5 ¢/fl oz",
+                    "priceType": null,
+                    "supportText": null,
+                    "variantPriceString": null
+                  }
+                },
+                "offerId": "OFFER-10450120"
+              },
+              {
+                "__typename": "Product",
+                "usItemId": "124314525",
+                "name": "Maola Whole Milk, Vitamin D, Half Gallon",
+                "brand": null,
+                "shortDescription": "Maola Vitamin D Milk HG",
+                "departmentName": "Food",
+                "category": {
+                  "categoryPathId": "0:976759:9176907:4405816:6541475:6877499",
+                  "path": null
+                },
+                "availabilityStatusV2": {
+                  "display": "In stock",
+                  "value": "IN_STOCK"
+                },
+                "fulfillmentType": "STORE",
+                "fulfillmentTitle": "title_store_not_available",
+                "productLocation": null,
+                "fulfillmentSummary": [
+                  {
+                    "fulfillment": "DELIVERY",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": null
+                  },
+                  {
+                    "fulfillment": "DELIVERY",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": null
+                  },
+                  {
+                    "fulfillment": "DELIVERY",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": "2026-08-22T23:00:00.000Z"
+                  },
+                  {
+                    "fulfillment": "PICKUP",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": "2026-08-22T23:00:00.000Z"
+                  }
+                ],
+                "priceInfo": {
+                  "currentPrice": {
+                    "currencyUnit": null,
+                    "price": 3.98,
+                    "priceDisplay": "$3.98",
+                    "priceString": "$3.98",
+                    "priceType": null,
+                    "supportText": null,
+                    "variantPriceString": "$3.98"
+                  },
+                  "unitPrice": {
+                    "currencyUnit": null,
+                    "price": 0.062,
+                    "priceDisplay": null,
+                    "priceString": "6.2 ¢/fl oz",
+                    "priceType": null,
+                    "supportText": null,
+                    "variantPriceString": null
+                  }
+                },
+                "offerId": "OFFER-124314525"
+              },
+              {
+                "__typename": "Product",
+                "usItemId": "10801608",
+                "name": "Lactaid 2% Reduced Fat Milk, 64 oz",
+                "brand": null,
+                "shortDescription": "<li>Lactose Free</li><li>Free From Gluten</li><li>Kosher</li>",
+                "departmentName": "Food",
+                "category": {
+                  "categoryPathId": "0:976759:9176907:4405816:4288431",
+                  "path": null
+                },
+                "availabilityStatusV2": {
+                  "display": "In stock",
+                  "value": "IN_STOCK"
+                },
+                "fulfillmentType": "STORE",
+                "fulfillmentTitle": "title_store_not_available",
+                "productLocation": null,
+                "fulfillmentSummary": [
+                  {
+                    "fulfillment": "DELIVERY",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": null
+                  },
+                  {
+                    "fulfillment": "DELIVERY",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": null
+                  },
+                  {
+                    "fulfillment": "DELIVERY",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": "2026-08-22T23:00:00.000Z"
+                  },
+                  {
+                    "fulfillment": "PICKUP",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": "2026-08-22T23:00:00.000Z"
+                  }
+                ],
+                "priceInfo": {
+                  "currentPrice": {
+                    "currencyUnit": null,
+                    "price": 4.48,
+                    "priceDisplay": "$4.48",
+                    "priceString": "$4.48",
+                    "priceType": null,
+                    "supportText": null,
+                    "variantPriceString": "$4.48"
+                  },
+                  "unitPrice": {
+                    "currencyUnit": null,
+                    "price": 0.070,
+                    "priceDisplay": null,
+                    "priceString": "7.0 ¢/fl oz",
+                    "priceType": null,
+                    "supportText": null,
+                    "variantPriceString": null
+                  }
+                },
+                "offerId": "OFFER-10801608"
+              },
+              {
+                "__typename": "Product",
+                "usItemId": "10315797",
+                "name": "Great Value Organic 2% Reduced Fat Milk, Half Gallon, 64 fl oz",
+                "brand": null,
+                "shortDescription": "<li>Organic 2% reduced fat milk</li><li>Gluten-free and USDA organic certified</li><li>38% less fat than whole milk</li><li>120 calories per serving</li>",
+                "departmentName": "Food",
+                "category": {
+                  "categoryPathId": "0:976759:9176907:4405816:3153553",
+                  "path": null
+                },
+                "availabilityStatusV2": {
+                  "display": "In stock",
+                  "value": "IN_STOCK"
+                },
+                "fulfillmentType": "STORE",
+                "fulfillmentTitle": "title_store_not_available",
+                "productLocation": null,
+                "fulfillmentSummary": [
+                  {
+                    "fulfillment": "DELIVERY",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": null
+                  },
+                  {
+                    "fulfillment": "DELIVERY",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": null
+                  },
+                  {
+                    "fulfillment": "DELIVERY",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": "2026-08-22T23:00:00.000Z"
+                  },
+                  {
+                    "fulfillment": "PICKUP",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": "2026-08-22T23:00:00.000Z"
+                  }
+                ],
+                "priceInfo": {
+                  "currentPrice": {
+                    "currencyUnit": null,
+                    "price": 3.97,
+                    "priceDisplay": "$3.97",
+                    "priceString": "$3.97",
+                    "priceType": null,
+                    "supportText": null,
+                    "variantPriceString": "$3.97"
+                  },
+                  "unitPrice": {
+                    "currencyUnit": null,
+                    "price": 0.062,
+                    "priceDisplay": null,
+                    "priceString": "6.2 ¢/fl oz",
+                    "priceType": null,
+                    "supportText": null,
+                    "variantPriceString": null
+                  }
+                },
+                "offerId": "OFFER-10315797"
+              },
+              {
+                "__typename": "Product",
+                "usItemId": "911943820",
+                "name": "Horizon Organic Grassfed 2 Percent Milk, Reduced Fat, 59 fl oz Carton",
+                "brand": null,
+                "shortDescription": "<li>2% reduced fat milk</li><li>From grassfed cows</li><li>Certified USDA Organic</li>",
+                "departmentName": "Food",
+                "category": {
+                  "categoryPathId": "0:976759:9176907:4405816:4288431",
+                  "path": null
+                },
+                "availabilityStatusV2": {
+                  "display": "In stock",
+                  "value": "IN_STOCK"
+                },
+                "fulfillmentType": "STORE",
+                "fulfillmentTitle": "title_store_not_available",
+                "productLocation": null,
+                "fulfillmentSummary": [
+                  {
+                    "fulfillment": "DELIVERY",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": null
+                  },
+                  {
+                    "fulfillment": "DELIVERY",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": null
+                  },
+                  {
+                    "fulfillment": "DELIVERY",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": "2026-08-22T23:00:00.000Z"
+                  },
+                  {
+                    "fulfillment": "PICKUP",
+                    "fulfillmentMethods": [
+                      "SCHEDULED"
+                    ],
+                    "deliveryDate": "2026-08-22T23:00:00.000Z"
+                  }
+                ],
+                "priceInfo": {
+                  "currentPrice": {
+                    "currencyUnit": null,
+                    "price": 7.47,
+                    "priceDisplay": "$7.47",
+                    "priceString": "$7.47",
+                    "priceType": null,
+                    "supportText": null,
+                    "variantPriceString": "$7.47"
+                  },
+                  "unitPrice": {
+                    "currencyUnit": null,
+                    "price": 0.117,
+                    "priceDisplay": null,
+                    "priceString": "11.7 ¢/fl oz",
+                    "priceType": null,
+                    "supportText": null,
+                    "variantPriceString": null
+                  }
+                },
+                "offerId": "OFFER-911943820"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "contentLayout": {
+      "modules": [
+        {
+          "configs": {
+            "allSortAndFilterFacets": [
+              {
+                "type": "cat_id",
+                "name": "Departments",
+                "values": [
+                  {
+                    "id": "976759",
+                    "name": "Food",
+                    "count": null
+                  },
+                  {
+                    "id": "976760",
+                    "name": "Health and Medicine",
+                    "count": null
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

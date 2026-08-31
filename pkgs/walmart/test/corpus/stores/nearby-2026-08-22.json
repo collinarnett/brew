@@ -1,0 +1,458 @@
+{
+  "data": {
+    "nearByNodes": {
+      "nodes": [
+        {
+          "id": "10",
+          "displayName": "Store 0",
+          "address": {
+            "city": "Springfield",
+            "state": "XX",
+            "postalCode": "00000"
+          },
+          "nodeDistance": {
+            "unitOfMeasure": "MI",
+            "value": 3.36
+          },
+          "capabilities": [
+            {
+              "accessPointType": "DELIVERY_ADDRESS"
+            },
+            {
+              "accessPointType": "PICKUP_INSTORE"
+            },
+            {
+              "accessPointType": "PICKUP_CURBSIDE"
+            },
+            {
+              "accessPointType": "DELIVERY_ADDRESS"
+            },
+            {
+              "accessPointType": "DELIVERY_ADDRESS"
+            }
+          ]
+        },
+        {
+          "id": "11",
+          "displayName": "Store 1",
+          "address": {
+            "city": "Springfield",
+            "state": "XX",
+            "postalCode": "00000"
+          },
+          "nodeDistance": {
+            "unitOfMeasure": "MI",
+            "value": 4.19
+          },
+          "capabilities": [
+            {
+              "accessPointType": "PICKUP_CURBSIDE"
+            },
+            {
+              "accessPointType": "DELIVERY_ADDRESS"
+            },
+            {
+              "accessPointType": "PICKUP_INSTORE"
+            },
+            {
+              "accessPointType": "DELIVERY_ADDRESS"
+            },
+            {
+              "accessPointType": "DELIVERY_ADDRESS"
+            }
+          ]
+        },
+        {
+          "id": "12",
+          "displayName": "Store 2",
+          "address": {
+            "city": "Springfield",
+            "state": "XX",
+            "postalCode": "00000"
+          },
+          "nodeDistance": {
+            "unitOfMeasure": "MI",
+            "value": 5.46
+          },
+          "capabilities": [
+            {
+              "accessPointType": "PICKUP_INSTORE"
+            },
+            {
+              "accessPointType": "PICKUP_CURBSIDE"
+            },
+            {
+              "accessPointType": "DELIVERY_ADDRESS"
+            },
+            {
+              "accessPointType": "DELIVERY_ADDRESS"
+            },
+            {
+              "accessPointType": "DELIVERY_ADDRESS"
+            }
+          ]
+        },
+        {
+          "id": "13",
+          "displayName": "Store 3",
+          "address": {
+            "city": "Springfield",
+            "state": "XX",
+            "postalCode": "00000"
+          },
+          "nodeDistance": {
+            "unitOfMeasure": "MI",
+            "value": 7.33
+          },
+          "capabilities": [
+            {
+              "accessPointType": "PICKUP_INSTORE"
+            },
+            {
+              "accessPointType": "DELIVERY_ADDRESS"
+            },
+            {
+              "accessPointType": "PICKUP_CURBSIDE"
+            },
+            {
+              "accessPointType": "DELIVERY_ADDRESS"
+            },
+            {
+              "accessPointType": "DELIVERY_ADDRESS"
+            }
+          ]
+        },
+        {
+          "id": "14",
+          "displayName": "Store 4",
+          "address": {
+            "city": "Springfield",
+            "state": "XX",
+            "postalCode": "00000"
+          },
+          "nodeDistance": {
+            "unitOfMeasure": "MI",
+            "value": 7.75
+          },
+          "capabilities": [
+            {
+              "accessPointType": "PICKUP_INSTORE"
+            },
+            {
+              "accessPointType": "PICKUP_CURBSIDE"
+            },
+            {
+              "accessPointType": "DELIVERY_ADDRESS"
+            },
+            {
+              "accessPointType": "DELIVERY_ADDRESS"
+            },
+            {
+              "accessPointType": "DELIVERY_ADDRESS"
+            }
+          ]
+        },
+        {
+          "id": "15",
+          "displayName": "Store 5",
+          "address": {
+            "city": "Springfield",
+            "state": "XX",
+            "postalCode": "00000"
+          },
+          "nodeDistance": {
+            "unitOfMeasure": "MI",
+            "value": 7.83
+          },
+          "capabilities": [
+            {
+              "accessPointType": "DELIVERY_ADDRESS"
+            },
+            {
+              "accessPointType": "PICKUP_INSTORE"
+            },
+            {
+              "accessPointType": "DELIVERY_ADDRESS"
+            },
+            {
+              "accessPointType": "PICKUP_CURBSIDE"
+            },
+            {
+              "accessPointType": "DELIVERY_ADDRESS"
+            }
+          ]
+        },
+        {
+          "id": "16",
+          "displayName": "Store 6",
+          "address": {
+            "city": "Springfield",
+            "state": "XX",
+            "postalCode": "00000"
+          },
+          "nodeDistance": {
+            "unitOfMeasure": "MI",
+            "value": 9.93
+          },
+          "capabilities": [
+            {
+              "accessPointType": "DELIVERY_ADDRESS"
+            },
+            {
+              "accessPointType": "DELIVERY_ADDRESS"
+            },
+            {
+              "accessPointType": "PICKUP_INSTORE"
+            },
+            {
+              "accessPointType": "DELIVERY_ADDRESS"
+            },
+            {
+              "accessPointType": "PICKUP_CURBSIDE"
+            }
+          ]
+        },
+        {
+          "id": "17",
+          "displayName": "Store 7",
+          "address": {
+            "city": "Springfield",
+            "state": "XX",
+            "postalCode": "00000"
+          },
+          "nodeDistance": {
+            "unitOfMeasure": "MI",
+            "value": 11.61
+          },
+          "capabilities": [
+            {
+              "accessPointType": "DELIVERY_ADDRESS"
+            },
+            {
+              "accessPointType": "PICKUP_CURBSIDE"
+            },
+            {
+              "accessPointType": "PICKUP_INSTORE"
+            },
+            {
+              "accessPointType": "DELIVERY_ADDRESS"
+            },
+            {
+              "accessPointType": "DELIVERY_ADDRESS"
+            }
+          ]
+        },
+        {
+          "id": "18",
+          "displayName": "Store 8",
+          "address": {
+            "city": "Springfield",
+            "state": "XX",
+            "postalCode": "00000"
+          },
+          "nodeDistance": {
+            "unitOfMeasure": "MI",
+            "value": 11.74
+          },
+          "capabilities": [
+            {
+              "accessPointType": "PICKUP_CURBSIDE"
+            },
+            {
+              "accessPointType": "DELIVERY_ADDRESS"
+            },
+            {
+              "accessPointType": "DELIVERY_ADDRESS"
+            },
+            {
+              "accessPointType": "DELIVERY_ADDRESS"
+            },
+            {
+              "accessPointType": "PICKUP_INSTORE"
+            }
+          ]
+        },
+        {
+          "id": "19",
+          "displayName": "Store 9",
+          "address": {
+            "city": "Springfield",
+            "state": "XX",
+            "postalCode": "00000"
+          },
+          "nodeDistance": {
+            "unitOfMeasure": "MI",
+            "value": 14.71
+          },
+          "capabilities": [
+            {
+              "accessPointType": "DELIVERY_ADDRESS"
+            },
+            {
+              "accessPointType": "DELIVERY_ADDRESS"
+            },
+            {
+              "accessPointType": "PICKUP_CURBSIDE"
+            },
+            {
+              "accessPointType": "DELIVERY_ADDRESS"
+            },
+            {
+              "accessPointType": "PICKUP_INSTORE"
+            }
+          ]
+        },
+        {
+          "id": "110",
+          "displayName": "Store 10",
+          "address": {
+            "city": "Springfield",
+            "state": "XX",
+            "postalCode": "00000"
+          },
+          "nodeDistance": {
+            "unitOfMeasure": "MI",
+            "value": 15.23
+          },
+          "capabilities": [
+            {
+              "accessPointType": "PICKUP_CURBSIDE"
+            },
+            {
+              "accessPointType": "DELIVERY_ADDRESS"
+            },
+            {
+              "accessPointType": "DELIVERY_ADDRESS"
+            },
+            {
+              "accessPointType": "DELIVERY_ADDRESS"
+            },
+            {
+              "accessPointType": "PICKUP_INSTORE"
+            }
+          ]
+        },
+        {
+          "id": "111",
+          "displayName": "Store 11",
+          "address": {
+            "city": "Springfield",
+            "state": "XX",
+            "postalCode": "00000"
+          },
+          "nodeDistance": {
+            "unitOfMeasure": "MI",
+            "value": 16.94
+          },
+          "capabilities": [
+            {
+              "accessPointType": "DELIVERY_ADDRESS"
+            },
+            {
+              "accessPointType": "PICKUP_INSTORE"
+            },
+            {
+              "accessPointType": "PICKUP_CURBSIDE"
+            },
+            {
+              "accessPointType": "DELIVERY_ADDRESS"
+            },
+            {
+              "accessPointType": "DELIVERY_ADDRESS"
+            }
+          ]
+        },
+        {
+          "id": "112",
+          "displayName": "Store 12",
+          "address": {
+            "city": "Springfield",
+            "state": "XX",
+            "postalCode": "00000"
+          },
+          "nodeDistance": {
+            "unitOfMeasure": "MI",
+            "value": 19.03
+          },
+          "capabilities": [
+            {
+              "accessPointType": "PICKUP_CURBSIDE"
+            },
+            {
+              "accessPointType": "PICKUP_INSTORE"
+            },
+            {
+              "accessPointType": "DELIVERY_ADDRESS"
+            },
+            {
+              "accessPointType": "DELIVERY_ADDRESS"
+            },
+            {
+              "accessPointType": "DELIVERY_ADDRESS"
+            }
+          ]
+        },
+        {
+          "id": "113",
+          "displayName": "Store 13",
+          "address": {
+            "city": "Springfield",
+            "state": "XX",
+            "postalCode": "00000"
+          },
+          "nodeDistance": {
+            "unitOfMeasure": "MI",
+            "value": 19.24
+          },
+          "capabilities": [
+            {
+              "accessPointType": "DELIVERY_ADDRESS"
+            },
+            {
+              "accessPointType": "PICKUP_INSTORE"
+            },
+            {
+              "accessPointType": "DELIVERY_ADDRESS"
+            },
+            {
+              "accessPointType": "DELIVERY_ADDRESS"
+            },
+            {
+              "accessPointType": "PICKUP_CURBSIDE"
+            }
+          ]
+        },
+        {
+          "id": "114",
+          "displayName": "Store 14",
+          "address": {
+            "city": "Springfield",
+            "state": "XX",
+            "postalCode": "00000"
+          },
+          "nodeDistance": {
+            "unitOfMeasure": "MI",
+            "value": 19.74
+          },
+          "capabilities": [
+            {
+              "accessPointType": "DELIVERY_ADDRESS"
+            },
+            {
+              "accessPointType": "DELIVERY_ADDRESS"
+            },
+            {
+              "accessPointType": "PICKUP_CURBSIDE"
+            },
+            {
+              "accessPointType": "PICKUP_INSTORE"
+            },
+            {
+              "accessPointType": "DELIVERY_ADDRESS"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

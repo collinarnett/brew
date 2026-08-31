@@ -1,0 +1,14 @@
+{
+  "data": {
+    "updateItems": {
+      "id": "00000000-0000-0000-0000-000000000000",
+      "fulfillment": {
+        "storeId": 1234,
+        "intent": "DELIVERY",
+        "isExplicitIntent": false
+      },
+      "lineItems": [],
+      "priceDetails": null
+    }
+  }
+}

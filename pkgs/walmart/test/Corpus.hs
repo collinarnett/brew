@@ -12,6 +12,16 @@ module Corpus
   , chunkFiles
   , searchResponseFile
   , mixedTilesFile
+  , storesFile
+  , cartFile
+  , slotsFile
+  , cartOneLineFile
+  , cartAddedFile
+  , cartEmptiedFile
+  , cartReservedFile
+  , cartCancelledFile
+  , cartStoreSwitchedFile
+  , productPages
   , readCorpus
   ) where
 
@@ -66,3 +76,35 @@ mixedTilesFile = corpusRoot </> "search" </> "milk-mixed-tiles-2026-08-22.json"
 -- be valid UTF-8.
 readCorpus :: FilePath -> IO Text
 readCorpus path = TE.decodeUtf8Lenient <$> BS.readFile path
+
+-- | Captures from the store finder, the cart and the slot gateways,
+-- projected to the fields the parsers read. Store ids, names, places
+-- and the cart id are replaced by placeholders: the originals locate a
+-- person, and the parsers do not care what they say.
+storesFile, cartFile, slotsFile :: FilePath
+storesFile = corpusRoot </> "stores" </> "nearby-2026-08-22.json"
+cartFile   = corpusRoot </> "cart" </> "empty-2026-08-22.json"
+slotsFile  = corpusRoot </> "slots" </> "delivery-2026-08-22.json"
+
+-- | The same cart holding one line, and the two updateItems answers
+-- that put it there and took it out again.
+cartOneLineFile, cartAddedFile, cartEmptiedFile :: FilePath
+cartOneLineFile = corpusRoot </> "cart" </> "one-line-2026-08-22.json"
+cartAddedFile   = corpusRoot </> "cart" </> "update-added-2026-08-22.json"
+cartEmptiedFile = corpusRoot </> "cart" </> "update-emptied-2026-08-22.json"
+
+-- | The cart as the slot reservation, its cancellation, and a store
+-- switch each answered.
+cartReservedFile, cartCancelledFile, cartStoreSwitchedFile :: FilePath
+cartReservedFile      = corpusRoot </> "cart" </> "reserved-2026-08-22.json"
+cartCancelledFile     = corpusRoot </> "cart" </> "cancelled-2026-08-22.json"
+cartStoreSwitchedFile = corpusRoot </> "cart" </> "store-switched-2026-08-22.json"
+
+-- | Product pages as lightpanda renders them, cut down to the page
+-- skeleton around the embedded data and that data projected to the
+-- fields the parser reads. One is sold by the each, one by weight.
+productPages :: [(String, FilePath)]
+productPages =
+  [ ("milk",  corpusRoot </> "product" </> "milk-10450114.html")
+  , ("beef",  corpusRoot </> "product" </> "beef-824841960.html")
+  ]

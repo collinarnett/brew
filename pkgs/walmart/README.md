@@ -15,6 +15,11 @@ Right result  <- Walmart.searchProducts env query
 - `searchProducts` — catalogue search, optionally restricted to a
   category, returning products alongside the categories Walmart offers
   to narrow the same search.
+- `findStores` — stores around a postal code, nearest first.
+- `getCart` — the session's cart and the store it is assorted against.
+- `getSlots` — delivery or pickup slots offered to the cart, by day.
+- `probe` — any catalogued operation with hand-built variables, for
+  learning a gateway's expectations before modelling it.
 
 ## Endpoint hashes are discovered, never written down
 

@@ -1,0 +1,17 @@
+{
+  "data": {
+    "fulfillmentMutations": {
+      "setDeliveryStore": {
+        "id": "00000000-0000-0000-0000-000000000000",
+        "fulfillment": {
+          "storeId": 4321,
+          "intent": "DELIVERY",
+          "isExplicitIntent": false,
+          "reservation": null
+        },
+        "lineItems": [],
+        "priceDetails": null
+      }
+    }
+  }
+}

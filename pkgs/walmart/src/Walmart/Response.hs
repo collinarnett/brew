@@ -8,6 +8,17 @@ module Walmart.Response
   ( parseOrderSummaries
   , parseWalmartOrder
   , parseSearchResult
+  , parseStores
+  , parseCart
+  , parseCartUpdate
+  , parseReservedCart
+  , parseCancelledCart
+  , parseStoreSwitchedCart
+  , parseSlotSchedule
+  , extractNextData
+  , parseProductDetail
+  , netContentSpecifications
+  , Rejection (..)
   , graphQLRejection
   ) where
 
@@ -20,7 +31,8 @@ import Data.Monoid (First (..))
 import Data.Scientific (Scientific)
 import Data.Text (Text)
 import Data.Text qualified as T
-import Data.Time (UTCTime)
+import Data.Time (Day, UTCTime, zonedTimeToUTC)
+import Data.Time.Format.ISO8601 (iso8601ParseM)
 import Data.Vector qualified as V
 import Money (Discrete, discrete)
 
@@ -173,6 +185,7 @@ parseTile = withObject "tile" $ \obj -> do
 parseProductSummary :: Value -> Parser ProductSummary
 parseProductSummary = withObject "item" $ \obj -> do
   usItemId     <- UsItemId <$> obj .: "usItemId"
+  offerId      <- OfferId <$> obj .: "offerId"
   name         <- obj .: "name"
   brand        <- obj .:? "brand"
   description  <- obj .:? "shortDescription"
@@ -184,6 +197,7 @@ parseProductSummary = withObject "item" $ \obj -> do
   fulfillment  <- parseFulfillment obj
   pure ProductSummary
     { psUsItemId      = usItemId
+    , psOfferId       = offerId
     , psName          = name
     , psBrand         = brand
     , psPrice         = price
@@ -271,16 +285,32 @@ parseFacetValue = withObject "facetValue" $ \obj -> do
 -- shaped like this is a refusal however healthy the transport looked.
 -- A response with both data and errors is a partial success and is left
 -- alone.
-graphQLRejection :: Value -> Maybe Text
+-- | Why a gateway refused a request outright.
+data Rejection
+    -- | Every error is a variables validation, so the hash was accepted
+    -- and the request itself is wrong. Each message names a variable.
+  = VariablesRejected [Text]
+    -- | Anything else: the persisted query is unknown or retired.
+  | QueryRejected Text
+  deriving stock (Show, Eq)
+
+graphQLRejection :: Value -> Maybe Rejection
 graphQLRejection value = case value of
   Object obj
     | Nothing <- KM.lookup "data" obj
-    , Just errs <- KM.lookup "errors" obj -> Just (renderErrors errs)
+    , Just errs <- KM.lookup "errors" obj -> Just (classifyErrors errs)
   _notARejection -> Nothing
   where
-    renderErrors errs = case errs of
-      Array messages -> T.intercalate "; " (map messageOf (V.toList messages))
-      other          -> T.pack (show other)
+    classifyErrors errs = case errs of
+      Array messages
+        | not (V.null messages), all isValidation messages ->
+            VariablesRejected (map messageOf (V.toList messages))
+        | otherwise -> QueryRejected (T.intercalate "; " (map messageOf (V.toList messages)))
+      other -> QueryRejected (T.pack (show other))
+    isValidation (Object err) = case KM.lookup "extensions" err of
+      Just (Object ext) | Just (String code) <- KM.lookup "code" ext -> "VALIDATION_" `T.isPrefixOf` code
+      _noCode -> False
+    isValidation _ = False
     messageOf (Object err) = case KM.lookup "message" err of
       Just (String msg) -> msg
       other             -> T.pack (show other)
@@ -330,3 +360,292 @@ parseStoreContext = withObject "contentLayout" $ \obj -> do
           mStoreId <- location .:? "storeId"
           postalCode <- location .:? "postalCode"
           pure $ fmap (\sid -> StoreContext { scStoreId = sid, scPostalCode = postalCode }) mStoreId
+
+parseStores :: Value -> Either String [Store]
+parseStores = parseEither $ withObject "response" $ \obj -> do
+  d <- obj .: "data"
+  nearby <- d .: "nearByNodes"
+  nodes <- nearby .: "nodes"
+  traverse parseStore nodes
+
+parseStore :: Value -> Parser Store
+parseStore = withObject "node" $ \obj -> do
+  sid      <- StoreId <$> obj .: "id"
+  name     <- obj .: "displayName"
+  address  <- obj .: "address"
+  city     <- address .: "city"
+  state    <- address .: "state"
+  postal   <- PostalCode <$> address .: "postalCode"
+  distance <- (.: "value") =<< obj .: "nodeDistance"
+  caps     <- obj .:? "capabilities" .!= ([] :: [Object])
+  access   <- traverse (fmap parseAccessType . (.: "accessPointType")) caps
+  pure Store
+    { storeId            = sid
+    , storeName          = name
+    , storeCity          = city
+    , storeState         = state
+    , storePostalCode    = postal
+    , storeDistanceMiles = distance
+    , storeAccessTypes   = dedupe access
+    }
+  where
+    dedupe = Map.keys . Map.fromList . map (\a -> (a, ()))
+
+parseAccessType :: Text -> AccessType
+parseAccessType "DELIVERY_ADDRESS" = DeliveryAddress
+parseAccessType "PICKUP_INSTORE"   = PickupInStore
+parseAccessType "PICKUP_CURBSIDE"  = PickupCurbside
+parseAccessType other              = UnknownAccessType other
+
+parseCart :: Value -> Either String Cart
+parseCart = parseEither $ withObject "response" $ \obj -> do
+  d <- obj .: "data"
+  parseCartObject =<< d .: "cart"
+
+-- | A cart mutation answers with the lines it left and their subtotal.
+parseCartUpdate :: Value -> Either String CartReceipt
+parseCartUpdate = parseEither $ withObject "response" $ \obj -> do
+  d <- obj .: "data"
+  cart <- d .: "updateItems"
+  cid <- CartId <$> cart .: "id"
+  lineItems <- traverse parseReceiptLine =<< cart .:? "lineItems" .!= []
+  subtotal <- traverse (\pd -> dollarsToCents <$> ((.: "value") =<< pd .: "subTotal")) =<< cart .:? "priceDetails"
+  pure CartReceipt { crCartId = cid, crLines = lineItems, crSubtotal = subtotal }
+
+parseReceiptLine :: Value -> Parser ReceiptLine
+parseReceiptLine = withObject "lineItem" $ \obj -> do
+  item     <- obj .: "product"
+  usItemId <- UsItemId <$> item .: "usItemId"
+  offerId  <- OfferId <$> item .: "offerId"
+  quantity <- obj .: "quantity"
+  price    <- dollarsToCents <$> ((.: "value") =<< (.: "linePrice") =<< obj .: "priceInfo")
+  pure ReceiptLine
+    { rlUsItemId  = usItemId
+    , rlOfferId   = offerId
+    , rlQuantity  = quantity
+    , rlLinePrice = price
+    }
+
+parseCartObject :: Object -> Parser Cart
+parseCartObject cart = do
+  cid <- CartId <$> cart .: "id"
+  fulfillment <- cart .: "fulfillment"
+  -- Walmart reports the store id as a number here and as a string
+  -- everywhere else.
+  sid <- StoreId . T.pack . show <$> (fulfillment .: "storeId" :: Parser Int)
+  intent <- parseIntent =<< fulfillment .: "intent"
+  explicit <- fulfillment .:? "isExplicitIntent"
+  lineItems <- traverse parseCartLine =<< cart .:? "lineItems" .!= []
+  totals <- traverse parseCartTotals =<< cart .:? "priceDetails"
+  reservation <- traverse parseReservation =<< fulfillment .:? "reservation"
+  pure Cart
+    { cartId             = cid
+    , cartStoreId        = sid
+    , cartIntent         = intent
+    , cartStoreChoice    = case explicit of
+        Just True  -> ChosenStore
+        Just False -> InferredStore
+        Nothing    -> UnstatedStore
+    , cartLines          = lineItems
+    , cartTotals         = totals
+    , cartReservation    = reservation
+    }
+
+-- | Each cart mutation answers with the cart it produced, under its
+-- own name.
+parseReservedCart, parseCancelledCart, parseStoreSwitchedCart :: Value -> Either String Cart
+parseReservedCart = parseEither $ withObject "response" $ \obj ->
+  parseCartObject =<< (.: "reserveSlot") =<< obj .: "data"
+parseCancelledCart = parseEither $ withObject "response" $ \obj ->
+  parseCartObject =<< (.: "cancelReservation") =<< obj .: "data"
+parseStoreSwitchedCart = parseEither $ withObject "response" $ \obj ->
+  parseCartObject =<< (.: "setDeliveryStore") =<< (.: "fulfillmentMutations") =<< obj .: "data"
+
+parseReservation :: Object -> Parser Reservation
+parseReservation obj = do
+  rid    <- ReservationId <$> obj .: "id"
+  expiry <- parseInstant =<< obj .: "expiryTime"
+  held   <- obj .: "reservedSlot"
+  sid    <- SlotId <$> held .: "id"
+  kind   <- held .: "__typename"
+  timing <- parseSlotTiming kind held
+  fee    <- dollarsToCents <$> ((.: "value") =<< (.: "total") =<< held .: "price")
+  pure Reservation
+    { reservationId     = rid
+    , reservationExpiry = expiry
+    , reservationSlot   = ReservedSlot { rsSlotId = sid, rsTiming = timing, rsFee = fee }
+    }
+
+parseCartLine :: Value -> Parser CartLine
+parseCartLine = withObject "lineItem" $ \obj -> do
+  item     <- obj .: "product"
+  usItemId <- UsItemId <$> item .: "usItemId"
+  offerId  <- OfferId <$> item .: "offerId"
+  name     <- item .: "name"
+  unit     <- parseSalesUnitType =<< item .: "salesUnitType"
+  avail    <- item .:? "availabilityStatus"
+  quantity <- obj .: "quantity"
+  price    <- dollarsToCents <$> ((.: "value") =<< (.: "linePrice") =<< obj .: "priceInfo")
+  pure CartLine
+    { clUsItemId      = usItemId
+    , clOfferId       = offerId
+    , clName          = name
+    , clQuantity      = quantity
+    , clSalesUnitType = unit
+    , clLinePrice     = price
+    , clAvailability  = avail
+    }
+
+parseCartTotals :: Object -> Parser CartTotals
+parseCartTotals obj = do
+  subtotal <- amountOf =<< obj .: "subTotal"
+  total    <- traverse amountOf =<< obj .:? "grandTotal"
+  minimum_ <- traverse amountOf =<< obj .:? "minimumThreshold"
+  fee      <- traverse amountOf =<< obj .:? "belowMinimumFee"
+  pure CartTotals
+    { ctSubtotal        = subtotal
+    , ctEstimatedTotal  = total
+    , ctOrderMinimum    = minimum_
+    , ctBelowMinimumFee = fee
+    }
+  where
+    amountOf :: Object -> Parser (Discrete "USD" "cent")
+    amountOf o = dollarsToCents <$> o .: "value"
+
+parseIntent :: Text -> Parser FulfillmentIntent
+parseIntent "DELIVERY" = pure DeliveryIntent
+parseIntent "PICKUP"   = pure PickupIntent
+parseIntent other      = fail ("unknown fulfillment intent: " <> show other)
+
+parseSlotSchedule :: Value -> Either String SlotSchedule
+parseSlotSchedule = parseEither $ withObject "response" $ \obj -> do
+  d <- obj .: "data"
+  slots <- d .: "slots"
+  accessPoints <- traverse parseAccessPoint =<< slots .:? "accessPoints" .!= []
+  days <- traverse parseSlotDay =<< slots .:? "slotDays" .!= []
+  pure SlotSchedule { ssAccessPoints = accessPoints, ssDays = days }
+
+parseAccessPoint :: Value -> Parser SlotAccessPoint
+parseAccessPoint = withObject "accessPoint" $ \obj -> do
+  apid <- AccessPointId <$> obj .: "id"
+  name <- obj .: "displayName"
+  sid  <- StoreId <$> obj .: "assortmentStoreId"
+  pure SlotAccessPoint { apId = apid, apName = name, apStoreId = sid }
+
+parseSlotDay :: Value -> Parser SlotDay
+parseSlotDay = withObject "slotDay" $ \obj -> do
+  day   <- parseDay =<< obj .: "day"
+  slots <- traverse parseSlot =<< obj .:? "eachDaySlots" .!= []
+  pure SlotDay { sdDay = day, sdSlots = slots }
+
+parseSlot :: Value -> Parser Slot
+parseSlot = withObject "slot" $ \obj -> do
+  sid       <- SlotId <$> obj .: "id"
+  apid      <- AccessPointId <$> obj .: "accessPointId"
+  typename  <- obj .: "__typename"
+  timing    <- parseSlotTiming typename obj
+  available <- obj .: "available"
+  fee       <- dollarsToCents <$> ((.: "value") =<< (.: "total") =<< obj .: "price")
+  expiry    <- traverse parseInstant =<< obj .:? "slotExpiryTime"
+  metadata  <- fmap SlotMetadata <$> obj .:? "slotMetadata"
+  pure Slot
+    { slotId          = sid
+    , slotAccessPoint = apid
+    , slotTiming      = timing
+    , slotAvailable   = available
+    , slotFee         = fee
+    , slotExpiry      = expiry
+    , slotMetadata    = metadata
+    }
+
+parseSlotTiming :: Text -> Object -> Parser SlotTiming
+parseSlotTiming "RegularSlot" obj =
+  Scheduled <$> (parseInstant =<< obj .: "startTime") <*> (parseInstant =<< obj .: "endTime")
+parseSlotTiming "DynamicExpressSlot" obj = Express <$> obj .: "slaInMins"
+parseSlotTiming other _ = pure (UnknownSlotKind other)
+
+-- | Walmart stamps slot times with the store's UTC offset.
+parseInstant :: Text -> Parser UTCTime
+parseInstant raw = case iso8601ParseM (T.unpack raw) of
+  Just zoned -> pure (zonedTimeToUTC zoned)
+  Nothing    -> fail ("not an ISO 8601 timestamp: " <> show raw)
+
+parseDay :: Text -> Parser Day
+parseDay raw = case iso8601ParseM (T.unpack raw) of
+  Just day -> pure day
+  Nothing  -> fail ("not an ISO 8601 date: " <> show raw)
+
+-- | The JSON a Next.js page embeds for its own hydration, which is
+-- where a Walmart product page keeps the product.
+extractNextData :: Text -> Maybe Text
+extractNextData html =
+  let (_, rest) = T.breakOn "<script id=\"__NEXT_DATA__\"" html
+  in if T.null rest then Nothing else
+       let afterTag = T.drop 1 (T.dropWhile (/= '>') rest)
+           payload  = fst (T.breakOn "</script>" afterTag)
+       in if T.null payload then Nothing else Just payload
+
+-- | Specification rows that state how much the package holds, in the
+-- order they are preferred when several appear.
+netContentSpecifications :: [Text]
+netContentSpecifications = ["Net content statement", "Weight", "Product net content parent"]
+
+parseProductDetail :: Value -> Either String ProductDetail
+parseProductDetail = parseEither $ withObject "page" $ \page -> do
+  props <- page .: "props"
+  pageProps <- props .: "pageProps"
+  initial <- pageProps .: "initialData"
+  d <- initial .: "data"
+  item <- d .: "product"
+  idml <- d .:? "idml" .!= mempty
+  usItemId <- UsItemId <$> item .: "usItemId"
+  offerId  <- OfferId <$> item .: "offerId"
+  name     <- item .: "name"
+  brand    <- item .:? "brand"
+  upc      <- fmap Upc <$> item .:? "upc"
+  price    <- parseCurrentPrice item
+  unit     <- parseUnitPrice item
+  category <- parseCategoryNames item
+  specs    <- traverse parseSpecification =<< idml .:? "specifications" .!= []
+  ingredients <- parseIngredients idml
+  description <- idml .:? "shortDescription"
+  pure ProductDetail
+    { pdUsItemId       = usItemId
+    , pdOfferId        = offerId
+    , pdName           = name
+    , pdBrand          = brand
+    , pdUpc            = upc
+    , pdPrice          = price
+    , pdPricePerUnit   = unit
+    , pdCategoryPath   = category
+    , pdIngredients    = ingredients
+    , pdNetContent     = netContent specs
+    , pdSpecifications = specs
+    , pdDescription    = description
+    }
+  where
+    netContent specs = getFirst (foldMap (\wanted -> First (lookup wanted [ (specName s, specValue s) | s <- specs ])) netContentSpecifications)
+
+parseSpecification :: Value -> Parser Specification
+parseSpecification = withObject "specification" $ \obj ->
+  Specification <$> obj .: "name" <*> obj .: "value"
+
+parseIngredients :: Object -> Parser (Maybe Text)
+parseIngredients idml = do
+  mBlock <- idml .:? "ingredients"
+  case mBlock of
+    Nothing -> pure Nothing
+    Just block -> do
+      mStatement <- block .:? "ingredients"
+      case mStatement of
+        Nothing -> pure Nothing
+        Just statement -> statement .:? "value"
+
+parseCategoryNames :: Object -> Parser [Text]
+parseCategoryNames item = do
+  mCategory <- item .:? "category"
+  case mCategory of
+    Nothing -> pure []
+    Just category -> do
+      path <- category .:? "path" .!= ([] :: [Object])
+      traverse (.: "name") path

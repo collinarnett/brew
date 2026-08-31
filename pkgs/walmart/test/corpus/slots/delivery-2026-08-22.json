@@ -1,0 +1,935 @@
+{
+  "data": {
+    "slots": {
+      "accessPoints": [
+        {
+          "id": "ap-0",
+          "displayName": "Store 0",
+          "assortmentStoreId": "1234"
+        },
+        {
+          "id": "ap-1",
+          "displayName": "Store 0",
+          "assortmentStoreId": "1234"
+        }
+      ],
+      "slotDays": [
+        {
+          "day": "2026-08-22",
+          "eachDaySlots": [
+            {
+              "__typename": "DynamicExpressSlot",
+              "id": "e395ae6b-a426-45bd-9670-9ec67bce0e6e-2026-08-22",
+              "accessPointId": "ap-0",
+              "available": true,
+              "isSelectable": true,
+              "startTime": null,
+              "endTime": null,
+              "slaInMins": 80,
+              "slotExpiryTime": "2026-08-22T18:39:06-04:00",
+              "price": {
+                "total": {
+                  "displayValue": "$10.00",
+                  "value": 10
+                }
+              },
+              "slotMetadata": "{\"opaque\":true}"
+            },
+            {
+              "__typename": "DynamicExpressSlot",
+              "id": "3bb1c467-6373-426a-96a0-15a6057c27dc-2026-08-22",
+              "accessPointId": "ap-0",
+              "available": true,
+              "isSelectable": true,
+              "startTime": null,
+              "endTime": null,
+              "slaInMins": 180,
+              "slotExpiryTime": "2026-08-22T18:39:06-04:00",
+              "price": {
+                "total": {
+                  "displayValue": "$5.00",
+                  "value": 5
+                }
+              },
+              "slotMetadata": "{\"opaque\":true}"
+            },
+            {
+              "__typename": "RegularSlot",
+              "id": "9b3a1f06-2f37-4ed9-b974-e5263c3def9d-2026-08-22",
+              "accessPointId": "ap-0",
+              "available": false,
+              "isSelectable": null,
+              "startTime": "2026-08-22T06:00:00-04:00",
+              "endTime": "2026-08-22T08:00:00-04:00",
+              "slaInMins": null,
+              "slotExpiryTime": null,
+              "price": {
+                "total": {
+                  "displayValue": "$0",
+                  "value": 0
+                }
+              },
+              "slotMetadata": "{\"opaque\":true}"
+            },
+            {
+              "__typename": "RegularSlot",
+              "id": "db506d2f-55bf-4653-bad5-9bd2921307a3-2026-08-22",
+              "accessPointId": "ap-0",
+              "available": false,
+              "isSelectable": null,
+              "startTime": "2026-08-22T07:00:00-04:00",
+              "endTime": "2026-08-22T09:00:00-04:00",
+              "slaInMins": null,
+              "slotExpiryTime": null,
+              "price": {
+                "total": {
+                  "displayValue": "$0",
+                  "value": 0
+                }
+              },
+              "slotMetadata": "{\"opaque\":true}"
+            },
+            {
+              "__typename": "RegularSlot",
+              "id": "4653658f-0ea4-4687-b39e-4ac2415d85ac-2026-08-22",
+              "accessPointId": "ap-0",
+              "available": false,
+              "isSelectable": null,
+              "startTime": "2026-08-22T08:00:00-04:00",
+              "endTime": "2026-08-22T10:00:00-04:00",
+              "slaInMins": null,
+              "slotExpiryTime": null,
+              "price": {
+                "total": {
+                  "displayValue": "$0",
+                  "value": 0
+                }
+              },
+              "slotMetadata": "{\"opaque\":true}"
+            },
+            {
+              "__typename": "RegularSlot",
+              "id": "109a876e-9a37-4d05-8650-9653126e114d-2026-08-22",
+              "accessPointId": "ap-0",
+              "available": false,
+              "isSelectable": null,
+              "startTime": "2026-08-22T09:00:00-04:00",
+              "endTime": "2026-08-22T11:00:00-04:00",
+              "slaInMins": null,
+              "slotExpiryTime": null,
+              "price": {
+                "total": {
+                  "displayValue": "$0",
+                  "value": 0
+                }
+              },
+              "slotMetadata": "{\"opaque\":true}"
+            },
+            {
+              "__typename": "RegularSlot",
+              "id": "87a32215-b68c-4c7e-b7e0-cdd3fa7e829c-2026-08-22",
+              "accessPointId": "ap-0",
+              "available": false,
+              "isSelectable": null,
+              "startTime": "2026-08-22T10:00:00-04:00",
+              "endTime": "2026-08-22T12:00:00-04:00",
+              "slaInMins": null,
+              "slotExpiryTime": null,
+              "price": {
+                "total": {
+                  "displayValue": "$0",
+                  "value": 0
+                }
+              },
+              "slotMetadata": "{\"opaque\":true}"
+            },
+            {
+              "__typename": "RegularSlot",
+              "id": "a04f3b49-34e2-4500-8e02-9c0d8f0c8692-2026-08-22",
+              "accessPointId": "ap-0",
+              "available": false,
+              "isSelectable": null,
+              "startTime": "2026-08-22T11:00:00-04:00",
+              "endTime": "2026-08-22T13:00:00-04:00",
+              "slaInMins": null,
+              "slotExpiryTime": null,
+              "price": {
+                "total": {
+                  "displayValue": "$0",
+                  "value": 0
+                }
+              },
+              "slotMetadata": "{\"opaque\":true}"
+            },
+            {
+              "__typename": "RegularSlot",
+              "id": "3d16268b-eaf7-4af8-b47f-de3b1c0aea25-2026-08-22",
+              "accessPointId": "ap-0",
+              "available": false,
+              "isSelectable": null,
+              "startTime": "2026-08-22T12:00:00-04:00",
+              "endTime": "2026-08-22T14:00:00-04:00",
+              "slaInMins": null,
+              "slotExpiryTime": null,
+              "price": {
+                "total": {
+                  "displayValue": "$0",
+                  "value": 0
+                }
+              },
+              "slotMetadata": "{\"opaque\":true}"
+            },
+            {
+              "__typename": "RegularSlot",
+              "id": "dc0a440e-9343-4b59-af92-c7a157c61220-2026-08-22",
+              "accessPointId": "ap-0",
+              "available": false,
+              "isSelectable": null,
+              "startTime": "2026-08-22T13:00:00-04:00",
+              "endTime": "2026-08-22T15:00:00-04:00",
+              "slaInMins": null,
+              "slotExpiryTime": null,
+              "price": {
+                "total": {
+                  "displayValue": "$0",
+                  "value": 0
+                }
+              },
+              "slotMetadata": "{\"opaque\":true}"
+            },
+            {
+              "__typename": "RegularSlot",
+              "id": "e6b8459a-54df-444e-a4d8-834fab0bf665-2026-08-22",
+              "accessPointId": "ap-0",
+              "available": false,
+              "isSelectable": null,
+              "startTime": "2026-08-22T14:00:00-04:00",
+              "endTime": "2026-08-22T16:00:00-04:00",
+              "slaInMins": null,
+              "slotExpiryTime": null,
+              "price": {
+                "total": {
+                  "displayValue": "$0",
+                  "value": 0
+                }
+              },
+              "slotMetadata": "{\"opaque\":true}"
+            },
+            {
+              "__typename": "RegularSlot",
+              "id": "bb8874c6-a50b-4b0f-8dc1-aca390d0c177-2026-08-22",
+              "accessPointId": "ap-0",
+              "available": false,
+              "isSelectable": null,
+              "startTime": "2026-08-22T15:00:00-04:00",
+              "endTime": "2026-08-22T17:00:00-04:00",
+              "slaInMins": null,
+              "slotExpiryTime": null,
+              "price": {
+                "total": {
+                  "displayValue": "$0",
+                  "value": 0
+                }
+              },
+              "slotMetadata": "{\"opaque\":true}"
+            },
+            {
+              "__typename": "RegularSlot",
+              "id": "4a0ee52e-a07a-47c9-b012-63c8edadd621-2026-08-22",
+              "accessPointId": "ap-0",
+              "available": false,
+              "isSelectable": null,
+              "startTime": "2026-08-22T16:00:00-04:00",
+              "endTime": "2026-08-22T18:00:00-04:00",
+              "slaInMins": null,
+              "slotExpiryTime": null,
+              "price": {
+                "total": {
+                  "displayValue": "$0",
+                  "value": 0
+                }
+              },
+              "slotMetadata": "{\"opaque\":true}"
+            },
+            {
+              "__typename": "RegularSlot",
+              "id": "0cbf7a04-c67b-4d4f-9637-b84ffd69dfb1-2026-08-22",
+              "accessPointId": "ap-0",
+              "available": false,
+              "isSelectable": null,
+              "startTime": "2026-08-22T17:00:00-04:00",
+              "endTime": "2026-08-22T19:00:00-04:00",
+              "slaInMins": null,
+              "slotExpiryTime": null,
+              "price": {
+                "total": {
+                  "displayValue": "$0",
+                  "value": 0
+                }
+              },
+              "slotMetadata": "{\"opaque\":true}"
+            },
+            {
+              "__typename": "RegularSlot",
+              "id": "cc885ecb-6b58-4215-9627-37648a9e36cf-2026-08-22",
+              "accessPointId": "ap-0",
+              "available": false,
+              "isSelectable": null,
+              "startTime": "2026-08-22T18:00:00-04:00",
+              "endTime": "2026-08-22T20:00:00-04:00",
+              "slaInMins": null,
+              "slotExpiryTime": null,
+              "price": {
+                "total": {
+                  "displayValue": "$0",
+                  "value": 0
+                }
+              },
+              "slotMetadata": "{\"opaque\":true}"
+            },
+            {
+              "__typename": "RegularSlot",
+              "id": "70144c98-9fba-4891-a198-a27bd372ab73-2026-08-22",
+              "accessPointId": "ap-0",
+              "available": false,
+              "isSelectable": null,
+              "startTime": "2026-08-22T19:00:00-04:00",
+              "endTime": "2026-08-22T21:00:00-04:00",
+              "slaInMins": null,
+              "slotExpiryTime": null,
+              "price": {
+                "total": {
+                  "displayValue": "$0",
+                  "value": 0
+                }
+              },
+              "slotMetadata": "{\"opaque\":true}"
+            },
+            {
+              "__typename": "RegularSlot",
+              "id": "8faeaee5-c920-45f0-a901-61a463d95d8a-2026-08-22",
+              "accessPointId": "ap-0",
+              "available": false,
+              "isSelectable": null,
+              "startTime": "2026-08-22T20:00:00-04:00",
+              "endTime": "2026-08-22T22:00:00-04:00",
+              "slaInMins": null,
+              "slotExpiryTime": null,
+              "price": {
+                "total": {
+                  "displayValue": "$0",
+                  "value": 0
+                }
+              },
+              "slotMetadata": "{\"opaque\":true}"
+            },
+            {
+              "__typename": "RegularSlot",
+              "id": "522d4765-9fd7-4b9d-ac21-092445955373-2026-08-22",
+              "accessPointId": "ap-0",
+              "available": false,
+              "isSelectable": null,
+              "startTime": "2026-08-22T21:00:00-04:00",
+              "endTime": "2026-08-22T23:00:00-04:00",
+              "slaInMins": null,
+              "slotExpiryTime": null,
+              "price": {
+                "total": {
+                  "displayValue": "$0",
+                  "value": 0
+                }
+              },
+              "slotMetadata": "{\"opaque\":true}"
+            }
+          ]
+        },
+        {
+          "day": "2026-08-23",
+          "eachDaySlots": [
+            {
+              "__typename": "RegularSlot",
+              "id": "9b3a1f06-2f37-4ed9-b974-e5263c3def9d-2026-08-23",
+              "accessPointId": "ap-0",
+              "available": true,
+              "isSelectable": null,
+              "startTime": "2026-08-23T06:00:00-04:00",
+              "endTime": "2026-08-23T08:00:00-04:00",
+              "slaInMins": null,
+              "slotExpiryTime": "2026-08-22T19:09:06-04:00",
+              "price": {
+                "total": {
+                  "displayValue": "$0",
+                  "value": 0
+                }
+              },
+              "slotMetadata": "{\"opaque\":true}"
+            },
+            {
+              "__typename": "RegularSlot",
+              "id": "db506d2f-55bf-4653-bad5-9bd2921307a3-2026-08-23",
+              "accessPointId": "ap-0",
+              "available": true,
+              "isSelectable": null,
+              "startTime": "2026-08-23T07:00:00-04:00",
+              "endTime": "2026-08-23T09:00:00-04:00",
+              "slaInMins": null,
+              "slotExpiryTime": "2026-08-22T19:09:06-04:00",
+              "price": {
+                "total": {
+                  "displayValue": "$0",
+                  "value": 0
+                }
+              },
+              "slotMetadata": "{\"opaque\":true}"
+            },
+            {
+              "__typename": "RegularSlot",
+              "id": "4653658f-0ea4-4687-b39e-4ac2415d85ac-2026-08-23",
+              "accessPointId": "ap-0",
+              "available": true,
+              "isSelectable": null,
+              "startTime": "2026-08-23T08:00:00-04:00",
+              "endTime": "2026-08-23T10:00:00-04:00",
+              "slaInMins": null,
+              "slotExpiryTime": "2026-08-22T19:09:06-04:00",
+              "price": {
+                "total": {
+                  "displayValue": "$0",
+                  "value": 0
+                }
+              },
+              "slotMetadata": "{\"opaque\":true}"
+            },
+            {
+              "__typename": "RegularSlot",
+              "id": "109a876e-9a37-4d05-8650-9653126e114d-2026-08-23",
+              "accessPointId": "ap-0",
+              "available": true,
+              "isSelectable": null,
+              "startTime": "2026-08-23T09:00:00-04:00",
+              "endTime": "2026-08-23T11:00:00-04:00",
+              "slaInMins": null,
+              "slotExpiryTime": "2026-08-22T19:09:06-04:00",
+              "price": {
+                "total": {
+                  "displayValue": "$0",
+                  "value": 0
+                }
+              },
+              "slotMetadata": "{\"opaque\":true}"
+            },
+            {
+              "__typename": "RegularSlot",
+              "id": "87a32215-b68c-4c7e-b7e0-cdd3fa7e829c-2026-08-23",
+              "accessPointId": "ap-0",
+              "available": true,
+              "isSelectable": null,
+              "startTime": "2026-08-23T10:00:00-04:00",
+              "endTime": "2026-08-23T12:00:00-04:00",
+              "slaInMins": null,
+              "slotExpiryTime": "2026-08-22T19:09:06-04:00",
+              "price": {
+                "total": {
+                  "displayValue": "$0",
+                  "value": 0
+                }
+              },
+              "slotMetadata": "{\"opaque\":true}"
+            },
+            {
+              "__typename": "RegularSlot",
+              "id": "a04f3b49-34e2-4500-8e02-9c0d8f0c8692-2026-08-23",
+              "accessPointId": "ap-0",
+              "available": true,
+              "isSelectable": null,
+              "startTime": "2026-08-23T11:00:00-04:00",
+              "endTime": "2026-08-23T13:00:00-04:00",
+              "slaInMins": null,
+              "slotExpiryTime": "2026-08-22T19:09:06-04:00",
+              "price": {
+                "total": {
+                  "displayValue": "$0",
+                  "value": 0
+                }
+              },
+              "slotMetadata": "{\"opaque\":true}"
+            },
+            {
+              "__typename": "RegularSlot",
+              "id": "3d16268b-eaf7-4af8-b47f-de3b1c0aea25-2026-08-23",
+              "accessPointId": "ap-0",
+              "available": true,
+              "isSelectable": null,
+              "startTime": "2026-08-23T12:00:00-04:00",
+              "endTime": "2026-08-23T14:00:00-04:00",
+              "slaInMins": null,
+              "slotExpiryTime": "2026-08-22T19:09:06-04:00",
+              "price": {
+                "total": {
+                  "displayValue": "$0",
+                  "value": 0
+                }
+              },
+              "slotMetadata": "{\"opaque\":true}"
+            },
+            {
+              "__typename": "RegularSlot",
+              "id": "dc0a440e-9343-4b59-af92-c7a157c61220-2026-08-23",
+              "accessPointId": "ap-0",
+              "available": true,
+              "isSelectable": null,
+              "startTime": "2026-08-23T13:00:00-04:00",
+              "endTime": "2026-08-23T15:00:00-04:00",
+              "slaInMins": null,
+              "slotExpiryTime": "2026-08-22T19:09:06-04:00",
+              "price": {
+                "total": {
+                  "displayValue": "$0",
+                  "value": 0
+                }
+              },
+              "slotMetadata": "{\"opaque\":true}"
+            },
+            {
+              "__typename": "RegularSlot",
+              "id": "e6b8459a-54df-444e-a4d8-834fab0bf665-2026-08-23",
+              "accessPointId": "ap-0",
+              "available": true,
+              "isSelectable": null,
+              "startTime": "2026-08-23T14:00:00-04:00",
+              "endTime": "2026-08-23T16:00:00-04:00",
+              "slaInMins": null,
+              "slotExpiryTime": "2026-08-22T19:09:06-04:00",
+              "price": {
+                "total": {
+                  "displayValue": "$0",
+                  "value": 0
+                }
+              },
+              "slotMetadata": "{\"opaque\":true}"
+            },
+            {
+              "__typename": "RegularSlot",
+              "id": "bb8874c6-a50b-4b0f-8dc1-aca390d0c177-2026-08-23",
+              "accessPointId": "ap-0",
+              "available": true,
+              "isSelectable": null,
+              "startTime": "2026-08-23T15:00:00-04:00",
+              "endTime": "2026-08-23T17:00:00-04:00",
+              "slaInMins": null,
+              "slotExpiryTime": "2026-08-22T19:09:06-04:00",
+              "price": {
+                "total": {
+                  "displayValue": "$0",
+                  "value": 0
+                }
+              },
+              "slotMetadata": "{\"opaque\":true}"
+            },
+            {
+              "__typename": "RegularSlot",
+              "id": "4a0ee52e-a07a-47c9-b012-63c8edadd621-2026-08-23",
+              "accessPointId": "ap-0",
+              "available": true,
+              "isSelectable": null,
+              "startTime": "2026-08-23T16:00:00-04:00",
+              "endTime": "2026-08-23T18:00:00-04:00",
+              "slaInMins": null,
+              "slotExpiryTime": "2026-08-22T19:09:06-04:00",
+              "price": {
+                "total": {
+                  "displayValue": "$0",
+                  "value": 0
+                }
+              },
+              "slotMetadata": "{\"opaque\":true}"
+            },
+            {
+              "__typename": "RegularSlot",
+              "id": "0cbf7a04-c67b-4d4f-9637-b84ffd69dfb1-2026-08-23",
+              "accessPointId": "ap-0",
+              "available": true,
+              "isSelectable": null,
+              "startTime": "2026-08-23T17:00:00-04:00",
+              "endTime": "2026-08-23T19:00:00-04:00",
+              "slaInMins": null,
+              "slotExpiryTime": "2026-08-22T19:09:06-04:00",
+              "price": {
+                "total": {
+                  "displayValue": "$0",
+                  "value": 0
+                }
+              },
+              "slotMetadata": "{\"opaque\":true}"
+            },
+            {
+              "__typename": "RegularSlot",
+              "id": "cc885ecb-6b58-4215-9627-37648a9e36cf-2026-08-23",
+              "accessPointId": "ap-0",
+              "available": true,
+              "isSelectable": null,
+              "startTime": "2026-08-23T18:00:00-04:00",
+              "endTime": "2026-08-23T20:00:00-04:00",
+              "slaInMins": null,
+              "slotExpiryTime": "2026-08-22T19:09:06-04:00",
+              "price": {
+                "total": {
+                  "displayValue": "$0",
+                  "value": 0
+                }
+              },
+              "slotMetadata": "{\"opaque\":true}"
+            },
+            {
+              "__typename": "RegularSlot",
+              "id": "70144c98-9fba-4891-a198-a27bd372ab73-2026-08-23",
+              "accessPointId": "ap-0",
+              "available": true,
+              "isSelectable": null,
+              "startTime": "2026-08-23T19:00:00-04:00",
+              "endTime": "2026-08-23T21:00:00-04:00",
+              "slaInMins": null,
+              "slotExpiryTime": "2026-08-22T19:09:06-04:00",
+              "price": {
+                "total": {
+                  "displayValue": "$0",
+                  "value": 0
+                }
+              },
+              "slotMetadata": "{\"opaque\":true}"
+            },
+            {
+              "__typename": "RegularSlot",
+              "id": "8faeaee5-c920-45f0-a901-61a463d95d8a-2026-08-23",
+              "accessPointId": "ap-0",
+              "available": true,
+              "isSelectable": null,
+              "startTime": "2026-08-23T20:00:00-04:00",
+              "endTime": "2026-08-23T22:00:00-04:00",
+              "slaInMins": null,
+              "slotExpiryTime": "2026-08-22T19:09:06-04:00",
+              "price": {
+                "total": {
+                  "displayValue": "$0",
+                  "value": 0
+                }
+              },
+              "slotMetadata": "{\"opaque\":true}"
+            },
+            {
+              "__typename": "RegularSlot",
+              "id": "522d4765-9fd7-4b9d-ac21-092445955373-2026-08-23",
+              "accessPointId": "ap-0",
+              "available": true,
+              "isSelectable": null,
+              "startTime": "2026-08-23T21:00:00-04:00",
+              "endTime": "2026-08-23T23:00:00-04:00",
+              "slaInMins": null,
+              "slotExpiryTime": "2026-08-22T19:09:06-04:00",
+              "price": {
+                "total": {
+                  "displayValue": "$0",
+                  "value": 0
+                }
+              },
+              "slotMetadata": "{\"opaque\":true}"
+            }
+          ]
+        },
+        {
+          "day": "2026-08-24",
+          "eachDaySlots": [
+            {
+              "__typename": "RegularSlot",
+              "id": "9b3a1f06-2f37-4ed9-b974-e5263c3def9d-2026-08-24",
+              "accessPointId": "ap-0",
+              "available": true,
+              "isSelectable": null,
+              "startTime": "2026-08-24T06:00:00-04:00",
+              "endTime": "2026-08-24T08:00:00-04:00",
+              "slaInMins": null,
+              "slotExpiryTime": "2026-08-22T19:09:06-04:00",
+              "price": {
+                "total": {
+                  "displayValue": "$0",
+                  "value": 0
+                }
+              },
+              "slotMetadata": "{\"opaque\":true}"
+            },
+            {
+              "__typename": "RegularSlot",
+              "id": "db506d2f-55bf-4653-bad5-9bd2921307a3-2026-08-24",
+              "accessPointId": "ap-0",
+              "available": true,
+              "isSelectable": null,
+              "startTime": "2026-08-24T07:00:00-04:00",
+              "endTime": "2026-08-24T09:00:00-04:00",
+              "slaInMins": null,
+              "slotExpiryTime": "2026-08-22T19:09:06-04:00",
+              "price": {
+                "total": {
+                  "displayValue": "$0",
+                  "value": 0
+                }
+              },
+              "slotMetadata": "{\"opaque\":true}"
+            },
+            {
+              "__typename": "RegularSlot",
+              "id": "4653658f-0ea4-4687-b39e-4ac2415d85ac-2026-08-24",
+              "accessPointId": "ap-0",
+              "available": true,
+              "isSelectable": null,
+              "startTime": "2026-08-24T08:00:00-04:00",
+              "endTime": "2026-08-24T10:00:00-04:00",
+              "slaInMins": null,
+              "slotExpiryTime": "2026-08-22T19:09:06-04:00",
+              "price": {
+                "total": {
+                  "displayValue": "$0",
+                  "value": 0
+                }
+              },
+              "slotMetadata": "{\"opaque\":true}"
+            },
+            {
+              "__typename": "RegularSlot",
+              "id": "109a876e-9a37-4d05-8650-9653126e114d-2026-08-24",
+              "accessPointId": "ap-0",
+              "available": true,
+              "isSelectable": null,
+              "startTime": "2026-08-24T09:00:00-04:00",
+              "endTime": "2026-08-24T11:00:00-04:00",
+              "slaInMins": null,
+              "slotExpiryTime": "2026-08-22T19:09:06-04:00",
+              "price": {
+                "total": {
+                  "displayValue": "$0",
+                  "value": 0
+                }
+              },
+              "slotMetadata": "{\"opaque\":true}"
+            },
+            {
+              "__typename": "RegularSlot",
+              "id": "87a32215-b68c-4c7e-b7e0-cdd3fa7e829c-2026-08-24",
+              "accessPointId": "ap-0",
+              "available": true,
+              "isSelectable": null,
+              "startTime": "2026-08-24T10:00:00-04:00",
+              "endTime": "2026-08-24T12:00:00-04:00",
+              "slaInMins": null,
+              "slotExpiryTime": "2026-08-22T19:09:06-04:00",
+              "price": {
+                "total": {
+                  "displayValue": "$0",
+                  "value": 0
+                }
+              },
+              "slotMetadata": "{\"opaque\":true}"
+            },
+            {
+              "__typename": "RegularSlot",
+              "id": "a04f3b49-34e2-4500-8e02-9c0d8f0c8692-2026-08-24",
+              "accessPointId": "ap-0",
+              "available": true,
+              "isSelectable": null,
+              "startTime": "2026-08-24T11:00:00-04:00",
+              "endTime": "2026-08-24T13:00:00-04:00",
+              "slaInMins": null,
+              "slotExpiryTime": "2026-08-22T19:09:06-04:00",
+              "price": {
+                "total": {
+                  "displayValue": "$0",
+                  "value": 0
+                }
+              },
+              "slotMetadata": "{\"opaque\":true}"
+            },
+            {
+              "__typename": "RegularSlot",
+              "id": "3d16268b-eaf7-4af8-b47f-de3b1c0aea25-2026-08-24",
+              "accessPointId": "ap-0",
+              "available": true,
+              "isSelectable": null,
+              "startTime": "2026-08-24T12:00:00-04:00",
+              "endTime": "2026-08-24T14:00:00-04:00",
+              "slaInMins": null,
+              "slotExpiryTime": "2026-08-22T19:09:06-04:00",
+              "price": {
+                "total": {
+                  "displayValue": "$0",
+                  "value": 0
+                }
+              },
+              "slotMetadata": "{\"opaque\":true}"
+            },
+            {
+              "__typename": "RegularSlot",
+              "id": "dc0a440e-9343-4b59-af92-c7a157c61220-2026-08-24",
+              "accessPointId": "ap-0",
+              "available": true,
+              "isSelectable": null,
+              "startTime": "2026-08-24T13:00:00-04:00",
+              "endTime": "2026-08-24T15:00:00-04:00",
+              "slaInMins": null,
+              "slotExpiryTime": "2026-08-22T19:09:06-04:00",
+              "price": {
+                "total": {
+                  "displayValue": "$0",
+                  "value": 0
+                }
+              },
+              "slotMetadata": "{\"opaque\":true}"
+            },
+            {
+              "__typename": "RegularSlot",
+              "id": "e6b8459a-54df-444e-a4d8-834fab0bf665-2026-08-24",
+              "accessPointId": "ap-0",
+              "available": true,
+              "isSelectable": null,
+              "startTime": "2026-08-24T14:00:00-04:00",
+              "endTime": "2026-08-24T16:00:00-04:00",
+              "slaInMins": null,
+              "slotExpiryTime": "2026-08-22T19:09:06-04:00",
+              "price": {
+                "total": {
+                  "displayValue": "$0",
+                  "value": 0
+                }
+              },
+              "slotMetadata": "{\"opaque\":true}"
+            },
+            {
+              "__typename": "RegularSlot",
+              "id": "bb8874c6-a50b-4b0f-8dc1-aca390d0c177-2026-08-24",
+              "accessPointId": "ap-0",
+              "available": true,
+              "isSelectable": null,
+              "startTime": "2026-08-24T15:00:00-04:00",
+              "endTime": "2026-08-24T17:00:00-04:00",
+              "slaInMins": null,
+              "slotExpiryTime": "2026-08-22T19:09:06-04:00",
+              "price": {
+                "total": {
+                  "displayValue": "$0",
+                  "value": 0
+                }
+              },
+              "slotMetadata": "{\"opaque\":true}"
+            },
+            {
+              "__typename": "RegularSlot",
+              "id": "4a0ee52e-a07a-47c9-b012-63c8edadd621-2026-08-24",
+              "accessPointId": "ap-0",
+              "available": true,
+              "isSelectable": null,
+              "startTime": "2026-08-24T16:00:00-04:00",
+              "endTime": "2026-08-24T18:00:00-04:00",
+              "slaInMins": null,
+              "slotExpiryTime": "2026-08-22T19:09:06-04:00",
+              "price": {
+                "total": {
+                  "displayValue": "$0",
+                  "value": 0
+                }
+              },
+              "slotMetadata": "{\"opaque\":true}"
+            },
+            {
+              "__typename": "RegularSlot",
+              "id": "0cbf7a04-c67b-4d4f-9637-b84ffd69dfb1-2026-08-24",
+              "accessPointId": "ap-0",
+              "available": true,
+              "isSelectable": null,
+              "startTime": "2026-08-24T17:00:00-04:00",
+              "endTime": "2026-08-24T19:00:00-04:00",
+              "slaInMins": null,
+              "slotExpiryTime": "2026-08-22T19:09:06-04:00",
+              "price": {
+                "total": {
+                  "displayValue": "$0",
+                  "value": 0
+                }
+              },
+              "slotMetadata": "{\"opaque\":true}"
+            },
+            {
+              "__typename": "RegularSlot",
+              "id": "cc885ecb-6b58-4215-9627-37648a9e36cf-2026-08-24",
+              "accessPointId": "ap-0",
+              "available": true,
+              "isSelectable": null,
+              "startTime": "2026-08-24T18:00:00-04:00",
+              "endTime": "2026-08-24T20:00:00-04:00",
+              "slaInMins": null,
+              "slotExpiryTime": "2026-08-22T19:09:06-04:00",
+              "price": {
+                "total": {
+                  "displayValue": "$0",
+                  "value": 0
+                }
+              },
+              "slotMetadata": "{\"opaque\":true}"
+            },
+            {
+              "__typename": "RegularSlot",
+              "id": "70144c98-9fba-4891-a198-a27bd372ab73-2026-08-24",
+              "accessPointId": "ap-0",
+              "available": true,
+              "isSelectable": null,
+              "startTime": "2026-08-24T19:00:00-04:00",
+              "endTime": "2026-08-24T21:00:00-04:00",
+              "slaInMins": null,
+              "slotExpiryTime": "2026-08-22T19:09:06-04:00",
+              "price": {
+                "total": {
+                  "displayValue": "$0",
+                  "value": 0
+                }
+              },
+              "slotMetadata": "{\"opaque\":true}"
+            },
+            {
+              "__typename": "RegularSlot",
+              "id": "8faeaee5-c920-45f0-a901-61a463d95d8a-2026-08-24",
+              "accessPointId": "ap-0",
+              "available": true,
+              "isSelectable": null,
+              "startTime": "2026-08-24T20:00:00-04:00",
+              "endTime": "2026-08-24T22:00:00-04:00",
+              "slaInMins": null,
+              "slotExpiryTime": "2026-08-22T19:09:06-04:00",
+              "price": {
+                "total": {
+                  "displayValue": "$0",
+                  "value": 0
+                }
+              },
+              "slotMetadata": "{\"opaque\":true}"
+            },
+            {
+              "__typename": "RegularSlot",
+              "id": "522d4765-9fd7-4b9d-ac21-092445955373-2026-08-24",
+              "accessPointId": "ap-0",
+              "available": true,
+              "isSelectable": null,
+              "startTime": "2026-08-24T21:00:00-04:00",
+              "endTime": "2026-08-24T23:00:00-04:00",
+              "slaInMins": null,
+              "slotExpiryTime": "2026-08-22T19:09:06-04:00",
+              "price": {
+                "total": {
+                  "displayValue": "$0",
+                  "value": 0
+                }
+              },
+              "slotMetadata": "{\"opaque\":true}"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

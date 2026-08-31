@@ -25,32 +25,30 @@ import Network.HTTP.Types.Status (statusCode)
 
 import Walmart.Catalog (Catalog, entryHash, lookupOperation)
 import Walmart.Operation
-  ( Operation
-  , Route
-  , operationName
-  , routeOperation
+  ( Kind (..)
+  , Target (..)
+  , kindLabel
   , routeUrl
   )
 import Walmart.Types
 
 -- | A request target with a hash the catalog vouches for.
 data Endpoint = Endpoint
-  { endpointUrl       :: Text
-  , endpointOperation :: Operation
+  { endpointUrl    :: Text
+  , endpointTarget :: Target
   }
 
-resolve :: Catalog -> Route -> Either WalmartError Endpoint
-resolve catalog route =
-  let op = routeOperation route
-  in case lookupOperation catalog op of
-    Nothing -> Left (WalmartOperationUnresolved (operationName op))
+resolve :: Catalog -> Target -> Either WalmartError Endpoint
+resolve catalog target =
+  case lookupOperation catalog (targetName target) of
+    Nothing -> Left (WalmartOperationUnresolved (targetName target))
     Just entry -> Right Endpoint
-      { endpointUrl       = routeUrl (entryHash entry) route
-      , endpointOperation = op
+      { endpointUrl    = routeUrl (entryHash entry) target
+      , endpointTarget = target
       }
 
-mkHeaders :: Text -> [Header]
-mkHeaders opName = map (\(k, v) -> (CI.mk (TE.encodeUtf8 k), TE.encodeUtf8 v))
+mkHeaders :: Target -> [Header]
+mkHeaders target = map (\(k, v) -> (CI.mk (TE.encodeUtf8 k), TE.encodeUtf8 v))
   [ ("accept",                  "application/json")
   , ("content-type",            "application/json")
   , ("user-agent",              "Mozilla/5.0 (X11; Linux x86_64) Chrome/131.0.0.0")
@@ -62,8 +60,10 @@ mkHeaders opName = map (\(k, v) -> (CI.mk (TE.encodeUtf8 k), TE.encodeUtf8 v))
   , ("dnt",                     "1")
   , ("x-o-platform-version",    "usweb-1.221.0")
   , ("x-apollo-operation-name", opName)
-  , ("x-o-gql-query",           "query " <> opName)
+  , ("x-o-gql-query",           kindLabel (targetKind target) <> " " <> opName)
   ]
+  where
+    opName = unOperationName (targetName target)
 
 -- | Firefox cookies must go out as a raw Cookie header; http-client's
 -- cookieJar support drops them because of @.walmart.com@ domain filtering.
@@ -73,20 +73,26 @@ cookieHeader jar =
       pairs = map (\c -> cookie_name c <> "=" <> cookie_value c) cs
   in BS.intercalate "; " pairs
 
+-- | A query carries its variables in the URL; a mutation posts them.
+withVariables :: Kind -> Aeson.Value -> Request -> Request
+withVariables Query variables req =
+  (setQueryString [("variables", Just (LBS.toStrict (Aeson.encode variables)))] req)
+    { method = "GET" }
+withVariables Mutation variables req = req
+  { method = "POST"
+  , requestBody = RequestBodyLBS (Aeson.encode (Aeson.object [ "variables" Aeson..= variables ]))
+  }
+
 walmartRequest
   :: Manager -> CookieJar -> Endpoint -> Aeson.Value
   -> IO (Either WalmartError Aeson.Value)
 walmartRequest mgr cookies endpoint variables = do
   attempt <- try $ do
     initReq <- parseRequest (T.unpack (endpointUrl endpoint))
-    let varsBS = LBS.toStrict (Aeson.encode variables)
-        req0 = setQueryString [("variables", Just varsBS)] initReq
+    let target = endpointTarget endpoint
         cookieBS = cookieHeader cookies
-        opName = unOperationName (operationName (endpointOperation endpoint))
-        req = req0
-          { method = "GET"
-          , requestHeaders = ("Cookie", cookieBS) : mkHeaders opName
-          }
+        req = (withVariables (targetKind target) variables initReq)
+          { requestHeaders = ("Cookie", cookieBS) : mkHeaders target }
     httpLbs req mgr
   pure $ case attempt of
     Left err -> Left (WalmartNetworkError (T.pack (displayException (err :: HttpException))))

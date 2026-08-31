@@ -52,7 +52,6 @@ import System.Directory
   )
 import System.FilePath (takeDirectory, (</>))
 
-import Walmart.Operation (Operation, operationName)
 import Walmart.Types (OperationName (..), QueryHash, mkQueryHash)
 
 -- | The frontend release a hash was scanned out of.
@@ -85,8 +84,8 @@ catalogEntries (Catalog m) = Map.elems m
 catalogSize :: Catalog -> Int
 catalogSize (Catalog m) = Map.size m
 
-lookupOperation :: Catalog -> Operation -> Maybe CatalogEntry
-lookupOperation (Catalog m) op = Map.lookup (operationName op) m
+lookupOperation :: Catalog -> OperationName -> Maybe CatalogEntry
+lookupOperation (Catalog m) name = Map.lookup name m
 
 -- | Hashes supplied by configuration, for operations discovery cannot
 -- see. They sit under anything discovery finds.

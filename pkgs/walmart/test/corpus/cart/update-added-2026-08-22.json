@@ -1,0 +1,42 @@
+{
+  "data": {
+    "updateItems": {
+      "id": "00000000-0000-0000-0000-000000000000",
+      "fulfillment": {
+        "storeId": 1234,
+        "intent": "DELIVERY",
+        "isExplicitIntent": false
+      },
+      "lineItems": [
+        {
+          "id": "line-0",
+          "quantity": 1,
+          "priceInfo": {
+            "linePrice": {
+              "value": 3.46
+            },
+            "itemPrice": {
+              "value": 3.46
+            }
+          },
+          "product": {
+            "usItemId": "10450114",
+            "offerId": "E262E6B27BDE4ABA86CA2C1DF82ADEF4",
+            "name": null,
+            "salesUnitType": "EACH",
+            "availabilityStatus": null
+          }
+        }
+      ],
+      "priceDetails": {
+        "subTotal": {
+          "value": 3.46
+        },
+        "grandTotal": null,
+        "minimumThreshold": null,
+        "belowMinimumFee": null,
+        "totalItemQuantity": null
+      }
+    }
+  }
+}
