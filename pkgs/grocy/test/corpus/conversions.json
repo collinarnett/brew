@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "from_qu_id": 3,
+    "to_qu_id": 2,
+    "factor": 10,
+    "product_id": 5
+  },
+  {
+    "id": 2,
+    "from_qu_id": 2,
+    "to_qu_id": 3,
+    "factor": 0.1,
+    "product_id": 5
+  },
+  {
+    "id": 3,
+    "from_qu_id": 3,
+    "to_qu_id": 12,
+    "factor": 10,
+    "product_id": 10
+  }
+]

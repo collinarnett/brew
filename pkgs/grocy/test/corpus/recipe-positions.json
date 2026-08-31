@@ -1,0 +1,34 @@
+[
+  {
+    "id": 1,
+    "recipe_id": 1,
+    "product_id": 16,
+    "amount": 1,
+    "qu_id": 3,
+    "note": null
+  },
+  {
+    "id": 2,
+    "recipe_id": 1,
+    "product_id": 17,
+    "amount": 1,
+    "qu_id": 5,
+    "note": null
+  },
+  {
+    "id": 3,
+    "recipe_id": 1,
+    "product_id": 18,
+    "amount": 1,
+    "qu_id": 3,
+    "note": "This is the note content of the recipe ingredient"
+  },
+  {
+    "id": 4,
+    "recipe_id": 1,
+    "product_id": 10,
+    "amount": 1,
+    "qu_id": 3,
+    "note": null
+  }
+]

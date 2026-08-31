@@ -1,9 +1,11 @@
 # grocy
 
-Hand-written client for the [Grocy](https://grocy.info) v4 REST API,
-covering the slice walmart-grocy-import needs: product listing and
-creation, stock purchases, and named-object lookup/creation for
-locations, shopping locations, and quantity units.
+Hand-written client for the [Grocy](https://grocy.info) v4 REST API:
+products (list, search, create, details), stock (current stock,
+purchases, consumption), product barcodes, quantity unit conversions,
+recipes (create, ingredients, fulfillment, consume), userfields, and
+named-object lookup/creation for locations, shopping locations, and
+quantity units.
 
 ```haskell
 import qualified Grocy

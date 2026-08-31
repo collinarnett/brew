@@ -1,0 +1,29 @@
+{
+  "product": {
+    "id": 1,
+    "name": "Cookies",
+    "qu_id_stock": 3,
+    "qu_id_purchase": 3,
+    "location_id": 4
+  },
+  "stock_amount": 12,
+  "stock_amount_opened": 0,
+  "last_price": 4.125,
+  "avg_price": 4.125,
+  "last_purchased": "2026-08-22",
+  "last_used": null,
+  "next_due_date": "2027-02-19",
+  "quantity_unit_stock": {
+    "id": 3,
+    "name": "Pack"
+  },
+  "default_quantity_unit_purchase": {
+    "id": 3,
+    "name": "Pack"
+  },
+  "location": {
+    "id": 4,
+    "name": "Candy cupboard"
+  },
+  "product_barcodes": []
+}

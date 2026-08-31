@@ -4,6 +4,7 @@ version:         0.1.0
 synopsis:        Grocy REST API client
 license:         MIT
 build-type:      Simple
+extra-source-files: test/corpus/*.json
 
 library
   default-language: GHC2021
@@ -21,4 +22,19 @@ library
                   , safe-money
                   , scientific
                   , text
+                  , time
+
+test-suite tests
+  default-language: GHC2021
+  default-extensions: DerivingStrategies OverloadedStrings StrictData
+  ghc-options:      -Wall -Wcompat -Wextra -Wunused-packages -Werror
+  type:             exitcode-stdio-1.0
+  main-is:          Main.hs
+  hs-source-dirs:   test
+  build-depends:    base >= 4.17 && < 5
+                  , aeson
+                  , filepath
+                  , grocy
+                  , tasty
+                  , tasty-hunit
                   , time

@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "name": "Cookies",
+    "location_id": 4,
+    "qu_id_purchase": 3,
+    "qu_id_stock": 3,
+    "shopping_location_id": null
+  },
+  {
+    "id": 2,
+    "name": "Chocolate",
+    "location_id": 4,
+    "qu_id_purchase": 3,
+    "qu_id_stock": 3,
+    "shopping_location_id": null
+  },
+  {
+    "id": 3,
+    "name": "Gummy bears",
+    "location_id": 4,
+    "qu_id_purchase": 3,
+    "qu_id_stock": 3,
+    "shopping_location_id": null
+  }
+]

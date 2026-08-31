@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "name": "Pizza",
+    "description": "<h1>Lorem ipsum</h1><p>Lorem ipsum <b>do",
+    "base_servings": 1,
+    "type": "normal"
+  },
+  {
+    "id": 2,
+    "name": "Spaghetti bolognese",
+    "description": "<h1>Lorem ipsum</h1><p>Lorem ipsum <b>do",
+    "base_servings": 1,
+    "type": "normal"
+  },
+  {
+    "id": 3,
+    "name": "Sandwiches",
+    "description": "<h1>Lorem ipsum</h1><p>Lorem ipsum <b>do",
+    "base_servings": 1,
+    "type": "normal"
+  }
+]

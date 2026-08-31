@@ -1,0 +1,54 @@
+[
+  {
+    "amount": 12,
+    "amount_opened": 0,
+    "best_before_date": "2027-02-19",
+    "product_id": 1,
+    "product": {
+      "id": 1,
+      "name": "Cookies",
+      "qu_id_stock": 3,
+      "qu_id_purchase": 3,
+      "location_id": 4
+    }
+  },
+  {
+    "amount": 13,
+    "amount_opened": 0,
+    "best_before_date": "2027-02-19",
+    "product_id": 2,
+    "product": {
+      "id": 2,
+      "name": "Chocolate",
+      "qu_id_stock": 3,
+      "qu_id_purchase": 3,
+      "location_id": 4
+    }
+  },
+  {
+    "amount": 5,
+    "amount_opened": 1,
+    "best_before_date": "2027-02-19",
+    "product_id": 3,
+    "product": {
+      "id": 3,
+      "name": "Gummy bears",
+      "qu_id_stock": 3,
+      "qu_id_purchase": 3,
+      "location_id": 4
+    }
+  },
+  {
+    "amount": 5,
+    "amount_opened": 0,
+    "best_before_date": "2027-02-19",
+    "product_id": 4,
+    "product": {
+      "id": 4,
+      "name": "Crisps",
+      "qu_id_stock": 3,
+      "qu_id_purchase": 3,
+      "location_id": 4
+    }
+  }
+]
