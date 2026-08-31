@@ -19,11 +19,15 @@ import System.FilePath ((</>))
 import Toml qualified
 import Toml.Schema (FromValue (..), optKey, parseTableFromValue, reqKey)
 
-import Walmart (Catalog, OperationName (..), mkQueryHash, seededCatalog)
+import Walmart (Catalog, OperationName (..), Renderer (..), mkQueryHash, seededCatalog)
 
 data Config = Config
   { cfgCatalogPath :: Maybe FilePath
   , cfgSeeds       :: Catalog
+    -- | The browser product pages are rendered through. Without one the
+    -- product tool reports that it is unconfigured; every other tool
+    -- works without it.
+  , cfgRenderer    :: Maybe Renderer
   }
 
 data ConfigError
@@ -52,14 +56,20 @@ instance FromValue OperationEntry where
   fromValue = parseTableFromValue $
     OperationEntry <$> reqKey "name" <*> reqKey "hash"
 
+newtype RawRenderer = RawRenderer { rawLightpanda :: Text }
+
+instance FromValue RawRenderer where
+  fromValue = parseTableFromValue (RawRenderer <$> reqKey "lightpanda")
+
 data RawConfig = RawConfig
   { rawCatalogFile :: Maybe Text
   , rawOperations  :: [OperationEntry]
+  , rawRenderer    :: Maybe RawRenderer
   }
 
 instance FromValue RawConfig where
   fromValue = parseTableFromValue $
-    RawConfig <$> optKey "catalog-file" <*> reqKey "operation"
+    RawConfig <$> optKey "catalog-file" <*> reqKey "operation" <*> optKey "renderer"
 
 defaultConfigPath :: IO FilePath
 defaultConfigPath = do
@@ -87,6 +97,7 @@ toConfig path raw = do
   pure Config
     { cfgCatalogPath = T.unpack <$> rawCatalogFile raw
     , cfgSeeds       = seededCatalog seeds
+    , cfgRenderer    = Renderer . T.unpack . rawLightpanda <$> rawRenderer raw
     }
   where
     toSeed entry = case mkQueryHash (entryRawHash entry) of

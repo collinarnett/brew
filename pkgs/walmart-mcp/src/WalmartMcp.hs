@@ -63,10 +63,11 @@ listTools =
       { toolDefinitionName = "walmart_search_products"
       , toolDefinitionDescription =
           "Search Walmart's catalogue. Returns products with name, brand,\
-          \ description, price in cents, price per unit, stock status, the\
+          \ description, offer id (what walmart_update_cart takes), price in cents, price per unit, stock status, the\
           \ ways the item can be obtained with the soonest date offered,\
           \ and the category path it sits in. Stock is reported against\
-          \ one store, named in the result's store field. Alongside the\
+          \ one store, named in the result's store field: the store the cart is\
+          \ assorted against, which walmart_set_store changes. Alongside the\
           \ products come the categories Walmart offers to narrow the same\
           \ search: pass one of those ids back as category_id to restrict\
           \ results to that department, and searching without one first is\
@@ -82,6 +83,150 @@ listTools =
           , required = [ "query" ]
           }
       , toolDefinitionTitle = Just "Search Walmart products"
+      }
+  , ToolDefinition
+      { toolDefinitionName = "walmart_get_product"
+      , toolDefinitionDescription =
+          "Read one product's page: name, brand, UPC barcode, price, the\
+          \ ingredient statement, the package net content (e.g. '1 GAL',\
+          \ '1 lb'), the category path, and the full specification table.\
+          \ The UPC is what nutrition databases are keyed by, and the net\
+          \ content is the purchase unit for stocking. This renders the\
+          \ page in a browser, so it takes several seconds per item; call\
+          \ it per item you mean to stock, never per search result."
+      , toolDefinitionInputSchema = InputSchemaDefinitionObject
+          { properties =
+              [ ("us_item_id", prop "string" "Item id, as reported by walmart_search_products or a cart line.") ]
+          , required = [ "us_item_id" ]
+          }
+      , toolDefinitionTitle = Just "Get Walmart product"
+      }
+  , ToolDefinition
+      { toolDefinitionName = "walmart_find_stores"
+      , toolDefinitionDescription =
+          "List Walmart stores around a postal code, nearest first: store\
+          \ id, name, city, distance in miles, and how each hands over an\
+          \ order (delivery, pickup_in_store, pickup_curbside). Store ids\
+          \ are what the cart and the slot listing report, so this is how\
+          \ to learn which store a stock answer was about."
+      , toolDefinitionInputSchema = InputSchemaDefinitionObject
+          { properties =
+              [ ("postal_code", prop "string" "Postal code to search around.")
+              , ("radius_miles", prop "integer" "Search radius in miles (default 20).")
+              ]
+          , required = [ "postal_code" ]
+          }
+      , toolDefinitionTitle = Just "Find Walmart stores"
+      }
+  , ToolDefinition
+      { toolDefinitionName = "walmart_get_cart"
+      , toolDefinitionDescription =
+          "Report the session's cart: its id, the store it is assorted\
+          \ against, whether that store was chosen explicitly or inferred\
+          \ by Walmart, the fulfillment intent, and how many lines it holds."
+      , toolDefinitionInputSchema = InputSchemaDefinitionObject
+          { properties = [], required = [] }
+      , toolDefinitionTitle = Just "Get Walmart cart"
+      }
+  , ToolDefinition
+      { toolDefinitionName = "walmart_update_cart"
+      , toolDefinitionDescription =
+          "Set one offer's quantity in the cart and return what the cart now\
+          \ holds: each line's item id, offer id, quantity and price, plus\
+          \ the subtotal. A quantity of zero removes the line.\
+          \ The offer id comes from walmart_search_products or from a cart\
+          \ line; the cart id from walmart_get_cart. This changes the\
+          \ shopper's real cart."
+      , toolDefinitionInputSchema = InputSchemaDefinitionObject
+          { properties =
+              [ ("cart_id", prop "string" "Cart id, as reported by walmart_get_cart.")
+              , ("offer_id", prop "string" "Offer id of the item, as reported by walmart_search_products.")
+              , ("quantity", prop "integer" "Quantity to set; 0 removes the line.")
+              ]
+          , required = [ "cart_id", "offer_id", "quantity" ]
+          }
+      , toolDefinitionTitle = Just "Update Walmart cart"
+      }
+  , ToolDefinition
+      { toolDefinitionName = "walmart_list_slots"
+      , toolDefinitionDescription =
+          "List the delivery or pickup slots Walmart offers the cart, by\
+          \ day. Each slot has an id, a timing (a scheduled window or an\
+          \ express promise in minutes), availability, the fee in cents,\
+          \ when the offer expires, and the slot_metadata Walmart expects\
+          \ back when the slot is reserved."
+      , toolDefinitionInputSchema = InputSchemaDefinitionObject
+          { properties =
+              [ ("fulfillment", prop "string" "delivery or pickup (default delivery).") ]
+          , required = []
+          }
+      , toolDefinitionTitle = Just "List Walmart slots"
+      }
+  , ToolDefinition
+      { toolDefinitionName = "walmart_reserve_slot"
+      , toolDefinitionDescription =
+          "Hold a delivery or pickup slot for the cart. Pass the\
+          \ slot_metadata of a slot from walmart_list_slots. Returns the\
+          \ reservation: its id, the slot window and fee, and the deadline\
+          \ Walmart holds it until -- the order must be placed in the\
+          \ browser before then. This changes the shopper's real cart."
+      , toolDefinitionInputSchema = InputSchemaDefinitionObject
+          { properties =
+              [ ("cart_id", prop "string" "Cart id, as reported by walmart_get_cart.")
+              , ("slot_metadata", prop "string" "The slot_metadata of the chosen slot, verbatim from walmart_list_slots.")
+              ]
+          , required = [ "cart_id", "slot_metadata" ]
+          }
+      , toolDefinitionTitle = Just "Reserve Walmart slot"
+      }
+  , ToolDefinition
+      { toolDefinitionName = "walmart_cancel_reservation"
+      , toolDefinitionDescription =
+          "Release a held slot and return the cart as it stands."
+      , toolDefinitionInputSchema = InputSchemaDefinitionObject
+          { properties =
+              [ ("reservation_id", prop "string" "Reservation id, as reported by walmart_reserve_slot or walmart_get_cart.") ]
+          , required = [ "reservation_id" ]
+          }
+      , toolDefinitionTitle = Just "Cancel Walmart reservation"
+      }
+  , ToolDefinition
+      { toolDefinitionName = "walmart_set_store"
+      , toolDefinitionDescription =
+          "Point the cart, and with it every stock answer from\
+          \ walmart_search_products, at a store from walmart_find_stores.\
+          \ Walmart drops any held slot when the store changes. This\
+          \ changes the shopper's real session: set it back when a\
+          \ comparison is done."
+      , toolDefinitionInputSchema = InputSchemaDefinitionObject
+          { properties =
+              [ ("cart_id", prop "string" "Cart id, as reported by walmart_get_cart.")
+              , ("store_id", prop "string" "Store id, as reported by walmart_find_stores.")
+              ]
+          , required = [ "cart_id", "store_id" ]
+          }
+      , toolDefinitionTitle = Just "Set Walmart store"
+      }
+  , ToolDefinition
+      { toolDefinitionName = "walmart_compare_stores"
+      , toolDefinitionDescription =
+          "Run the same searches against several stores and report, per\
+          \ store, which queries have an in-stock result and the best\
+          \ match for each. Points the cart at each store in turn and\
+          \ restores the one it started on; if restoring fails the result\
+          \ says so and the cart is left on the last store. Costs one\
+          \ request per store plus one per store per query, so keep the\
+          \ lists short."
+      , toolDefinitionInputSchema = InputSchemaDefinitionObject
+          { properties =
+              [ ("cart_id", prop "string" "Cart id, as reported by walmart_get_cart.")
+              , ("store_ids", prop "string" "Comma-separated store ids from walmart_find_stores.")
+              , ("queries", prop "string" "Search terms separated by | (vertical bar), one per ingredient.")
+              , ("category_id", prop "string" "Restrict every search to this category, e.g. the Food department id.")
+              ]
+          , required = [ "cart_id", "store_ids", "queries" ]
+          }
+      , toolDefinitionTitle = Just "Compare Walmart stores"
       }
   , ToolDefinition
       { toolDefinitionName = "walmart_refresh_endpoints"
@@ -107,6 +252,15 @@ callTool config _session toolName args = case toolName of
   "walmart_list_orders"       -> Right <$> listOrders config args
   "walmart_get_order"         -> Right <$> getOrder config args
   "walmart_search_products"   -> Right <$> searchProducts config args
+  "walmart_get_product"       -> Right <$> getProduct config args
+  "walmart_find_stores"       -> Right <$> findStores config args
+  "walmart_get_cart"          -> Right <$> getCart config
+  "walmart_list_slots"        -> Right <$> listSlots config args
+  "walmart_update_cart"       -> Right <$> updateCart config args
+  "walmart_reserve_slot"      -> Right <$> reserveSlot config args
+  "walmart_cancel_reservation" -> Right <$> cancelReservation config args
+  "walmart_set_store"         -> Right <$> setStore config args
+  "walmart_compare_stores"    -> Right <$> compareStores config args
   "walmart_refresh_endpoints" -> Right <$> refreshEndpoints config
   _                           -> pure (Left (UnknownTool toolName))
 
@@ -145,6 +299,148 @@ searchProducts config args = case lookup "query" args of
             , sqLimit      = limit
             }
       withEnv config "search" (\env -> Walmart.searchProducts env query)
+
+getProduct :: Config -> [(ArgumentName, ArgumentValue)] -> IO ToolResult
+getProduct config args = case (lookup "us_item_id" args, cfgRenderer config) of
+  (Nothing, _) -> pure (toolError "us_item_id is required")
+  (_, Nothing) -> pure (toolError
+    "No page renderer is configured: set renderer.lightpanda in the walmart-mcp config to the lightpanda executable.")
+  (Just item, Just renderer) -> do
+    result <- Walmart.getProduct renderer (UsItemId item)
+    pure $ case result of
+      Left err -> toolError (renderWalmartError err)
+      Right detail -> toolText (encodeText (envelope "product" detail []))
+
+findStores :: Config -> [(ArgumentName, ArgumentValue)] -> IO ToolResult
+findStores config args = case lookup "postal_code" args of
+  Nothing -> pure (toolError "postal_code is required")
+  Just postal -> case parseCount 20 (lookup "radius_miles" args) of
+    Left err -> pure (toolError err)
+    Right radius ->
+      withEnv config "stores" (\env -> Walmart.findStores env StoreSearch
+        { ssPostalCode = PostalCode postal, ssRadiusMiles = radius })
+
+getCart :: Config -> IO ToolResult
+getCart config = withEnv config "cart" Walmart.getCart
+
+updateCart :: Config -> [(ArgumentName, ArgumentValue)] -> IO ToolResult
+updateCart config args =
+  case (lookup "cart_id" args, lookup "offer_id" args, lookup "quantity" args) of
+    (Just cid, Just offer, Just rawQty) -> case readMaybe (T.unpack rawQty) of
+      Just qty | qty >= 0 ->
+        withEnv config "receipt" (\env -> Walmart.updateCart env (CartId cid)
+          [ CartUpdate { cuOfferId = OfferId offer, cuQuantity = qty } ])
+      _notAQuantity -> pure (toolError ("quantity must be a whole number of at least 0, got: " <> rawQty))
+    _ -> pure (toolError "cart_id, offer_id and quantity are all required")
+
+reserveSlot :: Config -> [(ArgumentName, ArgumentValue)] -> IO ToolResult
+reserveSlot config args = case (lookup "cart_id" args, lookup "slot_metadata" args) of
+  (Just cid, Just metadata) ->
+    withEnv config "reservation" (\env -> Walmart.reserveSlot env (CartId cid) (SlotMetadata metadata))
+  _ -> pure (toolError "cart_id and slot_metadata are both required")
+
+cancelReservation :: Config -> [(ArgumentName, ArgumentValue)] -> IO ToolResult
+cancelReservation config args = case lookup "reservation_id" args of
+  Just rid -> withEnv config "cart" (\env -> Walmart.cancelReservation env (ReservationId rid))
+  Nothing  -> pure (toolError "reservation_id is required")
+
+setStore :: Config -> [(ArgumentName, ArgumentValue)] -> IO ToolResult
+setStore config args = case (lookup "cart_id" args, lookup "store_id" args) of
+  (Just cid, Just sid) -> withEnv config "cart" (\env -> Walmart.setDeliveryStore env (CartId cid) (StoreId sid))
+  _ -> pure (toolError "cart_id and store_id are both required")
+
+-- | One store's answer to one query: the first in-stock product, if any.
+data StoreHit = StoreHit
+  { hitQuery   :: Text
+  , hitProduct :: Maybe ProductSummary
+  }
+
+instance Aeson.ToJSON StoreHit where
+  toJSON h = Aeson.object
+    [ "query"    Aeson..= hitQuery h
+    , "in_stock" Aeson..= maybe False (const True) (hitProduct h)
+    , "product"  Aeson..= hitProduct h
+    ]
+
+data StoreReport = StoreReport
+  { reportStore   :: StoreId
+  , reportHits    :: [StoreHit]
+  , reportInStock :: Int
+  }
+
+instance Aeson.ToJSON StoreReport where
+  toJSON r = Aeson.object
+    [ "store_id"       Aeson..= reportStore r
+    , "in_stock_count" Aeson..= reportInStock r
+    , "results"        Aeson..= reportHits r
+    ]
+
+compareStores :: Config -> [(ArgumentName, ArgumentValue)] -> IO ToolResult
+compareStores config args =
+  case (lookup "cart_id" args, lookup "store_ids" args, lookup "queries" args) of
+    (Just cid, Just rawStores, Just rawQueries) ->
+      let stores = map (StoreId . T.strip) (filter (not . T.null) (T.splitOn "," rawStores))
+          queries = filter (not . T.null) (map T.strip (T.splitOn "|" rawQueries))
+          category = CategoryId <$> lookup "category_id" args
+      in if null stores || null queries
+        then pure (toolError "store_ids and queries must each name at least one entry")
+        else withEnv config "comparison" (\env -> compareAt env (CartId cid) category stores queries)
+    _ -> pure (toolError "cart_id, store_ids and queries are all required")
+
+-- | Visit each store, search every query there, and put the cart back
+-- where it was. The report names the original store and whether it
+-- was restored, so a failed restore is never silent.
+compareAt
+  :: Walmart.Env -> CartId -> Maybe CategoryId -> [StoreId] -> [Text]
+  -> IO (Either WalmartError Aeson.Value)
+compareAt env cid category stores queries = do
+  before <- Walmart.getCart env
+  case before of
+    Left err -> pure (Left err)
+    Right cart -> do
+      let origin = cartStoreId cart
+      reports <- visit stores
+      restored <- Walmart.setDeliveryStore env cid origin
+      pure $ case reports of
+        Left err -> Left err
+        Right rs -> Right $ Aeson.object
+          [ "original_store" Aeson..= origin
+          , "restored"       Aeson..= either (const False) ((== origin) . cartStoreId) restored
+          , "restore_error"  Aeson..= either (Just . renderWalmartError) (const Nothing) restored
+          , "stores"         Aeson..= rs
+          ]
+  where
+    visit [] = pure (Right [])
+    visit (sid : rest) = do
+      switched <- Walmart.setDeliveryStore env cid sid
+      case switched of
+        Left err -> pure (Left err)
+        Right _ -> do
+          hits <- searchAll queries
+          case hits of
+            Left err -> pure (Left err)
+            Right hs -> fmap (StoreReport sid hs (length (filter (maybe False (const True) . hitProduct) hs)) :) <$> visit rest
+    searchAll [] = pure (Right [])
+    searchAll (q : qs) = do
+      found <- Walmart.searchProducts env SearchQuery
+        { sqTerm = q, sqCategoryId = category, sqPage = 1, sqLimit = 5 }
+      case found of
+        Left err -> pure (Left err)
+        Right result ->
+          let inStock = [ p | p <- srProducts result, psAvailability p == Just "In stock" ]
+              hit = StoreHit q (case inStock of { (p : _) -> Just p; [] -> Nothing })
+          in fmap (hit :) <$> searchAll qs
+
+listSlots :: Config -> [(ArgumentName, ArgumentValue)] -> IO ToolResult
+listSlots config args = case parseIntent (lookup "fulfillment" args) of
+  Left err -> pure (toolError err)
+  Right intent -> withEnv config "slots" (\env -> Walmart.getSlots env intent)
+
+parseIntent :: Maybe Text -> Either Text FulfillmentIntent
+parseIntent Nothing           = Right DeliveryIntent
+parseIntent (Just "delivery") = Right DeliveryIntent
+parseIntent (Just "pickup")   = Right PickupIntent
+parseIntent (Just other)      = Left ("fulfillment must be delivery or pickup, got: " <> other)
 
 refreshEndpoints :: Config -> IO ToolResult
 refreshEndpoints config =
@@ -256,3 +552,7 @@ renderWalmartError (WalmartStaleAfterRefresh name preview) =
      \ cause. Response: " <> unBodyPreview preview
 renderWalmartError (WalmartDiscoveryFailed msg) =
   "Endpoint discovery failed: " <> msg
+renderWalmartError (WalmartRenderFailed msg) =
+  "Could not render the product page: " <> msg
+renderWalmartError (WalmartInvalidVariables messages) =
+  "Walmart accepted the operation but not its variables:\n" <> T.unlines messages

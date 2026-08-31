@@ -37,6 +37,7 @@
       config = lib.mkIf cfg.enable {
         xdg.configFile."walmart-mcp/config.toml".source = tomlFormat.generate "walmart-mcp-config.toml" {
           operation = lib.mapAttrsToList (name: hash: { inherit name hash; }) cfg.seededOperations;
+          renderer.lightpanda = lib.getExe pkgs.lightpanda;
         };
         home.packages = [ pkgs.walmart-extractor ];
         programs.mcp.servers.walmart.command = lib.getExe pkgs.walmart-mcp;
