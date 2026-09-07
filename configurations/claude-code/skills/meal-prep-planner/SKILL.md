@@ -106,6 +106,8 @@ Levers, when something needs help: leaner cuts and yogurt-based rather than oil-
 
 **Storage separation.** Sauces, raw crunchy vegetables, and fresh herbs need to stay out of the main container until serving. This is most of the difference between food that tastes fresh on day five and food that doesn't.
 
+**Food safety.** Read every recipe once more as the person who will eat it on day five. Raw meat and its marinade go in a bowl that leaves for the sink, never in the container the cooked food will be stored in; leftover marinade is thrown away or boiled, never spooned over cooked meat; hands and boards are washed between raw meat and anything eaten uncooked. Cooked food is portioned and refrigerated within two hours, and the eat-by days follow the three-to-four-day rule for cooked poultry and meat. A method that saves a bowl by breaking any of these is wrong, however tidy it reads.
+
 ---
 
 ## Step 5: Verify the numbers
