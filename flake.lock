@@ -180,6 +180,38 @@
         "type": "github"
       }
     },
+    "flake-compat_2": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1767039857,
+        "narHash": "sha256-vNpUSpF5Nuw8xvDLj2KCwwksIbjua2LZCqhV1LNRDns=",
+        "owner": "NixOS",
+        "repo": "flake-compat",
+        "rev": "5edf11c44bc78a0d334f6334cdaf7d60d732daab",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "repo": "flake-compat",
+        "type": "github"
+      }
+    },
+    "flake-compat_3": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1767039857,
+        "narHash": "sha256-vNpUSpF5Nuw8xvDLj2KCwwksIbjua2LZCqhV1LNRDns=",
+        "owner": "NixOS",
+        "repo": "flake-compat",
+        "rev": "5edf11c44bc78a0d334f6334cdaf7d60d732daab",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "repo": "flake-compat",
+        "type": "github"
+      }
+    },
     "flake-parts": {
       "inputs": {
         "nixpkgs-lib": "nixpkgs-lib"
@@ -238,6 +270,28 @@
       "inputs": {
         "flake-compat": "flake-compat",
         "nixpkgs": [
+          "grocy",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1788267358,
+        "narHash": "sha256-nt+lUqYVpc9Y6JeMd2WmXzCDojasdadKo0mWcluvY2Y=",
+        "owner": "cachix",
+        "repo": "git-hooks.nix",
+        "rev": "27555e2624241fb116b49095df4caaee85a25691",
+        "type": "github"
+      },
+      "original": {
+        "owner": "cachix",
+        "repo": "git-hooks.nix",
+        "type": "github"
+      }
+    },
+    "git-hooks_2": {
+      "inputs": {
+        "flake-compat": "flake-compat_2",
+        "nixpkgs": [
           "toenail",
           "nixpkgs"
         ]
@@ -254,6 +308,28 @@
         "owner": "cachix",
         "repo": "git-hooks.nix",
         "rev": "43b3c1ab9d40fb1dbb008f451988a91e375825e9",
+        "type": "github"
+      }
+    },
+    "git-hooks_3": {
+      "inputs": {
+        "flake-compat": "flake-compat_3",
+        "nixpkgs": [
+          "walmart",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1788267358,
+        "narHash": "sha256-nt+lUqYVpc9Y6JeMd2WmXzCDojasdadKo0mWcluvY2Y=",
+        "owner": "cachix",
+        "repo": "git-hooks.nix",
+        "rev": "27555e2624241fb116b49095df4caaee85a25691",
+        "type": "github"
+      },
+      "original": {
+        "owner": "cachix",
+        "repo": "git-hooks.nix",
         "type": "github"
       }
     },
@@ -275,6 +351,62 @@
         "owner": "shymega",
         "ref": "add-gpd-duo",
         "repo": "nixos-hardware",
+        "type": "github"
+      }
+    },
+    "grocy": {
+      "inputs": {
+        "git-hooks": "git-hooks",
+        "haskell-mcp-server": "haskell-mcp-server",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1789221187,
+        "narHash": "sha256-JXuGuyBzWI2rCG1tO3MidpK7LbFvF51MKz88LbOXAHs=",
+        "owner": "collinarnett",
+        "repo": "grocy-haskell",
+        "rev": "e4bb0ea7fada83694e074768e2824c43fa0b263a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "collinarnett",
+        "repo": "grocy-haskell",
+        "type": "github"
+      }
+    },
+    "haskell-mcp-server": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1777081025,
+        "narHash": "sha256-tolMEGXH5ao6Ay9ePpKVuj0j3ALa6fDuLDHhttQDYL4=",
+        "owner": "collinarnett",
+        "repo": "haskell-mcp-server",
+        "rev": "af15fc736073ac2ed0d16f382b76db9cdc590e75",
+        "type": "github"
+      },
+      "original": {
+        "owner": "collinarnett",
+        "ref": "fix/streamable-http-initialize-header",
+        "repo": "haskell-mcp-server",
+        "type": "github"
+      }
+    },
+    "haskell-mcp-server_2": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1777081025,
+        "narHash": "sha256-tolMEGXH5ao6Ay9ePpKVuj0j3ALa6fDuLDHhttQDYL4=",
+        "owner": "collinarnett",
+        "repo": "haskell-mcp-server",
+        "rev": "af15fc736073ac2ed0d16f382b76db9cdc590e75",
+        "type": "github"
+      },
+      "original": {
+        "owner": "collinarnett",
+        "ref": "fix/streamable-http-initialize-header",
+        "repo": "haskell-mcp-server",
         "type": "github"
       }
     },
@@ -846,6 +978,7 @@
         "emacs-overlay": "emacs-overlay",
         "flake-parts": "flake-parts",
         "gpd-duo-nixos-hardware": "gpd-duo-nixos-hardware",
+        "grocy": "grocy",
         "hell": "hell",
         "hermes-agent": "hermes-agent",
         "home-manager": "home-manager",
@@ -860,7 +993,8 @@
         "nixpkgs": "nixpkgs",
         "nixpkgs-prometheus": "nixpkgs-prometheus",
         "toenail": "toenail",
-        "tuicr": "tuicr"
+        "tuicr": "tuicr",
+        "walmart": "walmart"
       }
     },
     "rust-analyzer-src": {
@@ -964,7 +1098,7 @@
     },
     "toenail": {
       "inputs": {
-        "git-hooks": "git-hooks",
+        "git-hooks": "git-hooks_2",
         "nixpkgs": [
           "nixpkgs"
         ]
@@ -1092,6 +1226,28 @@
       "original": {
         "owner": "pyproject-nix",
         "repo": "uv2nix",
+        "type": "github"
+      }
+    },
+    "walmart": {
+      "inputs": {
+        "git-hooks": "git-hooks_3",
+        "haskell-mcp-server": "haskell-mcp-server_2",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1789221352,
+        "narHash": "sha256-Is9RWJ4biWaoEfs4inPR3byMiqLhkHQnxyMY2XADRpY=",
+        "owner": "collinarnett",
+        "repo": "walmart-haskell",
+        "rev": "c3add294c38f24562afcbf22f8471b7357ade714",
+        "type": "github"
+      },
+      "original": {
+        "owner": "collinarnett",
+        "repo": "walmart-haskell",
         "type": "github"
       }
     }

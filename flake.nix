@@ -11,6 +11,8 @@
     emacs-overlay.url = "github:nix-community/emacs-overlay";
     emacs-overlay.inputs.nixpkgs.follows = "nixpkgs";
     flake-parts.url = "github:hercules-ci/flake-parts";
+    grocy.url = "github:collinarnett/grocy-haskell";
+    grocy.inputs.nixpkgs.follows = "nixpkgs";
     gpd-duo-nixos-hardware.url = "github:/shymega/nixos-hardware/add-gpd-duo";
     gpd-duo-nixos-hardware.inputs.nixpkgs.follows = "nixpkgs";
     hell.url = "github:chrisdone/hell";
@@ -45,6 +47,8 @@
     newt.inputs.import-tree.follows = "import-tree";
     tuicr.url = "github:agavra/tuicr";
     tuicr.inputs.nixpkgs.follows = "nixpkgs";
+    walmart.url = "github:collinarnett/walmart-haskell";
+    walmart.inputs.nixpkgs.follows = "nixpkgs";
   };
   outputs =
     inputs@{
@@ -179,13 +183,7 @@
                 # against the same dependency versions the machines deploy.
                 brewPkgs = pkgs.extend (import ./pkgs/all-packages.nix);
                 localPkgs = [
-                  "browser-cookies"
                   "clan-mcp"
-                  "walmart"
-                  "walmart-extractor"
-                  "walmart-mcp"
-                  "grocy"
-                  "grocy-mcp"
                   "openfoodfacts"
                   "nutrition-mcp"
                 ];

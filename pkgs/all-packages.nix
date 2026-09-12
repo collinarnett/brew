@@ -2,13 +2,7 @@ final: prev:
 let
   localHsPkg = hprev: name: hprev.callCabal2nix name ./${name} { };
   localHsPkgNames = [
-    "browser-cookies"
     "clan-mcp"
-    "walmart"
-    "walmart-extractor"
-    "walmart-mcp"
-    "grocy"
-    "grocy-mcp"
     "openfoodfacts"
     "nutrition-mcp"
   ];
@@ -34,7 +28,6 @@ in
   gitlab-mcp = prev.callPackage ./gitlab-mcp.nix { };
   gpt-oss-20b-heretic-ara-v4 = prev.callPackage ./gpt-oss-20b-heretic-ara-v4 { };
   iommu-groups = prev.callPackage ./iommu-groups.nix { };
-  lightpanda = prev.callPackage ./lightpanda { };
   mcp-conformance = prev.callPackage ./mcp-conformance { };
   recap-triage = prev.callPackage ./recap-triage { };
   tangaria = prev.callPackage ./tangaria { };
@@ -52,8 +45,5 @@ in
         }) { };
       };
   };
-  walmart-mcp = prev.haskell.lib.compose.justStaticExecutables final.haskellPackages.walmart-mcp;
-  grocy-mcp = prev.haskell.lib.compose.justStaticExecutables final.haskellPackages.grocy-mcp;
   nutrition-mcp = prev.haskell.lib.compose.justStaticExecutables final.haskellPackages.nutrition-mcp;
-  walmart-extractor = prev.haskell.lib.compose.justStaticExecutables final.haskellPackages.walmart-extractor;
 }
