@@ -15,9 +15,6 @@
     gpd-duo-nixos-hardware.inputs.nixpkgs.follows = "nixpkgs";
     hell.url = "github:chrisdone/hell";
     hell.inputs.nixpkgs.follows = "nixpkgs";
-    hermes-agent.url = "github:NousResearch/hermes-agent";
-    hermes-agent.inputs.nixpkgs.follows = "nixpkgs";
-    hermes-agent.inputs.flake-parts.follows = "flake-parts";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     home-manager.url = "github:nix-community/home-manager";
     mcp-servers-nix.url = "github:natsukium/mcp-servers-nix";

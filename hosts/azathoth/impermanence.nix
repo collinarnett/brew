@@ -48,12 +48,6 @@
         group = "nginx";
         mode = "0700";
       }
-      {
-        directory = "/var/lib/hermes";
-        user = "hermes";
-        group = "hermes";
-        mode = "0700";
-      }
       # rqbit session state and downloads. Reconstructible (re-downloadable),
       # so it lives here rather than the backed-up /persist/save tier.
       {

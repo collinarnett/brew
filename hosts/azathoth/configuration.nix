@@ -50,10 +50,6 @@
       domain = "trexd.dev";
       zoneId = "Z02841443N2C1YNW3LDOS";
     };
-    nous-agent = {
-      enable = true;
-      users = [ "collin" ];
-    };
     recap-timer.enable = true;
     beets.enable = true;
     k9s.enable = true;
