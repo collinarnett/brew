@@ -3,10 +3,6 @@ inputs: final: prev: {
   hell = inputs.hell.packages.${prev.stdenv.hostPlatform.system}.default;
   tuicr = inputs.tuicr.packages.${prev.stdenv.hostPlatform.system}.default;
 
-  # Signal with the dracula theme. The dracula org maintains the themed
-  # rebuild (asar-injected CSS) in their flake.
-  signal-desktop = (inputs.dracula-signal.overlays final prev).signal-desktop;
-
   # sops-nix's sops-install-secrets asks for the buildGo125Module builder,
   # which nixpkgs removed when Go 1.25 reached end of life. buildGoModule is
   # the supported builder (Go 1.26). Drop once sops-nix asks for a current
