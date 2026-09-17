@@ -43,8 +43,6 @@
     newt.inputs.nixpkgs.follows = "nixpkgs";
     newt.inputs.flake-parts.follows = "flake-parts";
     newt.inputs.import-tree.follows = "import-tree";
-    tuicr.url = "github:agavra/tuicr";
-    tuicr.inputs.nixpkgs.follows = "nixpkgs";
     walmart.url = "github:collinarnett/walmart-haskell";
     walmart.inputs.nixpkgs.follows = "nixpkgs";
   };

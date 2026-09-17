@@ -1,7 +1,6 @@
 inputs: final: prev: {
   clan-cli = inputs.clan-core.packages.${prev.stdenv.hostPlatform.system}.clan-cli;
   hell = inputs.hell.packages.${prev.stdenv.hostPlatform.system}.default;
-  tuicr = inputs.tuicr.packages.${prev.stdenv.hostPlatform.system}.default;
 
   # sops-nix's sops-install-secrets asks for the buildGo125Module builder,
   # which nixpkgs removed when Go 1.25 reached end of life. buildGoModule is

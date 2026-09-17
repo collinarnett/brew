@@ -160,7 +160,6 @@
     programs.btop.package = pkgs.btop-cuda;
 
     brew.radicle.enable = true;
-    brew.tuicr.enable = true;
 
     home.stateVersion = "21.11";
     programs.home-manager.enable = true;

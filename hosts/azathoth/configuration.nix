@@ -302,7 +302,6 @@
     brew.ghostty.fontSize = 18;
     brew.radicle.enable = true;
     brew.tangaria.enable = true;
-    brew.tuicr.enable = true;
 
     # Reads Walmart cookies from this machine's Firefox profile, so it
     # only works where that session lives.
