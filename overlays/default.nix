@@ -7,6 +7,12 @@ inputs: final: prev: {
   # rebuild (asar-injected CSS) in their flake.
   signal-desktop = (inputs.dracula-signal.overlays final prev).signal-desktop;
 
+  # sops-nix's sops-install-secrets asks for the buildGo125Module builder,
+  # which nixpkgs removed when Go 1.25 reached end of life. buildGoModule is
+  # the supported builder (Go 1.26). Drop once sops-nix asks for a current
+  # builder itself.
+  buildGo125Module = final.buildGoModule;
+
   # 0.8.3's rewritten PipeWire capture loop deadlocks once the consumer holds
   # both buffers of the pool, freezing every screencast after the first frame
   # (upstream issue emersion/xdg-desktop-portal-wlr#395; broke Zoom and
