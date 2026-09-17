@@ -39,14 +39,21 @@
             initialize = true;
             repository = "s3:s3.us-east-1.amazonaws.com/collin-backups/restic";
             passwordFile = config.clan.core.vars.generators.restic_s3_password.files.restic_s3_password.path;
+
+            # Every job writes to the one repository above. A backup takes a
+            # shared lock, but the `forget --prune` that follows it needs an
+            # exclusive lock, which no other job's shared lock can coexist
+            # with. Each job therefore gets its own slot, spaced far wider
+            # than the longest run so a prune never meets a sibling's backup.
+            schedule = onCalendar: {
+              OnCalendar = onCalendar;
+              Persistent = true;
+            };
           in
           {
             backups.media = {
               inherit initialize repository passwordFile;
-              timerConfig = {
-                OnCalendar = "daily";
-                Persistent = true;
-              };
+              timerConfig = schedule "*-*-* 00:00:00";
               pruneOpts = [
                 "--keep-last 1"
               ];
@@ -57,10 +64,7 @@
 
             backups.org = {
               inherit initialize repository passwordFile;
-              timerConfig = {
-                OnCalendar = "daily";
-                Persistent = true;
-              };
+              timerConfig = schedule "*-*-* 00:15:00";
               pruneOpts = [
                 "--keep-last 10"
               ];
@@ -72,10 +76,7 @@
             # Backup for 'projects' and 'work_projects' directories - Daily
             backups.projects = {
               inherit initialize repository passwordFile;
-              timerConfig = {
-                OnCalendar = "daily";
-                Persistent = true;
-              };
+              timerConfig = schedule "*-*-* 00:30:00";
               pruneOpts = [
                 "--keep-daily 7" # Retain daily snapshots for 1 week
                 "--keep-weekly 4" # Retain weekly snapshots for 1 month
@@ -90,10 +91,7 @@
             # Backup for 'Pictures' directory - Weekly
             backups.pictures = {
               inherit initialize repository passwordFile;
-              timerConfig = {
-                OnCalendar = "weekly";
-                Persistent = true;
-              };
+              timerConfig = schedule "Mon *-*-* 01:00:00";
               pruneOpts = [
                 "--keep-weekly 4" # Retain weekly snapshots for 1 month
                 "--keep-monthly 6" # Retain monthly snapshots for 6 months
@@ -106,10 +104,7 @@
             # Backup for 'Documents' directory - Daily
             backups.documents = {
               inherit initialize repository passwordFile;
-              timerConfig = {
-                OnCalendar = "daily";
-                Persistent = true;
-              };
+              timerConfig = schedule "*-*-* 00:45:00";
               pruneOpts = [
                 "--keep-daily 7" # Retain daily snapshots for 1 week
                 "--keep-weekly 4" # Retain weekly snapshots for 1 month
@@ -123,10 +118,7 @@
             # Backup for 'Videos' directory - Monthly
             backups.videos = {
               inherit initialize repository passwordFile;
-              timerConfig = {
-                OnCalendar = "monthly";
-                Persistent = true;
-              };
+              timerConfig = schedule "*-*-01 01:15:00";
               pruneOpts = [
                 "--keep-last 2" # Retain last two snapshots
               ];
