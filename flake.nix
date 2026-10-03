@@ -113,6 +113,12 @@
                   Priority = 0;
                 }
               ];
+              # vampire is a libvirt guest on azathoth's NAT bridge, which has no
+              # IPv6 link-local address for multicast discovery. Without this
+              # peer, traffic between the two relays through a public node.
+              roles.default.machines.vampire.settings.extraPeers = [
+                "tcp://192.168.122.1:6443"
+              ];
               roles.default.settings = {
                 extraPeers = [
                   "tls://mo.us.ygg.triplebit.org:993"
