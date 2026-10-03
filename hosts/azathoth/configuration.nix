@@ -275,6 +275,12 @@
     flake = "/home/collin/brew";
   };
   programs.kdeconnect.enable = true;
+  programs.moonlight-qt = {
+    enable = true;
+    # No rtkit on this host, so this is the only way Moonlight can raise
+    # the priority of its decode and audio threads.
+    capSysNice = true;
+  };
 
   # ── System ────────────────────────────────────────────────────────
 
@@ -325,7 +331,6 @@
       languagetool
       lightpanda
       makemkv
-      moonlight-qt
       # TEMP: openjdk25-wakefield (its JDK) fails a /build/-reference check under
       # nixpkgs 26.11; re-enable once overlays/default.nix openjdk override is fixed.
       # leiningen

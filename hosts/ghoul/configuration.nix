@@ -379,6 +379,12 @@ in
   programs.zsh.enable = true;
   programs.dconf.enable = true;
   programs.ssh.setXAuthLocation = true;
+  programs.moonlight-qt = {
+    enable = true;
+    # No rtkit on this host, so this is the only way Moonlight can raise
+    # the priority of its decode and audio threads.
+    capSysNice = true;
+  };
 
   # ── Services ──────────────────────────────────────────────────────
 
@@ -436,7 +442,6 @@ in
       git
       gotop
       grim
-      moonlight-qt
       noto-fonts-color-emoji
       pavucontrol
       poppler-utils
