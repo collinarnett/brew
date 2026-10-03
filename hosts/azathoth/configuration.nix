@@ -325,6 +325,7 @@
       languagetool
       lightpanda
       makemkv
+      moonlight-qt
       # TEMP: openjdk25-wakefield (its JDK) fails a /build/-reference check under
       # nixpkgs 26.11; re-enable once overlays/default.nix openjdk override is fixed.
       # leiningen

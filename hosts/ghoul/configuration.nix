@@ -436,6 +436,7 @@ in
       git
       gotop
       grim
+      moonlight-qt
       noto-fonts-color-emoji
       pavucontrol
       poppler-utils
