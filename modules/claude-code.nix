@@ -149,6 +149,14 @@
         programs.claude-code = {
           enable = true;
           enableMcpIntegration = true;
+          lspServers.haskell = {
+            command = "haskell-language-server-wrapper";
+            args = [ "--lsp" ];
+            extensionToLanguage = {
+              ".hs" = "haskell";
+              ".lhs" = "haskell";
+            };
+          };
           settings = {
             alwaysThinkingEnabled = true;
             hooks = {
