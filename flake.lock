@@ -466,6 +466,26 @@
         "type": "github"
       }
     },
+    "moonshine": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1790954503,
+        "narHash": "sha256-RjhZTtI24jBxBoqJJjM8ihuwMOGW5zA1kCxzzqb/lmc=",
+        "owner": "hgaiser",
+        "repo": "moonshine",
+        "rev": "d67303c407274a1bb005cb1d8b2a83a981596240",
+        "type": "github"
+      },
+      "original": {
+        "owner": "hgaiser",
+        "repo": "moonshine",
+        "type": "github"
+      }
+    },
     "newt": {
       "inputs": {
         "flake-parts": [
@@ -819,6 +839,7 @@
         "impermanence": "impermanence",
         "import-tree": "import-tree",
         "mcp-servers-nix": "mcp-servers-nix",
+        "moonshine": "moonshine",
         "newt": "newt",
         "nix-topology": "nix-topology",
         "nixos-anywhere": "nixos-anywhere",

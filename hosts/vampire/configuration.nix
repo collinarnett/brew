@@ -1,5 +1,6 @@
 {
   config,
+  lib,
   pkgs,
   ...
 }:
@@ -19,6 +20,7 @@
   brew.prometheus.enable = true;
   brew.grafana.enable = true;
   brew.sillytavern.enable = true;
+  brew.steam.enable = true;
 
   brew.whisperlivekit = {
     enable = true;
@@ -57,11 +59,17 @@
   users.users.collin = {
     isNormalUser = true;
     description = "Collin";
+    # Declared so services.moonshine can derive the uid of the user
+    # manager it runs under.
+    uid = 1000;
     shell = pkgs.zsh;
     extraGroups = [
       "networkmanager"
       "wheel"
       "docker"
+      # Streamed games read the virtual gamepads moonshine creates. The
+      # group grants that without depending on an active seat session.
+      "input"
     ];
   };
 
@@ -85,6 +93,39 @@
       OLLAMA_KV_CACHE_TYPE = "q8_0";
     };
     loadModels = [ "gpt-oss:20b" ];
+  };
+
+  services.moonshine = {
+    enable = true;
+    user = "collin";
+    # vampire sits behind libvirt NAT on azathoth, so clients reach it over
+    # yggdrasil, whose interface already drops traffic from non-clan peers.
+    openFirewall = true;
+    settings = {
+      name = "vampire";
+      # Yggdrasil is IPv6-only and moonshine binds IPv4-only by default.
+      address = "::";
+      application = [
+        {
+          title = "Steam";
+          command = [
+            (lib.getExe config.programs.steam.package)
+            "steam://open/bigpicture"
+          ];
+        }
+      ];
+      application_scanner = [
+        {
+          type = "steam";
+          library = "$HOME/.local/share/Steam";
+          command = [
+            (lib.getExe config.programs.steam.package)
+            "-bigpicture"
+            "steam://rungameid/{game_id}"
+          ];
+        }
+      ];
+    };
   };
 
   services.openssh = {

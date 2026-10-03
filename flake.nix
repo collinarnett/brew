@@ -19,6 +19,8 @@
     home-manager.url = "github:nix-community/home-manager";
     mcp-servers-nix.url = "github:natsukium/mcp-servers-nix";
     mcp-servers-nix.inputs.nixpkgs.follows = "nixpkgs";
+    moonshine.url = "github:hgaiser/moonshine";
+    moonshine.inputs.nixpkgs.follows = "nixpkgs";
     import-tree.url = "github:vic/import-tree";
     impermanence.url = "github:nix-community/impermanence";
     impermanence.inputs.nixpkgs.follows = "nixpkgs";
@@ -137,6 +139,7 @@
           machines = {
             vampire = {
               imports = brewNixosModules ++ [
+                inputs.moonshine.nixosModules.default
                 ./hosts/vampire/configuration.nix
                 machineBase
               ];
