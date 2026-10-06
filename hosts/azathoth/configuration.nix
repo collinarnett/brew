@@ -184,6 +184,16 @@
     };
   };
 
+  # clan-core disables wait-online, which lets network-online.target pass
+  # before eno2 has a DHCP lease. oauth2-proxy resolves its OIDC issuer at
+  # startup and exhausts its restart limit in that window, taking every
+  # forward-auth vhost down until it is restarted by hand. anyInterface keeps
+  # the unplugged eno1 and wifi from stalling boot.
+  systemd.network.wait-online = {
+    enable = lib.mkForce true;
+    anyInterface = true;
+  };
+
   # ── Hardware ──────────────────────────────────────────────────────
 
   hardware.graphics.enable = true;
