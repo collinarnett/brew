@@ -115,6 +115,21 @@
               ];
             };
 
+            # Monica's nightly database dump (01:20) and its uploaded files.
+            backups.monica = lib.mkIf config.services.monica.enable {
+              inherit initialize repository passwordFile;
+              timerConfig = schedule "*-*-* 01:30:00";
+              pruneOpts = [
+                "--keep-daily 7"
+                "--keep-weekly 4"
+                "--keep-monthly 12"
+              ];
+              paths = [
+                "/persist/save${config.services.mysqlBackup.location}"
+                "/persist/save${config.services.monica.dataDir}"
+              ];
+            };
+
             # Backup for 'Videos' directory - Monthly
             backups.videos = {
               inherit initialize repository passwordFile;
@@ -130,14 +145,17 @@
 
         systemd.services =
           lib.genAttrs
-            [
-              "restic-backups-projects"
-              "restic-backups-org"
-              "restic-backups-pictures"
-              "restic-backups-documents"
-              "restic-backups-media"
-              "restic-backups-videos"
-            ]
+            (
+              [
+                "restic-backups-projects"
+                "restic-backups-org"
+                "restic-backups-pictures"
+                "restic-backups-documents"
+                "restic-backups-media"
+                "restic-backups-videos"
+              ]
+              ++ lib.optional config.services.monica.enable "restic-backups-monica"
+            )
             (_: {
               environment = {
                 AWS_PROFILE = "default";

@@ -40,14 +40,23 @@ let
       };
     };
 
-  homeGroup = optional cfg.grocy.enable {
-    Grocy = {
-      href = "https://grocy.${cfg.domain}";
-      icon = "grocy.png";
-      description = "Groceries and household";
-      siteMonitor = "https://grocy.${cfg.domain}";
+  homeGroup =
+    optional cfg.grocy.enable {
+      Grocy = {
+        href = "https://grocy.${cfg.domain}";
+        icon = "grocy.png";
+        description = "Groceries and household";
+        siteMonitor = "https://grocy.${cfg.domain}";
+      };
+    }
+    ++ optional cfg.monica.enable {
+      Monica = {
+        href = "https://monica.${cfg.domain}";
+        icon = "monica.png";
+        description = "Personal CRM";
+        siteMonitor = "https://monica.${cfg.domain}";
+      };
     };
-  };
 
   toolsGroup =
     optional cfg.searx.enable {

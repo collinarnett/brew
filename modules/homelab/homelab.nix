@@ -23,6 +23,7 @@
         ./_jellyfin.nix
         ./_kanidm.nix
         ./_kavita.nix
+        ./_monica.nix
         ./_nginx.nix
         ./_oauth2-proxy.nix
         ./_radicle.nix
@@ -127,6 +128,14 @@
           type = types.submodule {
             options = {
               enable = mkEnableOption "searx";
+            };
+          };
+        };
+        monica = mkOption {
+          default = { };
+          type = types.submodule {
+            options = {
+              enable = mkEnableOption "monica";
             };
           };
         };

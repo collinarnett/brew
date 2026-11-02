@@ -76,6 +76,7 @@
       jellyfin.enable = true;
       kanidm.enable = true;
       kavita.enable = true;
+      monica.enable = true;
       grocy.enable = true;
       homepage.enable = true;
       rqbit.enable = true;

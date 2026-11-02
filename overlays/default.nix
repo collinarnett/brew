@@ -24,6 +24,12 @@ inputs: final: prev: {
     };
   });
 
+  # Monica 4 has no single sign-on; this signs in the user the homelab's
+  # forward-auth proxy has already identified (see modules/homelab/_monica.nix).
+  monica = prev.monica.overrideAttrs (old: {
+    patches = (old.patches or [ ]) ++ [ ./patches/monica-proxy-auth.patch ];
+  });
+
   openjdk25-wakefield = prev.openjdk25.overrideAttrs (old: {
     pname = "openjdk-wakefield";
     version = "25.0.2";

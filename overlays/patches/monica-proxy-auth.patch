@@ -1,0 +1,62 @@
+diff --color -ruN a/app/Http/Kernel.php b/app/Http/Kernel.php
+--- a/app/Http/Kernel.php	2026-11-02 04:45:25.893780205 -0500
++++ b/app/Http/Kernel.php	2026-11-02 04:45:25.902780279 -0500
+@@ -31,6 +31,7 @@
+             \App\Http\Middleware\EncryptCookies::class,
+             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
+             \Illuminate\Session\Middleware\StartSession::class,
++            \App\Http\Middleware\AuthenticateFromProxy::class,
+             'sentry.context',
+             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+             \App\Http\Middleware\VerifyCsrfToken::class,
+@@ -52,6 +53,7 @@
+             \App\Http\Middleware\EncryptCookies::class,
+             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
+             \Illuminate\Session\Middleware\StartSession::class,
++            \App\Http\Middleware\AuthenticateFromProxy::class,
+             'sentry.context',
+             'locale',
+         ],
+diff --color -ruN a/app/Http/Middleware/AuthenticateFromProxy.php b/app/Http/Middleware/AuthenticateFromProxy.php
+--- a/app/Http/Middleware/AuthenticateFromProxy.php	1969-12-31 19:00:00.000000000 -0500
++++ b/app/Http/Middleware/AuthenticateFromProxy.php	2026-11-02 04:45:25.900780263 -0500
+@@ -0,0 +1,39 @@
++<?php
++
++namespace App\Http\Middleware;
++
++use App\Models\User\User;
++use Closure;
++use Illuminate\Http\Request;
++use Illuminate\Support\Facades\Auth;
++
++/**
++ * Signs in the user the reverse proxy has already authenticated.
++ *
++ * The proxy supplies that user's address as the MONICA_PROXY_EMAIL FastCGI
++ * parameter. Client headers only ever reach PHP as HTTP_* parameters, so no
++ * request can supply this one itself.
++ */
++class AuthenticateFromProxy
++{
++    public function handle(Request $request, Closure $next)
++    {
++        $email = $request->server('MONICA_PROXY_EMAIL');
++
++        if (is_string($email) && $email !== '') {
++            $current = Auth::user();
++
++            if ($current === null || strcasecmp($current->email, $email) !== 0) {
++                $user = User::where('email', $email)->first();
++
++                if ($user !== null) {
++                    Auth::login($user);
++                } elseif ($current !== null) {
++                    Auth::logout();
++                }
++            }
++        }
++
++        return $next($request);
++    }
++}

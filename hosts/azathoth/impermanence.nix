@@ -1,3 +1,4 @@
+{ config, ... }:
 {
   # Point sops-nix at the persist path directly so the age key is available
   # during initrd activation (before impermanence bind mounts are set up).
@@ -67,6 +68,12 @@
         mode = "0750";
       }
       {
+        directory = "/var/lib/mysql";
+        user = "mysql";
+        group = "mysql";
+        mode = "0700";
+      }
+      {
         directory = "/var/lib/postgresql";
         user = "postgres";
         group = "postgres";
@@ -126,6 +133,19 @@
   users.groups.multimedia = { };
   environment.persistence."/persist/save" = {
     directories = [
+      # Monica's uploads and the nightly MySQL dumps restic ships off-site.
+      {
+        directory = "/var/lib/monica";
+        user = "monica";
+        group = "monica";
+        mode = "0750";
+      }
+      {
+        directory = config.services.mysqlBackup.location;
+        user = config.services.mysqlBackup.user;
+        group = config.users.users.${config.services.mysqlBackup.user}.group;
+        mode = "0700";
+      }
       {
         directory = "/media";
         group = "multimedia";
