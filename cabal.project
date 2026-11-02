@@ -1,9 +1,8 @@
 packages:
-  pkgs/browser-cookies
-  pkgs/walmart
-  pkgs/walmart-extractor
-  pkgs/walmart-mcp
-  pkgs/grocy
-  pkgs/grocy-mcp
-  pkgs/openfoodfacts
+  pkgs/clan-mcp
   pkgs/nutrition-mcp
+  pkgs/openfoodfacts
+  pkgs/proton-mail-mcp
+
+package proton-mail-mcp
+  ghc-options: -Werror -fwrite-ide-info
