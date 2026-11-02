@@ -114,6 +114,12 @@
           directory = ".local/share/protonmail";
           mode = "0700";
         }
+        # proton-cal's session tokens and derived key passphrase; a fresh
+        # proton-cal login recreates them.
+        {
+          directory = ".config/proton-cal";
+          mode = "0700";
+        }
       ];
     };
   };

@@ -323,6 +323,7 @@
       enable = true;
       address = "collin@arnett.it";
     };
+    brew.proton-calendar.enable = true;
 
     home.packages = with pkgs; [
       alejandra
