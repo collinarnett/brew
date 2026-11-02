@@ -4,6 +4,7 @@
     {
       config,
       lib,
+      pkgs,
       ...
     }:
     let
@@ -18,11 +19,11 @@
     {
       options.brew.r53-ddns = {
         enable = mkEnableOption "r53-ddns";
-        hostname = mkOption {
-          type = types.str;
-          example = "ygg";
+        hostnames = mkOption {
+          type = types.nonEmptyListOf types.str;
+          example = [ "ygg" ];
           description = ''
-            Record name within the zone, without the domain. Its A
+            Record names within the zone, without the domain. Each one's A
             record tracks this machine's public IPv4 address.
           '';
         };
@@ -39,9 +40,9 @@
       };
 
       config = mkIf cfg.enable {
-        # The IAM user behind these credentials may only UPSERT the one
-        # A record named below, so a leak from this machine cannot touch
-        # anything else in the account.
+        # The IAM user behind these credentials may only UPSERT the A
+        # records named in hostnames, so a leak from this machine cannot
+        # touch anything else in the account.
         clan.core.vars.generators.r53-ddns = {
           files.environment = { };
           prompts.environment = {
@@ -56,7 +57,8 @@
 
         services.r53-ddns = {
           enable = true;
-          inherit (cfg) hostname domain;
+          inherit (cfg) domain;
+          hostname = builtins.head cfg.hostnames;
           zoneID = cfg.zoneId;
           ttl = 300;
           interval = "15min";
@@ -67,11 +69,22 @@
         # reach the internet on. Only the IPv4 address is forwarded to
         # this machine, so withholding IPv6 sockets keeps it from
         # advertising an AAAA that nothing answers on.
-        systemd.services.r53-ddns.serviceConfig.RestrictAddressFamilies = [
-          "AF_INET"
-          "AF_NETLINK"
-          "AF_UNIX"
-        ];
+        systemd.services.r53-ddns.serviceConfig = {
+          RestrictAddressFamilies = [
+            "AF_INET"
+            "AF_NETLINK"
+            "AF_UNIX"
+          ];
+          # The upstream unit updates a single name; a oneshot runs one
+          # update per name in turn.
+          Type = "oneshot";
+          ExecStart = lib.mkForce (
+            map (
+              name:
+              "${lib.getExe pkgs.r53-ddns} -zone-id ${cfg.zoneId} -domain ${cfg.domain} -hostname ${name} -ttl 300"
+            ) cfg.hostnames
+          );
+        };
       };
     };
 }

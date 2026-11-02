@@ -46,7 +46,12 @@
     # peer. The Verizon lease survives most reboots but not long outages.
     r53-ddns = {
       enable = true;
-      hostname = "ygg";
+      # idm needs a public A record because Anthropic's connector servers
+      # fetch kanidm's OAuth metadata and exchange tokens over IPv4.
+      hostnames = [
+        "ygg"
+        "idm"
+      ];
       domain = "trexd.dev";
       zoneId = "Z02841443N2C1YNW3LDOS";
     };
