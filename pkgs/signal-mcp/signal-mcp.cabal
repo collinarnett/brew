@@ -1,0 +1,68 @@
+cabal-version:   3.0
+name:            signal-mcp
+version:         0.1.0.0
+synopsis:        Signal message history and sending for MCP, over signal-cli's daemon
+license:         AGPL-3.0-or-later
+build-type:      Simple
+extra-doc-files: README.md
+extra-source-files: test/golden/*.json
+                  , test/golden/*.events
+
+common opts
+  default-language: GHC2021
+  default-extensions: DerivingStrategies LambdaCase OverloadedStrings StrictData
+  ghc-options:      -Wall -Wcompat -Wincomplete-record-updates
+                    -Wincomplete-uni-patterns -Wpartial-fields
+                    -Wmissing-export-lists -Wmissing-deriving-strategies
+                    -Wredundant-constraints -Wunused-packages
+
+library
+  import:           opts
+  hs-source-dirs:   src
+  exposed-modules:  SignalMcp.Config
+                  , SignalMcp.Conversation
+                  , SignalMcp.Daemon
+                  , SignalMcp.Envelope
+                  , SignalMcp.Ingest
+                  , SignalMcp.Read
+                  , SignalMcp.Send
+                  , SignalMcp.Store
+                  , SignalMcp.Tool
+  build-depends:    base >= 4.17 && < 5
+                  , aeson
+                  , async
+                  , bytestring
+                  , directory
+                  , filepath
+                  , mcp-server
+                  , network
+                  , sqlite-simple
+                  , text
+                  , time
+                  , toml-parser
+
+executable signal-mcp
+  import:           opts
+  main-is:          Main.hs
+  hs-source-dirs:   app
+  ghc-options:      -threaded
+  build-depends:    base >= 4.17 && < 5
+                  , mcp-server
+                  , signal-mcp
+
+test-suite spec
+  import:           opts
+  type:             exitcode-stdio-1.0
+  main-is:          Spec.hs
+  hs-source-dirs:   test
+  build-depends:    base >= 4.17 && < 5
+                  , aeson
+                  , bytestring
+                  , containers
+                  , filepath
+                  , hedgehog
+                  , signal-mcp
+                  , tasty
+                  , tasty-golden
+                  , tasty-hedgehog
+                  , text

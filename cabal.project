@@ -3,6 +3,10 @@ packages:
   pkgs/nutrition-mcp
   pkgs/openfoodfacts
   pkgs/proton-mail-mcp
+  pkgs/signal-mcp
 
 package proton-mail-mcp
+  ghc-options: -Werror -fwrite-ide-info
+
+package signal-mcp
   ghc-options: -Werror -fwrite-ide-info

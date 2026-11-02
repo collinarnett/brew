@@ -127,6 +127,12 @@
           directory = ".config/proton-cal";
           mode = "0700";
         }
+        # signal-cli's linked-device keys and account state. Relinking
+        # recreates them, and this tier keeps them out of restic.
+        {
+          directory = ".local/share/signal-cli";
+          mode = "0700";
+        }
       ];
     };
   };
@@ -168,6 +174,12 @@
     users.collin = {
       directories = [
         ".config/Signal"
+        # The Signal message history signal-mcp records. signal-cli keeps
+        # none, so nothing can rebuild it.
+        {
+          directory = ".local/share/signal-mcp";
+          mode = "0700";
+        }
         ".local/share/Anki2"
         ".local/share/direnv"
         ".local/share/zsh"

@@ -331,6 +331,7 @@
       address = "collin@arnett.it";
     };
     brew.proton-calendar.enable = true;
+    brew.signal.enable = true;
 
     home.packages = with pkgs; [
       alejandra

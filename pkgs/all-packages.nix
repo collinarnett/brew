@@ -6,6 +6,7 @@ let
     "openfoodfacts"
     "nutrition-mcp"
     "proton-mail-mcp"
+    "signal-mcp"
   ];
 in
 {
@@ -54,4 +55,5 @@ in
   };
   nutrition-mcp = prev.haskell.lib.compose.justStaticExecutables final.haskellPackages.nutrition-mcp;
   proton-mail-mcp = prev.haskell.lib.compose.justStaticExecutables final.haskellPackages.proton-mail-mcp;
+  signal-mcp = prev.haskell.lib.compose.justStaticExecutables final.haskellPackages.signal-mcp;
 }

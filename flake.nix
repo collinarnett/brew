@@ -189,6 +189,7 @@
                   "openfoodfacts"
                   "nutrition-mcp"
                   "proton-mail-mcp"
+                  "signal-mcp"
                 ];
               in
               brewPkgs.haskellPackages.shellFor {

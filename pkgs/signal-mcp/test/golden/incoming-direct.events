@@ -1,0 +1,2 @@
+PersonNamed (ServiceId "0b5c1c43-4a5e-4b3e-9c6e-6d1b0f6f1a01") "Ana"
+Posted (Message {messageConversation = Direct (ServiceId "0b5c1c43-4a5e-4b3e-9c6e-6d1b0f6f1a01"), messageKey = MessageKey {keyAuthor = ServiceId "0b5c1c43-4a5e-4b3e-9c6e-6d1b0f6f1a01", keySentAt = Timestamp 1631458508784}, messageBody = Just "foobar", messageAttachments = [], messageViewOnce = False, messageQuote = Nothing, messageExpiresAt = Nothing})

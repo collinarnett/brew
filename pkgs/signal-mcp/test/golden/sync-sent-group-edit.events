@@ -1,0 +1,3 @@
+PersonNamed (ServiceId "9a9a9a9a-1111-4222-8333-944444444444") "Owner"
+GroupNamed (GroupId "Pmpi+EfPWmsxiomLe9Nx2XF9HOE483p6iKiFj65iMwI=") "Climbing"
+Edited (MessageKey {keyAuthor = ServiceId "9a9a9a9a-1111-4222-8333-944444444444", keySentAt = Timestamp 1700000001000}) (Just "see you at 6")

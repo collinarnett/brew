@@ -1,0 +1,3 @@
+PersonNamed (ServiceId "0b5c1c43-4a5e-4b3e-9c6e-6d1b0f6f1a01") "Ana"
+GroupNamed (GroupId "Pmpi+EfPWmsxiomLe9Nx2XF9HOE483p6iKiFj65iMwI=") "Climbing"
+Posted (Message {messageConversation = Group (GroupId "Pmpi+EfPWmsxiomLe9Nx2XF9HOE483p6iKiFj65iMwI="), messageKey = MessageKey {keyAuthor = ServiceId "0b5c1c43-4a5e-4b3e-9c6e-6d1b0f6f1a01", keySentAt = Timestamp 1700000000000}, messageBody = Nothing, messageAttachments = [Attachment {attachmentContentType = "image/jpeg", attachmentFilename = Just "wall.jpg", attachmentSize = Just 20480}], messageViewOnce = False, messageQuote = Just (Quote {quoteAuthor = ServiceId "9a9a9a9a-1111-4222-8333-944444444444", quoteSentAt = Timestamp 1699999999000, quoteText = Just "where are we going?"}), messageExpiresAt = Nothing})
