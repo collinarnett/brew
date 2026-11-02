@@ -244,6 +244,7 @@
   brew.toenail.enable = true;
 
   brew.grocy-mcp.enable = true;
+  brew.monica-mcp.enable = true;
 
   # Sol Reader serial ports (normal mode and its USB JTAG programming mode):
   # the uaccess tag grants the seated user an ACL on the device nodes. The

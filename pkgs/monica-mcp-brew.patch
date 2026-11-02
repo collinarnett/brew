@@ -1,0 +1,229 @@
+diff -ruN mm-a/src/config.ts mm-b/src/config.ts
+--- a/src/config.ts	2026-11-02 04:59:31.887805423 -0500
++++ b/src/config.ts	2026-11-02 05:01:05.452582169 -0500
+@@ -2,10 +2,13 @@
+ // directory, if there is one). The Monica names are the same as in 1.x, so
+ // existing client configurations keep working.
+ 
+-import { existsSync } from "node:fs";
++import { existsSync, readFileSync } from "node:fs";
+ import { z } from "zod";
+ 
+-if (existsSync(".env") && !process.env.MONICA_API_TOKEN && !process.env.MONICA_API_TOKEN_FILE) {
++const configFlag = process.argv.indexOf("--config");
++const configPath = configFlag === -1 ? undefined : process.argv[configFlag + 1];
++
++if (!configPath && existsSync(".env") && !process.env.MONICA_API_TOKEN && !process.env.MONICA_API_TOKEN_FILE) {
+   try {
+     process.loadEnvFile(".env");
+   } catch {
+@@ -14,7 +17,8 @@
+ }
+ 
+ const Env = z.object({
+-  MONICA_BASE_URL: z.string().url().default("https://app.monicahq.com"),
++  // required: a missing URL must not send the token to some other Monica
++  MONICA_BASE_URL: z.string().url(),
+   MONICA_API_TOKEN: z.string().min(1).optional(),
+   // a file holding the token instead (e.g. written by a setup container);
+   // re-read when it changes, so the token can be rotated without a restart
+@@ -35,7 +39,37 @@
+ 
+ export type Config = z.infer<typeof Env>;
+ 
+-export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
++// A JSON file named by --config holds the settings instead of the
++// environment, with the token given as the path of a file holding it.
++const ConfigFile = z
++  .object({
++    baseUrl: z.string().url(),
++    tokenFile: z.string().min(1),
++    timeoutMs: z.number().int().min(1000).optional(),
++  })
++  .strict();
++
++export function settingsFromFile(path: string): NodeJS.ProcessEnv {
++  let raw: unknown;
++  try {
++    raw = JSON.parse(readFileSync(path, "utf8"));
++  } catch (e: any) {
++    throw new Error(`monica-mcp: can't read --config ${path}: ${e.message}`);
++  }
++  const parsed = ConfigFile.safeParse(raw);
++  if (!parsed.success) {
++    const problems = parsed.error.issues.map((i) => `  ${i.path.join(".") || "file"}: ${i.message}`).join("\n");
++    throw new Error(`monica-mcp: configuration problem in ${path}\n${problems}`);
++  }
++  const f = parsed.data;
++  return {
++    MONICA_BASE_URL: f.baseUrl,
++    MONICA_API_TOKEN_FILE: f.tokenFile,
++    ...(f.timeoutMs === undefined ? {} : { MONICA_TIMEOUT_MS: String(f.timeoutMs) }),
++  };
++}
++
++export function loadConfig(env: NodeJS.ProcessEnv = configPath ? settingsFromFile(configPath) : process.env): Config {
+   const blank = (v: string | undefined) => (v === "" ? undefined : v);
+   const parsed = Env.safeParse(Object.fromEntries(Object.entries(env).map(([k, v]) => [k, blank(v)])));
+   if (!parsed.success) {
+diff -ruN mm-a/src/index.ts mm-b/src/index.ts
+--- a/src/index.ts	2026-11-02 04:59:31.887805423 -0500
++++ b/src/index.ts	2026-11-02 04:59:31.950805946 -0500
+@@ -19,7 +19,9 @@
+ }
+ 
+ const monica = new MonicaClient(cfg);
+-const ctx = { monica, resolve: new Resolver(monica), localFiles: cfg.MCP_TRANSPORT === "stdio" };
++// Uploading from a local path would let text the model has read carry this
++// machine's files into Monica, so uploads take content only.
++const ctx = { monica, resolve: new Resolver(monica), localFiles: false };
+ 
+ // Not fatal: Monica may come up after this server, and every tool explains
+ // a connection failure itself.
+diff -ruN mm-a/src/server.ts mm-b/src/server.ts
+--- a/src/server.ts	2026-11-02 04:59:31.887805423 -0500
++++ b/src/server.ts	2026-11-02 04:59:31.950805946 -0500
+@@ -6,7 +6,7 @@
+ import { z } from "zod";
+ import { MonicaError } from "./monica.js";
+ import { zodToJsonSchema } from "./schema.js";
+-import type { Ctx, Tool } from "./tools/common.js";
++import { READS, WRITES, type Ctx, type Tool } from "./tools/common.js";
+ import { contactsTool } from "./tools/contacts.js";
+ import { activitiesTool, contactInfoTool, notesTool, relationshipsTool } from "./tools/people.js";
+ import { callsTool, conversationsTool, giftsDebtsTool, journalTool, remindersTool, tasksTool } from "./tools/keeping-in-touch.js";
+@@ -14,7 +14,7 @@
+ 
+ export const VERSION = "2.1.1";
+ 
+-export const TOOLS: Tool<any>[] = [
++const BASE_TOOLS: Tool<any>[] = [
+   contactsTool,
+   contactInfoTool,
+   relationshipsTool,
+@@ -31,10 +31,44 @@
+   statusTool,
+ ];
+ 
++// Reads and changes are separate tools, so a client can let reading run on
++// its own while every change asks first. Each tool keeps its name for its
++// list, get and search actions; the rest move to the same name plus _edit.
++const READ_ACTIONS = new Set(["list", "get", "search"]);
++
++function splitByAccess(t: Tool<any>): Tool<any>[] {
++  if (!(t.input instanceof z.ZodDiscriminatedUnion)) return [t];
++  const options = t.input.options as z.ZodObject<any>[];
++  const isRead = (o: z.ZodObject<any>) => READ_ACTIONS.has(o.shape.action.value);
++  const reads = options.filter(isRead);
++  const writes = options.filter((o) => !isRead(o));
++  const input = (os: z.ZodObject<any>[]) => (os.length === 1 ? os[0] : z.discriminatedUnion("action", os as any));
++  if (writes.length === 0) return [{ ...t, annotations: { ...t.annotations, ...READS } }];
++  if (reads.length === 0) return [{ ...t, annotations: { ...t.annotations, ...WRITES } }];
++  return [
++    {
++      ...t,
++      input: input(reads),
++      annotations: { ...t.annotations, ...READS },
++      description: `${t.description}\nThis tool only reads (list, get, search); ${t.name}_edit makes every change.`,
++    },
++    {
++      ...t,
++      name: `${t.name}_edit`,
++      input: input(writes),
++      annotations: { ...t.annotations, ...WRITES },
++      description: `${t.description}\nThis tool only makes changes; ${t.name} reads.`,
++    },
++  ];
++}
++
++export const TOOLS: Tool<any>[] = BASE_TOOLS.flatMap(splitByAccess);
++
+ const INSTRUCTIONS = [
+   "Monica is a personal CRM: the people in someone's life, what they've done together, what to remember and when to get in touch.",
+   "Refer to people by name: every tool takes a contact's name or id, and says when a name is ambiguous.",
+   "When a person comes up, monica_contacts search or get first. Log what happened with monica_activities, monica_calls or monica_conversations; things to remember go in monica_notes; follow-ups in monica_reminders or monica_tasks.",
++  "Each tool only reads (list, get, search); the same name with _edit makes changes.",
+   "Deleting anything needs confirm: true, and can't be undone: only delete when asked to.",
+ ].join(" ");
+ 
+diff -ruN mm-a/test/http.test.mjs mm-b/test/http.test.mjs
+--- a/test/http.test.mjs	2026-11-02 04:59:31.888805431 -0500
++++ b/test/http.test.mjs	2026-11-02 04:59:31.950805946 -0500
+@@ -43,10 +43,13 @@
+ 
+   const client = new Client({ name: "test", version: "1" }, { capabilities: {} });
+   await client.connect(new StreamableHTTPClientTransport(new URL(`${base}/mcp`), { requestInit: { headers: { Authorization: "Bearer mcp-token" } } }));
+-  assert.equal((await client.listTools()).tools.length, 14);
++  const listed = (await client.listTools()).tools;
++  assert.ok(listed.some((t) => t.name === "monica_notes") && listed.some((t) => t.name === "monica_notes_edit"));
+   const status = await client.callTool({ name: "monica_status", arguments: {} });
+   assert.deepEqual(JSON.parse(status.content[0].text), { connected: true, user: "Me", email: "me@example.com", timezone: null, currency: null, contacts: 7 });
+-  const bad = await client.callTool({ name: "monica_notes", arguments: { action: "delete", id: 3 } });
++  const readOnly = await client.callTool({ name: "monica_notes", arguments: { action: "delete", id: 3, confirm: true } });
++  assert.equal(readOnly.isError, true, "the reading tool must refuse a delete");
++  const bad = await client.callTool({ name: "monica_notes_edit", arguments: { action: "delete", id: 3 } });
+   assert.equal(bad.isError, true);
+   assert.match(bad.content[0].text, /confirm/);
+   await client.close();
+diff -ruN mm-a/test/unit.test.mjs mm-b/test/unit.test.mjs
+--- a/test/unit.test.mjs	2026-11-02 04:59:31.888805431 -0500
++++ b/test/unit.test.mjs	2026-11-02 05:01:05.452582169 -0500
+@@ -11,11 +11,26 @@
+   const c = loadConfig({ MONICA_API_TOKEN: "t", MONICA_BASE_URL: "https://crm.example.com" });
+   assert.equal(c.MONICA_TOKEN_TYPE, "bearer");
+   assert.equal(c.MCP_TRANSPORT, "stdio");
+-  assert.throws(() => loadConfig({}), /MONICA_API_TOKEN: required: a Monica API token.*MONICA_API_TOKEN_FILE/s);
+-  assert.equal(loadConfig({ MONICA_API_TOKEN_FILE: "/run/token" }).MONICA_API_TOKEN_FILE, "/run/token");
+-  assert.throws(() => loadConfig({ MONICA_API_TOKEN: "t", MONICA_TOKEN_TYPE: "legacy" }), /MONICA_USER_TOKEN/);
+-  assert.throws(() => loadConfig({ MONICA_API_TOKEN: "t", MCP_TRANSPORT: "http" }), /needs MCP_BEARER_TOKEN/);
+-  assert.equal(loadConfig({ MONICA_API_TOKEN: "t", MCP_TRANSPORT: "http", MCP_BEARER_TOKEN: "b", PORT: "7011" }).PORT, 7011);
++  assert.throws(() => loadConfig({ MONICA_API_TOKEN: "t" }), /MONICA_BASE_URL/, "no URL must never fall back to the hosted service");
++  assert.throws(() => loadConfig({ MONICA_BASE_URL: "https://crm.example.com" }), /MONICA_API_TOKEN: required: a Monica API token.*MONICA_API_TOKEN_FILE/s);
++  assert.equal(loadConfig({ MONICA_BASE_URL: "https://crm.example.com", MONICA_API_TOKEN_FILE: "/run/token" }).MONICA_API_TOKEN_FILE, "/run/token");
++  assert.throws(() => loadConfig({ MONICA_BASE_URL: "https://crm.example.com", MONICA_API_TOKEN: "t", MONICA_TOKEN_TYPE: "legacy" }), /MONICA_USER_TOKEN/);
++  assert.throws(() => loadConfig({ MONICA_BASE_URL: "https://crm.example.com", MONICA_API_TOKEN: "t", MCP_TRANSPORT: "http" }), /needs MCP_BEARER_TOKEN/);
++  assert.equal(loadConfig({ MONICA_BASE_URL: "https://crm.example.com", MONICA_API_TOKEN: "t", MCP_TRANSPORT: "http", MCP_BEARER_TOKEN: "b", PORT: "7011" }).PORT, 7011);
++});
++
++test("a --config file supplies the URL and the token's path, and nothing else", async () => {
++  const { settingsFromFile } = await import("../dist/config.js");
++  const { mkdtempSync, writeFileSync } = await import("node:fs");
++  const { join } = await import("node:path");
++  const { tmpdir } = await import("node:os");
++  const dir = mkdtempSync(join(tmpdir(), "config-"));
++  const write = (name, value) => { const f = join(dir, name); writeFileSync(f, JSON.stringify(value)); return f; };
++  const env = settingsFromFile(write("ok.json", { baseUrl: "https://crm.example.com", tokenFile: "/run/token" }));
++  assert.deepEqual(env, { MONICA_BASE_URL: "https://crm.example.com", MONICA_API_TOKEN_FILE: "/run/token" });
++  assert.equal(loadConfig(env).MONICA_BASE_URL, "https://crm.example.com");
++  assert.throws(() => settingsFromFile(write("inline.json", { baseUrl: "https://crm.example.com", tokenFile: "/t", token: "secret" })), /Unrecognized key/, "inline tokens are refused");
++  assert.throws(() => settingsFromFile(write("nourl.json", { tokenFile: "/t" })), /baseUrl/);
+ });
+ 
+ test("a token file is read, and read again when it changes", async () => {
+@@ -41,7 +56,6 @@
+ });
+ 
+ test("every tool has a flat object schema, a description and annotations", () => {
+-  assert.equal(TOOLS.length, 14);
+   for (const t of TOOLS) {
+     const s = zodToJsonSchema(t.input);
+     assert.equal(s.type, "object", t.name);
+@@ -53,6 +67,18 @@
+   }
+ });
+ 
++test("a read-only tool offers only list, get and search, and its changes live in _edit", () => {
++  const names = new Set(TOOLS.map((t) => t.name));
++  for (const t of TOOLS) {
++    const actions = zodToJsonSchema(t.input).properties.action?.enum ?? [];
++    const reads = actions.filter((a) => ["list", "get", "search"].includes(a));
++    if (t.annotations.readOnlyHint) assert.deepEqual(actions, reads, `${t.name}: read-only tools must not change anything`);
++    else assert.deepEqual(reads, [], `${t.name}: a tool that changes things must not also read`);
++    if (t.name.endsWith("_edit")) assert.ok(names.has(t.name.slice(0, -"_edit".length)), `${t.name}: has a reading sibling`);
++  }
++  assert.ok(TOOLS.some((t) => t.name === "monica_notes_edit"));
++});
++
+ test("deleting needs confirm: true in every tool that deletes", () => {
+   for (const t of TOOLS) {
+     const s = zodToJsonSchema(t.input);
