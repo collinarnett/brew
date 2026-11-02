@@ -103,6 +103,17 @@
         # /persist/save tier: a rip spanning a reboot still finds its copy,
         # and restic never carries them to S3.
         ".cache/toenail"
+        # Proton Bridge's account vault, its keychain and the decrypted mail
+        # it caches. Bridge re-downloads mail after a login, and this tier
+        # keeps plaintext mail out of restic.
+        {
+          directory = ".config/protonmail";
+          mode = "0700";
+        }
+        {
+          directory = ".local/share/protonmail";
+          mode = "0700";
+        }
       ];
     };
   };

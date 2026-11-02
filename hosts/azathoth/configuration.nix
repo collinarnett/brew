@@ -319,6 +319,10 @@
     # only works where that session lives.
     brew.walmart-mcp.enable = true;
     brew.nutrition-mcp.enable = true;
+    brew.proton-mail = {
+      enable = true;
+      address = "collin@arnett.it";
+    };
 
     home.packages = with pkgs; [
       alejandra
