@@ -10,6 +10,7 @@ let
 in
 {
   appgate-sdp = prev.callPackage ./appgate-sdp.nix { }; # fixes RPATH/LD_LIBRARY_PATH over upstream
+  proton-cal = prev.callPackage ./proton-cal.nix { };
   bypass-paywalls-clean = prev.callPackage ./bypass-paywalls-clean.nix { };
   dod-certs = prev.callPackage ./dod-certs.nix { };
   cackey = prev.callPackage ./cackey.nix { };
