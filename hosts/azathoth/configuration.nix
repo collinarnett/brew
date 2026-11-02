@@ -171,6 +171,12 @@
 
   # ── Networking ────────────────────────────────────────────────────
 
+  brew.claude-connectors = {
+    enable = true;
+    publicInterface = "eno2";
+    lanSubnet = "192.168.1.0/24";
+  };
+
   networking = {
     hostName = "azathoth";
     hostId = "20556d4b";
