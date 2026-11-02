@@ -1,0 +1,6 @@
+From: a@example.org
+Subject: charset
+MIME-Version: 1.0
+Content-Type: text/plain; charset=x-made-up
+
+hello

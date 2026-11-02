@@ -1,0 +1,94 @@
+cabal-version:   3.0
+name:            proton-mail-mcp
+version:         0.1.0.0
+synopsis:        MCP server reading Proton Mail through a local Proton Mail Bridge
+license:         AGPL-3.0-or-later
+build-type:      Simple
+extra-doc-files: README.md
+extra-source-files: test/golden/*.eml
+
+common opts
+  default-language: GHC2021
+  default-extensions: DerivingStrategies LambdaCase OverloadedStrings StrictData
+  ghc-options:      -Wall -Wcompat -Wincomplete-record-updates
+                    -Wincomplete-uni-patterns -Wpartial-fields
+                    -Wmissing-export-lists -Wmissing-deriving-strategies
+                    -Wredundant-constraints -Wunused-packages
+
+library
+  import:           opts
+  hs-source-dirs:   src
+  exposed-modules:  ProtonMailMcp
+                  , ProtonMailMcp.Bridge
+                  , ProtonMailMcp.Config
+                  , ProtonMailMcp.Imap
+                  , ProtonMailMcp.Message
+  build-depends:    base >= 4.17 && < 5
+                  , HaskellNet >= 0.6 && < 0.7
+                  , aeson
+                  , attoparsec
+                  , bytestring
+                  , case-insensitive
+                  , containers
+                  , crypton-connection >= 0.4 && < 0.5
+                  , crypton-x509
+                  , crypton-x509-store
+                  , crypton-x509-validation
+                  , directory
+                  , filepath
+                  , lens
+                  , mcp-server
+                  , network
+                  , purebred-email >= 0.7 && < 0.8
+                  , tagsoup
+                  , text
+                  , time
+                  , tls >= 2.1 && < 2.2
+                  , toml-parser
+
+executable proton-mail-mcp
+  import:           opts
+  main-is:          Main.hs
+  hs-source-dirs:   app
+  ghc-options:      -threaded
+  build-depends:    base >= 4.17 && < 5
+                  , mcp-server
+                  , proton-mail-mcp
+
+test-suite spec
+  import:           opts
+  type:             exitcode-stdio-1.0
+  main-is:          Spec.hs
+  hs-source-dirs:   test
+  build-depends:    base >= 4.17 && < 5
+                  , bytestring
+                  , hedgehog
+                  , proton-mail-mcp
+                  , purebred-email
+                  , tasty
+                  , tasty-golden
+                  , tasty-hedgehog
+                  , text
+                  , time
+
+-- Runs a real IMAP server, so it needs dovecot and openssl on PATH.
+test-suite integration
+  import:           opts
+  type:             exitcode-stdio-1.0
+  main-is:          Integration.hs
+  hs-source-dirs:   test
+  ghc-options:      -threaded
+  build-depends:    base >= 4.17 && < 5
+                  , bytestring
+                  , crypton-x509-store
+                  , directory
+                  , filepath
+                  , network
+                  , process
+                  , proton-mail-mcp
+                  , tasty
+                  , tasty-hunit
+                  , temporary
+                  , text
+                  , time
+                  , unix

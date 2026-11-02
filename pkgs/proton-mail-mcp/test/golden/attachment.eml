@@ -1,0 +1,15 @@
+From: a@example.org
+Subject: attach
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="b2"
+
+--b2
+Content-Type: text/plain; charset=utf-8
+
+see attached
+--b2
+Content-Type: text/plain; charset=utf-8; name="notes.txt"
+Content-Disposition: attachment; filename="notes.txt"
+
+secret attachment bytes
+--b2--

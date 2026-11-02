@@ -188,6 +188,7 @@
                   "clan-mcp"
                   "openfoodfacts"
                   "nutrition-mcp"
+                  "proton-mail-mcp"
                 ];
               in
               brewPkgs.haskellPackages.shellFor {

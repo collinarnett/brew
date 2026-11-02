@@ -1,0 +1,9 @@
+MIME-Version: 1.0
+Subject: Hello
+To: friend@example.org
+From: Sender <sender@example.org>
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+Content-Type: text/plain; charset=us-ascii
+
+Body text

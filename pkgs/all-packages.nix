@@ -5,6 +5,7 @@ let
     "clan-mcp"
     "openfoodfacts"
     "nutrition-mcp"
+    "proton-mail-mcp"
   ];
 in
 {
@@ -37,6 +38,10 @@ in
       hfinal: hprev:
       prev.lib.genAttrs localHsPkgNames (localHsPkg hprev)
       // {
+        proton-mail-mcp = prev.haskell.lib.compose.addTestToolDepends (with prev; [
+          dovecot
+          openssl
+        ]) (localHsPkg hprev "proton-mail-mcp");
         mcp-server = hprev.callCabal2nix "mcp-server" (prev.fetchFromGitHub {
           owner = "collinarnett";
           repo = "haskell-mcp-server";
@@ -46,4 +51,5 @@ in
       };
   };
   nutrition-mcp = prev.haskell.lib.compose.justStaticExecutables final.haskellPackages.nutrition-mcp;
+  proton-mail-mcp = prev.haskell.lib.compose.justStaticExecutables final.haskellPackages.proton-mail-mcp;
 }
