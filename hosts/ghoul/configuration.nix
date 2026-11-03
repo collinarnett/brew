@@ -164,6 +164,7 @@ in
           modules-right = [
             "custom/tomat"
             "clock"
+            "tray"
           ];
           modules = {
             "sway/workspaces" = {

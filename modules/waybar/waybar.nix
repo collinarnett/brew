@@ -20,6 +20,7 @@ let
               modules-right = [
                 "custom/tomat"
                 "clock"
+                "tray"
               ];
               "sway/workspaces" = {
                 format = "{icon}";
