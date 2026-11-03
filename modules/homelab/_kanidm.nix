@@ -85,6 +85,7 @@ in
           kavita_admin = { };
           jellyfin_admins = { };
           jellyfin_users = { };
+          sparkyfitness_admins = { };
         };
 
         persons.trexd = {
@@ -95,6 +96,7 @@ in
             "kavita_admin"
             "jellyfin_admins"
             "jellyfin_users"
+            "sparkyfitness_admins"
           ];
         };
 
@@ -139,6 +141,25 @@ in
               jellyfin_admins = [ "jellyfin-admins" ];
               jellyfin_users = [ "jellyfin-users" ];
             };
+          };
+        };
+
+        systems.oauth2.sparkyfitness = mkIf cfg.sparkyfitness.enable {
+          displayName = "SparkyFitness";
+          originUrl = "https://fitness.${cfg.domain}/api/auth/sso/callback/kanidm";
+          originLanding = "https://fitness.${cfg.domain}";
+          basicSecretFile = vars.sparkyfitness.files.oidc_client_secret.path;
+          preferShortUsername = true;
+          scopeMaps.homelab_users = [
+            "openid"
+            "profile"
+            "email"
+          ];
+          # SPARKY_FITNESS_OIDC_ADMIN_GROUP names this value; members get the
+          # SparkyFitness admin role at each sign-in and lose it otherwise.
+          claimMaps.groups = {
+            joinType = "array";
+            valuesByGroup.sparkyfitness_admins = [ "sparkyfitness-admins" ];
           };
         };
 

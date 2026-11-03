@@ -36,6 +36,8 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nix-topology.url = "github:oddlama/nix-topology";
     nix-topology.inputs.nixpkgs.follows = "nixpkgs";
+    sparkyfitness.url = "github:CodeWithCJ/SparkyFitness/v1.11.0";
+    sparkyfitness.inputs.nixpkgs.follows = "nixpkgs";
     toenail.url = "git+https://garden.trexd.dev/z3PyS59SMW9PRoyz8MSpG2gXiPnq1.git?ref=refs/tags/v0.8.0";
     toenail.inputs.nixpkgs.follows = "nixpkgs";
     newt.url = "git+file:///home/collin/newt";

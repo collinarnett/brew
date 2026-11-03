@@ -130,6 +130,21 @@
               ];
             };
 
+            # SparkyFitness's nightly database dump (01:20) and its uploads.
+            backups.sparkyfitness = lib.mkIf config.services.sparkyfitness.enable {
+              inherit initialize repository passwordFile;
+              timerConfig = schedule "*-*-* 01:30:00";
+              pruneOpts = [
+                "--keep-daily 7"
+                "--keep-weekly 4"
+                "--keep-monthly 12"
+              ];
+              paths = [
+                "/persist/save${config.services.postgresqlBackup.location}"
+                "/persist/save${config.services.sparkyfitness.stateDir}"
+              ];
+            };
+
             # Backup for 'Videos' directory - Monthly
             backups.videos = {
               inherit initialize repository passwordFile;

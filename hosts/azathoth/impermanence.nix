@@ -152,6 +152,20 @@
         group = config.users.users.${config.services.mysqlBackup.user}.group;
         mode = "0700";
       }
+      # SparkyFitness uploads and the nightly PostgreSQL dumps restic ships
+      # off-site.
+      {
+        directory = config.services.sparkyfitness.stateDir;
+        user = config.services.sparkyfitness.user;
+        group = config.services.sparkyfitness.group;
+        mode = "0750";
+      }
+      {
+        directory = config.services.postgresqlBackup.location;
+        user = "postgres";
+        group = "postgres";
+        mode = "0700";
+      }
       {
         directory = "/media";
         group = "multimedia";

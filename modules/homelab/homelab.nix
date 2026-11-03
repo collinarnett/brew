@@ -1,4 +1,4 @@
-{ ... }:
+{ inputs, ... }:
 {
   flake.modules.nixos.homelab =
     {
@@ -17,6 +17,7 @@
     in
     {
       imports = [
+        inputs.sparkyfitness.nixosModules.sparkyfitness
         ./_crowdsec.nix
         ./_grocy.nix
         ./_homepage.nix
@@ -29,6 +30,7 @@
         ./_radicle.nix
         ./_rqbit.nix
         ./_searx.nix
+        ./_sparkyfitness.nix
       ];
 
       options.brew.homelab = {
@@ -128,6 +130,14 @@
           type = types.submodule {
             options = {
               enable = mkEnableOption "searx";
+            };
+          };
+        };
+        sparkyfitness = mkOption {
+          default = { };
+          type = types.submodule {
+            options = {
+              enable = mkEnableOption "sparkyfitness";
             };
           };
         };

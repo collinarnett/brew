@@ -56,6 +56,14 @@ let
         description = "Personal CRM";
         siteMonitor = "https://monica.${cfg.domain}";
       };
+    }
+    ++ optional cfg.sparkyfitness.enable {
+      SparkyFitness = {
+        href = "https://fitness.${cfg.domain}";
+        icon = "sparky-fitness.png";
+        description = "Nutrition and fitness tracker";
+        siteMonitor = "http://127.0.0.1:${toString config.services.sparkyfitness.port}";
+      };
     };
 
   toolsGroup =

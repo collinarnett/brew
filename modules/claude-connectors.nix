@@ -17,9 +17,9 @@
       # Anthropic's outbound range for connector traffic, published at
       # https://platform.claude.com/docs/en/api/ip-addresses
       anthropicEgress = "160.79.104.0/21";
-      # The router forwards public IPv4 443 here. Only the connector and
-      # kanidm vhosts listen on it, so nothing else on nginx is reachable
-      # from the internet.
+      # The router forwards public IPv4 443 here. Only the connector, kanidm
+      # and SparkyFitness vhosts listen on it, so nothing else on nginx is
+      # reachable from the internet.
       publicPort = 8448;
       publicListen = [
         {
@@ -241,6 +241,15 @@
         # kanidm must answer Anthropic too: Claude reads its OAuth metadata
         # and exchanges codes for tokens there.
         services.nginx.virtualHosts."idm.${domain}".listen = meshListen ++ publicListen;
+
+        # SparkyFitness serves its own MCP endpoint and is the OAuth server
+        # for it, both under its public origin, so Claude connects to
+        # https://fitness.${domain}/mcp directly.
+        services.nginx.virtualHosts."fitness.${domain}" =
+          lib.mkIf config.brew.homelab.sparkyfitness.enable
+            {
+              listen = meshListen ++ publicListen;
+            };
 
         services.nginx.virtualHosts.${host} = {
           enableACME = true;

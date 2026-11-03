@@ -46,11 +46,13 @@
     # peer. The Verizon lease survives most reboots but not long outages.
     r53-ddns = {
       enable = true;
-      # idm needs a public A record because Anthropic's connector servers
-      # fetch kanidm's OAuth metadata and exchange tokens over IPv4.
+      # idm and fitness need public A records because Anthropic's connector
+      # servers fetch their OAuth metadata, exchange tokens and (for
+      # SparkyFitness) call the MCP endpoint over IPv4.
       hostnames = [
         "ygg"
         "idm"
+        "fitness"
       ];
       domain = "trexd.dev";
       zoneId = "Z02841443N2C1YNW3LDOS";
@@ -78,6 +80,7 @@
       kavita.enable = true;
       monica.enable = true;
       grocy.enable = true;
+      sparkyfitness.enable = true;
       homepage.enable = true;
       rqbit.enable = true;
       radicle = {
