@@ -50,6 +50,8 @@
       ];
       bridgePort = 8097;
       authPort = 4181;
+      # How long a connector stays signed in after it is approved in kanidm.
+      sessionLifetime = 30 * 24 * 3600;
       # Connector URL path → mcp-proxy's named server.
       servers = {
         mail = "proton-mail";
@@ -57,6 +59,8 @@
         monica = "monica";
         signal = "signal";
         signal-send = "signal-send";
+        walmart = "walmart";
+        grocy = "grocy";
       };
       # nginx variable names allow no hyphen.
       challengeVariable = path: "claude_connector_challenge_${lib.replaceStrings [ "-" ] [ "_" ] path}";
@@ -79,7 +83,7 @@
     in
     {
       options.brew.claude-connectors = {
-        enable = lib.mkEnableOption "the homelab MCP servers (Proton mail and calendar, Monica, Signal) as claude.ai custom connectors";
+        enable = lib.mkEnableOption "the homelab MCP servers (Proton mail and calendar, Monica, Signal, Walmart, Grocy) as claude.ai custom connectors";
         publicInterface = lib.mkOption {
           type = lib.types.str;
           example = "eno2";
@@ -124,6 +128,45 @@
               "offline_access"
             ];
           };
+        };
+
+        # Kanidm ends an OAuth2 session at whichever comes first: its refresh
+        # token expiry, set per client, or the expiry of the kanidm login
+        # that approved it, set by account policy on idm_all_accounts. Both
+        # have to reach the connector lifetime, so every kanidm login lasts
+        # that long too. The provisioner sets neither attribute, and kanidm
+        # keeps them across restarts once set.
+        systemd.services.kanidm-claude-connector-lifetime = {
+          description = "Keep Claude connector sessions signed in to kanidm";
+          wantedBy = [ "multi-user.target" ];
+          after = [ "kanidm.service" ];
+          requires = [ "kanidm.service" ];
+          path = [ config.services.kanidm.package ];
+          serviceConfig = {
+            Type = "oneshot";
+            RemainAfterExit = true;
+            User = "kanidm";
+            RuntimeDirectory = "kanidm-claude-connector-lifetime";
+          };
+          # The CLI keeps its login token under ~/.cache whatever cache path
+          # it is given, and the kanidm user's home is not writable.
+          environment.HOME = "/run/kanidm-claude-connector-lifetime";
+          script =
+            let
+              provision = config.services.kanidm.provision;
+              connection = lib.escapeShellArgs (
+                [
+                  "--url=${provision.instanceUrl}"
+                  "--name=idm_admin"
+                ]
+                ++ lib.optional provision.acceptInvalidCerts "--accept-invalid-certs"
+              );
+            in
+            ''
+              KANIDM_PASSWORD=$(< ${provision.idmAdminPasswordFile}) kanidm login ${connection}
+              kanidm system oauth2 set-refresh-token-expiry ${connection} ${clientId} ${toString sessionLifetime}
+              kanidm group account-policy auth-expiry ${connection} idm_all_accounts ${toString sessionLifetime}
+            '';
         };
 
         clan.core.vars.generators.claude-connectors = {
