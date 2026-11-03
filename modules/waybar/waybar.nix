@@ -90,6 +90,7 @@ in
     { config, lib, ... }:
     let
       cfg = config.brew.waybar;
+      modulesRight = cfg.settings.mainBar.modules-right;
       # The audio-output switcher is host-specific (tied to azathoth's codec), so
       # its waybar button is contributed only when that leaf is enabled. Hosts
       # without it never reference the missing `audio-output` command.
@@ -98,7 +99,11 @@ in
           cfg.settings
           // {
             mainBar = cfg.settings.mainBar // {
-              modules-right = [ "custom/audio-output" ] ++ cfg.settings.mainBar.modules-right;
+              # The tray sits immediately left of the switcher.
+              modules-right =
+                lib.optional (lib.elem "tray" modulesRight) "tray"
+                ++ [ "custom/audio-output" ]
+                ++ lib.remove "tray" modulesRight;
               "custom/audio-output" = {
                 exec = "audio-output status";
                 interval = 5;
